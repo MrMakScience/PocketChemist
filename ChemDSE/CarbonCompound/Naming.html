@@ -3,143 +3,260 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>Skeletal Formula IUPAC Namer</title>
 <style>
-:root{--bg:#f4f6f9;--card:#ffffff;--ink:#1c2430;--muted:#66727f;--line:#dfe4ea;--accent:#2563eb;--accent-soft:#e6eeff;--danger:#c62828;--warn:#fff3dc;--warnink:#7a4f00;--canvas:#ffffff;--grid:#d3d9e2;--hl:rgba(37,99,235,.22);--badge:#fff;--badgeink:#b42318;}
-@media (prefers-color-scheme:dark){:root{--bg:#11151b;--card:#1a2029;--ink:#e8ecf2;--muted:#95a1b2;--line:#2b3441;--accent:#6ea0ff;--accent-soft:#213050;--danger:#ff7b7b;--warn:#3a2f14;--warnink:#f1c56b;--canvas:#151a21;--grid:#29313d;--hl:rgba(110,160,255,.28);--badge:#151a21;--badgeink:#ff8a80;}}
+:root{
+  --paper:#edf2f7;--surface:#ffffff;--ink:#14213d;--muted:#465a70;--line:#c5d0db;--line-strong:#7a8ba0;
+  --brand:#0b6b4f;--brand-ink:#ffffff;--accent:#5b3fa6;--accent-soft:#ece7f8;
+  --amber:#7a4e00;--amber-soft:#fdf0d0;--danger:#a8231b;--danger-soft:#fbe9e7;
+  --focus:#1d4fb8;--tint:#e3ebf3;--good-soft:#e2f4ec;
+  --serif:Charter,"Bitstream Charter","Sitka Text",Cambria,"Iowan Old Style",Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0d1520;--surface:#15202e;--ink:#e8eef5;--muted:#aebccc;--line:#2c3b4e;--line-strong:#7d90a6;
+  --brand:#3ecf9d;--brand-ink:#04241a;--accent:#c1b0ff;--accent-soft:#2b2447;
+  --amber:#f2c26b;--amber-soft:#3a2f14;--danger:#ffa39b;--danger-soft:#3d1f1c;
+  --focus:#8ab4ff;--tint:#1d2b3c;--good-soft:#123328;
+}}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:1260px;margin:0 auto;padding:16px}
-h1{font-size:1.35rem;margin:4px 0 2px}
-.lead{margin:0 0 14px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:16px;align-items:start}
-@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px 14px;padding:10px 12px;border-bottom:1px solid var(--line);align-items:center}
-.grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
-.grp>span{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-right:2px}
-button,select,input{font:inherit;color:inherit}
-button.t{min-width:34px;height:34px;padding:0 9px;border:1px solid var(--line);background:var(--card);border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px}
-button.t:hover{border-color:var(--accent)}
-button.t.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
-button.t:disabled{opacity:.4;cursor:default}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.55 var(--sans)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--paper);padding:10px 14px;border-radius:8px;z-index:20;text-decoration:none;font-weight:600}
+.skip:focus{top:10px}
+.spectrum{height:6px;background:linear-gradient(90deg,#d7263d 0 16.6%,#f4762a 0 33.3%,#f2c230 0 50%,#3baa5c 0 66.6%,#1e9ba8 0 75%,#2b5fd9 0 87.5%,#6b3fa0 0)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 40px}
+header.top{display:flex;gap:16px;align-items:center;padding:20px 0 16px}
+.mark{flex:none}
+h1{font:600 clamp(1.5rem,1.1rem + 1.6vw,2.15rem)/1.15 var(--serif);margin:0;letter-spacing:-.01em}
+.lead{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:20px;align-items:start}
+@media (max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px 22px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.grp{display:flex;flex-direction:column;gap:5px;border:0;margin:0;padding:0;min-width:0}
+.grp>legend,.grp>.gl{font-size:.8rem;color:var(--muted);font-weight:600;padding:0;float:none}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+button.t{min-width:40px;height:40px;padding:0 12px;border:1.5px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:600 .95rem var(--sans)}
+button.t:hover{background:var(--tint)}
+button.t[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+button.t:disabled{opacity:.5;cursor:not-allowed}
 button.t svg{display:block}
-select,input[type=text]{height:34px;border:1px solid var(--line);border-radius:8px;background:var(--card);padding:0 8px}
-input[type=text]{width:170px}
-.canvasWrap{position:relative;padding:10px}
-svg#cv{--ink:#000;--canvas:#fff;--hl:rgba(37,99,235,.2);--accent:#2563eb;--accent-soft:#dbe7ff;--badge:#fff;--badgeink:#b42318;--line:#c9d0da;width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px;touch-action:none;user-select:none;-webkit-user-select:none}
+button.go{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+button.go:hover{filter:brightness(1.08);background:var(--brand)}
+select,input[type=text]{height:40px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--surface);color:var(--ink);padding:0 10px;font:inherit;min-width:0}
+input[type=text]{width:190px}
+.el-N{color:#1d4fb8}.el-O{color:#c62828}.el-F,.el-Cl{color:#1b7f4c}.el-Br{color:#9a3e12}.el-I{color:#6b3fa0}
+@media (prefers-color-scheme:dark){.el-N{color:#8ab4ff}.el-O{color:#ff8a80}.el-F,.el-Cl{color:#5fd39a}.el-Br{color:#ffb27a}.el-I{color:#c7a6ff}}
+button.t[aria-pressed="true"].el-N,button.t[aria-pressed="true"].el-O,button.t[aria-pressed="true"].el-F,button.t[aria-pressed="true"].el-Cl,button.t[aria-pressed="true"].el-Br,button.t[aria-pressed="true"].el-I{color:var(--accent)}
+.coach{display:flex;gap:14px;align-items:center;padding:12px 16px;background:var(--good-soft);border-bottom:1px solid var(--line)}
+.coach.warn{background:var(--amber-soft)}
+.coach .ic{flex:none;width:32px;height:32px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-weight:700}
+.coach.warn .ic{background:var(--amber);color:var(--amber-soft)}
+.coach p{margin:0;flex:1;min-width:0}
+.coach b{font-family:var(--serif);font-size:1.05rem}
+.dots{display:flex;gap:6px;margin:0;padding:0;list-style:none;flex:none}
+.dots li{width:10px;height:10px;border-radius:50%;border:2px solid var(--brand);background:transparent}
+.dots li.done{background:var(--brand)}
+.dots li.now{outline:2px solid var(--brand);outline-offset:2px}
+.canvasWrap{position:relative;padding:14px}
+svg#cv{--ink:#000;--canvas:#fff;--accent:#5b3fa6;--accent-soft:#e4dcf6;--focus:#1d4fb8;
+  width:100%;height:auto;display:block;border:2px solid var(--line-strong);border-radius:10px;touch-action:none;user-select:none;-webkit-user-select:none;background:#fff}
+svg#cv:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 svg#cv.tool-bond{cursor:crosshair}svg#cv.tool-atom{cursor:cell}svg#cv.tool-ring{cursor:copy}svg#cv.tool-erase{cursor:not-allowed}svg#cv.tool-move{cursor:move}
-.bg{fill:var(--canvas)}
-.bond{stroke:var(--ink);stroke-width:2.3;stroke-linecap:round;fill:none}
-.hl{stroke:var(--hl);stroke-width:13;stroke-linecap:round}
+.bg{fill:#fff}
+.bond{stroke:#000;stroke-width:2.3;stroke-linecap:round;fill:none}
+.hl{stroke:rgba(91,63,166,.2);stroke-width:14;stroke-linecap:round}
+.hl2{stroke:rgba(245,158,11,.3);stroke-width:14;stroke-linecap:round}
 .lbl{font:600 18px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central}
-.halo{fill:var(--canvas)}
-.badgeC{fill:var(--badge);stroke:var(--badgeink);stroke-width:1.4}
-.badgeT{font:700 11px system-ui,sans-serif;fill:var(--badgeink);text-anchor:middle;dominant-baseline:central}
-.hov{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
-.errC{fill:none;stroke:var(--danger);stroke-width:2.5;stroke-dasharray:4 3}
-.prev{stroke:var(--accent);stroke-width:2;stroke-dasharray:5 4;stroke-linecap:round}
-.status{display:flex;flex-wrap:wrap;gap:8px 18px;padding:8px 12px 12px;color:var(--muted);font-size:.85rem}
-.status label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
-.result{padding:14px}
-.nameLabel{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.name{font-size:1.5rem;font-weight:650;line-height:1.25;word-break:break-word;margin:4px 0 10px;min-height:1.9em}
-.name.empty{color:var(--muted);font-weight:400;font-size:1.05rem}
-.msg{padding:9px 11px;border-radius:8px;background:var(--warn);color:var(--warnink);margin:0 0 10px;font-size:.9rem}
-.msg.bad{background:rgba(198,40,40,.1);color:var(--danger)}
+.halo{fill:#fff}
+.badgeC{fill:#fff;stroke:#5b3fa6;stroke-width:1.6}
+.badgeT{font:700 11px system-ui,sans-serif;fill:#5b3fa6;text-anchor:middle;dominant-baseline:central}
+.hov{fill:#e4dcf6;stroke:#5b3fa6;stroke-width:1.5}
+.errC{fill:none;stroke:#b3261e;stroke-width:2.5;stroke-dasharray:4 3}
+.prev{stroke:#5b3fa6;stroke-width:2;stroke-dasharray:5 4;stroke-linecap:round}
+.kbring{fill:none;stroke:#1d4fb8;stroke-width:3}
+.kbhalo{fill:none;stroke:#fff;stroke-width:6}
+.cvhint{position:absolute;inset:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;text-align:center;padding:12px}
+.cvhint[hidden]{display:none}
+.target{position:relative;width:76px;height:76px;display:grid;place-items:center}
+.target::before{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid #0b6b4f;background:rgba(11,107,79,.08)}
+.target span{position:relative;font:600 34px/1 var(--sans);color:#0b6b4f}
+.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid #0b6b4f;opacity:0}
+@media (prefers-reduced-motion:no-preference){.pulse::after{animation:pulse 2.2s ease-out infinite}}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+.cvhint .say{font:600 1.35rem/1.2 var(--serif);color:#14213d;background:rgba(255,255,255,.9);padding:2px 8px;border-radius:6px}
+.cvhint .or{color:#3b4b60;font-size:.92rem;background:rgba(255,255,255,.9);padding:0 6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;pointer-events:auto}
+.ex{height:40px;padding:0 14px;border-radius:999px;border:1.5px solid #7a8ba0;background:#fff;color:#14213d;font:600 .92rem var(--sans);cursor:pointer}
+.ex:hover{background:#ece7f8;border-color:#5b3fa6}
+.hint{margin:0;padding:0 16px;min-height:1.6em;color:var(--muted);font-size:.92rem}
+.status{display:flex;flex-wrap:wrap;gap:8px 22px;padding:10px 16px 14px;color:var(--muted);font-size:.9rem;align-items:center}
+.status label{display:inline-flex;gap:8px;align-items:center;cursor:pointer;min-height:24px}
+.status input{width:18px;height:18px;accent-color:var(--brand)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.legend[hidden]{display:none}
+.sw{display:inline-block;width:22px;height:10px;border-radius:5px;vertical-align:middle;margin-right:6px}
+.sw.p{background:rgba(91,63,166,.35);border:1.5px solid #5b3fa6}
+.sw.b{background:rgba(245,158,11,.4);border:1.5px solid #b45309}
+.result{padding:18px}
+.nameBlock{border-left:5px solid var(--accent);padding:2px 0 2px 14px}
+.name{font:600 clamp(1.5rem,1.2rem + .9vw,2rem)/1.2 var(--serif);overflow-wrap:anywhere;margin:0}
+.name.empty{color:var(--muted);font-weight:400;font-size:1.15rem;font-style:italic}
+.msg{padding:10px 12px;border-radius:10px;background:var(--amber-soft);color:var(--amber);margin:12px 0 0;font-size:.95rem;border:1px solid currentColor}
+.msg.bad{background:var(--danger-soft);color:var(--danger)}
 .msg[hidden]{display:none}
-dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:6px 12px;font-size:.92rem}
-dt{color:var(--muted)}dd{margin:0}
-.row{display:flex;gap:8px;margin-top:12px}
-details{border-top:1px solid var(--line);margin-top:14px;padding-top:10px;font-size:.9rem}
-summary{cursor:pointer;font-weight:600}
+.facts{margin-top:14px}
+.chips2{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;border-radius:999px;background:var(--tint);border:1px solid var(--line);font-size:.9rem;color:var(--ink)}
+.chip sub{font-size:.75em;line-height:0}.chip i{width:11px;height:11px;border-radius:50%;background:var(--gc,#7a8ba0);flex:none}
+.g-acid{--gc:#d7263d}.g-acyl{--gc:#f4762a}.g-ester{--gc:#e0a800}.g-amide{--gc:#1e9ba8}.g-nitrile{--gc:#2b8fd9}.g-ald{--gc:#9bbd2f}.g-ket{--gc:#3baa5c}.g-ol{--gc:#1f9d6b}.g-amine{--gc:#6b3fa0}
+dl{margin:12px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;font-size:.95rem}
+dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.blank{color:var(--muted);margin:14px 0 0}
+details{border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+summary{cursor:pointer;font:600 1.05rem var(--serif);min-height:24px}
 details ul{margin:8px 0 0 18px;padding:0}
-details li{margin:3px 0}
-.why ol{margin:8px 0 0;padding-left:20px}.why li{margin:0 0 12px}.why li>b{display:block;margin-bottom:2px}.why li div{font-size:.88rem;line-height:1.5}.why ul{margin:4px 0 0 16px;padding:0}.nm{font-weight:650;color:var(--accent)}
-.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1c2430;color:#fff;padding:9px 16px;border-radius:999px;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
-.toast.show{opacity:.95}
-kbd{font:600 .8em ui-monospace,monospace;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--bg)}
+details li{margin:5px 0}
+.why{border-top:0;padding-top:0}
+ol.steps{list-style:none;counter-reset:st;margin:12px 0 0;padding:0}
+ol.steps>li{counter-increment:st;position:relative;padding:0 0 16px 46px;margin:0}
+ol.steps>li::before{content:counter(st);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 .95rem var(--sans);color:#fff;background:#5b3fa6}
+ol.steps>li:nth-child(1)::before{background:#b3261e}
+ol.steps>li:nth-child(2)::before{background:#b4470b}
+ol.steps>li:nth-child(3)::before{background:#7a5600}
+ol.steps>li:nth-child(4)::before{background:#1e7b45}
+ol.steps>li:nth-child(5)::before{background:#1d4fb8}
+ol.steps>li:nth-child(6)::before{background:#5b3fa6}
+ol.steps>li::after{content:"";position:absolute;left:15px;top:36px;bottom:4px;width:2px;background:var(--line)}
+ol.steps>li:last-child::after{display:none}
+ol.steps>li>b{display:block;font:600 1.05rem/1.3 var(--serif);margin:3px 0 3px}
+ol.steps>li>div{font-size:.93rem;line-height:1.6;max-width:62ch}
+ol.steps ul{margin:6px 0 0 16px;padding:0}
+.nm{font-weight:700;color:var(--accent)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:.95rem;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.toast.show{opacity:1}
+kbd{font:600 .82em ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--surface)}
+@media (max-width:560px){.wrap{padding:0 12px 32px}header.top{padding:14px 0 10px}.mark{width:40px;height:40px}.lead{font-size:.92rem}.coach{flex-wrap:wrap;padding:10px 12px}.dots{order:3}input[type=text]{width:100%}.toolbar{gap:8px 14px;padding:10px 12px}.grp{gap:3px}button.t{min-width:38px;height:38px;padding:0 8px;font-size:.9rem}.row{gap:5px}.grp.load{flex:1 1 100%}.grp.load select{flex:1 1 100%}.canvasWrap{padding:8px}.empty-note{display:none}}
+::placeholder{color:var(--muted);opacity:1}
 </style>
 </head>
 <body>
+<a class="skip" href="#result">Skip to the name</a>
+<div class="spectrum" aria-hidden="true"></div>
 <div class="wrap">
-  <h1>Skeletal Formula &rarr; IUPAC Name</h1>
-  <p class="lead">Draw a molecule as a skeletal formula and the name appears automatically. Everything runs offline in this one file.</p>
+  <header class="top">
+    <svg class="mark" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><polygon points="26,6 43,16 43,36 26,46 9,36 9,16" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="26" cy="6" r="5" fill="#1d4fb8"/><circle cx="43" cy="36" r="5" fill="#d7263d"/><circle cx="9" cy="36" r="5" fill="#1e9d6b"/></svg>
+    <div>
+      <h1>Skeletal formula to IUPAC name</h1>
+      <p class="lead">Draw a molecule and its name appears, with the reasoning behind it. Works offline.</p>
+    </div>
+  </header>
 
-  <div class="grid">
-    <section class="card">
-      <div class="toolbar">
-        <div class="grp"><span>Tool</span>
-          <button class="t on" data-tool="bond" title="Draw bonds (B)">Bond</button>
-          <button class="t" data-tool="erase" title="Erase atom or bond (E)">Erase</button>
-          <button class="t" data-tool="move" title="Move atoms (M)">Move</button>
-        </div>
-        <div class="grp"><span>Bond</span>
-          <button class="t on" data-order="1" title="Single (1)"><svg width="22" height="14"><line x1="2" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-          <button class="t" data-order="2" title="Double (2)"><svg width="22" height="14"><line x1="2" y1="4.5" x2="20" y2="4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="9.5" x2="20" y2="9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-          <button class="t" data-order="3" title="Triple (3)"><svg width="22" height="14"><line x1="2" y1="2.5" x2="20" y2="2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="11.5" x2="20" y2="11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-        </div>
-        <div class="grp"><span>Atom</span>
-          <button class="t" data-el="C" title="Carbon (C)">C</button>
-          <button class="t" data-el="N" title="Nitrogen (N)">N</button>
-          <button class="t" data-el="O" title="Oxygen (O)">O</button>
-          <button class="t" data-el="F" title="Fluorine (F)">F</button>
-          <button class="t" data-el="Cl" title="Chlorine (L)">Cl</button>
-          <button class="t" data-el="Br" title="Bromine (R)">Br</button>
-          <button class="t" data-el="I" title="Iodine (I)">I</button>
-        </div>
-        <div class="grp" id="rings"><span>Ring</span></div>
-        <div class="grp"><span>Edit</span>
-          <button class="t" id="undo" title="Undo (Ctrl+Z)">Undo</button>
-          <button class="t" id="redo" title="Redo (Ctrl+Y)">Redo</button>
-          <button class="t" id="clear" title="Clear canvas">Clear</button>
-        </div>
-        <div class="grp"><span>Load</span>
-          <select id="examples"><option value="">Example…</option></select>
-          <input type="text" id="smiles" placeholder="SMILES, e.g. CC(C)CCO" aria-label="Load from SMILES">
-          <button class="t" id="loadSmiles">Load</button>
+  <main class="grid">
+    <section class="card" aria-label="Drawing area">
+      <div class="toolbar" role="toolbar" aria-label="Drawing tools">
+        <fieldset class="grp"><legend>Tool</legend><div class="row">
+          <button type="button" class="t" data-tool="bond" title="Draw bonds (B)">Draw</button>
+          <button type="button" class="t" data-tool="erase" title="Erase an atom or bond (E)">Erase</button>
+          <button type="button" class="t" data-tool="move" title="Move atoms (M)">Move</button>
+        </div></fieldset>
+        <fieldset class="grp"><legend>Bond</legend><div class="row">
+          <button type="button" class="t" data-order="1" aria-label="Single bond" title="Single bond (1)"><svg width="22" height="14" aria-hidden="true"><line x1="2" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <button type="button" class="t" data-order="2" aria-label="Double bond" title="Double bond (2)"><svg width="22" height="14" aria-hidden="true"><line x1="2" y1="4.5" x2="20" y2="4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="9.5" x2="20" y2="9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <button type="button" class="t" data-order="3" aria-label="Triple bond" title="Triple bond (3)"><svg width="22" height="14" aria-hidden="true"><line x1="2" y1="2.5" x2="20" y2="2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="2" y1="11.5" x2="20" y2="11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+        </div></fieldset>
+        <fieldset class="grp"><legend>Atom</legend><div class="row">
+          <button type="button" class="t" data-el="C" aria-label="Carbon" title="Carbon (C)">C</button>
+          <button type="button" class="t el-N" data-el="N" aria-label="Nitrogen" title="Nitrogen (N)">N</button>
+          <button type="button" class="t el-O" data-el="O" aria-label="Oxygen" title="Oxygen (O)">O</button>
+          <button type="button" class="t el-F" data-el="F" aria-label="Fluorine" title="Fluorine (F)">F</button>
+          <button type="button" class="t el-Cl" data-el="Cl" aria-label="Chlorine" title="Chlorine (L)">Cl</button>
+          <button type="button" class="t el-Br" data-el="Br" aria-label="Bromine" title="Bromine (R)">Br</button>
+          <button type="button" class="t el-I" data-el="I" aria-label="Iodine" title="Iodine (I)">I</button>
+        </div></fieldset>
+        <fieldset class="grp"><legend>Ring</legend><div class="row" id="rings"></div></fieldset>
+        <fieldset class="grp"><legend>Edit</legend><div class="row">
+          <button type="button" class="t" id="undo" title="Undo (Ctrl+Z)">Undo</button>
+          <button type="button" class="t" id="redo" title="Redo (Ctrl+Y)">Redo</button>
+          <button type="button" class="t" id="clear" title="Remove everything">Clear</button>
+        </div></fieldset>
+        <fieldset class="grp load"><legend>Or load a molecule</legend><div class="row">
+          <label class="sr" for="examples">Load an example</label>
+          <select id="examples"><option value="">Choose an example</option></select>
+          <label class="sr" for="smiles">SMILES text</label>
+          <input type="text" id="smiles" placeholder="Paste SMILES, e.g. CC(C)CCO" autocomplete="off" spellcheck="false">
+          <button type="button" class="t go" id="loadSmiles">Load</button>
+        </div></fieldset>
+      </div>
+
+      <div id="coach" class="coach" role="status">
+        <span class="ic" id="coachIc" aria-hidden="true">1</span>
+        <p><b id="coachT"></b> <span id="coachX"></span></p>
+        <ol class="dots" id="dots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
+      </div>
+
+      <div class="canvasWrap">
+        <svg id="cv" class="tool-bond" viewBox="0 0 900 560" role="group" tabindex="0" aria-label="Drawing canvas, empty" aria-describedby="cvHelp"></svg>
+        <div id="empty" class="cvhint">
+          <div class="target pulse" aria-hidden="true"><span>+</span></div>
+          <div class="say">Click here to add a carbon</div>
+          <div class="or">or start from an example</div>
+          <div class="chips" id="emptyChips"></div>
         </div>
       </div>
-      <div class="canvasWrap"><svg id="cv" class="tool-bond" viewBox="0 0 900 560" role="img" aria-label="Drawing area"></svg></div>
+      <p id="hint" class="hint"></p>
+      <p id="cvHelp" class="sr">Keyboard drawing: press Enter to place a carbon or to grow a bond from the selected atom. Arrow keys move between atoms. Press C, N, O, F, L for chlorine, R for bromine or I to change the selected atom. Press 1, 2 or 3 to set its bond order, and Delete to remove it.</p>
       <div class="status">
         <span id="counts"></span>
         <label><input type="checkbox" id="optNum" checked> Show parent chain and numbering</label>
         <label><input type="checkbox" id="optCommon" checked> Use common names (isopropyl, tert-butyl…)</label>
+        <span class="legend" id="legend" hidden><span><span class="sw p"></span>Parent chain</span><span><span class="sw b"></span>Branches and groups</span></span>
       </div>
     </section>
 
-    <aside class="card result">
-      <div class="nameLabel">IUPAC name</div>
-      <div id="name" class="name empty">Draw a molecule to see its name.</div>
+    <aside class="card result" id="result" aria-label="Name and explanation" tabindex="-1">
+      <div class="nameBlock">
+        <div class="sr" id="nameLbl">IUPAC name</div>
+        <p id="name" class="name empty" aria-live="polite" aria-atomic="true" aria-labelledby="nameLbl name">Your molecule’s name will appear here.</p>
+      </div>
       <div id="msg" class="msg" hidden></div>
-      <dl id="facts"></dl>
-      <div class="row"><button class="t" id="copy">Copy name</button></div>
-      <details id="why" class="why" open hidden><summary>Why this name? Step by step</summary><ol id="whyList"></ol></details>
-      <details id="howto" open>
-        <summary>How to draw</summary>
+      <div id="facts" class="facts"></div>
+      <p id="blank" class="blank">Draw on the canvas and the name updates as you go. Below the name you’ll get every step of the reasoning.</p>
+      <div class="actions"><button type="button" class="t go" id="copy">Copy name</button></div>
+      <details id="why" class="why" open hidden><summary>Why this name? Step by step</summary><ol id="whyList" class="steps"></ol></details>
+      <details id="howto">
+        <summary>Drawing help and shortcuts</summary>
         <ul>
-          <li><b>Click</b> empty space to place a carbon. <b>Click an atom</b> to add a bond in a zigzag direction.</li>
-          <li><b>Drag</b> from an atom to draw a bond at 30° steps; drop on another atom to join them.</li>
-          <li><b>Click a bond</b> to cycle single / double / triple.</li>
-          <li>Pick <b>N, O, F, Cl, Br, I</b> to place or change atoms (a carbon is implied at every corner and end).</li>
-          <li>Shortcuts over an atom: <kbd>C</kbd> <kbd>N</kbd> <kbd>O</kbd> <kbd>F</kbd> <kbd>L</kbd>(Cl) <kbd>R</kbd>(Br) <kbd>I</kbd>; over a bond: <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>; <kbd>Del</kbd> removes.</li>
+          <li><b>Click</b> empty space to place a carbon, then <b>click that atom</b> to add a bonded carbon in a zigzag.</li>
+          <li><b>Drag</b> from an atom to choose the direction (30° steps). Drop on another atom to join them.</li>
+          <li><b>Click a bond</b> to cycle single, double, triple.</li>
+          <li>Pick <b>N, O, F, Cl, Br or I</b> in the toolbar, then click an atom to change it. Every corner and end is a carbon unless labelled.</li>
+          <li>Ring buttons place a ring; click an atom first to attach the ring to it.</li>
+          <li>With the pointer over an atom: <kbd>C</kbd> <kbd>N</kbd> <kbd>O</kbd> <kbd>F</kbd> <kbd>L</kbd> (Cl) <kbd>R</kbd> (Br) <kbd>I</kbd>. Over a bond: <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>. <kbd>Delete</kbd> removes it.</li>
+          <li><b>Keyboard only:</b> Tab to the canvas, press <kbd>Enter</kbd> to place a carbon, <kbd>←</kbd> <kbd>→</kbd> to move between atoms, <kbd>Enter</kbd> to grow a bond, then the same letter and number keys.</li>
         </ul>
       </details>
       <details>
-        <summary>What this prototype covers</summary>
+        <summary>What this tool covers</summary>
         <ul>
           <li>Up to 20 carbons; parent chain or ring up to 10 carbons.</li>
-          <li>Alkanes, alkenes, alkynes, single carbocycles.</li>
-          <li>Alkyl, alkenyl and cycloalkyl branches of any complexity (e.g. 2-methylpropyl).</li>
-          <li>Halogens, alcohols, ethers (as alkoxy), aldehydes, ketones, carboxylic acids, esters (e.g. methyl ethanoate), acyl halides (e.g. ethanoyl chloride), primary / secondary / tertiary amines (e.g. N,N-dimethylethanamine), amides (e.g. N-methylpropanamide) and nitriles (e.g. propanenitrile).</li>
-          <li>Parent selection follows the classic school rules: most principal groups, then the ring or chain with more carbons (ring wins a tie), then most C=C / C≡C, then longest chain, then most substituents, then lowest locants.</li>
-          <li>Not yet: benzene/aromatics, fused or bridged rings, N-heterocycles, imines, nitro compounds, anhydrides, lactones, stereochemistry (E/Z, R/S).</li>
+          <li>Alkanes, alkenes, alkynes, single carbocycles, and branches of any complexity.</li>
+          <li>Halogens, alcohols, ethers, aldehydes, ketones, carboxylic acids, esters, acyl halides, amines (primary, secondary, tertiary), amides and nitriles.</li>
+          <li>Parent choice follows the classic school rules: most main groups, then the ring or chain with more carbons (a ring wins a tie), then most C=C / C≡C, then the longest chain, then most substituents, then lowest locants.</li>
+          <li>Not covered yet: benzene rings, fused or bridged rings, N-heterocycles, imines, nitro compounds, anhydrides, lactones and stereochemistry (E/Z, R/S).</li>
         </ul>
       </details>
     </aside>
-  </div>
+  </main>
 </div>
 <div id="toast" class="toast" role="status"></div>
+<div id="sr" class="sr" aria-live="polite"></div>
 
 <script>
 // ===NAMING-START===
@@ -766,7 +883,9 @@ let atoms=[],bonds=[],nid=1;
 let tool='bond',bondOrder=1,elem='C',ringN=6;
 let hover=null,drag=null,preview=null,result=null,errMsg=null,errAtoms=[];
 let undoStack=[],redoStack=[];
-const COLORS={C:'var(--ink)',N:'#2b4fd6',O:'#d62828',F:'#2a9d8f',Cl:'#2a9d8f',Br:'#a4451c',I:'#7b3fa0'};
+const COLORS={C:'#000',N:'#1d4fb8',O:'#c62828',F:'#1b7f4c',Cl:'#1b7f4c',Br:'#9a3e12',I:'#6b3fa0'};
+const ELN={C:'carbon',N:'nitrogen',O:'oxygen',F:'fluorine',Cl:'chlorine',Br:'bromine',I:'iodine'};
+let kbAtom=null;
 
 /* ---- helpers ---- */
 const atomById=id=>atoms.find(a=>a.id===id);
@@ -948,6 +1067,7 @@ svg.addEventListener('pointerleave',()=>{if(!drag){hover=null;render();}});
 /* ---- keyboard ---- */
 document.addEventListener('keydown',e=>{
   if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+  if(e.target===svg&&!(e.ctrlKey||e.metaKey))return;
   const k=e.key;
   if((e.ctrlKey||e.metaKey)&&k.toLowerCase()==='z'){e.preventDefault();e.shiftKey?doRedo():doUndo();return;}
   if((e.ctrlKey||e.metaKey)&&k.toLowerCase()==='y'){e.preventDefault();doRedo();return;}
@@ -981,12 +1101,12 @@ function setTool(t,o){
   if(o.el)elem=o.el;
   if(o.order)bondOrder=o.order;
   if(o.ring)ringN=o.ring;
-  if(t==='bond'&&!o.el){}
   svg.className.baseVal='tool-'+t;
-  document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('on',b.dataset.tool===tool));
-  document.querySelectorAll('[data-order]').forEach(b=>b.classList.toggle('on',+b.dataset.order===bondOrder));
-  document.querySelectorAll('[data-el]').forEach(b=>b.classList.toggle('on',tool==='atom'&&b.dataset.el===elem));
-  document.querySelectorAll('[data-ring]').forEach(b=>b.classList.toggle('on',tool==='ring'&&+b.dataset.ring===ringN));
+  document.querySelectorAll('[data-tool]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.tool===tool));
+  document.querySelectorAll('[data-order]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.order===bondOrder));
+  document.querySelectorAll('[data-el]').forEach(b=>b.setAttribute('aria-pressed',tool==='atom'&&b.dataset.el===elem));
+  document.querySelectorAll('[data-ring]').forEach(b=>b.setAttribute('aria-pressed',tool==='ring'&&+b.dataset.ring===ringN));
+  render();
 }
 document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
 document.querySelectorAll('[data-order]').forEach(b=>b.onclick=()=>setTool('bond',{order:+b.dataset.order}));
@@ -997,8 +1117,8 @@ document.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>setTool('atom',{
     const R=9,pts=[];
     for(let i=0;i<k;i++){const a=-Math.PI/2+2*Math.PI*i/k;pts.push((11+R*Math.cos(a)).toFixed(1)+','+(11+R*Math.sin(a)).toFixed(1));}
     const b=document.createElement('button');
-    b.className='t';b.dataset.ring=k;b.title=k+'-membered ring';
-    b.innerHTML='<svg width="22" height="22"><polygon points="'+pts.join(' ')+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+    b.type='button';b.className='t';b.dataset.ring=k;b.title=k+'-membered ring';b.setAttribute('aria-label',k+'-membered ring');
+    b.innerHTML='<svg width="22" height="22" aria-hidden="true"><polygon points="'+pts.join(' ')+'" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
     b.onclick=()=>setTool('ring',{ring:k});
     box.appendChild(b);
   }
@@ -1111,21 +1231,58 @@ function compute(){
   }
 }
 function formulaHtml(f){return f.keys.map(k=>k+(f.counts[k]>1?'<sub>'+f.counts[k]+'</sub>':'')).join('');}
+const PRINS={acid:'Carboxylic acid',ester:'Ester',acyl:'Acyl halide',amide:'Amide',nitrile:'Nitrile',ald:'Aldehyde',ket:'Ketone',ol:'Alcohol',amine:'Amine'};
+function coachText(){
+  const hasMulti=bonds.some(b=>b.o>1),hasHet=atoms.some(a=>a.el!=='C');
+  if(!atoms.length)return {n:0,t:'Start here.',x:'Click anywhere on the canvas to place your first carbon.'};
+  if(errMsg)return {n:-1,t:'Nearly there.',x:errAtoms.length?'Check the circled atom, then read the message on the right.':'Read the message on the right to see what to change.'};
+  if(!bonds.length)return {n:1,t:'Add a bond.',x:'Click the carbon again to grow a chain, or drag from it to pick a direction.'};
+  if(!hasMulti&&!hasHet)return {n:2,t:'Make it more interesting.',x:'Click a bond to make it double or triple, or choose N, O or Cl in the toolbar and click an atom.'};
+  return {n:3,t:'Read the name.',x:'It updates as you draw. Open “Why this name?” to follow the reasoning.'};
+}
+function coach(){
+  const c=coachText(),key=c.n+c.t+c.x;
+  if(coach.k===key)return;coach.k=key;
+  $('coach').classList.toggle('warn',c.n<0);
+  $('coachIc').textContent=c.n<0?'!':String(c.n+1);
+  $('coachT').textContent=c.t;$('coachX').textContent=c.x;
+  [...$('dots').children].forEach((li,i)=>{li.className=c.n>=0&&i<c.n?'done':c.n===i?'now':'';});
+}
+function hintText(){
+  const n=hover&&hover.t==='a',bd=hover&&hover.t==='b';
+  if(drag&&drag.moving)return 'Release to drop the atom here.';
+  if(tool==='bond'){
+    if(n)return 'Click to add a bonded carbon. Drag to choose the direction. Press N, O, F, L, R or I to change this atom.';
+    if(bd)return 'Click to cycle single, double and triple. Or press 1, 2 or 3. Press Delete to remove the bond.';
+    return atoms.length?'Click empty space to place another carbon, or click an atom to build from it.':'Click to place your first carbon.';
+  }
+  if(tool==='atom'){
+    if(n)return 'Click to change this atom to '+ELN[elem]+'.';
+    return 'Click empty space to place '+ELN[elem]+', or click an atom to change it.';
+  }
+  if(tool==='ring')return n?'Click to attach a '+ringN+'-membered ring to this atom.':'Click empty space to place a '+ringN+'-membered ring, or click an atom to attach one.';
+  if(tool==='erase')return 'Click an atom or a bond to erase it.';
+  return 'Drag an atom to move it.';
+}
 function panel(){
   const nameEl=$('name'),msg=$('msg'),facts=$('facts');
-  const nC=atoms.filter(a=>a.el==='C').length;
-  $('counts').textContent='Carbons: '+nC+' / 20';
+  const nC=atoms.filter(a=>a.el==='C').length,other=atoms.length-nC;
+  $('counts').textContent='Carbons: '+nC+' of 20';
   msg.hidden=true;msg.className='msg';
+  $('blank').hidden=atoms.length>0;
+  $('empty').hidden=atoms.length>0;
+  svg.setAttribute('aria-label',atoms.length?'Drawing canvas: '+nC+' carbon'+(nC===1?'':'s')+(other?' and '+other+' other atom'+(other>1?'s':''):'')+', '+bonds.length+' bond'+(bonds.length===1?'':'s'):'Drawing canvas, empty');
+  $('legend').hidden=!(result&&$('optNum').checked);
   if(result){
     nameEl.textContent=result.name;nameEl.className='name';
     const f=result.formula;
-    const subs=result.items.length?result.items.map(i=>(result.size===1&&!result.isRing?'':i.loc+'-')+i.name).join(', '):'none';
+    const subs=result.items.length?result.items.map(i=>(result.size===1&&!result.isRing?'':(typeof i.loc==='string'?i.loc:i.loc)+'-')+i.name).join(', '):'none';
     facts.innerHTML=
-      '<dt>Formula</dt><dd>'+formulaHtml(f)+'</dd>'+
-      '<dt>Molar mass</dt><dd>'+f.mass.toFixed(2)+' g/mol</dd>'+
-      '<dt>Parent</dt><dd>'+result.core+' <span style="color:var(--muted)">('+(result.isRing?result.size+'-membered ring':result.size+'-carbon chain')+')</span></dd>'+
-      '<dt>Main group</dt><dd>'+(result.principal?PRIN[result.principal]:'none')+'</dd>'+(result.alkyls?'<dt>Alkyl part</dt><dd>'+result.alkyls+'</dd>':'')+
-      '<dt>Prefixes</dt><dd>'+subs+'</dd>';
+      '<div class="chips2"><span class="chip"><span aria-label="Molecular formula">'+formulaHtml(f)+'</span></span><span class="chip">'+f.mass.toFixed(2)+' g/mol</span>'+
+      (result.principal?'<span class="chip g-'+result.principal+'"><i></i>'+PRINS[result.principal]+'</span>':'<span class="chip">No main group</span>')+'</div>'+
+      '<dl><dt>Parent</dt><dd>'+result.core+' <span style="color:var(--muted)">('+(result.isRing?result.size+'-membered ring':result.size+'-carbon chain')+')</span></dd>'+
+      (result.alkyls?'<dt>Alkyl part</dt><dd>'+result.alkyls+'</dd>':'')+
+      '<dt>Prefixes</dt><dd>'+subs+'</dd></dl>';
     const ring6=result.isRing&&result.size===6&&/^cyclohexa-1,3,5-triene$/.test(result.core);
     if(ring6){msg.hidden=false;msg.textContent='Aromatic rings (benzene) are not handled yet, so this is named as the Kekulé cyclohexatriene.';}
   }else if(errMsg){
@@ -1133,15 +1290,15 @@ function panel(){
     facts.innerHTML='';
     msg.hidden=false;msg.className='msg bad';msg.textContent=errMsg;
   }else{
-    nameEl.textContent='Draw a molecule to see its name.';nameEl.className='name empty';facts.innerHTML='';
+    nameEl.textContent='Your molecule’s name will appear here.';nameEl.className='name empty';facts.innerHTML='';
   }
   const why=$('why');
   if(result&&result.steps){
     why.hidden=false;
     $('whyList').innerHTML=result.steps.map(st=>'<li><b>'+st.t.replace(/^\d+\.\s*/,'')+'</b><div>'+st.h+'</div></li>').join('');
-    if(!panel.done){panel.done=true;$('howto').open=false;}
   }else why.hidden=true;
   $('undo').disabled=!undoStack.length;$('redo').disabled=!redoStack.length;
+  coach();
 }
 
 /* ---- rendering ---- */
@@ -1157,22 +1314,31 @@ function bondSvg(b){
   const offs=b.o===1?[0]:b.o===2?[-3.4,3.4]:[-4.6,0,4.6];
   return offs.map(o=>'<line class="bond" x1="'+(A.x+ux*ga+nx*o).toFixed(1)+'" y1="'+(A.y+uy*ga+ny*o).toFixed(1)+'" x2="'+(B.x-ux*gb+nx*o).toFixed(1)+'" y2="'+(B.y-uy*gb+ny*o).toFixed(1)+'"/>').join('');
 }
+function announceAtom(a){
+  if(!a)return;
+  const idx=atoms.indexOf(a)+1,ns=nbrs(a.id).map(n=>atoms.indexOf(n)+1);
+  const t='Atom '+idx+' of '+atoms.length+': '+ELN[a.el]+(ns.length?', bonded to atom'+(ns.length>1?'s ':' ')+ns.join(' and '):', no bonds yet');
+  const r=$('sr');r.textContent='';setTimeout(()=>{r.textContent=t;},30);
+}
 function render(){
+  if(kbAtom&&!atomById(kbAtom))kbAtom=null;
+  $('hint').textContent=hintText();
   const out=['<rect class="bg" width="900" height="560"/>'];
   const showNum=$('optNum').checked&&result;
   if(showNum){
     const set=new Set(result.ids);
-    for(const b of bonds)if(set.has(b.a)&&set.has(b.b)){const A=atomById(b.a),B=atomById(b.b);out.push('<line class="hl" x1="'+A.x+'" y1="'+A.y+'" x2="'+B.x+'" y2="'+B.y+'"/>');}
-    if(result.ids.length===1){const A=atomById(result.ids[0]);out.push('<circle class="hl" cx="'+A.x+'" cy="'+A.y+'" r="6" style="fill:var(--hl);stroke:none"/>');}
+    for(const b of bonds){const A=atomById(b.a),B=atomById(b.b),inP=set.has(b.a)&&set.has(b.b);out.push('<line class="'+(inP?'hl':'hl2')+'" x1="'+A.x+'" y1="'+A.y+'" x2="'+B.x+'" y2="'+B.y+'"/>');}
+    if(result.ids.length===1){const A=atomById(result.ids[0]);out.push('<circle cx="'+A.x+'" cy="'+A.y+'" r="7" fill="rgba(91,63,166,.25)"/>');}
   }
   if(hover&&hover.t==='a'){const a=atomById(hover.id);if(a)out.push('<circle class="hov" cx="'+a.x+'" cy="'+a.y+'" r="13"/>');}
-  if(hover&&hover.t==='b'&&bonds.includes(hover.b)){const A=atomById(hover.b.a),B=atomById(hover.b.b);out.push('<line class="hl" style="stroke:var(--accent-soft)" x1="'+A.x+'" y1="'+A.y+'" x2="'+B.x+'" y2="'+B.y+'"/>');}
+  if(hover&&hover.t==='b'&&bonds.includes(hover.b)){const A=atomById(hover.b.a),B=atomById(hover.b.b);out.push('<line class="hl" style="stroke:#e4dcf6" x1="'+A.x+'" y1="'+A.y+'" x2="'+B.x+'" y2="'+B.y+'"/>');}
   for(const b of bonds)out.push(bondSvg(b));
   for(const a of atoms){
     const t=labelOf(a);
     if(t)out.push('<circle class="halo" cx="'+a.x+'" cy="'+a.y+'" r="11.5"/><text class="lbl" x="'+a.x+'" y="'+(a.y+1)+'" style="fill:'+COLORS[a.el]+'">'+t+'</text>');
     if(errAtoms.includes(a.id))out.push('<circle class="errC" cx="'+a.x+'" cy="'+a.y+'" r="17"/>');
   }
+  if(kbAtom&&document.activeElement===svg){const a=atomById(kbAtom);if(a)out.push('<circle class="kbhalo" cx="'+a.x+'" cy="'+a.y+'" r="18"/><circle class="kbring" cx="'+a.x+'" cy="'+a.y+'" r="18"/>');}
   if(showNum){
     result.ids.forEach((id,i)=>{
       const a=atomById(id);if(!a)return;
@@ -1189,6 +1355,47 @@ function render(){
   svg.innerHTML=out.join('');
 }
 function update(){compute();panel();render();}
+/* ---- keyboard drawing on the canvas ---- */
+const KEYEL={c:'C',n:'N',o:'O',f:'F',l:'Cl',r:'Br',i:'I'};
+svg.addEventListener('focus',()=>{if(!atomById(kbAtom))kbAtom=atoms.length?atoms[atoms.length-1].id:null;render();if(kbAtom)announceAtom(atomById(kbAtom));});
+svg.addEventListener('blur',render);
+svg.addEventListener('keydown',e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+  const k=e.key,lk=k.toLowerCase(),cur=atomById(kbAtom),idx=cur?atoms.indexOf(cur):-1;
+  if(k==='Enter'||k===' '){
+    e.preventDefault();
+    if(!atoms.length)mutate(()=>{const a=addAtom(450,280,'C');if(!a)return false;kbAtom=a.id;});
+    else if(cur)mutate(()=>{const th=autoAngle(cur),n=addAtom(cur.x+L*Math.cos(th),cur.y+L*Math.sin(th),'C');if(!n)return false;addBond(cur.id,n.id,bondOrder);kbAtom=n.id;});
+    else{kbAtom=atoms[0].id;}
+    render();announceAtom(atomById(kbAtom));return;
+  }
+  if(k==='ArrowRight'||k==='ArrowDown'||k==='ArrowLeft'||k==='ArrowUp'){
+    e.preventDefault();if(!atoms.length)return;
+    const d=(k==='ArrowRight'||k==='ArrowDown')?1:-1;
+    kbAtom=atoms[(idx+d+atoms.length)%atoms.length].id;render();announceAtom(atomById(kbAtom));return;
+  }
+  if(KEYEL[lk]&&cur){
+    e.preventDefault();
+    mutate(()=>{if(cur.el===KEYEL[lk])return false;if(KEYEL[lk]==='C'&&!canAdd('C'))return false;cur.el=KEYEL[lk];});
+    announceAtom(cur);return;
+  }
+  if((k==='1'||k==='2'||k==='3')&&cur){
+    e.preventDefault();
+    const bb=bonds.filter(b=>b.a===cur.id||b.b===cur.id);
+    if(!bb.length){toast('Add a bond to this atom first (press Enter).');return;}
+    mutate(()=>{bb[bb.length-1].o=+k;});
+    $('sr').textContent='Bond set to '+['single','double','triple'][+k-1];return;
+  }
+  if((k==='Delete'||k==='Backspace')&&cur){
+    e.preventDefault();
+    mutate(()=>{removeAtom(cur.id);});
+    kbAtom=atoms.length?atoms[Math.min(idx,atoms.length-1)].id:null;
+    render();if(kbAtom)announceAtom(atomById(kbAtom));else $('sr').textContent='Canvas is empty';
+  }
+});
+[['Ethanol','CCO'],['2-Methylbutane','CC(C)CC'],['Ethanoic acid','CC(=O)O'],['Cyclohexanol','OC1CCCCC1']].forEach(([n,s])=>{
+  const b=document.createElement('button');b.type='button';b.className='ex';b.textContent=n;b.onclick=()=>loadSmiles(s);$('emptyChips').appendChild(b);
+});
 setTool('bond');
 update();
 </script>
