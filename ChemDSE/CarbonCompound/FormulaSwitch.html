@@ -1,0 +1,1383 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='mN/J2pBzhLMjYYcEjtOSjw==' src='https://76cfb555-351a-496c-85e7-0b5f1da19fe7.frame.claudeusercontent.com/kXbdu8DtUTNN0kfJTw9WDWH4FcRbdZ1CUgy3fU-e2EwcBBp44vitMeAJ1gTQutg8ds1Aqc4SP4HsivzxcOKWNPBxG9z_UJng1-92hpv7TdvbXXxPFe3NjpVJBcGCwQT5qnjXBF35cwZxTBpSOE324m9TDU0OjIJ0KEMG2xMaj51MGiGJwTBHqSwBkhdIC9Mv5fb4__w169_Uqy4h-5lsD3YBZG-N7KXkH0VR-4zHAPx00UzVzovV2J7pykT_lJRJpqn69eaAecrQQJMo_bHd0l18YAEDmYJx92Ymo0TSBlH3OPvLJKSwGr8Ggsd89ap5Qj3HT66IlYjOrwUUO6odEKRB98BCnnM9NFHBxE5-eXiNVtR_1L5XjRupWNLJ4IQUJ9WEHqOEKKFePfYy8rCoeD_DwwGY-nZvHIZ4wzbEK69a-zs3IP2TRFWpwMl0TBDKEBBUGatsZm7qKShLWj0eVPDB5MZc7BiLIbmcdNTmjoZogiSRmnNmLYZgK7UpVIYlIUMlgkPPLw3NzzGqzm8WH9OcMbEI5KNuh8qv8bgj7O-v29Y35McQfT-IB596_4YQAzjdlqBYlb5ij6uWi15NiY4zy55QcPYDvvWXUYr1XcIpjdywhhGSjlt4WbKgyBcIciQF5VnwvAaSbJV1wf_0-ZN8Refwu11dP6p6gghaOjjqilAsiXdbT4tGvlTaBry8tRLpJKsQEp7mm4nU9fyaZQ'></script></head><body>
+<title>Formula Switch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>
+/* Layout: one white working column. Header with section tabs (a bar at the bottom on phones), then a worksheet card.
+   Everything drawn or written is black on white; the only colour is the blue used for buttons and focus. */
+:root {
+  --bg: #ffffff; --surface: #ffffff; --ink: #000000; --muted: #3f4a59; --line: #d5dbe3; --ctl: #6b7685;
+  --accent: #0a4f8c; --accent-ink: #ffffff; --focus: #0052cc; --hl: rgba(255, 214, 0, .6);
+  --draw: #000000; --soft: #f1f4f8;
+  --good: #0f5f33; --good-bg: #e6f5ec; --bad: #9c1f17; --bad-bg: #fcebe9;
+  --f-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --tap: 44px; --fs: 16px;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: var(--fs); line-height: 1.5; padding-inline: 16px; padding-block: 20px 56px; }
+.app { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.stack { display: flex; flex-direction: column; gap: 14px; }
+h1, h2, h3 { font-family: var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: #fff; padding: 10px 14px; border-radius: 6px; z-index: 50; }
+.skip:focus { left: 16px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+.brand h1 { font-size: clamp(28px, 5vw, 40px); font-weight: 800; line-height: 1.05; }
+.brand p { color: var(--muted); margin-top: 6px; max-width: 54ch; }
+.tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); }
+.tab { background: none; border: 0; padding: 10px 16px; min-height: var(--tap); font-weight: 600; color: var(--muted); border-bottom: 4px solid transparent; margin-bottom: -2px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab:hover { color: var(--ink); }
+
+/* how it works */
+.intro { border: 2px solid var(--accent); border-radius: 10px; background: #f4f8fc; }
+.intro > summary { list-style: none; cursor: pointer; padding: 12px 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: var(--tap); }
+.intro > summary::-webkit-details-marker { display: none; }
+.intro > summary::after { content: 'Show'; font-weight: 400; color: var(--muted); font-size: 14px; }
+.intro[open] > summary::after { content: 'Hide'; }
+.intro-body { padding: 0 16px 16px; display: grid; gap: 12px; }
+.steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); counter-reset: s; }
+.steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: block; }
+.steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 600; display: grid; place-items: center; margin-bottom: 6px; }
+.steps b { display: block; font-size: 17px; }
+
+/* setup */
+.setup { background: var(--surface); border: 1px solid var(--ctl); border-radius: 10px; }
+.setup > summary { list-style: none; cursor: pointer; padding: 10px 16px; min-height: var(--tap); display: flex; justify-content: space-between; gap: 12px; align-items: center; font-weight: 600; }
+.setup > summary::-webkit-details-marker { display: none; }
+.setup > summary .sum { color: var(--muted); font-weight: 400; font-size: 14px; }
+.setup > summary::after { content: '+'; font-size: 20px; line-height: 1; }
+.setup[open] > summary::after { content: '–'; }
+.setup-body { padding: 4px 16px 16px; display: grid; gap: 18px; }
+.group h3 { font-family: var(--f-body); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1.5px solid var(--ctl); background: #fff; border-radius: 999px; padding: 6px 14px; min-height: 36px; font-size: 15px; }
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip[aria-pressed="true"]::before { content: '✓ '; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1.5px solid var(--ctl); border-radius: 8px; overflow: hidden; }
+.seg button { background: #fff; border: 0; padding: 7px 14px; min-height: 40px; font-size: 15px; }
+.seg button + button { border-left: 1.5px solid var(--ctl); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.hint { color: var(--muted); font-size: 14px; }
+.mastery { display: grid; gap: 8px 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.m-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; font-size: 14px; }
+.m-bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--soft); overflow: hidden; }
+.m-bar i { display: block; height: 100%; background: var(--accent); }
+.linkbtn { background: none; border: 0; color: var(--accent); text-decoration: underline; padding: 8px 0; font-size: 14px; min-height: 36px; }
+
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.stat { background: #fff; padding: 8px 12px; display: flex; flex-direction: column; }
+.stat b { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.stat span { font-size: 12px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+
+/* question card */
+.card { background: var(--surface); border: 1px solid var(--ctl); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.qhead { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: space-between; }
+.badge { font-size: 13.5px; font-weight: 500; background: var(--soft); border-radius: 6px; padding: 3px 10px; }
+.qn { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.stem { font-family: var(--f-display); font-size: clamp(20px, 3vw, 25px); font-weight: 600; line-height: 1.25; text-wrap: balance; margin: 0; }
+.stem:focus { outline: none; }
+.paper { background: #fff; border: 1px solid var(--ctl); border-radius: 10px; }
+.given { display: flex; justify-content: center; align-items: center; padding: 18px 12px; min-height: 140px; overflow-x: auto; }
+.cond { font-family: var(--f-body); font-size: clamp(20px, 3.4vw, 28px); font-weight: 500; letter-spacing: .02em; }
+.cond .tk, .cond .pl { white-space: nowrap; }
+.given .cond { white-space: nowrap; }
+.cond sub { font-size: .68em; vertical-align: baseline; position: relative; top: .28em; }
+.tk { border-radius: 3px; transition: background .12s, box-shadow .12s; }
+.tk.on { background: var(--hl); box-shadow: 0 0 0 2px var(--hl); }
+.opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.opt { position: relative; display: flex; align-items: center; justify-content: center; min-height: 130px; padding: 30px 12px 14px; text-align: center; border: 2px solid var(--ctl); border-radius: 10px; background: #fff; min-width: 0; overflow: hidden; }
+.opt:hover:not([aria-disabled="true"]) { border-color: var(--accent); background: #f4f8fc; }
+.opt .key { position: absolute; top: 7px; left: 8px; min-width: 24px; height: 24px; border-radius: 12px; background: #fff; border: 1.5px solid var(--ctl); font-size: 13px; font-weight: 600; display: grid; place-items: center; padding: 0 6px; }
+.opt .mark { position: absolute; top: 7px; right: 10px; font-size: 14px; font-weight: 600; }
+.opt[aria-disabled="true"] { cursor: default; }
+.opt.right { border-color: var(--good); border-width: 3px; background: var(--good-bg); }
+.opt.wrong { border-color: var(--bad); border-width: 3px; background: var(--bad-bg); }
+.opt .cond { font-size: clamp(17px, 2.6vw, 22px); }
+.opt-body { max-width: 100%; display: flex; justify-content: center; min-width: 0; }
+
+svg.mol { max-width: 100%; height: auto; display: block; overflow: visible; }
+svg.mol .bonds { stroke: var(--draw); stroke-width: 2; stroke-linecap: round; fill: none; }
+svg.mol .hit { fill: transparent; transition: fill .12s; }
+svg.mol .hit.on { fill: var(--hl); }
+svg.mol .lbl { fill: var(--draw); font-family: var(--f-body); font-weight: 500; }
+svg.mol .vtx { fill: var(--draw); opacity: .35; }
+svg.mol .ann { fill: var(--draw); font-family: var(--f-body); font-weight: 600; }
+
+.answer { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.answer label { width: 100%; }
+.answer input { font: 500 22px var(--f-body); padding: 9px 12px; min-height: var(--tap); border: 2px solid var(--ctl); border-radius: 8px; background: #fff; color: var(--ink); width: min(100%, 260px); }
+.answer input.right { border-color: var(--good); border-width: 3px; } .answer input.wrong { border-color: var(--bad); border-width: 3px; }
+.btn { border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 600; padding: 9px 20px; min-height: var(--tap); border-radius: 8px; }
+.btn.ghost { background: #fff; color: var(--accent); }
+.btn:hover { filter: brightness(1.12); }
+
+.feedback { border-radius: 10px; padding: 14px; display: grid; gap: 12px; border: 3px solid var(--line); }
+.feedback:focus { outline: none; }
+.feedback.good { background: var(--good-bg); border-color: var(--good); }
+.feedback.bad { background: var(--bad-bg); border-color: var(--bad); }
+.fb-title { font-family: var(--f-display); font-weight: 800; font-size: 20px; }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pane { background: #fff; border: 1px solid var(--ctl); border-radius: 8px; display: flex; flex-direction: column; min-width: 0; }
+.pane h4 { margin: 0; padding: 8px 10px 0; font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; display: flex; justify-content: space-between; gap: 8px; align-items: center; min-height: 32px; }
+.pane .body { padding: 10px; display: flex; align-items: center; justify-content: center; flex: 1; min-height: 110px; overflow-x: auto; }
+.pane .cond { font-size: 19px; white-space: nowrap; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 15px; }
+.tag { background: #fff; border: 1px solid var(--ctl); border-radius: 6px; padding: 2px 10px; font-size: 15px; font-weight: 500; }
+.tip { font-size: 15px; }
+.nextrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+kbd { font-family: inherit; font-size: 12.5px; background: var(--soft); border: 1px solid var(--ctl); border-radius: 4px; padding: 1px 6px; }
+
+/* explore */
+.ctrl { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
+.ctrl .fld { display: grid; gap: 4px; font-size: 14px; color: var(--muted); }
+.ctrl .fld > span { font-weight: 600; }
+.ctrl select { font: inherit; color: var(--ink); padding: 6px 10px; min-height: 40px; border-radius: 8px; border: 1.5px solid var(--ctl); background: #fff; }
+.xsteps { margin: 0; padding-left: 20px; display: grid; gap: 2px; font-size: 15px; }
+.given-tag { background: var(--accent); color: #fff; border-radius: 4px; padding: 0 8px; font-size: 12px; letter-spacing: .04em; }
+.cover-btn { background: #fff; border: 1.5px solid var(--ctl); border-radius: 6px; font-size: 13px; padding: 2px 10px; min-height: 28px; color: var(--ink); text-transform: none; letter-spacing: 0; }
+.cover { display: grid; gap: 10px; justify-items: center; text-align: center; padding: 10px; }
+.cover p { color: var(--muted); font-size: 15px; }
+.explore .three .pane .body { min-height: 190px; }
+.explore .three .pane .cond { font-size: 21px; }
+
+/* guide */
+.guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.gcard { background: #fff; border: 1px solid var(--ctl); border-radius: 10px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.gcard h2 { font-size: 19px; }
+.gcard ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15px; }
+.tablewrap { overflow-x: auto; background: #fff; border: 1px solid var(--ctl); border-radius: 10px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; }
+th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+tbody th { text-transform: none; letter-spacing: 0; font-size: 15px; color: var(--ink); }
+tr:last-child td, tr:last-child th { border-bottom: 0; }
+td .cond { font-size: 18px; }
+.sect-title { font-size: 21px; font-weight: 700; margin-bottom: 8px; }
+
+/* smaller windows */
+@media (max-width: 760px) {
+  .three, .guide-grid, .steps { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .card { padding: 14px; }
+}
+@media (max-width: 520px) { .opts { grid-template-columns: 1fr; } }
+
+/* touch devices: bigger targets, no keyboard hints */
+:root[data-input="touch"] { --tap: 48px; --fs: 17px; }
+:root[data-input="touch"] .kbd-hint { display: none; }
+:root[data-input="touch"] .chip { min-height: 44px; }
+:root[data-input="touch"] .seg button { min-height: 44px; }
+:root[data-input="touch"] .cover-btn { min-height: 40px; padding: 4px 14px; font-size: 14px; }
+:root[data-input="touch"] .opt { min-height: 150px; }
+:root[data-input="touch"] .linkbtn { min-height: 44px; }
+
+/* tablets: larger drawings (scaled in script) and text */
+:root[data-device="tablet"] .app { max-width: 860px; }
+:root[data-device="tablet"] .stem { font-size: 26px; }
+
+/* phones: tabs become a bar at the bottom within thumb reach; Next is a full-width button */
+:root[data-device="phone"] body { padding-block: 16px calc(84px + env(safe-area-inset-bottom, 0px)); }
+:root[data-device="phone"] .tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #fff; border-top: 1px solid var(--ctl); border-bottom: 0; padding: 0 8px env(safe-area-inset-bottom, 0px); }
+:root[data-device="phone"] .tab { flex: 1; min-height: 60px; margin: 0; border-bottom: 0; border-top: 4px solid transparent; font-size: 16px; }
+:root[data-device="phone"] .tab[aria-selected="true"] { border-top-color: var(--accent); }
+:root[data-device="phone"] .nextrow { flex-direction: column-reverse; align-items: stretch; }
+:root[data-device="phone"] .nextrow .btn { width: 100%; }
+:root[data-device="phone"] .stat b { font-size: 20px; }
+:root[data-device="phone"] .seg { display: flex; width: 100%; }
+:root[data-device="phone"] .seg button { flex: 1; padding-inline: 4px; }
+:root[data-device="phone"] .chip { border-radius: 22px; }
+:root[data-device="phone"] .answer input, :root[data-device="phone"] .answer .btn { width: 100%; }
+
+/* ---- colour theme: each section has its own hue; formula canvases stay white with black ink ---- */
+:root { --pg: #e9ecfb; --dark: #1c2a78; --tint: #eef0ff; --tline: #c7cff7; --accent: #2b3bbd; --amber: #ffc233; }
+:root[data-tab="explore"] { --pg: #e0f2ef; --dark: #0b4f4c; --tint: #e7f6f3; --tline: #b5e0da; --accent: #0b7a75; }
+:root[data-tab="guide"] { --pg: #fbeadf; --dark: #6f2a10; --tint: #fdf0e6; --tline: #f0c9ae; --accent: #a8401a; }
+body { background: var(--pg); }
+.top { background: var(--dark); color: #fff; border-radius: 18px; padding: 22px 24px; position: relative; overflow: hidden; align-items: flex-start; }
+.top::after { content: ''; position: absolute; right: 18px; bottom: 6px; width: 250px; height: 56px; pointer-events: none; opacity: .6;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 330 120'%3E%3Cg fill='none' stroke='%23ffc233' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 88 L52 62 L94 88 L136 62 L178 88 L220 62 L262 88'/%3E%3Cpath d='M220 62 L220 28'/%3E%3C/g%3E%3Ctext x='220' y='20' text-anchor='middle' font-family='sans-serif' font-size='18' font-weight='600' fill='%23ffc233'%3EOH%3C/text%3E%3C/svg%3E") no-repeat right center / contain; }
+.brand, nav { position: relative; z-index: 1; }
+.brand h1 { color: #fff; }
+.brand p { color: rgba(255,255,255,.86); }
+.tabs { border-bottom: 0; gap: 8px; }
+.tab { color: #fff; border: 2px solid rgba(255,255,255,.4); border-radius: 999px; padding: 6px 18px; margin: 0; }
+.tab:hover { color: #fff; border-color: #fff; }
+.tab[aria-selected="true"] { background: var(--amber); border-color: var(--amber); color: #15171f; }
+:root[data-device="phone"] .top { padding: 18px 18px; }
+:root[data-device="phone"] .top::after { display: none; }
+:root[data-device="phone"] .tabs { background: #fff; border-top: 2px solid var(--tline); gap: 0; }
+:root[data-device="phone"] .tab { color: var(--muted); border: 0; border-top: 4px solid transparent; border-radius: 0; background: none; }
+:root[data-device="phone"] .tab[aria-selected="true"] { background: var(--tint); color: #000; border-top-color: var(--accent); }
+.card { background: var(--tint); border: 1px solid var(--tline); }
+.stem { color: var(--dark); }
+.badge { background: var(--dark); color: #fff; }
+.qn { color: var(--dark); font-weight: 500; }
+.intro { background: #fff4d4; border-color: #e0a300; }
+.intro > summary { color: #4a3500; }
+.intro > summary::after { color: #4a3500; }
+.steps li::before { background: #b37a00; }
+.stats { background: transparent; border: 0; gap: 10px; }
+.stat { border-radius: 12px; border: 1px solid transparent; }
+.stat:nth-child(1) { background: #dfe5ff; border-color: #c2ccfa; }
+.stat:nth-child(2) { background: #dcf4e5; border-color: #b7e3c8; }
+.stat:nth-child(3) { background: #ffeec2; border-color: #f1d77e; }
+.stat:nth-child(4) { background: #f3dcf6; border-color: #e0b8e6; }
+.stat b { color: #111; }
+.setup { border-color: var(--tline); }
+.setup > summary { color: var(--dark); }
+.group h3 { color: var(--dark); }
+.chip[aria-pressed="true"], .seg button[aria-pressed="true"], .btn { background: var(--accent); border-color: var(--accent); }
+.btn.ghost { background: #fff; color: var(--accent); }
+.m-bar i { background: var(--accent); }
+.given-tag { background: var(--amber); color: #15171f; font-weight: 600; }
+.opt:hover:not([aria-disabled="true"]) { border-color: var(--accent); background: #fff; box-shadow: 0 2px 0 var(--accent); }
+.opt .key { background: var(--dark); color: #fff; border-color: var(--dark); }
+.pane h4 { color: var(--dark); }
+.tag { background: #fff; border-color: var(--tline); }
+.sect-title { color: var(--dark); }
+.xsteps li::marker { color: var(--accent); font-weight: 700; }
+.gcard { border: 1px solid var(--tline); border-top: 5px solid var(--accent); background: #fff; }
+.gcard h2 { color: var(--dark); }
+th { background: var(--tint); color: var(--dark); }
+.tablewrap { border-color: var(--tline); }
+.linkbtn { color: var(--accent); }
+.fb-title { color: #111; }
+.feedback.good { border-color: var(--good); } .feedback.bad { border-color: var(--bad); }
+.cover p { color: var(--dark); }
+.skip { background: var(--dark); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<a class="skip" href="#main">Skip to main content</a>
+<div class="sr" id="sr" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <h1>Formula Switch</h1>
+      <p>Practise turning condensed, skeletal and displayed formulas into one another. Every question is a new random molecule.</p>
+    </div>
+    <nav aria-label="Sections">
+      <div class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" id="t-practice" aria-selected="true" aria-controls="tab-practice">Practise</button>
+        <button class="tab" role="tab" id="t-explore" aria-selected="false" aria-controls="tab-explore" tabindex="-1">Explore</button>
+        <button class="tab" role="tab" id="t-guide" aria-selected="false" aria-controls="tab-guide" tabindex="-1">Guide</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1" class="app">
+    <section id="tab-practice" role="tabpanel" aria-labelledby="t-practice" class="stack">
+      <details class="intro" id="intro">
+        <summary>New here? How this works</summary>
+        <div class="intro-body">
+          <ol class="steps">
+            <li><b>Look</b>The box shows one molecule, drawn as a condensed, skeletal or displayed formula.</li>
+            <li><b>Choose</b>Pick the option (A to D) that shows the same molecule. Some questions ask you to type the molecular formula instead.</li>
+            <li><b>Check</b>Read the feedback and the three formulas side by side, then press Next question.</li>
+          </ol>
+          <p>Want to pick your own topics or difficulty? Open <b>Choose what to practise</b>. Want to try drawing on paper first? Use the <b>Explore</b> tab. The <b>Guide</b> tab lists the drawing rules.</p>
+        </div>
+      </details>
+      <details class="setup" id="setup">
+        <summary><span>Choose what to practise</span><span class="sum" id="setup-sum"></span></summary>
+        <div class="setup-body">
+          <div class="group"><h3 id="h-conv">Conversions</h3><div class="chips" id="conv-chips" role="group" aria-labelledby="h-conv"></div></div>
+          <div class="group"><h3 id="h-topic">Compound families</h3><div class="chips" id="topic-chips" role="group" aria-labelledby="h-topic"></div></div>
+          <div class="group"><h3 id="h-level">Difficulty</h3><div class="seg" id="level-seg" role="group" aria-labelledby="h-level"></div>
+            <p class="hint" style="margin-top:8px" id="level-hint"></p></div>
+          <div class="group"><h3>Your progress by skill</h3><div class="mastery" id="mastery"></div>
+            <p style="margin-top:6px"><button class="linkbtn" id="reset">Reset my scores</button></p></div>
+        </div>
+      </details>
+      <div class="stats" role="group" aria-label="Your score">
+        <div class="stat"><b id="st-total">0</b><span>Answered</span></div>
+        <div class="stat"><b id="st-acc">–</b><span>Correct</span></div>
+        <div class="stat"><b id="st-streak">0</b><span>Streak</span></div>
+        <div class="stat"><b id="st-best">0</b><span>Best streak</span></div>
+      </div>
+      <div class="card" id="qcard"></div>
+    </section>
+
+    <section id="tab-explore" role="tabpanel" aria-labelledby="t-explore" class="stack explore" hidden="">
+      <div class="card">
+        <h2 class="sect-title" style="margin:0">Try it on paper first</h2>
+        <ol class="xsteps">
+          <li>Choose which formula you want to be given.</li>
+          <li>Draw or write the other two on paper.</li>
+          <li>Press Show on each to check, then point at or tap an atom to match it across the formulas.</li>
+        </ol>
+        <div class="ctrl">
+          <div class="fld"><span id="h-start">Start from</span><div class="seg" id="x-start" role="group" aria-labelledby="h-start"></div></div>
+          <label class="fld" for="x-topic"><span>Compound family</span><select id="x-topic"></select></label>
+          <label class="fld" for="x-level"><span>Level</span><select id="x-level"><option value="1">1</option><option value="2" selected="">2</option><option value="3">3</option></select></label>
+          <button class="btn" id="x-new">New molecule</button>
+        </div>
+        <div class="ctrl">
+          <button class="btn ghost" id="x-all">Show all answers</button>
+          <button class="chip" id="x-ann" aria-pressed="false">Show hydrogen counts on the skeleton</button>
+        </div>
+        <div class="three" id="x-three"></div>
+        <div class="tags" id="x-tags"></div>
+      </div>
+    </section>
+
+    <section id="tab-guide" role="tabpanel" aria-labelledby="t-guide" class="stack" hidden="">
+      <div class="guide-grid">
+        <div class="gcard"><h2>Condensed formula</h2>
+          <ul><li>Write each carbon with its hydrogens: <b>CH₃</b>, <b>CH₂</b>, <b>CH</b>.</li>
+          <li>Put branches in brackets straight after the carbon they hang from: CH₃CH(CH₃)CH₃.</li>
+          <li>Show double and triple bonds with = and ≡.</li>
+          <li>Groups are written as units: OH, CHO, COOH, CO, COO.</li></ul></div>
+        <div class="gcard"><h2>Skeletal formula</h2>
+          <ul><li>Every corner and every line end is a carbon atom.</li>
+          <li>Hydrogens on carbon are not drawn. Count them: each carbon needs four bonds.</li>
+          <li>Atoms other than C and H are written out, with their own hydrogens: OH, Cl, O.</li>
+          <li>Double bonds are two lines, triple bonds three lines.</li></ul></div>
+        <div class="gcard"><h2>Displayed formula</h2>
+          <ul><li>Draw every atom and every bond, including each C–H bond.</li>
+          <li>Each carbon has exactly four bonds, oxygen two, hydrogen and halogens one.</li>
+          <li>Angles are drawn at 90° for clarity. They do not show the real 3D shape.</li>
+          <li>An O–H group is drawn with its bond to H.</li></ul></div>
+      </div>
+      <div>
+        <h2 class="sect-title">Functional groups in all three forms</h2>
+        <div class="tablewrap" tabindex="0" role="region" aria-label="Functional group table, scrolls sideways on small screens"><table id="ref-table"><thead><tr><th scope="col">Compound</th><th scope="col">Condensed</th><th scope="col">Skeletal</th><th scope="col">Displayed</th></tr></thead><tbody></tbody></table></div>
+      </div>
+      <div class="gcard"><h2>Check your working</h2>
+        <ul><li>Count the bonds on every carbon. Four means it is complete.</li>
+        <li>Molecular formula the same? Count the carbons first, then the hydrogens.</li>
+        <li>Same formula but a different drawing is an isomer: look at where the branch or group is attached.</li></ul></div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* Formula Switch chemistry engine: molecule graph, random generation,
+   condensed writer, skeletal + displayed layouts and SVG renderers. */
+(function (root) {
+'use strict';
+
+let R = Math.random;
+const setRng = f => { R = f; };
+const ri = n => Math.floor(R() * n);
+const pick = a => a[ri(a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = ri(i + 1); const t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+
+const VAL = { C: 4, N: 3, O: 2, F: 1, Cl: 1, Br: 1, I: 1 };
+const HAL = new Set(['F', 'Cl', 'Br', 'I']);
+
+/* ---------------- molecule graph ---------------- */
+const newMol = () => ({ atoms: [], bonds: [] });
+function addAtom(m, el) { const id = m.atoms.length; m.atoms.push({ id, el }); return id; }
+function addBond(m, a, b, o) { m.bonds.push({ a, b, o: o || 1 }); }
+function cloneMol(m) { return { atoms: m.atoms.map(a => ({ ...a })), bonds: m.bonds.map(b => ({ ...b })) }; }
+function adjOf(m) {
+  const adj = m.atoms.map(() => []);
+  for (const b of m.bonds) { adj[b.a].push({ n: b.b, o: b.o }); adj[b.b].push({ n: b.a, o: b.o }); }
+  return adj;
+}
+const usedVal = (adj, i) => adj[i].reduce((s, x) => s + x.o, 0);
+const hOf = (m, adj, i) => VAL[m.atoms[i].el] - usedVal(adj, i);
+
+function fromSMILES(s) {
+  const m = newMol(); const stack = []; let cur = -1, ord = 1;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (ch === '(') { stack.push(cur); continue; }
+    if (ch === ')') { cur = stack.pop(); continue; }
+    if (ch === '=') { ord = 2; continue; }
+    if (ch === '#') { ord = 3; continue; }
+    let el = ch;
+    if ((ch === 'C' && s[i + 1] === 'l') || (ch === 'B' && s[i + 1] === 'r')) { el = ch + s[i + 1]; i++; }
+    const id = addAtom(m, el);
+    if (cur >= 0) addBond(m, cur, id, ord);
+    ord = 1; cur = id;
+  }
+  return m;
+}
+
+function isValid(m) {
+  const n = m.atoms.length;
+  if (n < 2 || m.bonds.length !== n - 1) return false;
+  const adj = adjOf(m);
+  for (let i = 0; i < n; i++) if (usedVal(adj, i) > VAL[m.atoms[i].el]) return false;
+  const seen = new Set([0]); const q = [0];
+  for (let k = 0; k < q.length; k++) for (const { n: b } of adj[q[k]]) if (!seen.has(b)) { seen.add(b); q.push(b); }
+  return seen.size === n;
+}
+
+function canon(m) {
+  const adj = adjOf(m); let best = null;
+  const enc = (i, p) => {
+    const ch = [];
+    for (const { n, o } of adj[i]) if (n !== p) ch.push(o + enc(n, i));
+    ch.sort();
+    return m.atoms[i].el + '(' + ch.join(',') + ')';
+  };
+  for (let i = 0; i < m.atoms.length; i++) { const s = enc(i, -1); if (best === null || s < best) best = s; }
+  return best;
+}
+
+function formulaCounts(m) {
+  const adj = adjOf(m); const c = {};
+  m.atoms.forEach((a, i) => { c[a.el] = (c[a.el] || 0) + 1; const h = hOf(m, adj, i); if (h) c.H = (c.H || 0) + h; });
+  return c;
+}
+function formulaString(c) {
+  const keys = Object.keys(c).filter(k => k !== 'C' && k !== 'H').sort();
+  const order = ['C', 'H'].filter(k => c[k]).concat(keys);
+  return order.map(k => k + (c[k] > 1 ? c[k] : '')).join('');
+}
+function parseFormula(s) {
+  s = s.replace(/[\s.·]/g, '').replace(/[₀-₉]/g, ch => String(ch.charCodeAt(0) - 0x2080));
+  if (!s) return null;
+  const c = {}; let pos = 0; const re = /([A-Z][a-z]?)(\d*)/y;
+  while (pos < s.length) {
+    re.lastIndex = pos; const mt = re.exec(s);
+    if (!mt) return null;
+    if (!(mt[1] in VAL) && mt[1] !== 'H') return null;
+    c[mt[1]] = (c[mt[1]] || 0) + (mt[2] === '' ? 1 : parseInt(mt[2], 10));
+    pos = re.lastIndex;
+  }
+  return c;
+}
+function sameCounts(a, b) {
+  const ks = new Set([...Object.keys(a), ...Object.keys(b)]);
+  for (const k of ks) if ((a[k] || 0) !== (b[k] || 0)) return false;
+  return true;
+}
+
+function classify(m) {
+  const adj = adjOf(m); const el = i => m.atoms[i].el; const tags = new Set();
+  for (const b of m.bonds) if (el(b.a) === 'C' && el(b.b) === 'C') { if (b.o === 2) tags.add('alkene'); if (b.o === 3) tags.add('alkyne'); }
+  m.atoms.forEach((a, i) => {
+    if (a.el !== 'C') return;
+    const eq = adj[i].find(x => el(x.n) === 'O' && x.o === 2 && adj[x.n].length === 1);
+    if (eq) {
+      const oo = adj[i].find(x => el(x.n) === 'O' && x.o === 1);
+      if (oo) tags.add(adj[oo.n].length === 1 ? 'acid' : 'ester');
+      else tags.add(hOf(m, adj, i) === 1 ? 'aldehyde' : 'ketone');
+    } else {
+      for (const x of adj[i]) {
+        if (el(x.n) === 'O' && x.o === 1 && adj[x.n].length === 1) tags.add('alcohol');
+        if (HAL.has(el(x.n))) tags.add('haloalkane');
+      }
+    }
+  });
+  const names = { ester: 'Ester', acid: 'Carboxylic acid', aldehyde: 'Aldehyde', ketone: 'Ketone', alcohol: 'Alcohol',
+    haloalkane: 'Haloalkane', alkyne: 'Alkyne', alkene: 'Alkene' };
+  const list = ['ester', 'acid', 'aldehyde', 'ketone', 'alcohol', 'haloalkane', 'alkyne', 'alkene'].filter(t => tags.has(t));
+  return { tags: list, label: list.length ? list.map(t => names[t]).join(' + ') : 'Alkane' };
+}
+
+/* ---------------- tree helpers ---------------- */
+function rootInfo(adj, root) {
+  const n = adj.length, par = new Array(n).fill(-2), h = new Array(n).fill(0), order = [];
+  const st = [root]; par[root] = -1;
+  while (st.length) { const a = st.pop(); order.push(a); for (const { n: b } of adj[a]) if (par[b] === -2) { par[b] = a; st.push(b); } }
+  for (let i = order.length - 1; i >= 0; i--) { const a = order[i]; if (par[a] >= 0) h[par[a]] = Math.max(h[par[a]], h[a] + 1); }
+  return { par, h };
+}
+function diameterEnds(adj) {
+  const n = adj.length;
+  const dist = s => { const d = new Array(n).fill(-1); d[s] = 0; const q = [s]; for (let k = 0; k < q.length; k++) { const a = q[k]; for (const { n: b } of adj[a]) if (d[b] < 0) { d[b] = d[a] + 1; q.push(b); } } return d; };
+  const ecc = []; for (let i = 0; i < n; i++) ecc[i] = Math.max(...dist(i));
+  const diam = Math.max(...ecc);
+  const out = []; for (let i = 0; i < n; i++) if (ecc[i] === diam) out.push(i);
+  return out;
+}
+
+function hasStereoDB(m) {
+  const adj = adjOf(m);
+  const enc = (i, p) => { const ch = []; for (const { n, o } of adj[i]) if (n !== p) ch.push(o + enc(n, i)); ch.sort(); return m.atoms[i].el + '(' + ch.join(',') + ')'; };
+  for (const b of m.bonds) {
+    if (b.o !== 2 || m.atoms[b.a].el !== 'C' || m.atoms[b.b].el !== 'C') continue;
+    const distinct = (c, other) => {
+      const subs = [];
+      for (const { n, o } of adj[c]) if (n !== other) subs.push(o + enc(n, c));
+      const h = VAL.C - usedVal(adj, c); for (let k = 0; k < h; k++) subs.push('H');
+      return subs.length === 2 && subs[0] !== subs[1];
+    };
+    if (distinct(b.a, b.b) && distinct(b.b, b.a)) return true;
+  }
+  return false;
+}
+
+/* ---------------- condensed structural formula ---------------- */
+function condensed(m) {
+  const adj = adjOf(m), n = m.atoms.length, el = i => m.atoms[i].el;
+  const isDeco = i => el(i) !== 'C' && adj[i].length === 1;
+  const chainOK = i => el(i) === 'C' || (el(i) === 'O' && adj[i].length === 2);
+  const hc = i => VAL[el(i)] - usedVal(adj, i);
+  const SYM = { 1: '', 2: '=', 3: '≡' };
+  const ht = (i, p) => { let best = 0; for (const { n: c } of adj[i]) if (c !== p && !isDeco(c)) best = Math.max(best, 1 + ht(c, i)); return best; };
+  const decoTok = x => {
+    const e = el(x.n), h = hc(x.n);
+    if (e === 'O' && x.o === 2) return [{ t: '=O', ids: [x.n] }];
+    if (e === 'O') return [{ t: 'OH', ids: [x.n] }];
+    return [{ t: e + (h > 0 ? 'H' + (h > 1 ? h : '') : ''), ids: [x.n] }];
+  };
+
+  function atomTokens(i, p, nextOf) {
+    const kids = adj[i].filter(x => x.n !== p);
+    const decos = kids.filter(x => isDeco(x.n));
+    const others = kids.filter(x => !isDeco(x.n));
+    let cont = null;
+    const nx = nextOf.get(i);
+    if (nx != null) cont = others.find(x => x.n === nx) || null;
+    else if (others.length) cont = others.slice().sort((a, b) => (b.o - a.o) || (ht(b.n, i) - ht(a.n, i)))[0];
+    const branches = others.filter(x => x !== cont);
+    let ids = [i], txt, rest = decos.slice();
+    if (el(i) === 'O') txt = 'O';
+    else if (el(i) === 'C') {
+      const eq = rest.filter(x => el(x.n) === 'O' && x.o === 2);
+      const oh = rest.filter(x => el(x.n) === 'O' && x.o === 1);
+      const hal = rest.filter(x => HAL.has(el(x.n)));
+      const h = hc(i);
+      if (eq.length === 1) {
+        if (oh.length === 1 && !cont && branches.length === 0) { txt = p === -1 ? 'HOOC' : 'COOH'; ids = [i, eq[0].n, oh[0].n]; rest = rest.filter(x => x !== eq[0] && x !== oh[0]); }
+        else if (h === 1) { txt = p === -1 && cont ? 'OHC' : 'CHO'; ids = [i, eq[0].n]; rest = rest.filter(x => x !== eq[0]); }
+        else { txt = 'CO'; ids = [i, eq[0].n]; rest = rest.filter(x => x !== eq[0]); }
+      } else {
+        txt = 'C' + (h > 0 ? 'H' + (h > 1 ? h : '') : '');
+        const groups = {};
+        hal.forEach(x => { (groups[el(x.n)] = groups[el(x.n)] || []).push(x.n); });
+        for (const e of Object.keys(groups).sort()) { txt += e + (groups[e].length > 1 ? groups[e].length : ''); ids = ids.concat(groups[e]); }
+        rest = rest.filter(x => !HAL.has(el(x.n)));
+        if (oh.length === 1 && !cont && branches.length === 0 && rest.length === 1) { txt += 'OH'; ids.push(oh[0].n); rest = []; }
+      }
+    } else txt = el(i) + (hc(i) > 0 ? 'H' + (hc(i) > 1 ? hc(i) : '') : '');
+    const toks = [{ t: txt, ids }];
+    const entries = [];
+    for (const x of rest) { const tk = decoTok(x); entries.push({ str: tk[0].t, toks: tk }); }
+    for (const x of branches) {
+      const bt = atomTokens(x.n, i, nextOf);
+      if (x.o > 1) bt.unshift({ t: SYM[x.o], ids: [] });
+      entries.push({ str: bt.map(t => t.t).join(''), toks: bt });
+    }
+    entries.sort((a, b) => (a.str.length - b.str.length) || (a.str < b.str ? -1 : a.str > b.str ? 1 : 0));
+    for (let k = 0; k < entries.length;) {
+      let j = k; while (j + 1 < entries.length && entries[j + 1].str === entries[k].str) j++;
+      const cnt = j - k + 1, first = entries[k].toks.map(t => ({ ...t, ids: t.ids.slice() }));
+      for (let q = k + 1; q <= j; q++) entries[q].toks.forEach((t, ix) => { first[ix].ids = first[ix].ids.concat(t.ids); });
+      toks.push({ t: '(', ids: [] }); first.forEach(t => toks.push(t)); toks.push({ t: ')' + (cnt > 1 ? cnt : ''), ids: [] });
+      k = j + 1;
+    }
+    if (cont) {
+      if (cont.o > 1) toks.push({ t: SYM[cont.o], ids: [] });
+      atomTokens(cont.n, i, nextOf).forEach(t => toks.push(t));
+    }
+    return toks;
+  }
+
+  // choose main chain
+  const carbons = []; for (let i = 0; i < n; i++) if (el(i) === 'C') carbons.push(i);
+  const okAtoms = []; for (let i = 0; i < n; i++) if (chainOK(i)) okAtoms.push(i);
+  const paths = [];
+  const bondOrd = (a, b) => adj[a].find(x => x.n === b).o;
+  for (const s of carbons) {
+    const prev = new Map([[s, -1]]); const q = [s];
+    for (let k = 0; k < q.length; k++) for (const { n: b } of adj[q[k]]) if (chainOK(b) && !prev.has(b)) { prev.set(b, q[k]); q.push(b); }
+    for (const t of carbons) if (prev.has(t) && (t >= s)) {
+      const path = []; for (let c = t; c !== -1; c = prev.get(c)) path.push(c);
+      paths.push(path);
+    }
+  }
+  const decoCount = i => adj[i].filter(x => isDeco(x.n)).length;
+  const score = P => {
+    let mult = 0; for (let k = 0; k + 1 < P.length; k++) if (bondOrd(P[k], P[k + 1]) > 1) mult++;
+    return [mult, P.length, P.reduce((s, i) => s + decoCount(i), 0)];
+  };
+  let best = [], bs = null;
+  for (const P of paths) {
+    const sc = score(P);
+    if (!bs || sc[0] > bs[0] || (sc[0] === bs[0] && (sc[1] > bs[1] || (sc[1] === bs[1] && sc[2] > bs[2])))) { bs = sc; best = [P]; }
+    else if (sc[0] === bs[0] && sc[1] === bs[1] && sc[2] === bs[2]) best.push(P);
+  }
+  const P0 = pick(best);
+  const orient = P => {
+    let s = 0; const last = P[P.length - 1], first = P[0];
+    s += 2 * decoCount(last) - 2 * decoCount(first);
+    P.forEach((a, k) => { if (el(a) === 'O') { const before = P[k - 1]; s += adj[before].some(x => el(x.n) === 'O' && x.o === 2 && adj[x.n].length === 1) ? 10 : -10; } });
+    let fm = -1, lm = -1; for (let k = 0; k + 1 < P.length; k++) if (bondOrd(P[k], P[k + 1]) > 1) { if (fm < 0) fm = k; lm = k; }
+    if (fm >= 0) s += (fm < P.length - 2 - lm) ? 1 : (fm > P.length - 2 - lm ? -1 : 0);
+    if (hc(first) === 3) s += 0.5;
+    return s;
+  };
+  const rev = P0.slice().reverse();
+  const oa = orient(P0), ob = orient(rev);
+  const P = oa > ob ? P0 : ob > oa ? rev : (R() < 0.5 ? P0 : rev);
+  const nextOf = new Map(); for (let k = 0; k + 1 < P.length; k++) nextOf.set(P[k], P[k + 1]);
+  const tokens = atomTokens(P[0], -1, nextOf);
+  return { str: tokens.map(t => t.t).join(''), tokens };
+}
+
+/* ---------------- random molecule generation ---------------- */
+const TOPICS = ['alkane', 'alkene', 'alkyne', 'haloalkane', 'alcohol', 'carbonyl', 'acid', 'ester'];
+
+function genSkeleton(nC, level, branchy) {
+  if (branchy === undefined) branchy = true;
+  let lens = [];
+  if (branchy && nC >= 4) {
+    const p0 = level === 1 ? 0.55 : level === 2 ? 0.3 : 0.15;
+    if (R() > p0) {
+      const nb = level === 1 ? 1 : 1 + ri(level === 2 ? 2 : 3);
+      for (let i = 0; i < nb; i++) lens.push((level >= 2 && nC >= 6 && R() < 0.25) ? 2 : 1);
+    }
+  }
+  let L = nC - lens.reduce((a, b) => a + b, 0);
+  while (L < 3 && lens.length) L += lens.pop();
+  if (L < 2) L = nC;
+  const m = newMol(); const chain = [];
+  for (let i = 0; i < L; i++) { chain.push(addAtom(m, 'C')); if (i) addBond(m, chain[i - 1], chain[i], 1); }
+  const cap = new Array(L).fill(0);
+  for (const len of lens) {
+    if (L < 3) break;
+    const opts = []; for (let p = 1; p <= L - 2; p++) if (cap[p] < (level >= 3 ? 2 : 1)) opts.push(p);
+    if (!opts.length) { // no room: extend chain instead
+      const last = chain[chain.length - 1]; for (let k = 0; k < len; k++) { const c = addAtom(m, 'C'); addBond(m, chain[chain.length - 1], c, 1); chain.push(c); cap.push(0); }
+      continue;
+    }
+    const p = pick(opts); cap[p]++;
+    let prev = chain[p];
+    for (let k = 0; k < len; k++) { const c = addAtom(m, 'C'); addBond(m, prev, c, 1); prev = c; }
+  }
+  return m;
+}
+
+const freeVal = (m, adj, i) => VAL[m.atoms[i].el] - usedVal(adj, i);
+function attach(m, i, el, o) { const id = addAtom(m, el); addBond(m, i, id, o || 1); return id; }
+
+function buildTopic(topic, level) {
+  const range = level === 1 ? [3, 5] : level === 2 ? [4, 7] : [5, 8];
+  const nC = range[0] + ri(range[1] - range[0] + 1);
+  const m0 = topic === 'ester' ? null : genSkeleton(nC, level, topic !== 'alkyne' || level > 1);
+  let m, adj;
+  switch (topic) {
+    case 'alkane': return m0;
+    case 'alkene': case 'alkyne': {
+      m = m0; adj = adjOf(m);
+      const need = topic === 'alkene' ? 1 : 2;
+      const cands = m.bonds.filter(b => b.o === 1 && freeVal(m, adj, b.a) >= need && freeVal(m, adj, b.b) >= need);
+      if (!cands.length) return null;
+      pick(cands).o = need === 1 ? 2 : 3; return m;
+    }
+    case 'haloalkane': {
+      m = m0; const cnt = level === 1 ? 1 : 1 + ri(level === 2 ? 2 : 3);
+      const hals = level === 1 ? ['Cl', 'Br'] : level === 2 ? ['Cl', 'Br', 'I'] : ['F', 'Cl', 'Br', 'I'];
+      let h = pick(hals);
+      for (let k = 0; k < cnt; k++) {
+        adj = adjOf(m);
+        const cs = m.atoms.map((a, i) => i).filter(i => m.atoms[i].el === 'C' && freeVal(m, adj, i) >= 1);
+        if (!cs.length) break;
+        if (k > 0 && R() > 0.6) h = pick(hals);
+        attach(m, pick(cs), h, 1);
+      }
+      return m;
+    }
+    case 'alcohol': {
+      m = m0; const cnt = (level === 3 && R() < 0.25) ? 2 : 1; const used = new Set();
+      for (let k = 0; k < cnt; k++) {
+        adj = adjOf(m);
+        const cs = m.atoms.map((a, i) => i).filter(i => m.atoms[i].el === 'C' && freeVal(m, adj, i) >= 1 && !used.has(i));
+        if (!cs.length) break;
+        const c = pick(cs); used.add(c); attach(m, c, 'O', 1);
+      }
+      return m;
+    }
+    case 'carbonyl': {
+      m = m0; adj = adjOf(m);
+      const ald = R() < 0.5;
+      const cs = m.atoms.map((a, i) => i).filter(i => adj[i].length === (ald ? 1 : 2) && adj[i].every(x => m.atoms[x.n].el === 'C'));
+      if (!cs.length) return null;
+      attach(m, pick(cs), 'O', 2); return m;
+    }
+    case 'ester': {
+      const aMax = level === 1 ? 3 : level === 2 ? 4 : 5, bMax = level === 1 ? 2 : level === 2 ? 3 : 4;
+      const a = 2 + ri(aMax - 1), b = 1 + ri(bMax);
+      const A = genSkeleton(a, Math.min(level, 2), level > 1), B = genSkeleton(b, Math.min(level, 2), level > 1 && b >= 4);
+      const adjA = adjOf(A);
+      const leaves = A.atoms.map((x, i) => i).filter(i => adjA[i].length === 1);
+      const carb = pick(leaves);
+      const m2 = cloneMol(A);
+      attach(m2, carb, 'O', 2);
+      const eo = attach(m2, carb, 'O', 1);
+      const adjB = adjOf(B); const bc = pick(B.atoms.map((x, i) => i).filter(i => freeVal(B, adjB, i) >= 1));
+      const off = m2.atoms.length;
+      B.atoms.forEach(x => addAtom(m2, x.el));
+      B.bonds.forEach(x => addBond(m2, x.a + off, x.b + off, x.o));
+      addBond(m2, eo, bc + off, 1);
+      return m2;
+    }
+  }
+  return null;
+}
+// acid separately (clean implementation)
+function buildAcid(level) {
+  const range = level === 1 ? [3, 5] : level === 2 ? [4, 7] : [5, 8];
+  const nC = range[0] + ri(range[1] - range[0] + 1);
+  const m = genSkeleton(nC, level, true); const adj = adjOf(m);
+  const leaf = pick(m.atoms.map((x, i) => i).filter(i => adj[i].length === 1));
+  attach(m, leaf, 'O', 2); attach(m, leaf, 'O', 1);
+  return m;
+}
+
+function randomMolecule(topic, level) {
+  for (let t = 0; t < 400; t++) {
+    const m = topic === 'acid' ? buildAcid(level) : buildTopic(topic, level);
+    if (!m || !isValid(m) || m.atoms.length < 3 || hasStereoDB(m)) continue;
+    if (m.atoms.length > (level === 1 ? 8 : level === 2 ? 11 : 13)) continue;
+    const sk = layoutSkeletal(m), dp = layoutDisplayed(m);
+    if (!sk || !dp) continue;
+    return { mol: m, sk, dp };
+  }
+  return null;
+}
+
+/* ---------------- distractors ---------------- */
+function compact(m, removed) {
+  const map = new Map(); const out = newMol();
+  m.atoms.forEach((a, i) => { if (!removed.has(i)) map.set(i, addAtom(out, a.el)); });
+  m.bonds.forEach(b => { if (map.has(b.a) && map.has(b.b)) addBond(out, map.get(b.a), map.get(b.b), b.o); });
+  return out;
+}
+function mutants(m) {
+  const out = []; const adj = adjOf(m); const n = m.atoms.length; const el = i => m.atoms[i].el;
+  const isC = i => el(i) === 'C';
+  // extend a chain end / grow a methyl
+  for (let i = 0; i < n; i++) if (isC(i) && freeVal(m, adj, i) >= 1) { const c = cloneMol(m); attach(c, i, 'C', 1); out.push(c); }
+  // shorten (remove leaf carbon)
+  for (let i = 0; i < n; i++) if (isC(i) && adj[i].length === 1 && adj[i][0].o === 1 && n > 3) out.push(compact(m, new Set([i])));
+  // move a leaf substituent
+  for (let l = 0; l < n; l++) {
+    if (adj[l].length !== 1) continue;
+    const p = adj[l][0].n, o = adj[l][0].o;
+    for (let t = 0; t < n; t++) {
+      if (t === p || t === l || !isC(t) || freeVal(m, adj, t) < o) continue;
+      const c = cloneMol(m);
+      const b = c.bonds.find(x => (x.a === l && x.b === p) || (x.a === p && x.b === l));
+      b.a = t; b.b = l; out.push(c);
+    }
+  }
+  // change bond order
+  m.bonds.forEach((b, bi) => {
+    if (!isC(b.a) || !isC(b.b)) return;
+    for (const o2 of [1, 2, 3]) {
+      if (o2 === b.o) continue;
+      const d = o2 - b.o;
+      if (d > 0 && (freeVal(m, adj, b.a) < d || freeVal(m, adj, b.b) < d)) continue;
+      const c = cloneMol(m); c.bonds[bi].o = o2; out.push(c);
+    }
+  });
+  // swap a hetero leaf
+  for (let l = 0; l < n; l++) {
+    if (adj[l].length !== 1 || isC(l) || adj[l][0].o !== 1) continue;
+    for (const e of ['O', 'Cl', 'Br', 'F', 'I']) if (e !== el(l)) { const c = cloneMol(m); c.atoms[l].el = e; out.push(c); }
+  }
+  // carbonyl O <-> OH on same carbon pattern: turn =O into -OH (and back)
+  for (let l = 0; l < n; l++) if (el(l) === 'O' && adj[l].length === 1) {
+    const p = adj[l][0].n;
+    if (adj[l][0].o === 2 && isC(p)) { const c = cloneMol(m); c.bonds.find(b => (b.a === l && b.b === p) || (b.a === p && b.b === l)).o = 1; out.push(c); }
+  }
+  return out;
+}
+function sensible(m) {
+  const adj = adjOf(m), el = i => m.atoms[i].el;
+  for (let i = 0; i < m.atoms.length; i++) {
+    if (el(i) !== 'C') continue;
+    const multi = adj[i].some(x => x.o > 1 && el(x.n) === 'C');
+    const hetero = adj[i].filter(x => el(x.n) !== 'C' && adj[x.n].length === 1);
+    if (multi && hetero.length) return false;
+    const hasEq = hetero.some(x => x.o === 2);
+    if (hasEq && hetero.some(x => HAL.has(el(x.n)))) return false;
+    if (hetero.filter(x => el(x.n) === 'O' && x.o === 1).length > 1) return false;
+    if (hasEq && adj[i].some(x => el(x.n) === 'C' && x.o > 1)) return false;
+  }
+  return true;
+}
+function distractors(m, count, preferIsomers) {
+  const base = canon(m), fc = formulaCounts(m);
+  const seen = new Set([base]); const pool = [];
+  for (const c of shuffle(mutants(m))) {
+    if (!isValid(c) || c.atoms.length < 3 || c.atoms.length > 14 || hasStereoDB(c) || !sensible(c)) continue;
+    const k = canon(c); if (seen.has(k)) continue;
+    seen.add(k); pool.push(c);
+  }
+  if (preferIsomers) pool.sort((a, b) => (sameCounts(formulaCounts(a), fc) ? 0 : 1) - (sameCounts(formulaCounts(b), fc) ? 0 : 1));
+  const res = [];
+  for (const c of pool) {
+    const sk = layoutSkeletal(c), dp = layoutDisplayed(c);
+    if (!sk || !dp) continue;
+    res.push({ mol: c, sk, dp });
+    if (res.length === count) break;
+  }
+  return res;
+}
+
+/* ---------------- skeletal layout ---------------- */
+function okLayout(P, adj) {
+  const n = P.length;
+  const isBond = (i, j) => adj[i].some(x => x.n === j);
+  for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+    const d = Math.hypot(P[i].x - P[j].x, P[i].y - P[j].y);
+    if (isBond(i, j) ? d < 0.9 : d < 1.2) return false;
+  }
+  for (let a = 0; a < n; a++) for (const { n: b } of adj[a]) if (b > a) {
+    const ax = P[a].x, ay = P[a].y, bx = P[b].x, by = P[b].y, dx = bx - ax, dy = by - ay, L2 = dx * dx + dy * dy;
+    for (let k = 0; k < n; k++) {
+      if (k === a || k === b) continue;
+      let t = ((P[k].x - ax) * dx + (P[k].y - ay) * dy) / L2; t = Math.max(0, Math.min(1, t));
+      if (Math.hypot(P[k].x - (ax + t * dx), P[k].y - (ay + t * dy)) < 0.6) return false;
+    }
+  }
+  return true;
+}
+function layoutSkeletal(m) {
+  const adj = adjOf(m), n = m.atoms.length; const ends = diameterEnds(adj);
+  const rad = d => d * Math.PI / 180;
+  for (let attempt = 0; attempt < 250; attempt++) {
+    const root = pick(ends); const { par, h } = rootInfo(adj, root);
+    const pos = new Array(n); pos[root] = { x: 0, y: 0 };
+    const th0 = pick([30, -30, 150, -150]);
+    const s0 = { 30: 60, '-30': -60, 150: -60, '-150': 60 }[th0];
+    const place = (a, p, th, t) => {
+      pos[a] = { x: pos[p].x + Math.cos(rad(th)), y: pos[p].y - Math.sin(rad(th)) };
+      const kids = shuffle(adj[a].filter(x => x.n !== p)).sort((x, y) => h[y.n] - h[x.n]);
+      if (!kids.length) return;
+      const lin = adj[a].some(x => x.o === 3);
+      if (lin) { place(kids[0].n, a, th, t); return; }
+      const rs = () => (R() < 0.5 ? 60 : -60);
+      if (kids.length === 1) place(kids[0].n, a, th - t, -t);
+      else if (kids.length === 2) { place(kids[0].n, a, th - t, -t); place(kids[1].n, a, th + t, rs()); }
+      else {
+        const ds = [th, th + 90, th - 90]; const order = shuffle([0, 1, 2]);
+        kids.forEach((k, idx) => place(k.n, a, ds[order[idx]] || th, rs()));
+      }
+    };
+    place(adj[root][0].n, root, th0, s0);
+    for (const x of adj[root].slice(1)) place(x.n, root, th0 + 120, 60);
+    if (!okLayout(pos, adj)) continue;
+    const fx = R() < 0.5 ? -1 : 1, fy = R() < 0.5 ? -1 : 1;
+    return { pos: pos.map(p => ({ x: p.x * fx, y: p.y * fy })) };
+  }
+  return null;
+}
+
+/* ---------------- displayed (full structural) layout ---------------- */
+const DX = [1, 0, -1, 0], DY = [0, -1, 0, 1]; // E N W S
+function layoutDisplayed(m) {
+  const adj = adjOf(m), n = m.atoms.length, el = i => m.atoms[i].el;
+  const hc = m.atoms.map((_, i) => VAL[el(i)] - usedVal(adj, i));
+  const ends = diameterEnds(adj);
+  for (let attempt = 0; attempt < 400; attempt++) {
+    const root = pick(ends); const { par, h } = rootInfo(adj, root);
+    const pos = new Array(n), dirTo = new Array(n).fill(0);
+    const occ = new Map(); const key = (x, y) => x + ',' + y;
+    const put = (i, x, y) => { pos[i] = { x, y }; occ.set(key(x, y), i); };
+    put(root, 0, 0);
+    let fail = false;
+    const rec = a => {
+      if (fail) return;
+      const p = par[a];
+      const kids = shuffle(adj[a].filter(x => x.n !== p)).sort((x, y) => h[y.n] - h[x.n]);
+      if (!kids.length) return;
+      const din = p >= 0 ? dirTo[a] : 0;
+      const back = p >= 0 ? (din + 2) % 4 : -1;
+      const lin = adj[a].some(x => x.o === 3);
+      const used = new Set(); if (back >= 0) used.add(back);
+      const perps = shuffle([(din + 1) % 4, (din + 3) % 4]);
+      const assigned = [];
+      kids.forEach((k, idx) => {
+        if (fail) return;
+        let prefs;
+        if (lin) prefs = [din];
+        else if (idx === 0) prefs = attempt > 40 && R() < 0.3 ? shuffle([din, ...perps]) : [din, ...perps];
+        else prefs = [...shuffle(perps), din, (din + 2) % 4];
+        let ok = false;
+        for (const d of prefs) {
+          if (used.has(d)) continue;
+          const x = pos[a].x + DX[d], y = pos[a].y + DY[d];
+          if (occ.has(key(x, y))) continue;
+          used.add(d); dirTo[k.n] = d; put(k.n, x, y); assigned.push(k.n); ok = true; break;
+        }
+        if (!ok) fail = true;
+      });
+      assigned.forEach(rec);
+    };
+    rec(root);
+    if (fail) continue;
+    const hs = [];
+    const allowDiag = attempt >= 300;
+    const dirOf = (a, b) => { const dx = pos[b].x - pos[a].x, dy = pos[b].y - pos[a].y; for (let d = 0; d < 4; d++) if (DX[d] === dx && DY[d] === dy) return d; return -1; };
+    const placed = () => { const arr = pos.slice(); hs.forEach(h => arr.push(h)); return arr; };
+    const freeAt = (x, y) => { for (const q of placed()) if (Math.hypot(q.x - x, q.y - y) < 0.72) return false; return true; };
+    for (let a = 0; a < n && !fail; a++) {
+      const need = hc[a]; if (need <= 0) continue;
+      const usedD = new Set(adj[a].map(x => dirOf(a, x.n)));
+      let cand = [0, 1, 2, 3].filter(d => !usedD.has(d) && freeAt(pos[a].x + DX[d], pos[a].y + DY[d])).map(d => ({ dx: DX[d], dy: DY[d], d }));
+      const tri = adj[a].find(x => x.o === 3);
+      if (tri) cand = cand.filter(c => c.d === (dirOf(a, tri.n) + 2) % 4);
+      const first = adj[a].length ? dirOf(a, adj[a][0].n) : 0;
+      const straight = (first + 2) % 4;
+      let ordered;
+      if (el(a) === 'C') ordered = [...shuffle(cand.filter(c => c.d !== straight)), ...cand.filter(c => c.d === straight)];
+      else ordered = [...cand.filter(c => c.d === straight), ...shuffle(cand.filter(c => c.d !== straight))];
+      if (el(a) === 'C') ordered.sort((c1, c2) => ((c1.d % 2 === 1) ? 0 : 1) - ((c2.d % 2 === 1) ? 0 : 1));
+      if (ordered.length < need && allowDiag && !tri) {
+        const dg = [[.72, .72], [.72, -.72], [-.72, .72], [-.72, -.72]].filter(v => freeAt(pos[a].x + v[0], pos[a].y + v[1]));
+        // keep diagonal hydrogens clear of the atom's own heavy-neighbour bonds
+        dg.forEach(v => ordered.push({ dx: v[0], dy: v[1], d: -1 }));
+      }
+      if (ordered.length < need) { fail = true; break; }
+      let got = 0;
+      for (const c of ordered) {
+        if (got >= need) break;
+        const x = pos[a].x + c.dx, y = pos[a].y + c.dy;
+        if (!freeAt(x, y)) continue;
+        hs.push({ g: a, x, y }); got++;
+      }
+      if (got < need) fail = true;
+    }
+    if (fail) continue;
+    return { pos, hs };
+  }
+  return null;
+}
+
+/* ---------------- SVG rendering ---------------- */
+const f1 = v => Math.round(v * 10) / 10;
+function bondLines(p1, p2, order, r1, r2, gap) {
+  const dx = p2.x - p1.x, dy = p2.y - p1.y, L = Math.hypot(dx, dy), ux = dx / L, uy = dy / L, nx = -uy, ny = ux;
+  const sx = p1.x + ux * r1, sy = p1.y + uy * r1, ex = p2.x - ux * r2, ey = p2.y - uy * r2;
+  const offs = order === 1 ? [0] : order === 2 ? [-gap / 2, gap / 2] : [-gap, 0, gap];
+  return offs.map(o => `<line x1="${f1(sx + nx * o)}" y1="${f1(sy + ny * o)}" x2="${f1(ex + nx * o)}" y2="${f1(ey + ny * o)}"/>`).join('');
+}
+const SUB = c => `<tspan class="sub" dy="0.28em" font-size="0.72em">${c}</tspan>`;
+
+function svgSkeletal(m, lay, o) {
+  o = o || {};
+  const U = o.unit || 44, adj = adjOf(m), P = lay.pos, n = m.atoms.length, fs = Math.round(U * 0.42);
+  let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
+  P.forEach((p, i) => {
+    const lab = m.atoms[i].el !== 'C' ? 0.6 : 0.12;
+    minx = Math.min(minx, p.x - lab); maxx = Math.max(maxx, p.x + lab); miny = Math.min(miny, p.y - lab); maxy = Math.max(maxy, p.y + lab);
+  });
+  const padU = o.annotate ? 0.9 : 0.35;
+  const W = Math.max((maxx - minx + 2 * padU) * U, 96), H = Math.max((maxy - miny + 2 * padU) * U, 72);
+  const ox = (W - (maxx - minx) * U) / 2 - minx * U, oy = (H - (maxy - miny) * U) / 2 - miny * U;
+  const Q = P.map(p => ({ x: p.x * U + ox, y: p.y * U + oy }));
+  const lab = i => m.atoms[i].el !== 'C';
+  let hits = '', bonds = '', labels = '', dots = '', ann = '';
+  for (let i = 0; i < n; i++) hits += `<circle class="hit" data-g="${i}" cx="${f1(Q[i].x)}" cy="${f1(Q[i].y)}" r="${f1(U * 0.3)}"/>`;
+  if (o.dots) for (let i = 0; i < n; i++) if (!lab(i)) dots += `<circle class="vtx" cx="${f1(Q[i].x)}" cy="${f1(Q[i].y)}" r="2.6"/>`;
+  const gap = U * (o.gap || 0.17);
+  for (const b of m.bonds) bonds += bondLines(Q[b.a], Q[b.b], b.o, lab(b.a) ? U * 0.27 : 0, lab(b.b) ? U * 0.27 : 0, b.o === 3 ? gap * 0.9 : gap);
+  for (let i = 0; i < n; i++) {
+    if (!lab(i)) continue;
+    const e = m.atoms[i].el, h = hOf(m, adj, i);
+    let extra = '', side = 1;
+    if (h > 0) {
+      const nb = adj[i][0] ? adj[i][0].n : -1;
+      side = nb >= 0 && Q[nb].x > Q[i].x + 4 ? -1 : 1;
+      extra = 'H' + (h > 1 ? SUB(h) : '');
+    }
+    labels += `<text class="lbl e-${e}" x="${f1(Q[i].x)}" y="${f1(Q[i].y)}" text-anchor="middle" dominant-baseline="central" font-size="${fs}">${e}</text>`;
+    if (extra) labels += `<text class="lbl e-${e}" x="${f1(Q[i].x + side * fs * 0.42)}" y="${f1(Q[i].y)}" text-anchor="${side > 0 ? 'start' : 'end'}" dominant-baseline="central" font-size="${fs}">${extra}</text>`;
+  }
+  if (o.annotate) {
+    for (let i = 0; i < n; i++) {
+      if (lab(i)) continue;
+      const h = hOf(m, adj, i); let vx = 0, vy = 0;
+      adj[i].forEach(x => { const dx = Q[x.n].x - Q[i].x, dy = Q[x.n].y - Q[i].y, L = Math.hypot(dx, dy); vx -= dx / L; vy -= dy / L; });
+      let L = Math.hypot(vx, vy); if (L < 0.2) { vx = 0; vy = -1; L = 1; }
+      const tx = Q[i].x + vx / L * U * 0.5, ty = Q[i].y + vy / L * U * 0.5;
+      ann += `<text class="ann" x="${f1(tx)}" y="${f1(ty)}" text-anchor="middle" dominant-baseline="central" font-size="${Math.round(U * 0.27)}">C${h ? 'H' + (h > 1 ? SUB(h) : '') : ''}</text>`;
+    }
+  }
+  return `<svg class="mol sk" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${f1(W)} ${f1(H)}" width="${f1(W)}" height="${f1(H)}" role="img" aria-label="${esc(o.label || 'Skeletal formula')}"><g class="hits">${hits}</g><g class="bonds">${bonds}</g>${dots ? `<g class="vtxs">${dots}</g>` : ''}<g class="labels">${labels}</g>${ann ? `<g class="anns">${ann}</g>` : ''}</svg>`;
+}
+
+function svgDisplayed(m, lay, o) {
+  o = o || {};
+  const U = o.unit || 40, adj = adjOf(m), P = lay.pos, n = m.atoms.length, fs = Math.round(U * 0.44);
+  const all = P.map((p, i) => ({ x: p.x, y: p.y, el: m.atoms[i].el, g: i })).concat(lay.hs.map(h => ({ x: h.x, y: h.y, el: 'H', g: h.g })));
+  let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
+  all.forEach(p => { minx = Math.min(minx, p.x); maxx = Math.max(maxx, p.x); miny = Math.min(miny, p.y); maxy = Math.max(maxy, p.y); });
+  const pad = 0.75;
+  const W = (maxx - minx + 2 * pad) * U, H = (maxy - miny + 2 * pad) * U;
+  const Q = a => ({ x: (a.x - minx + pad) * U, y: (a.y - miny + pad) * U });
+  let hits = '', bonds = '', labels = '';
+  const r = U * 0.27, gap = U * 0.13;
+  all.forEach(a => { const q = Q(a); hits += `<circle class="hit" data-g="${a.g}" cx="${f1(q.x)}" cy="${f1(q.y)}" r="${f1(U * 0.32)}"/>`; labels += `<text class="lbl e-${a.el}" x="${f1(q.x)}" y="${f1(q.y)}" text-anchor="middle" dominant-baseline="central" font-size="${fs}">${a.el}</text>`; });
+  for (const b of m.bonds) bonds += bondLines(Q(P[b.a]), Q(P[b.b]), b.o, r, r, b.o === 3 ? gap * 0.95 : gap);
+  for (const h of lay.hs) bonds += bondLines(Q(P[h.g]), Q(h), 1, r, r, 0);
+  return `<svg class="mol dp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${f1(W)} ${f1(H)}" width="${f1(W)}" height="${f1(H)}" role="img" aria-label="${esc(o.label || 'Displayed formula')}"><g class="hits">${hits}</g><g class="bonds">${bonds}</g><g class="labels">${labels}</g></svg>`;
+}
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+function condensedHTML(tokens) {
+  return tokens.map(t => {
+    const inner = esc(t.t).replace(/(\d+)/g, '<sub>$1</sub>');
+    return (t.ids.length ? `<span class="tk" data-g="${t.ids.join(' ')}">${inner}</span>` : `<span class="pl">${inner}</span>`) + '<wbr>';
+  }).join('');
+}
+
+/* ---------------- questions ---------------- */
+const FORMS = { condensed: 'Condensed formula', skeletal: 'Skeletal formula', displayed: 'Displayed formula' };
+const CONVERSIONS = [
+  { id: 'cond-skel', from: 'condensed', to: 'skeletal' },
+  { id: 'skel-cond', from: 'skeletal', to: 'condensed' },
+  { id: 'disp-skel', from: 'displayed', to: 'skeletal' },
+  { id: 'skel-disp', from: 'skeletal', to: 'displayed' },
+  { id: 'cond-disp', from: 'condensed', to: 'displayed' },
+  { id: 'disp-cond', from: 'displayed', to: 'condensed' },
+  { id: 'formula', from: null, to: 'formula' }
+];
+
+function makeItem(shape) { return { mol: shape.mol, sk: shape.sk, dp: shape.dp, cond: condensed(shape.mol) }; }
+
+function makeQuestion(settings) {
+  const topics = settings.topics.length ? settings.topics : TOPICS;
+  const convs = CONVERSIONS.filter(c => settings.conversions.includes(c.id));
+  const level = settings.level || 1;
+  for (let guard = 0; guard < 30; guard++) {
+    const conv = pick(convs.length ? convs : CONVERSIONS.slice(0, 6));
+    const topic = pick(topics);
+    const base = randomMolecule(topic, level); if (!base) continue;
+    const item = makeItem(base);
+    if (conv.id === 'formula') {
+      const from = pick(['condensed', 'skeletal', 'displayed']);
+      return { kind: 'input', conv, from, item, topic, level };
+    }
+    const ds = distractors(base.mol, 3, level >= 2 && R() < 0.6);
+    if (ds.length < 3) continue;
+    const opts = shuffle([{ ...item, correct: true }, ...ds.map(d => ({ ...makeItem(d), correct: false }))]);
+    const cstrs = opts.map(o => o.cond.str);
+    if (new Set(cstrs).size < 4) continue;
+    return { kind: 'mcq', conv, from: conv.from, to: conv.to, item, options: opts, topic, level };
+  }
+  return null;
+}
+
+function diagnose(chosen, correct) {
+  const a = formulaCounts(chosen), b = formulaCounts(correct);
+  const fh = c => formulaString(c).replace(/(\d+)/g, '<sub>$1</sub>');
+  if (sameCounts(a, b)) return 'That molecule has the same molecular formula (' + fh(b) + '), so it is an isomer. Check where the branch or functional group sits.';
+  const parts = [];
+  const cc = (a.C || 0) - (b.C || 0);
+  if (cc) parts.push(`${Math.abs(cc)} ${cc > 0 ? 'more' : 'fewer'} carbon${Math.abs(cc) > 1 ? 's' : ''}`);
+  const hh = (a.H || 0) - (b.H || 0);
+  if (hh) parts.push(`${Math.abs(hh)} ${hh > 0 ? 'more' : 'fewer'} hydrogen${Math.abs(hh) > 1 ? 's' : ''}`);
+  for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) if (k !== 'C' && k !== 'H') { const d = (a[k] || 0) - (b[k] || 0); if (d) parts.push(`${d > 0 ? 'an extra' : 'no'} ${k}${d > 0 && d > 1 ? ' (×' + d + ')' : ''}`); }
+  return 'Your choice is ' + fh(a) + ' but the molecule in the question is ' + fh(b) + (parts.length ? ' (' + parts.join(', ') + ')' : '') + '.';
+}
+
+const API = { setRng, ri, pick, shuffle, VAL, TOPICS, FORMS, CONVERSIONS, newMol, addAtom, addBond, cloneMol, adjOf, hOf, fromSMILES, isValid, canon, formulaCounts,
+  formulaString, parseFormula, sameCounts, classify, condensed, condensedHTML, layoutSkeletal, layoutDisplayed, svgSkeletal, svgDisplayed,
+  randomMolecule, distractors, mutants, makeQuestion, makeItem, diagnose, hasStereoDB, usedVal };
+if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.Chem = API;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+'use strict';
+const C = window.Chem;
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const root = document.documentElement;
+
+/* ---------- device adaptation ---------- */
+let SCALE = 1;
+function detectDevice() {
+  const coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  const w = coarse ? Math.min(window.innerWidth || 1024, (window.screen && screen.width) || 9999) : (window.innerWidth || 1024);
+  const device = w < 600 ? 'phone' : (coarse && w < 1100) ? 'tablet' : 'desktop';
+  root.setAttribute('data-device', device);
+  root.setAttribute('data-input', coarse || device === 'phone' ? 'touch' : 'pointer');
+  SCALE = device === 'tablet' ? 1.15 : 1;
+}
+detectDevice();
+let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(detectDevice, 150); });
+
+const CONV_LABEL = { 'cond-skel': 'Condensed → Skeletal', 'skel-cond': 'Skeletal → Condensed', 'disp-skel': 'Displayed → Skeletal', 'skel-disp': 'Skeletal → Displayed', 'cond-disp': 'Condensed → Displayed', 'disp-cond': 'Displayed → Condensed', 'formula': 'Molecular formula' };
+const TOPIC_LABEL = { alkane: 'Alkanes', alkene: 'Alkenes', alkyne: 'Alkynes', haloalkane: 'Haloalkanes', alcohol: 'Alcohols', carbonyl: 'Aldehydes & ketones', acid: 'Carboxylic acids', ester: 'Esters' };
+const LEVELS = { 1: ['Level 1', 'Short chains of 3 to 5 carbons, mostly unbranched.'], 2: ['Level 2', 'Chains of 4 to 7 carbons with branches. Wrong options are often isomers.'], 3: ['Level 3', 'Up to 8 carbons, several branches, halogens and two-group molecules.'] };
+const FORM_NAME = { condensed: 'Condensed', skeletal: 'Skeletal', displayed: 'Displayed' };
+const FORMS3 = ['condensed', 'skeletal', 'displayed'];
+const TIPS = {
+  skeletal: 'Every corner and line end is a carbon. Hydrogens on carbon are left out, and only other atoms are labelled.',
+  condensed: 'Give every carbon enough hydrogens to make four bonds, then write the carbons in order and put branches in brackets.',
+  displayed: 'Draw every atom and every bond. Each carbon has four bonds, so write out each C–H bond.',
+  formula: 'Count the carbons (corners and ends in a skeletal formula), then the hydrogens needed to give each carbon four bonds.'
+};
+const PROMPT = { condensed: 'Write the condensed formula on paper first.', skeletal: 'Draw the skeletal formula on paper first.', displayed: 'Draw the displayed formula on paper first.' };
+
+/* ---------- saved state (per viewer, best effort) ---------- */
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem('formula-switch.v1') || 'null'); } catch (e) { return null; } },
+  set(v) { try { localStorage.setItem('formula-switch.v1', JSON.stringify(v)); } catch (e) {} }
+};
+const saved = store.get() || {};
+const settings = Object.assign({ conversions: Object.keys(CONV_LABEL), topics: C.TOPICS.slice(), level: 1 }, saved.settings || {});
+settings.conversions = settings.conversions.filter(c => c in CONV_LABEL); if (!settings.conversions.length) settings.conversions = Object.keys(CONV_LABEL);
+settings.topics = settings.topics.filter(t => C.TOPICS.includes(t)); if (!settings.topics.length) settings.topics = C.TOPICS.slice();
+const stats = Object.assign({ total: 0, correct: 0, streak: 0, best: 0, by: {} }, saved.stats || {});
+let introSeen = !!saved.introSeen;
+const persist = () => store.set({ settings, stats, introSeen });
+
+function announce(msg) { const s = $('#sr'); s.textContent = ''; setTimeout(() => { s.textContent = msg; }, 30); }
+const plain = html => { const d = document.createElement('div'); d.innerHTML = html; return d.textContent; };
+
+/* intro: open on the first visit, remember when closed */
+const intro = $('#intro'); intro.open = !introSeen;
+intro.addEventListener('toggle', () => { if (!intro.open && !introSeen) { introSeen = true; persist(); } });
+
+/* ---------- linked highlighting ---------- */
+function link(container) {
+  const clear = () => $$('.on', container).forEach(e => e.classList.remove('on'));
+  const on = e => {
+    const t = e.target.closest && e.target.closest('[data-g]');
+    clear(); if (!t || !container.contains(t)) return;
+    t.getAttribute('data-g').split(' ').forEach(g => $$('[data-g~="' + g + '"]', container).forEach(el => el.classList.add('on')));
+  };
+  container.addEventListener('pointerover', on);
+  container.addEventListener('pointerdown', on);
+  container.addEventListener('pointerleave', clear);
+}
+
+/* ---------- drawing helpers ---------- */
+function formHTML(form, item, o) {
+  o = o || {};
+  if (form === 'condensed') return '<div class="cond" role="img" aria-label="Condensed formula ' + item.cond.str + '">' + C.condensedHTML(item.cond.tokens) + '</div>';
+  const base = form === 'skeletal' ? 44 : 40;
+  const unit = Math.round((o.unit || base) * (o.noScale ? 1 : SCALE));
+  return form === 'skeletal'
+    ? C.svgSkeletal(item.mol, item.sk, Object.assign({ label: 'Skeletal formula drawing' }, o, { unit }))
+    : C.svgDisplayed(item.mol, item.dp, Object.assign({ label: 'Displayed formula drawing' }, o, { unit }));
+}
+
+/* ---------- practice ---------- */
+let cur = null, answered = false, qNo = 0;
+const qcard = $('#qcard');
+
+function stemFor(q) {
+  if (q.kind === 'input') return 'Write the molecular formula of this molecule.';
+  const to = { skeletal: 'skeletal formula', condensed: 'condensed formula', displayed: 'displayed formula' }[q.to];
+  return 'Which ' + to + ' shows the same molecule as this ' + q.from + ' formula?';
+}
+
+function nextQuestion(moveFocus) {
+  const q = C.makeQuestion(settings);
+  if (!q) { qcard.innerHTML = '<p>Could not build a question with these settings. Try selecting more families or conversions.</p>'; return; }
+  cur = q; answered = false; qNo++;
+  const badge = q.kind === 'input' ? FORM_NAME[q.from] + ' → Molecular formula' : CONV_LABEL[q.conv.id];
+  let h = '<div class="qhead"><span class="badge">' + badge + '</span><span class="qn">Question ' + qNo + '</span></div>';
+  h += '<h2 class="stem" id="stem" tabindex="-1">' + stemFor(q) + '</h2>';
+  h += '<div class="given paper" id="given">' + formHTML(q.from, q.item) + '</div>';
+  if (q.kind === 'mcq') {
+    h += '<div class="opts" role="group" aria-label="Answer options">';
+    q.options.forEach((o, i) => {
+      const nm = q.to === 'condensed' ? 'Option ' + 'ABCD'[i] + ': ' + o.cond.str : 'Option ' + 'ABCD'[i] + ': ' + q.to + ' formula drawing';
+      h += '<button class="opt" data-i="' + i + '" aria-label="' + nm + '"><span class="key" aria-hidden="true">' + 'ABCD'[i] + '</span><span class="mark" aria-hidden="true"></span><div class="opt-body" aria-hidden="true">' + formHTML(q.to, o, { unit: q.to === 'skeletal' ? 40 : 38 }) + '</div></button>';
+    });
+    h += '</div>';
+  } else {
+    h += '<form class="answer" id="ans" autocomplete="off"><label class="hint" for="ans-in">Type it with capital letters and numbers, for example C4H10O.</label><input id="ans-in" type="text" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="C4H10O"><button class="btn" type="submit">Check answer</button></form>';
+  }
+  h += '<div id="fb"></div>';
+  h += '<div class="nextrow"><span class="hint kbd-hint">' + (q.kind === 'mcq' ? 'Keyboard: <kbd>A</kbd> to <kbd>D</kbd> to answer, <kbd>Enter</kbd> for next.' : '') + '</span><button class="btn" id="next" hidden>Next question</button></div>';
+  qcard.innerHTML = h;
+  link($('#given'));
+  $$('.opt', qcard).forEach(b => b.addEventListener('click', () => choose(+b.dataset.i)));
+  const f = $('#ans');
+  if (f) f.addEventListener('submit', e => { e.preventDefault(); checkInput(); });
+  $('#next').addEventListener('click', () => nextQuestion(true));
+  if (moveFocus) { $('#stem').focus(); announce('Question ' + qNo + '. ' + stemFor(q)); }
+}
+
+function record(ok, convId) {
+  stats.total++; if (ok) { stats.correct++; stats.streak++; stats.best = Math.max(stats.best, stats.streak); } else stats.streak = 0;
+  const b = stats.by[convId] || (stats.by[convId] = { n: 0, ok: 0 }); b.n++; if (ok) b.ok++;
+  persist(); renderStats();
+}
+
+function feedbackHTML(ok, extra) {
+  const it = cur.item, cls = C.classify(it.mol), fc = C.formulaCounts(it.mol);
+  let h = '<div class="feedback ' + (ok ? 'good' : 'bad') + '" id="fbbox" tabindex="-1">';
+  h += '<div class="fb-title">' + (ok ? '✓ Correct' : '✗ Not quite') + '</div>';
+  if (extra) h += '<p>' + extra + '</p>';
+  h += '<div class="three" id="fbthree">';
+  FORMS3.forEach(f => { h += '<div class="pane"><h4>' + FORM_NAME[f] + '</h4><div class="body">' + formHTML(f, it, { unit: f === 'skeletal' ? 38 : 34, noScale: true }) + '</div></div>'; });
+  h += '</div>';
+  h += '<div class="tags"><span class="tag">' + C.formulaString(fc).replace(/(\d+)/g, '<sub>$1</sub>') + '</span><span>' + cls.label + '</span></div>';
+  const toKey = cur.kind === 'input' ? 'formula' : cur.to;
+  h += '<p class="tip"><b>Tip.</b> ' + TIPS[toKey] + '</p></div>';
+  return h;
+}
+function showFeedback(html, spoken) {
+  $('#fb').innerHTML = html; link($('#fbthree'));
+  $('#next').hidden = false;
+  const fb = $('#fbbox'); if (fb) { fb.focus({ preventScroll: true }); if (fb.scrollIntoView) fb.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  announce(spoken + ' Press Next question to continue.');
+}
+
+function choose(i) {
+  if (answered || !cur || cur.kind !== 'mcq') return;
+  answered = true;
+  const opt = cur.options[i], ok = !!opt.correct;
+  $$('.opt', qcard).forEach((b, k) => {
+    b.setAttribute('aria-disabled', 'true');
+    const o = cur.options[k];
+    if (o.correct) { b.classList.add('right'); $('.mark', b).textContent = '✓ Correct'; }
+    else if (k === i) { b.classList.add('wrong'); $('.mark', b).textContent = '✗ Your answer'; }
+  });
+  record(ok, cur.conv.id);
+  const extra = ok ? '' : C.diagnose(opt.mol, cur.item.mol);
+  showFeedback(feedbackHTML(ok, extra), ok ? 'Correct.' : 'Not quite. ' + plain(extra) + ' The right answer was option ' + 'ABCD'[cur.options.findIndex(o => o.correct)] + '.');
+}
+
+function checkInput() {
+  if (answered) return;
+  const inp = $('#ans-in'); const v = inp.value.trim();
+  const parsed = C.parseFormula(v);
+  if (!parsed) { $('#fb').innerHTML = '<p role="alert" style="font-weight:600">Write it like C4H10O, using a capital letter for each element and numbers after it.</p>'; inp.focus(); return; }
+  answered = true;
+  const want = C.formulaCounts(cur.item.mol), ok = C.sameCounts(parsed, want);
+  inp.classList.add(ok ? 'right' : 'wrong'); inp.readOnly = true;
+  const parts = Object.keys(want).sort((a, b) => a === 'C' ? -1 : b === 'C' ? 1 : a === 'H' ? -1 : b === 'H' ? 1 : a < b ? -1 : 1).map(k => want[k] + ' ' + (k === 'C' ? 'carbon' : k === 'H' ? 'hydrogen' : k === 'O' ? 'oxygen' : k) + (want[k] > 1 && ['C', 'H', 'O'].includes(k) ? 's' : ''));
+  record(ok, 'formula');
+  const esc = v.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+  const extra = (ok ? '' : 'You wrote ' + esc + '. ') + 'This molecule has ' + parts.join(', ') + '.';
+  showFeedback(feedbackHTML(ok, extra), (ok ? 'Correct. ' : 'Not quite. ') + plain(extra));
+}
+
+document.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  if ($('#tab-practice').hidden) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA' || t.tagName === 'SUMMARY')) return;
+  const k = e.key.toLowerCase();
+  if (cur && cur.kind === 'mcq' && !answered && ['1', '2', '3', '4', 'a', 'b', 'c', 'd'].includes(k)) { choose('1234'.includes(k) ? +k - 1 : 'abcd'.indexOf(k)); e.preventDefault(); }
+  else if (k === 'enter' && answered && t.tagName !== 'BUTTON') { nextQuestion(true); e.preventDefault(); }
+});
+
+/* ---------- setup panel ---------- */
+function renderStats() {
+  $('#st-total').textContent = stats.total;
+  $('#st-acc').textContent = stats.total ? Math.round(100 * stats.correct / stats.total) + '%' : '–';
+  $('#st-streak').textContent = stats.streak; $('#st-best').textContent = stats.best;
+  $('#mastery').innerHTML = Object.keys(CONV_LABEL).map(id => {
+    const b = stats.by[id] || { n: 0, ok: 0 }, pct = b.n ? Math.round(100 * b.ok / b.n) : 0;
+    return '<div class="m-row"><span>' + CONV_LABEL[id] + '</span><span>' + (b.n ? b.ok + ' of ' + b.n + ' correct' : 'not tried yet') + '</span><div class="m-bar" aria-hidden="true"><i style="width:' + pct + '%"></i></div></div>';
+  }).join('');
+}
+function renderSetup() {
+  $('#conv-chips').innerHTML = Object.keys(CONV_LABEL).map(id => '<button class="chip" data-c="' + id + '" aria-pressed="' + settings.conversions.includes(id) + '">' + CONV_LABEL[id] + '</button>').join('');
+  $('#topic-chips').innerHTML = C.TOPICS.map(t => '<button class="chip" data-t="' + t + '" aria-pressed="' + settings.topics.includes(t) + '">' + TOPIC_LABEL[t] + '</button>').join('');
+  $('#level-seg').innerHTML = [1, 2, 3].map(l => '<button data-l="' + l + '" aria-pressed="' + (settings.level === l) + '">' + LEVELS[l][0] + '</button>').join('');
+  $('#level-hint').textContent = LEVELS[settings.level][1];
+  $('#setup-sum').textContent = LEVELS[settings.level][0] + ' · ' + settings.conversions.length + (settings.conversions.length === 1 ? ' conversion · ' : ' conversions · ') + settings.topics.length + (settings.topics.length === 1 ? ' family' : ' families');
+}
+function toggleIn(arr, v) { const i = arr.indexOf(v); if (i >= 0) { if (arr.length > 1) arr.splice(i, 1); else announce('Keep at least one selected.'); } else arr.push(v); }
+$('#setup').addEventListener('click', e => {
+  const c = e.target.closest('[data-c]'), t = e.target.closest('[data-t]'), l = e.target.closest('[data-l]');
+  if (!c && !t && !l) return;
+  const attr = c ? 'data-c' : t ? 'data-t' : 'data-l', val = (c || t || l).getAttribute(attr);
+  if (c) toggleIn(settings.conversions, c.dataset.c);
+  if (t) toggleIn(settings.topics, t.dataset.t);
+  if (l) settings.level = +l.dataset.l;
+  persist(); renderSetup(); nextQuestion(false);
+  const again = $('[' + attr + '="' + val + '"]', $('#setup')); if (again) again.focus();
+  announce('Settings changed. A new question is ready.');
+});
+$('#reset').addEventListener('click', () => {
+  stats.total = 0; stats.correct = 0; stats.streak = 0; stats.best = 0; stats.by = {}; persist(); renderStats(); announce('Scores reset.');
+});
+
+/* ---------- explore ---------- */
+const xTopic = $('#x-topic');
+xTopic.innerHTML = '<option value="any">Any family</option>' + C.TOPICS.map(t => '<option value="' + t + '">' + TOPIC_LABEL[t] + '</option>').join('');
+let xStart = 'skeletal', xItem = null, xAnn = false; const reveal = { condensed: false, skeletal: false, displayed: false };
+function resetReveal() { FORMS3.forEach(f => { reveal[f] = f === xStart; }); }
+function newMolecule() {
+  const topic = xTopic.value === 'any' ? C.pick(C.TOPICS) : xTopic.value;
+  const shape = C.randomMolecule(topic, +$('#x-level').value); if (!shape) return;
+  xItem = C.makeItem(shape); resetReveal(); renderExplore();
+  announce('New molecule. The ' + xStart + ' formula is shown. The other two are hidden.');
+}
+function renderExplore() {
+  $('#x-start').innerHTML = FORMS3.map(f => '<button data-start="' + f + '" aria-pressed="' + (xStart === f) + '">' + FORM_NAME[f] + '</button>').join('');
+  if (!xItem) return;
+  const it = xItem;
+  $('#x-three').innerHTML = FORMS3.map(f => {
+    const shown = reveal[f], isStart = f === xStart;
+    const head = FORM_NAME[f] + (isStart ? '<span class="given-tag">Given</span>' : shown ? '<button class="cover-btn" data-hide="' + f + '" aria-label="Hide the ' + f + ' formula">Hide</button>' : '');
+    const body = shown ? formHTML(f, it, f === 'skeletal' ? { unit: 50, dots: true, annotate: xAnn } : { unit: 40 })
+      : '<div class="cover"><p>' + PROMPT[f] + '</p><button class="btn" data-show="' + f + '">Show ' + f + ' formula</button></div>';
+    return '<div class="pane" data-f="' + f + '"><h4>' + head + '</h4><div class="body">' + body + '</div></div>';
+  }).join('');
+  const all = FORMS3.every(f => reveal[f]);
+  $('#x-all').textContent = all ? 'Hide answers again' : 'Show all answers';
+  if (all) { const cls = C.classify(it.mol), fc = C.formulaCounts(it.mol); $('#x-tags').innerHTML = '<span class="tag">' + C.formulaString(fc).replace(/(\d+)/g, '<sub>$1</sub>') + '</span><span>' + cls.label + '</span>'; }
+  else $('#x-tags').innerHTML = '<span class="hint">Molecular formula and compound family appear when all three are showing.</span>';
+}
+link($('#x-three'));
+$('#x-new').addEventListener('click', newMolecule);
+$('#x-topic').addEventListener('change', newMolecule);
+$('#x-level').addEventListener('change', newMolecule);
+$('#x-start').addEventListener('click', e => { const b = e.target.closest('[data-start]'); if (!b) return; xStart = b.dataset.start; resetReveal(); renderExplore(); const again = $('[data-start="' + xStart + '"]'); if (again) again.focus(); announce('Starting from the ' + xStart + ' formula. The other two are hidden.'); });
+$('#x-all').addEventListener('click', () => { const all = FORMS3.every(f => reveal[f]); if (all) resetReveal(); else FORMS3.forEach(f => { reveal[f] = true; }); renderExplore(); $('#x-all').focus(); });
+$('#x-ann').addEventListener('click', e => { xAnn = !xAnn; e.currentTarget.setAttribute('aria-pressed', xAnn); renderExplore(); });
+$('#x-three').addEventListener('click', e => {
+  const s = e.target.closest('[data-show]'), h = e.target.closest('[data-hide]');
+  if (s) { reveal[s.dataset.show] = true; renderExplore(); announce('The ' + s.dataset.show + ' formula is now shown.'); const b = $('[data-f="' + s.dataset.show + '"] .cover-btn'); if (b) b.focus(); }
+  if (h) { reveal[h.dataset.hide] = false; renderExplore(); const b = $('[data-show="' + h.dataset.hide + '"]'); if (b) b.focus(); }
+});
+
+/* ---------- guide table ---------- */
+function renderGuide() {
+  const rows = [['Butane', 'CCCC'], ['2-Methylpropane', 'CC(C)C'], ['Propene', 'C=CC'], ['Propyne', 'C#CC'], ['Chloroethane', 'CCCl'], ['Ethanol', 'CCO'], ['Propan-2-ol', 'CC(O)C'], ['Ethanal', 'CC=O'], ['Propanone', 'CC(=O)C'], ['Ethanoic acid', 'CC(=O)O'], ['Methyl ethanoate', 'CC(=O)OC']];
+  $('#ref-table tbody').innerHTML = rows.map(r => {
+    const m = C.fromSMILES(r[1]); const sk = C.layoutSkeletal(m), dp = C.layoutDisplayed(m);
+    const it = { mol: m, sk, dp, cond: C.condensed(m) };
+    return '<tr><th scope="row">' + r[0] + '</th><td>' + formHTML('condensed', it) + '</td><td>' + formHTML('skeletal', it, { unit: 34, noScale: true }) + '</td><td>' + formHTML('displayed', it, { unit: 30, noScale: true }) + '</td></tr>';
+  }).join('');
+}
+
+/* ---------- tabs ---------- */
+const tabs = ['practice', 'explore', 'guide'];
+function showTab(name, top) {
+  tabs.forEach(t => { $('#tab-' + t).hidden = t !== name; const b = $('#t-' + t); b.setAttribute('aria-selected', t === name); b.tabIndex = t === name ? 0 : -1; });
+  if (name === 'explore' && !xItem) newMolecule();
+  if (name === 'guide' && !$('#ref-table tbody').children.length) renderGuide();
+  try { history.replaceState(null, '', '#' + name); } catch (e) {}
+  root.setAttribute('data-tab', name);
+  if (top) window.scrollTo({ top: 0 });
+}
+tabs.forEach(t => $('#t-' + t).addEventListener('click', () => showTab(t, true)));
+$('.tabs').addEventListener('keydown', e => {
+  const i = tabs.findIndex(t => $('#t-' + t).getAttribute('aria-selected') === 'true');
+  let n = null;
+  if (e.key === 'ArrowRight') n = tabs[(i + 1) % 3]; else if (e.key === 'ArrowLeft') n = tabs[(i + 2) % 3];
+  else if (e.key === 'Home') n = tabs[0]; else if (e.key === 'End') n = tabs[2];
+  if (n) { e.preventDefault(); showTab(n); $('#t-' + n).focus(); }
+});
+
+renderSetup(); renderStats(); renderExplore(); nextQuestion(false);
+root.setAttribute('data-tab', 'practice');
+const h0 = (location.hash || '').slice(1); if (tabs.includes(h0)) showTab(h0);
+})();
+</script>
+
+</body></html>
