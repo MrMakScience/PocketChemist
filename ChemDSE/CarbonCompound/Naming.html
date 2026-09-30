@@ -144,6 +144,49 @@ ol.steps ul{margin:6px 0 0 16px;padding:0}
 kbd{font:600 .82em ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:5px;padding:0 5px;background:var(--surface)}
 @media (max-width:560px){.wrap{padding:0 12px 32px}header.top{padding:14px 0 10px}.mark{width:40px;height:40px}.lead{font-size:.92rem}.coach{flex-wrap:wrap;padding:10px 12px}.dots{order:3}input[type=text]{width:100%}.toolbar{gap:8px 14px;padding:10px 12px}.grp{gap:3px}button.t{min-width:38px;height:38px;padding:0 8px;font-size:.9rem}.row{gap:5px}.grp.load{flex:1 1 100%}.grp.load select{flex:1 1 100%}.canvasWrap{padding:8px}.empty-note{display:none}}
 ::placeholder{color:var(--muted);opacity:1}
+
+.ic{display:none;font-size:1.3rem;line-height:1}
+.grp.load{border:0;margin:0;padding:0}
+.grp.load>summary{font:600 .8rem var(--sans);color:var(--muted);cursor:pointer;min-height:0;padding:0 0 5px}
+.nameBar{display:none;position:sticky;top:0;z-index:5;align-items:center;gap:10px;padding:8px 14px;background:var(--surface);border-bottom:2px solid var(--accent)}
+.nameBar .nb{flex:1;min-width:0;font:600 1.15rem/1.25 var(--serif);overflow-wrap:anywhere}
+.nameBar a{flex:none;font-weight:600;min-height:40px;display:inline-flex;align-items:center;padding:0 10px;border-radius:8px}
+svg#cv{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+@media (max-width:980px){.has-result .coach{display:none}.has-result .nameBar{display:flex}}
+@media (max-width:700px){
+  .lead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .dots{display:none}.coach{padding:9px 12px;gap:10px}.coach .ic{width:28px;height:28px}.coach p{font-size:.95rem;line-height:1.4}
+  header.top{padding:10px 0 8px;gap:10px}
+  .mark{width:34px;height:34px}
+  h1{font-size:1.25rem}
+  .wrap{padding:0 10px 28px}
+  .grp>legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .toolbar{border-top:1px solid var(--line);border-bottom:0;padding:10px 10px 12px;gap:8px 12px}
+  .grp{gap:0}
+  .row{gap:5px}
+  button.t{min-width:40px;height:42px;padding:0 9px}
+  #undo .tx,#redo .tx{display:none}#undo .ic,#redo .ic{display:inline}
+  .canvasWrap{padding:6px}
+  svg#cv{max-height:calc(100vh - 300px);max-height:calc(100dvh - 300px);min-height:300px}
+  .grp.load{flex:1 1 100%}
+  .grp.load>summary{font-size:.95rem;min-height:40px;display:flex;align-items:center}
+  .grp.load select,.grp.load input[type=text]{flex:1 1 100%;width:100%}
+  .hint{padding:2px 12px 4px}
+  .status{padding:8px 12px 12px}
+  .result{padding:14px}
+  .cvhint .say{font-size:1.15rem}
+  .target{width:64px;height:64px}
+}
+@media (max-width:1280px){
+  .toolbar{gap:8px 16px;padding:12px 14px}
+  button.t{min-width:38px;height:40px;padding:0 9px}
+  .row{gap:5px}
+}
+@media (max-width:700px){
+  .grp.load>summary::before{content:"\25B8";margin-right:8px;font-size:1rem}
+  .grp.load[open]>summary::before{content:"\25BE"}
+}
+@media (pointer:coarse){button.t{min-height:44px}.ex{height:44px}}
 </style>
 </head>
 <body>
@@ -154,13 +197,13 @@ kbd{font:600 .82em ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid 
     <svg class="mark" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><polygon points="26,6 43,16 43,36 26,46 9,36 9,16" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="26" cy="6" r="5" fill="#1d4fb8"/><circle cx="43" cy="36" r="5" fill="#d7263d"/><circle cx="9" cy="36" r="5" fill="#1e9d6b"/></svg>
     <div>
       <h1>Skeletal formula to IUPAC name</h1>
-      <p class="lead">Draw a molecule and its name appears, with the reasoning behind it.</p>
+      <p class="lead">Draw a molecule and its name appears, with the reasoning behind it. Works offline.</p>
     </div>
   </header>
 
   <main class="grid">
-    <section class="card" aria-label="Drawing area">
-      <div class="toolbar" role="toolbar" aria-label="Drawing tools">
+    <section class="card" id="cvCard" aria-label="Drawing area">
+      <div class="toolbar" id="toolbar" role="toolbar" aria-label="Drawing tools">
         <fieldset class="grp"><legend>Tool</legend><div class="row">
           <button type="button" class="t" data-tool="bond" title="Draw bonds (B)">Draw</button>
           <button type="button" class="t" data-tool="erase" title="Erase an atom or bond (E)">Erase</button>
@@ -182,17 +225,17 @@ kbd{font:600 .82em ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid 
         </div></fieldset>
         <fieldset class="grp"><legend>Ring</legend><div class="row" id="rings"></div></fieldset>
         <fieldset class="grp"><legend>Edit</legend><div class="row">
-          <button type="button" class="t" id="undo" title="Undo (Ctrl+Z)">Undo</button>
-          <button type="button" class="t" id="redo" title="Redo (Ctrl+Y)">Redo</button>
+          <button type="button" class="t" id="undo" aria-label="Undo" title="Undo (Ctrl+Z)"><span class="ic" aria-hidden="true">↶</span><span class="tx">Undo</span></button>
+          <button type="button" class="t" id="redo" aria-label="Redo" title="Redo (Ctrl+Y)"><span class="ic" aria-hidden="true">↷</span><span class="tx">Redo</span></button>
           <button type="button" class="t" id="clear" title="Remove everything">Clear</button>
         </div></fieldset>
-        <fieldset class="grp load"><legend>Or load a molecule</legend><div class="row">
+        <details class="grp load" id="loadBox" open><summary>Or load a molecule</summary><div class="row">
           <label class="sr" for="examples">Load an example</label>
           <select id="examples"><option value="">Choose an example</option></select>
           <label class="sr" for="smiles">SMILES text</label>
           <input type="text" id="smiles" placeholder="Paste SMILES, e.g. CC(C)CCO" autocomplete="off" spellcheck="false">
           <button type="button" class="t go" id="loadSmiles">Load</button>
-        </div></fieldset>
+        </div></details>
       </div>
 
       <div id="coach" class="coach" role="status">
@@ -200,6 +243,8 @@ kbd{font:600 .82em ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid 
         <p><b id="coachT"></b> <span id="coachX"></span></p>
         <ol class="dots" id="dots" aria-hidden="true"><li></li><li></li><li></li><li></li></ol>
       </div>
+
+      <div id="nameBar" class="nameBar"><span class="nb" id="nbName" aria-hidden="true"></span><a href="#result" aria-label="Go to the step-by-step explanation">Steps &darr;</a></div>
 
       <div class="canvasWrap">
         <svg id="cv" class="tool-bond" viewBox="0 0 900 560" role="group" tabindex="0" aria-label="Drawing canvas, empty" aria-describedby="cvHelp"></svg>
@@ -876,7 +921,9 @@ function parseSmiles(s){
 // ===NAMING-END===
 
 /* =====================  DRAWING EDITOR  ===================== */
-const W=900,H=560,L=40,DEG=Math.PI/180;
+let W=900,H=560;const L=40,DEG=Math.PI/180;
+let view={x:0,y:0,w:900,h:560};
+const coarse=matchMedia('(pointer:coarse)'),mqPhone=matchMedia('(max-width:700px)'),mqCompact=matchMedia('(max-width:1280px)');
 const svg=document.getElementById('cv');
 const $=id=>document.getElementById(id);
 let atoms=[],bonds=[],nid=1;
@@ -910,11 +957,28 @@ function canAdd(el,count){
 function addAtom(x,y,el){if(!canAdd(el))return null;const a={id:nid++,x,y,el};atoms.push(a);return a;}
 function addBond(a,b,o){if(a===b)return;const ex=bondBetween(a,b);if(ex){ex.o=o;return;}bonds.push({a,b,o});}
 function removeAtom(id){atoms=atoms.filter(a=>a.id!==id);bonds=bonds.filter(b=>b.a!==id&&b.b!==id);}
-function pt(e){const r=svg.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}
+function pt(e){
+  const m=svg.getScreenCTM();
+  if(m){const q=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse());return {x:q.x,y:q.y};}
+  const r=svg.getBoundingClientRect();return {x:view.x+(e.clientX-r.left)*view.w/r.width,y:view.y+(e.clientY-r.top)*view.h/r.height};
+}
+function ppu(){const r=svg.getBoundingClientRect();return Math.min(r.width/view.w,r.height/view.h)||1;}
+function fitView(){
+  let x0=0,y0=0,x1=W,y1=H;
+  if(atoms.length){
+    const m=40;
+    x0=Math.min(x0,Math.min(...atoms.map(a=>a.x))-m);y0=Math.min(y0,Math.min(...atoms.map(a=>a.y))-m);
+    x1=Math.max(x1,Math.max(...atoms.map(a=>a.x))+m);y1=Math.max(y1,Math.max(...atoms.map(a=>a.y))+m);
+  }
+  let w=x1-x0,h=y1-y0;const ar=W/H;
+  if(w/h>ar){const nh=w/ar;y0-=(nh-h)/2;h=nh;}else{const nw=h*ar;x0-=(nw-w)/2;w=nw;}
+  view={x:x0,y:y0,w,h};
+  svg.setAttribute('viewBox',[x0,y0,w,h].map(v=>Math.round(v*10)/10).join(' '));
+}
 const snapG=p=>({x:Math.round(p.x/10)*10,y:Math.round(p.y/10)*10});
-function atomAt(p,skip){let best=null,bd=16;for(const a of atoms){if(a.id===skip)continue;const d=Math.hypot(a.x-p.x,a.y-p.y);if(d<bd){bd=d;best=a;}}return best;}
+function atomAt(p,skip){const R=Math.max(16,(coarse.matches?28:18)/ppu());let best=null,bd=R;for(const a of atoms){if(a.id===skip)continue;const d=Math.hypot(a.x-p.x,a.y-p.y);if(d<bd){bd=d;best=a;}}return best;}
 function bondAt(p){
-  let best=null,bd=8;
+  let best=null,bd=Math.max(8,(coarse.matches?18:10)/ppu());
   for(const b of bonds){
     const A=atomById(b.a),B=atomById(b.b),dx=B.x-A.x,dy=B.y-A.y,l2=dx*dx+dy*dy||1;
     let t=((p.x-A.x)*dx+(p.y-A.y)*dy)/l2;t=Math.max(0,Math.min(1,t));
@@ -985,7 +1049,7 @@ function placeRing(center,k,att){
 function finishBondTool(d,p){
   const newEl=tool==='atom'?elem:'C';
   const dist=Math.hypot(p.x-d.p0.x,p.y-d.p0.y);
-  if(dist<8){
+  if(dist<Math.max(8,12/ppu())){
     if(d.a){
       if(tool==='atom'){mutate(()=>{if(d.a.el===elem)return false;d.a.el=elem;});return;}
       mutate(()=>{
@@ -1049,6 +1113,7 @@ svg.addEventListener('pointermove',e=>{
 });
 function endDrag(e){
   if(!drag)return;
+  if(e&&e.pointerType==='touch')hover=null;
   const d=drag;drag=null;preview=null;
   const p=e?pt(e):d.cur;
   if(tool==='bond'||tool==='atom')finishBondTool(d,p);
@@ -1292,6 +1357,8 @@ function panel(){
   }else{
     nameEl.textContent='Your molecule’s name will appear here.';nameEl.className='name empty';facts.innerHTML='';
   }
+  document.body.classList.toggle('has-result',!!result);
+  $('nbName').textContent=result?result.name:'';
   const why=$('why');
   if(result&&result.steps){
     why.hidden=false;
@@ -1323,7 +1390,7 @@ function announceAtom(a){
 function render(){
   if(kbAtom&&!atomById(kbAtom))kbAtom=null;
   $('hint').textContent=hintText();
-  const out=['<rect class="bg" width="900" height="560"/>'];
+  const out=['<rect class="bg" x="-9000" y="-9000" width="18000" height="18000"/>'];
   const showNum=$('optNum').checked&&result;
   if(showNum){
     const set=new Set(result.ids);
@@ -1354,7 +1421,7 @@ function render(){
   if(preview)out.push('<line class="prev" x1="'+preview.x1+'" y1="'+preview.y1+'" x2="'+preview.x2+'" y2="'+preview.y2+'"/>');
   svg.innerHTML=out.join('');
 }
-function update(){compute();panel();render();}
+function update(){compute();fitView();panel();render();}
 /* ---- keyboard drawing on the canvas ---- */
 const KEYEL={c:'C',n:'N',o:'O',f:'F',l:'Cl',r:'Br',i:'I'};
 svg.addEventListener('focus',()=>{if(!atomById(kbAtom))kbAtom=atoms.length?atoms[atoms.length-1].id:null;render();if(kbAtom)announceAtom(atomById(kbAtom));});
@@ -1364,7 +1431,7 @@ svg.addEventListener('keydown',e=>{
   const k=e.key,lk=k.toLowerCase(),cur=atomById(kbAtom),idx=cur?atoms.indexOf(cur):-1;
   if(k==='Enter'||k===' '){
     e.preventDefault();
-    if(!atoms.length)mutate(()=>{const a=addAtom(450,280,'C');if(!a)return false;kbAtom=a.id;});
+    if(!atoms.length)mutate(()=>{const a=addAtom(Math.round(W/20)*10,Math.round(H/20)*10,'C');if(!a)return false;kbAtom=a.id;});
     else if(cur)mutate(()=>{const th=autoAngle(cur),n=addAtom(cur.x+L*Math.cos(th),cur.y+L*Math.sin(th),'C');if(!n)return false;addBond(cur.id,n.id,bondOrder);kbAtom=n.id;});
     else{kbAtom=atoms[0].id;}
     render();announceAtom(atomById(kbAtom));return;
@@ -1396,7 +1463,24 @@ svg.addEventListener('keydown',e=>{
 [['Ethanol','CCO'],['2-Methylbutane','CC(C)CC'],['Ethanoic acid','CC(=O)O'],['Cyclohexanol','OC1CCCCC1']].forEach(([n,s])=>{
   const b=document.createElement('button');b.type='button';b.className='ex';b.textContent=n;b.onclick=()=>loadSmiles(s);$('emptyChips').appendChild(b);
 });
+/* ---- phone / tablet layout ---- */
+function layoutMode(){
+  const phone=mqPhone.matches,card=$('cvCard'),tb=$('toolbar');
+  if(phone){
+    W=480;H=480;
+    if(tb.previousElementSibling!==$('hint'))$('hint').after(tb);
+  }else{
+    W=900;H=560;
+    if(card.firstElementChild!==tb)card.insertBefore(tb,card.firstChild);
+  }
+  if(mqCompact.matches){if(!layoutMode.cSeen){$('loadBox').open=false;layoutMode.cSeen=true;}}
+  else if(layoutMode.cSeen){$('loadBox').open=true;layoutMode.cSeen=false;}
+  fitView();render();
+}
+mqPhone.addEventListener('change',layoutMode);mqCompact.addEventListener('change',layoutMode);
+addEventListener('resize',()=>{fitView();render();});
 setTool('bond');
+layoutMode();
 update();
 </script>
 </body>
