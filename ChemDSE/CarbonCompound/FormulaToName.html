@@ -197,7 +197,7 @@ svg#cv{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
     <svg class="mark" width="52" height="52" viewBox="0 0 52 52" aria-hidden="true"><polygon points="26,6 43,16 43,36 26,46 9,36 9,16" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="26" cy="6" r="5" fill="#1d4fb8"/><circle cx="43" cy="36" r="5" fill="#d7263d"/><circle cx="9" cy="36" r="5" fill="#1e9d6b"/></svg>
     <div>
       <h1>Skeletal formula to IUPAC name</h1>
-      <p class="lead">Draw a molecule and its name appears, with the reasoning behind it. Works offline.</p>
+      <p class="lead">Draw a molecule and its name appears, with the reasoning behind it.</p>
     </div>
   </header>
 
@@ -260,6 +260,7 @@ svg#cv{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
       <div class="status">
         <span id="counts"></span>
         <label><input type="checkbox" id="optNum" checked> Show parent chain and numbering</label>
+        <label><input type="checkbox" id="optShort" checked> Leave out locants that aren't needed (propene, butanone…)</label>
         <label><input type="checkbox" id="optCommon" checked> Use common names (isopropyl, tert-butyl…)</label>
         <span class="legend" id="legend" hidden><span><span class="sw p"></span>Parent chain</span><span><span class="sw b"></span>Branches and groups</span></span>
       </div>
@@ -428,7 +429,7 @@ function prepare(mol,opts){
   }
   let principal=null;
   if(grp.includes('acid'))principal='acid';else if(grp.includes('ester'))principal='ester';else if(grp.includes('acyl'))principal='acyl';else if(grp.includes('amide'))principal='amide';else if(grp.includes('nitrile'))principal='nitrile';else if(grp.includes('ald'))principal='ald';else if(grp.includes('ket'))principal='ket';else if(anyOl)principal='ol';else if(anyAm)principal='amine';
-  return {el,adj,cadj,type,grp,esterO,acylX,amideN,amN,ohCount,comp,inRing,ringOrder,principal,common:!!(opts&&opts.common),memo:new Map()};
+  return {el,adj,cadj,type,grp,esterO,acylX,amideN,amN,ohCount,comp,inRing,ringOrder,principal,common:!!(opts&&opts.common),short:!(opts&&opts.short===false),memo:new Map()};
 }
 
 /* ---------- substituents ---------- */
@@ -707,6 +708,23 @@ function candidates(M){
   }
   return out;
 }
+const ALKYLK={methyl:1,ethyl:2,propyl:3,butyl:4,pentyl:5,hexyl:6,heptyl:7,octyl:8,nonyl:9,decyl:10};
+// A locant can be left out when the drawn feature could sit in only one place on a chain of this length
+function soleLocant(M,sk,items,nItems,cnt,nU){
+  if(!M.short||sk.isRing||nItems.length||sk.n<3)return null;
+  const n=sk.n,P=M.principal,feats=items.length+nU+cnt;
+  if(feats!==1)return null;
+  const distinct=(lo,hi)=>{const s=new Set();for(let p=lo;p<=hi;p++)s.add(Math.min(p,n+1-p));return s.size;};
+  const distinctB=(lo,hi)=>{const s=new Set();for(let p=lo;p<=hi;p++)s.add(Math.min(p,n-p));return s.size;};
+  if(nU===1)return distinctB(1,n-1)===1?{kind:'unsat',why:'a '+(M.hasYne?'triple':'double')+' bond in a '+n+'-carbon chain can only be between C1 and C2 (C2–C3 is the same molecule, just numbered from the other end)'}:null;
+  if(cnt===1&&P==='ket')return distinct(2,n-1)===1?{kind:'suf',why:'a C=O in the middle of a '+n+'-carbon chain can only be at C2 (at the end it would be an aldehyde)'}:null;
+  if(cnt===1&&(P==='ol'||P==='amine'))return distinct(1,n)===1?{kind:'suf',why:'there is only one possible position'}:null;
+  if(items.length===1){
+    const k=ALKYLK[items[0].name];
+    if(k&&n-k>=k+1&&distinct(k+1,n-k)===1)return {kind:'sub',why:'a '+items[0].name+' group on a '+n+'-carbon chain can only be on C'+(k+1)+' (on an end carbon it would just make the chain longer)'};
+  }
+  return null;
+}
 function buildParent(M,best){
   const {sk,loc}=best,n=sk.n,P=M.principal;
   const stem=(sk.isRing?'cyclo':'')+stemOf(n);
@@ -715,7 +733,11 @@ function buildParent(M,best){
   sk.deco.forEach((d,i)=>{for(let k=0;k<d.suf;k++)sufLocs.push(loc[i]);});
   sufLocs.sort((a,b)=>a-b);
   const cnt=sufLocs.length,nU=ene.length+yne.length;
-  const showU=sk.isRing?!(cnt===0&&nU===1):n>2;
+  const items=itemsOf(sk,loc);
+  const nItems=(cnt&&(P==='amide'||P==='amine'))?nSubItems(M,sk,loc):[];
+  M.hasYne=yne.length>0;
+  const sole=soleLocant(M,sk,items,nItems,cnt,nU);
+  const showU=sk.isRing?!(cnt===0&&nU===1):(n>2&&!(sole&&sole.kind==='unsat'));
   let core=unsatStr(stem,ene,yne,showU);
   let alkyls='';
   if(cnt){
@@ -730,15 +752,14 @@ function buildParent(M,best){
     }else base={acid:ring?'carboxylic acid':'oic acid',ald:ring?'carbaldehyde':'al',ester:ring?'carboxylate':'oate',amide:ring?'carboxamide':'amide',nitrile:ring?'carbonitrile':'nitrile',ket:'one',ol:'ol',amine:'amine'}[P];
     if(cnt===1&&/^[aeiou]/.test(base))core=core.replace(/e$/,'');
     let showS;
-    if(ring)showS=cnt>1||nU>0;
+    if(sole&&sole.kind==='suf')showS=false;
+    else if(ring)showS=cnt>1||nU>0;
     else showS=(P==='acid'||P==='ald'||P==='ester'||P==='acyl'||P==='amide'||P==='nitrile')?false:(P==='ol'||P==='amine')?!(n<=2&&cnt===1):true;
     core+=(showS?'-'+sufLocs.join(',')+'-':'')+(cnt>1?MULT[cnt]:'')+base+tail;
     if(P==='ester')alkyls=esterAlkylString(carbs.map(c=>{const o=M.esterO[c];return substName(M,M.adj[o].find(y=>y.j!==c).j,o,1);}))+' ';
   }
-  const items=itemsOf(sk,loc);
-  const nItems=(cnt&&(P==='amide'||P==='amine'))?nSubItems(M,sk,loc):[];
-  const omit=!nItems.length&&items.length>0&&(n===1||(items.length===1&&cnt===0&&(sk.isRing?nU===0:n===2)));
-  return {name:alkyls+prefixString(items.concat(nItems),omit)+core,core,items:items.concat(nItems),cnt,alkyls:alkyls.trim()};
+  const omit=!nItems.length&&items.length>0&&(n===1||(items.length===1&&cnt===0&&(sk.isRing?nU===0:n===2))||!!(sole&&sole.kind==='sub'));
+  return {omitNote:sole?sole.why:'',name:alkyls+prefixString(items.concat(nItems),omit)+core,core,items:items.concat(nItems),cnt,alkyls:alkyls.trim()};
 }
 function principalCarbons(M,sk){
   const P=M.principal,out=[];
@@ -831,6 +852,7 @@ function explain(M,mol,ctx){
     const rv=rivals[0];let i=0;while(i<5&&cmpArr(best.key[i],rv.key[i])===0)i++;
     h4+='→ Comparing the two ways of numbering: '+NAMES[i]+' would get '+nm('{'+_l(best.key[i])+'}')+' with the numbering shown on the canvas, but '+nm('{'+_l(rv.key[i])+'}')+' the other way. '+(i===4?'The sets are equal, so alphabetical order decides.':'The lower set wins at the first difference.');
   }
+  if(r.omitNote)h4+='<br><b>No locant needed:</b> '+r.omitNote+', so the number is left out of the name.';
   steps.push({t:'4. Number the parent',h:h4});
   // 5. substituents
   if(r.items.length){
@@ -886,7 +908,7 @@ function nameMolecule(mol,opts){
   const numbering=[];
   best.sk.atoms.forEach((a,i)=>{numbering[best.loc[i]-1]=a;});
   const items=r.items.slice().sort((a,b)=>cmpLoc(a.loc,b.loc)||(a.name<b.name?-1:1));
-  const res={name:r.name,core:r.core,numbering,isRing:best.sk.isRing,size:best.sk.n,principal:M.principal,cnt:r.cnt,alkyls:r.alkyls,items,formula:f};
+  const res={omitNote:r.omitNote,name:r.name,core:r.core,numbering,isRing:best.sk.isRing,size:best.sk.n,principal:M.principal,cnt:r.cnt,alkyls:r.alkyls,items,formula:f};
   res.steps=explain(M,mol,{cands,pool,rings,chains,group,tied,best,r:res,topSuf});
   return res;
 }
@@ -1190,7 +1212,7 @@ document.querySelectorAll('[data-el]').forEach(b=>b.onclick=()=>setTool('atom',{
 })();
 $('undo').onclick=doUndo;$('redo').onclick=doRedo;
 $('clear').onclick=()=>{if(!atoms.length)return;mutate(()=>{atoms=[];bonds=[];hover=null;});};
-$('optNum').onchange=update;$('optCommon').onchange=update;
+$('optShort').onchange=update;$('optNum').onchange=update;$('optCommon').onchange=update;
 $('copy').onclick=()=>{
   if(!result){toast('Nothing to copy yet.');return;}
   (navigator.clipboard?navigator.clipboard.writeText(result.name):Promise.reject()).then(()=>toast('Name copied.'),()=>{
@@ -1288,7 +1310,7 @@ function compute(){
   result=null;errMsg=null;errAtoms=[];
   if(!atoms.length){errMsg=null;return;}
   try{
-    result=nameMolecule(mol,{common:$('optCommon').checked});
+    result=nameMolecule(mol,{common:$('optCommon').checked,short:$('optShort').checked});
     result.ids=result.numbering.map(i=>atoms[i].id);
   }catch(err){
     if(err instanceof NameError){errMsg=err.message;errAtoms=err.atoms.map(i=>atoms[i]&&atoms[i].id).filter(Boolean);}
@@ -1460,7 +1482,7 @@ svg.addEventListener('keydown',e=>{
     render();if(kbAtom)announceAtom(atomById(kbAtom));else $('sr').textContent='Canvas is empty';
   }
 });
-[['Ethanol','CCO'],['2-Methylbutane','CC(C)CC'],['Ethanoic acid','CC(=O)O'],['Cyclohexanol','OC1CCCCC1']].forEach(([n,s])=>{
+[['Ethanol','CCO'],['Methylbutane','CC(C)CC'],['Ethanoic acid','CC(=O)O'],['Cyclohexanol','OC1CCCCC1']].forEach(([n,s])=>{
   const b=document.createElement('button');b.type='button';b.className='ex';b.textContent=n;b.onclick=()=>loadSmiles(s);$('emptyChips').appendChild(b);
 });
 /* ---- phone / tablet layout ---- */
