@@ -1,0 +1,644 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='j5Nksc5Hs05mvRIDf+fUUg==' src='https://084db2f2-5ed0-4cde-9635-2c4a5167fee8.frame.claudeusercontent.com/CUfTjEVE1e8LnfKtz11NIq36G6E5hETNqQxl0wgvYP4GVRv-bEKtLg2bHIrb_5NPTUwJ3fqAc-2rCVM9FPac4bcDKsfZxMjt_pXdUTSWTc3-RKpk4K71q7T5u0wSNP89MYwkhDJyt8ufpENr3s5Ziv280AsCC1IKtvyKOic2kdgBpxxjZjIVeKJ8bKUtN8-3OYPyTKeG1rdXNa6UNt2W-oPJPjhphbrQGIvj2eYZmAglCTjUyG_JGmB1bqbvqqUWjVVvtDxt3ad27DCRf_G_B9fJXcIA3A4Bg05QLxeHGIBQQu5gGjYSsaXM5C8KwPA3iRydPz-Li_63BOsmXZqm0XC2lwZRZPqaHx9QhG3xzckY-DYgXUF1kUT1A_wueaeCARJx8Dz0_r6GzlRbGnkh7I8eM5uxOFAFWzMJ1rarUheghLprp5P96Tlo4QJJJVM3XowztIuzn8MKborBbUVPa4WTLzQRMd_oUQ58Qqrowyxv8zU4dobUtGt3RlMSSf8LAS0Dfwul-ZdcnhBb8LfQix0bUHYn1GhJmCYuYKwA4AEDXlnVgD9kwcVpEnXN0_TZAytnptilMsE08vg6U1cWjmaRS8JbAQkqwJdjo3S8DZvIILZCQ6JfyypQak46Z-mf65D5o8WPjaR1wEnLZ2151kGk4JoK4eZSibg9_4d6ztXTdm9fYnkdpfBDQUbpk46wNoFD8vE9bWqt9U4499UVsw'></script></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Electrophilic addition to alkenes – interactive mechanism</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F1F5F4; --paper2:#FFFFFF; --grid:#D3E0E5; --ink:#1B2836; --ink2:#4A5A6A; --line:#B7C6CE;
+  --pen:#E0115F; --pos:#1E5BD8; --neg:#B45309; --hi:#F7C80B; --catom:#2F3B4C; --catom-t:#FFFFFF;
+  --ok:#1B7F47; --bad:#C62D42; --tint:#E4EDF0;
+  --display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --body:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1A23; --paper2:#15232F; --grid:#1D2E3B; --ink:#E7EFF5; --ink2:#A1B3C2; --line:#34495A;
+    --pen:#FF5C93; --pos:#7AA5FF; --neg:#F2A54E; --hi:#FFD23F; --catom:#CFDBE6; --catom-t:#0F1A23;
+    --ok:#4FCB84; --bad:#FF7185; --tint:#1A2B38;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1A23; --paper2:#15232F; --grid:#1D2E3B; --ink:#E7EFF5; --ink2:#A1B3C2; --line:#34495A;
+  --pen:#FF5C93; --pos:#7AA5FF; --neg:#F2A54E; --hi:#FFD23F; --catom:#CFDBE6; --catom-t:#0F1A23;
+  --ok:#4FCB84; --bad:#FF7185; --tint:#1A2B38;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0}
+h1{font-size:clamp(28px,4.4vw,44px);font-weight:700;letter-spacing:-.01em}
+.lede{margin:10px 0 0;color:var(--ink2);max-width:62ch}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pos);outline-offset:2px}
+
+.controls{display:flex;flex-wrap:wrap;gap:18px 30px;margin:26px 0 8px;padding:16px 0;border-top:1.5px solid var(--ink);border-bottom:1px solid var(--line);align-items:flex-end}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+legend{padding:0;margin-bottom:6px;font-weight:700;font-size:15px;color:var(--ink2)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;background:var(--paper2)}
+.seg button{border:0;background:transparent;padding:8px 14px;border-right:1px solid var(--line);line-height:1.2}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:700}
+.toggle{display:flex;gap:8px;align-items:center;font-size:15px;padding-bottom:8px}
+.toggle input{width:18px;height:18px;accent-color:var(--pen)}
+.warn{margin:6px 0 0;font-size:15px;color:var(--neg);min-height:1.4em}
+
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:30px;margin-top:14px;align-items:start}
+@media (max-width:920px){.workspace{grid-template-columns:minmax(0,1fr)}}
+.eq{font-family:var(--display);font-weight:500;font-size:clamp(19px,2.6vw,26px);margin:0 0 4px}
+.eq small{display:block;font:400 15px var(--body);color:var(--ink2);margin-top:2px}
+.stage{border:1.5px solid var(--ink);border-radius:6px;overflow-x:auto;background-color:var(--paper2);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:30px 30px}
+.stage svg{display:block;width:100%;min-width:640px;height:auto}
+
+.chips{display:flex;gap:6px;margin:14px 0 0;padding:0;list-style:none;overflow-x:auto;padding-bottom:4px}
+.chips button{white-space:nowrap;border:1.5px solid var(--line);background:var(--paper2);border-radius:999px;padding:5px 13px;font-size:15px}
+.chips button.done{border-color:var(--ink2)}
+.chips button[aria-current="step"]{background:var(--pen);border-color:var(--pen);color:#fff;font-weight:700}
+.slidewrap{margin-top:14px;padding:12px 14px;border-left:5px solid var(--hi);background:var(--tint);border-radius:0 6px 6px 0}
+.slidewrap[hidden]{display:none}
+.slidewrap label{font-weight:700;display:block;margin-bottom:6px}
+.slidewrap input{width:100%;accent-color:var(--pen)}
+.slidewrap .ends{display:flex;justify-content:space-between;font-size:14px;color:var(--ink2)}
+.caption{margin-top:16px;padding:4px 0 0}
+.caption h3{font-size:22px;margin-bottom:6px}
+.caption p{margin:0 0 10px;max-width:70ch}
+.caption .alt{padding:8px 12px;border-left:4px solid var(--pos);background:var(--tint);border-radius:0 6px 6px 0}
+.meter{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;margin:2px 0 10px}
+.meter span{padding:3px 12px;font-size:15px;border-right:1px solid var(--line);color:var(--ink2)}
+.meter span:last-child{border-right:0}
+.meter span.on{background:var(--pos);color:#fff;font-weight:700}
+.meter i{font-style:normal;align-self:center;padding:0 10px;font-size:14px;color:var(--ink2)}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.nav button{border:1.5px solid var(--ink);background:var(--paper2);border-radius:6px;padding:9px 18px}
+.nav button.primary{background:var(--ink);color:var(--paper);font-weight:700}
+.nav button:disabled{opacity:.4;cursor:default}
+
+.side section{border-top:1.5px solid var(--ink);padding:12px 0 22px}
+.side h2{font-size:19px;margin-bottom:8px}
+.tubeRow{display:flex;gap:14px;align-items:center}
+.tube{width:74px;flex:none}
+.tube .glass{fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.tube .liq0{fill:#cfe3ea;opacity:.55}
+#liq{transition:opacity .9s ease}
+#tubeTxt{font-size:15px;color:var(--ink2);margin:0}
+dl{margin:0}
+dt{font-weight:700;margin-top:8px}
+dd{margin:0;color:var(--ink2);font-size:15px}
+
+.below{margin-top:34px}
+.below h2{font-size:26px;margin-bottom:12px}
+.tablewrap{overflow-x:auto;border:1.5px solid var(--ink);border-radius:6px;background:var(--paper2)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:15px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--display);font-weight:700;background:var(--tint)}
+tr:last-child td{border-bottom:0}
+tr.on td{background:color-mix(in srgb,var(--hi) 30%,transparent);font-weight:700}
+.qs{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.q{border-top:1.5px solid var(--ink);padding-top:10px}
+.q p{margin:0 0 8px;font-weight:700}
+.q button{display:block;width:100%;text-align:left;margin:0 0 6px;padding:8px 12px;border:1.5px solid var(--line);background:var(--paper2);border-radius:6px;font-size:16px}
+.q button.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--paper2))}
+.q button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--paper2))}
+.q .fb{font-size:15px;margin:2px 0 0;color:var(--ink2)}
+
+/* ---- SVG scene ---- */
+#stage .bond{stroke:var(--ink);stroke-width:3.4;stroke-linecap:round}
+#stage .bond.dashed{stroke-dasharray:5 5}
+#stage .pi{stroke:var(--pos);stroke-width:4.5;stroke-linecap:round}
+#stage .pihalo{stroke:var(--pos);stroke-linecap:round;fill:none;animation:glowPulse 1.3s ease-in-out infinite}
+#stage .pihalo.wide{animation-delay:-.35s;animation-name:glowPulseWide}
+@keyframes glowPulse{0%,100%{stroke-width:9;opacity:calc(.3 + var(--gi)*.25)}50%{stroke-width:18;opacity:calc(.5 + var(--gi)*.5)}}
+@keyframes glowPulseWide{0%,100%{stroke-width:18;opacity:calc(var(--gi)*.12)}50%{stroke-width:40;opacity:calc(var(--gi)*.35)}}
+#stage .atom text{fill:#fff;font:700 15px var(--display);text-anchor:middle}
+#stage .atom.c circle{fill:var(--catom)}
+#stage .atom.c text{fill:var(--catom-t)}
+#stage .atom.h circle{fill:var(--paper2);stroke:var(--ink);stroke-width:1.6}
+#stage .atom.h text{fill:var(--ink);font-size:13px}
+#stage .alkyl rect{fill:var(--paper2);stroke:var(--ink);stroke-width:1.6}
+#stage .alkyl text{fill:var(--ink);font:700 14px var(--display);text-anchor:middle}
+#stage .chg circle{fill:var(--paper2);stroke-width:2}
+#stage .chg text{font:700 14px var(--display);text-anchor:middle}
+#stage .chg.pos circle{stroke:var(--pos)} #stage .chg.pos text{fill:var(--pos)}
+#stage .chg.neg circle{stroke:var(--neg)} #stage .chg.neg text{fill:var(--neg)}
+#stage .delta{font:italic 700 18px Georgia,serif;text-anchor:middle}
+#stage .delta.pos{fill:var(--pos)} #stage .delta.neg{fill:var(--neg)}
+#stage .lp circle{fill:var(--ink)}
+#stage .ring{fill:none;stroke-width:2.5;stroke-dasharray:5 4}
+#stage .ring.pos{stroke:var(--pos)}
+#stage .hifill{fill:var(--hi);opacity:.55}
+#stage .note{fill:var(--ink2);font:15px var(--body);text-anchor:middle}
+#stage .pname{fill:var(--ink);font:700 24px var(--display);text-anchor:middle}
+#stage .wedge{fill:var(--ink)}
+#stage .hashln{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+#stage .hw{fill:var(--paper2);stroke:var(--ink);stroke-width:1.5}
+#stage .penno{fill:var(--pen);font:700 17px var(--display);text-anchor:middle}
+#stage .pen path{fill:none;stroke:var(--pen);stroke-width:3.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .75s ease-out var(--dl,0s) forwards}
+#stage .pen polygon{fill:var(--pen);opacity:0;animation:pop .2s ease-out calc(var(--dl,0s) + .6s) forwards}
+#stage .penno{opacity:0;animation:pop .3s ease-out calc(var(--dl,0s) + .2s) forwards}
+.noarrows #stage .pen,.noarrows #stage .penno{display:none}
+#stage .slide{animation:slide .9s cubic-bezier(.3,.7,.2,1) both}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+@keyframes slide{from{transform:translate(var(--dx,0px),var(--dy,0px))}to{transform:none}}
+@media (prefers-reduced-motion:reduce){
+  #stage .pen path{animation:none;stroke-dashoffset:0}
+  #stage .pen polygon,#stage .penno{animation:none;opacity:1}
+  #stage .slide{animation:none}
+  #stage .pihalo{animation:none;stroke-width:14;opacity:calc(.3 + var(--gi)*.4)}
+  #liq{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Electrophilic addition to alkenes</h1>
+    <p class="lede">Choose an alkene and a reagent, then step through the mechanism. The red pen shows where each pair of electrons moves.</p>
+  </header>
+
+  <section class="controls" aria-label="Choose the reaction">
+    <fieldset><legend>Alkene</legend><div class="seg" id="segAlk"></div></fieldset>
+    <fieldset><legend>Reagent</legend><div class="seg" id="segRx"></div></fieldset>
+    <fieldset><legend>Halogen X</legend><div class="seg" id="segX"></div></fieldset>
+    <label class="toggle"><input type="checkbox" id="showArrows" checked=""> Show curved arrows</label>
+  </section>
+  <p class="warn" id="warn"></p>
+
+  <div class="workspace">
+    <main>
+      <h2 class="eq" id="eq"></h2>
+      <div class="stage"><svg id="stage" viewbox="0 0 900 540" role="img" aria-label="Animated mechanism diagram"></svg></div>
+      <ol class="chips" id="chips"></ol>
+      <div class="slidewrap" id="slideWrap">
+        <label for="dist">Drag to move the reagent towards the double bond</label>
+        <input type="range" id="dist" min="0" max="100" value="100">
+        <div class="ends"><span>close</span><span>far away</span></div>
+      </div>
+      <div class="caption" aria-live="polite"><h3 id="capT"></h3><div id="capB"></div></div>
+      <div class="nav">
+        <button id="back" type="button">Back</button>
+        <button id="next" type="button" class="primary">Next step</button>
+        <button id="replay" type="button">Replay arrows</button>
+      </div>
+    </main>
+
+    <aside class="side">
+      <section>
+        <h2>In the test tube</h2>
+        <div class="tubeRow">
+          <svg class="tube" viewbox="0 0 100 200" aria-hidden="true">
+            <defs><clippath id="tc"><path d="M25 16V150a25 25 0 0 0 50 0V16Z"/></clipPath></defs>
+            <g clip-path="url(#tc)">
+              <rect class="liq0" x="0" y="60" width="100" height="160"/>
+              <rect id="liq" x="0" y="60" width="100" height="160" fill="#F08A24"/>
+            </g>
+            <path class="glass" d="M25 16V150a25 25 0 0 0 50 0V16"/>
+            <line class="glass" x1="18" y1="16" x2="82" y2="16"/>
+          </svg>
+          <p id="tubeTxt"></p>
+        </div>
+      </section>
+      <section>
+        <h2>Key words</h2>
+        <dl>
+          <dt>Electrophile</dt><dd>Electron-pair acceptor. Here it is the δ+ end of the reagent.</dd>
+          <dt>Nucleophile</dt><dd>Electron-pair donor: a lone pair that attacks a δ+ or + carbon.</dd>
+          <dt>Curved arrow</dt><dd>Shows a <em>pair</em> of electrons moving, from the tail to the head.</dd>
+          <dt>Intermediate</dt><dd>A short-lived species formed between the reactants and the product.</dd>
+          <dt>Markovnikov's rule</dt><dd>In HX addition, X goes to the carbon that has more alkyl groups.</dd>
+        </dl>
+      </section>
+    </aside>
+  </div>
+
+  <section class="below">
+    <h2>Compare the three reactions</h2>
+    <div class="tablewrap"><table id="cmp"></table></div>
+  </section>
+
+  <section class="below">
+    <h2>Check your understanding</h2>
+    <div class="qs" id="quiz"></div>
+  </section>
+</div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const f=n=>Math.round(n*10)/10;
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+
+const HAL={
+  Cl:{n:'chlorine',pre:'chloro',di:'dichloro',oni:'chloronium',ion:'chloride',col:'#3FA76A'},
+  Br:{n:'bromine',pre:'bromo',di:'dibromo',oni:'bromonium',ion:'bromide',col:'#9A5B2B'},
+  I:{n:'iodine',pre:'iodo',di:'diiodo',oni:'iodonium',ion:'iodide',col:'#7B4FB3'}
+};
+const ALK={
+  ethene:{name:'ethene',label:'Ethene',up:'H',dn:'H',type:1,F:'CH₂=CH₂'},
+  propene:{name:'propene',label:'Propene',up:'H',dn:'CH₃',type:2,F:'CH₃CH=CH₂'},
+  isobutene:{name:'2-methylpropene',label:'2-Methylpropene',up:'CH₃',dn:'CH₃',type:3,F:'(CH₃)₂C=CH₂'}
+};
+const OCOL='#C7472F';
+const state={rx:'org',alk:'propene',X:'Br',step:0,d:100,slideD:0,quiz:{}};
+
+/* ---------- names & formulas ---------- */
+function prodName(){
+  const T=HAL[state.X],a=state.alk;
+  const t={
+    org:{ethene:`1,2-${T.di}ethane`,propene:`1,2-${T.di}propane`,isobutene:`1,2-${T.di}-2-methylpropane`},
+    hx:{ethene:`${T.pre}ethane`,propene:`2-${T.pre}propane`,isobutene:`2-${T.pre}-2-methylpropane`},
+    aq:{ethene:`2-${T.pre}ethanol`,propene:`1-${T.pre}propan-2-ol`,isobutene:`1-${T.pre}-2-methylpropan-2-ol`}
+  };
+  return t[state.rx][a];
+}
+function prodF(){
+  const X=state.X;
+  const t={
+    org:{ethene:`CH₂${X}CH₂${X}`,propene:`CH₃CH${X}CH₂${X}`,isobutene:`(CH₃)₂C${X}CH₂${X}`},
+    hx:{ethene:`CH₃CH₂${X}`,propene:`CH₃CH${X}CH₃`,isobutene:`(CH₃)₃C${X}`},
+    aq:{ethene:`${X}CH₂CH₂OH`,propene:`CH₃CH(OH)CH₂${X}`,isobutene:`(CH₃)₂C(OH)CH₂${X}`}
+  };
+  return t[state.rx][state.alk];
+}
+function stepsOf(){
+  const T=HAL[state.X];
+  if(state.rx==='org')return ['Approach','π bond attacks','Carbocation forms',`${state.X}⁻ attacks`,'Product'];
+  if(state.rx==='hx')return ['Approach','π bond attacks H⁺','Carbocation forms',`${state.X}⁻ attacks`,'Product'];
+  return ['Approach','π bond attacks','Carbocation forms','Water attacks','Oxonium ion','Deprotonation','Product'];
+}
+
+/* ---------- SVG helpers ---------- */
+function line(x1,y1,x2,y2,cls='bond'){return `<line class="${cls}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`}
+function atom(x,y,sym,cls,r){return `<g class="atom ${cls}"><circle cx="${x}" cy="${y}" r="${r}"/><text x="${x}" y="${y}" dy=".35em">${sym}</text></g>`}
+function hAtom(x,y,r=12){return atom(x,y,'H','h',r)}
+function halAtom(x,y,r=19){return `<g class="atom"><circle cx="${x}" cy="${y}" r="${r}" fill="${HAL[state.X].col}"/><text x="${x}" y="${y}" dy=".35em">${state.X}</text></g>`}
+function oAtom(x,y,r=17){return `<g class="atom"><circle cx="${x}" cy="${y}" r="${r}" fill="${OCOL}"/><text x="${x}" y="${y}" dy=".35em">O</text></g>`}
+function pill(x,y,t,w=52){return `<g class="alkyl"><rect x="${x-w/2}" y="${y-13}" width="${w}" height="26" rx="8"/><text x="${x}" y="${y}" dy=".35em">${t}</text></g>`}
+function sub(x,y,lab){return lab==='H'?hAtom(x,y,12):pill(x,y,lab,48)}
+function chg(x,y,sign){const c=sign==='+'?'pos':'neg';return `<g class="chg ${c}"><circle cx="${x}" cy="${y}" r="9"/><text x="${x}" y="${y}" dy=".35em">${sign==='+'?'+':'−'}</text></g>`}
+function delta(x,y,s){return `<text class="delta ${s==='+'?'pos':'neg'}" x="${x}" y="${y}" dy=".35em">δ${s==='+'?'+':'−'}</text>`}
+function lp(cx,cy,r,ang){
+  const a=ang*Math.PI/180,px=cx+Math.cos(a)*(r+8),py=cy+Math.sin(a)*(r+8);
+  const nx=-Math.sin(a)*3.6,ny=Math.cos(a)*3.6;
+  return `<g class="lp"><circle cx="${f(px+nx)}" cy="${f(py+ny)}" r="2.4"/><circle cx="${f(px-nx)}" cy="${f(py-ny)}" r="2.4"/></g>`;
+}
+function anion(x,y,angs=[180,-90,0,90]){
+  return halAtom(x,y,18)+angs.map(a=>lp(x,y,18,a)).join('')+chg(x+24,y-21,'−');
+}
+function waterAtom(x,y,angs=[-90],up=false){
+  const k=up?-1:1;
+  return line(x,y,x-24,y+24*k)+line(x,y,x+24,y+24*k)+hAtom(x-24,y+24*k,10)+hAtom(x+24,y+24*k,10)+oAtom(x,y,17)+angs.map(a=>lp(x,y,17,a)).join('');
+}
+function water(x,y,s=1,op=1){
+  return `<g transform="translate(${x} ${y}) scale(${s})" opacity="${op}"><line class="bond" x1="0" y1="0" x2="-17" y2="21"/><line class="bond" x1="0" y1="0" x2="17" y2="21"/><circle class="hw" cx="-17" cy="21" r="8"/><circle class="hw" cx="17" cy="21" r="8"/><g class="atom"><circle cx="0" cy="0" r="12" fill="${OCOL}"/><text x="0" y="0" dy=".35em" style="font-size:12px">O</text></g></g>`;
+}
+function ambient(){return [[110,140],[130,440],[830,120],[830,470],[90,320],[250,80],[660,60]].map(p=>water(p[0],p[1],.85,.45)).join('')}
+function arrow(p0,c,p2,delay=0){
+  const dx=p2[0]-c[0],dy=p2[1]-c[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,hl=12,hw=6.5;
+  const bx=p2[0]-ux*hl,by=p2[1]-uy*hl;
+  const pts=[p2[0],p2[1],bx-uy*hw,by+ux*hw,bx+uy*hw,by-ux*hw].map(f).join(' ');
+  return `<g class="pen" style="--dl:${delay}s"><path d="M${p0[0]} ${p0[1]} Q${c[0]} ${c[1]} ${f(bx)} ${f(by)}" pathLength="1"/><polygon points="${pts}"/></g>`;
+}
+function penNo(x,y,n,delay=0){return `<text class="penno" style="--dl:${delay}s" x="${x}" y="${y}">${n}</text>`}
+function wedge(){return `<polygon class="wedge" points="400,333 391,274 409,274"/>`}
+function hash(x,y0,y1){
+  let s='';const n=6;
+  for(let i=0;i<n;i++){const y=y0+(y1-y0)*(i+.5)/n,hw=2+i*1.6;s+=`<line class="hashln" x1="${f(x-hw)}" y1="${f(y)}" x2="${f(x+hw)}" y2="${f(y)}"/>`}
+  return s;
+}
+/* down-pointing group on carbon at x */
+function vgrp(x,lab){
+  let o=line(x,333,x,393);
+  if(lab==='H')return o+hAtom(x,393,12);
+  o+=line(x,393,x,453)+line(x,393,x-42,393)+line(x,393,x+42,393);
+  return o+hAtom(x,453,11)+hAtom(x-42,393,11)+hAtom(x+42,393,11)+atom(x,393,'C','c',14);
+}
+/* sideways group: dir -1 = left, +1 = right */
+function hgrp(x,dir,lab){
+  if(lab==='H')return line(x,333,x+dir*60,333)+hAtom(x+dir*60,333,12);
+  const cx=x+dir*70;
+  return line(x,333,cx,333)+line(cx,333,cx,288)+line(cx,333,cx,378)+line(cx,333,cx+dir*45,333)
+    +hAtom(cx,288,11)+hAtom(cx,378,11)+hAtom(cx+dir*45,333,11)+atom(cx,333,'C','c',14);
+}
+function skeleton(mode,o={}){
+  const A=ALK[state.alk];let s='';
+  s+=hgrp(380,-1,'H')+vgrp(380,'H')+hgrp(540,1,A.up)+vgrp(540,A.dn);
+  if(mode==='ene'){
+    if(o.glow>0)s+=`<line class="pihalo wide" style="--gi:${f(o.glow)}" x1="395" y1="326" x2="525" y2="326"/><line class="pihalo" style="--gi:${f(o.glow)}" x1="395" y1="326" x2="525" y2="326"/>`;
+    s+=line(395,340,525,340)+`<line class="pi" x1="395" y1="326" x2="525" y2="326"/>`;
+  }else s+=line(395,333,525,333);
+  s+=atom(380,333,'C','c',15)+atom(540,333,'C','c',15);
+  if(mode==='cation')s+=`<circle class="ring pos" cx="540" cy="333" r="26"/>`+chg(568,308,'+');
+  return s;
+}
+const piNote=`<text class="note" x="460" y="364">π bond</text>`;
+
+/* ---------- scenes ---------- */
+const catOf=()=>['','primary','secondary','tertiary'][ALK[state.alk].type];
+/* atom bonded to the TOP of a carbon (x = 380 or 540) */
+function topAdd(x,kind,anim,from,label){
+  const isH=kind==='H',y=isH?282:273;
+  const inner=isH?`<circle class="hifill" cx="${x}" cy="${y}" r="19"/>`+hAtom(x,y,12)
+                  :`<circle class="hifill" cx="${x}" cy="${y}" r="24"/>`+halAtom(x,y,18);
+  const bond=line(x,318,x,isH?294:291);
+  const g=anim?`<g class="slide" style="--dx:${from[0]}px;--dy:${from[1]}px">${inner}</g>`:inner;
+  return bond+g+(label?`<text class="note" style="text-anchor:end" x="${x-30}" y="${y+5}">new C–${isH?'H':state.X} bond</text>`:'');
+}
+const ATT=[540,230]; /* where the nucleophile sits when it attacks C+ */
+
+function sceneX2(step,aq){
+  const X=state.X;let s=aq?ambient():'';
+  const isProduct=(!aq&&step===4)||(aq&&step===6);
+  if(step<=1){
+    const d=step===0?state.d:0,ny=245-d,fy=ny-76,hx=380;
+    s+=skeleton('ene',{glow:d<=45?1-d/45:0})+piNote;
+    s+=`<g class="slide" style="--dx:0px;--dy:${step===1?-state.slideD:0}px">`
+      +line(hx,fy,hx,ny)+halAtom(hx,fy)+halAtom(hx,ny)
+      +(d<=45?delta(hx+34,ny,'+')+delta(hx+34,fy,'−'):`<text class="note" x="${hx+62}" y="${f((ny+fy)/2)}">non-polar</text>`)+`</g>`;
+    if(step===1)s+=arrow([432,322],[414,288],[392,262],.1)+arrow([388,207],[414,190],[396,180],.9)+penNo(432,284,1,.3)+penNo(424,194,2,1);
+    return s;
+  }
+  if(step===2||step===3){
+    s+=skeleton('cation')+topAdd(380,'X',step===2,[0,-28],true);
+    if(step===2){
+      s+=`<g class="slide" style="--dx:-280px;--dy:-21px">`+anion(660,190)+`</g><text class="note" x="660" y="232">${X}⁻</text>`;
+      s+=`<text class="note" x="720" y="430">${catOf()} carbocation</text>`;
+    }else if(!aq){
+      s+=`<g class="slide" style="--dx:120px;--dy:-40px">`+anion(ATT[0],ATT[1],[90,180,0,-90])+`</g>`;
+      s+=arrow([542,256],[515,284],[538,306],.1)+penNo(508,268,1,.3);
+    }else{
+      s+=`<g opacity=".4">`+anion(660,190)+`</g><text class="note" x="660" y="232">${X}⁻ (only a few)</text>`;
+      s+=`<g class="slide" style="--dx:120px;--dy:-40px">`+waterAtom(ATT[0],ATT[1],[90],true)+`</g>`;
+      s+=arrow([542,256],[515,284],[538,306],.1)+penNo(508,268,1,.3);
+    }
+    return s;
+  }
+  if(aq&&(step===4||step===5)){
+    s+=skeleton('single')+topAdd(380,'X',false);
+    s+=line(540,318,540,290)+line(523,273,509,273)+line(540,256,540,240)+hAtom(498,273,11)+hAtom(540,229,11)+oAtom(540,273,17)+chg(564,292,'+');
+    if(step===4){
+      s+=`<text class="note" x="720" y="215">oxonium ion:</text><text class="note" x="720" y="235">O has 3 bonds, so it is +</text>`;
+    }else{
+      s+=`<circle class="hifill" cx="540" cy="229" r="16"/>`+hAtom(540,229,11);
+      s+=waterAtom(620,205,[163],true);
+      s+=arrow([597,212],[575,212],[552,225],.1)+arrow([546,244],[564,246],[553,263],.9)+penNo(574,198,1,.3)+penNo(580,244,2,1);
+    }
+    return s;
+  }
+  if(isProduct){
+    s+=skeleton('single')+topAdd(380,'X',false);
+    if(!aq)s+=topAdd(540,'X',false);
+    else{
+      s+=line(540,318,540,290)+line(523,273,509,273)+`<circle class="hifill" cx="540" cy="273" r="23"/>`+hAtom(498,273,11)+oAtom(540,273,17);
+      s+=pill(620,205,'H₃O⁺',60)+`<text class="note" x="620" y="242">leaves as H₃O⁺</text>`;
+    }
+    s+=`<text class="pname" x="460" y="510">${prodName()}</text>`;
+  }
+  return s;
+}
+
+function sceneHX(step){
+  const X=state.X;let s='';
+  if(step<=1){
+    const d=step===0?state.d:0,ny=250-d,fy=ny-64,hx=380;
+    s+=skeleton('ene',{glow:d<=45?1-d/45:0})+piNote;
+    s+=`<g class="slide" style="--dx:0px;--dy:${step===1?-state.slideD:0}px">`
+      +line(hx,fy,hx,ny)+halAtom(hx,fy,20)+hAtom(hx,ny,13)+delta(hx+34,ny,'+')+delta(hx+38,fy,'−')+`</g>`;
+    if(step===1)s+=arrow([432,322],[414,290],[389,263],.1)+arrow([388,221],[414,204],[398,191],.9)+penNo(432,286,1,.3)+penNo(426,198,2,1);
+    return s;
+  }
+  if(step===2||step===3){
+    s+=skeleton('cation')+topAdd(380,'H',step===2,[0,-32],true);
+    if(step===2){
+      s+=`<g class="slide" style="--dx:-280px;--dy:-4px">`+anion(660,190)+`</g><text class="note" x="660" y="232">${X}⁻</text>`;
+      s+=`<text class="note" x="720" y="430">${catOf()} carbocation</text>`;
+    }else{
+      s+=`<g class="slide" style="--dx:120px;--dy:-40px">`+anion(ATT[0],ATT[1],[90,180,0,-90])+`</g>`;
+      s+=arrow([542,256],[515,284],[538,306],.1)+penNo(508,268,1,.3);
+    }
+    return s;
+  }
+  if(step===4){
+    s+=skeleton('single')+topAdd(380,'H',false)+topAdd(540,'X',false);
+    s+=`<text class="pname" x="460" y="510">${prodName()}</text>`;
+  }
+  return s;
+}
+function scene(){return state.rx==='hx'?sceneHX(state.step):sceneX2(state.step,state.rx==='aq')}
+
+/* ---------- captions ---------- */
+function caption(){
+  const {rx,step,d}=state,A=ALK[state.alk],X=state.X,T=HAL[X],close=d<=45;
+  const cat=['','primary','secondary','tertiary'][A.type];
+  const meter=`<div class="meter"><span class="${A.type===1?'on':''}">primary</span><i>&lt;</i><span class="${A.type===2?'on':''}">secondary</span><i>&lt;</i><span class="${A.type===3?'on':''}">tertiary</span></div>`;
+  if(rx==='hx'){
+    switch(step){
+      case 0:return [`Bring H${X} towards the C=C`,
+        `<p>${X} is more electronegative than H, so the H–${X} bond is already <b>polar</b>: H is δ+, ${X} is δ−. The C=C π bond is a region of high electron density, so it is attracted to the δ+ hydrogen.</p>`+
+        (close?`<p><b>Close enough.</b> Press <em>Next step</em> to see the electrons move.</p>`:`<p>Drag the slider to move H${X} closer to the double bond.</p>`)];
+      case 1:return [`The π electrons attack H⁺`,
+        `<p><b>Arrow 1:</b> the π electrons form a new C–H bond. <b>Arrow 2:</b> the H–${X} bond breaks and both electrons go to ${X}, which leaves as ${X}⁻.</p><p>This slow step is the rate-determining step. H adds to the carbon with <em>more</em> H atoms, leaving the positive charge on the other carbon.</p>`];
+      case 2:return [`A carbocation intermediate forms`,
+        (A.type===1
+          ?`<p>${cap(A.name)} is symmetrical, so both carbons are equivalent. The only possible intermediate is a <b>primary carbocation</b>.</p>`
+          :`<p>The positive charge is on the carbon with more alkyl groups: a <b>${cat} carbocation</b>. Alkyl groups push electron density towards C⁺, which stabilises it.</p>`)+
+        meter+
+        (A.type>1?`<p class="alt"><b>Why not the other carbon?</b> If H⁺ added to the other carbon, the + would sit on a <em>primary</em> carbon. That cation is much less stable, so that route is much slower. This is why the product follows Markovnikov's rule.</p>`:'')];
+      case 3:return [`${X}⁻ attacks the carbocation`,
+        `<p><b>Arrow:</b> a lone pair on ${X}⁻ (the nucleophile) forms a bond to the electron-poor carbon.</p>`];
+      default:return [`Product: ${prodName()}`,
+        (A.type===1?`<p>H and ${X} have added across the double bond. Ethene is symmetrical, so there is only one possible product.</p>`
+        :`<p>${X} ended up on the carbon that had <b>more alkyl groups</b>: <b>Markovnikov's rule</b>. The C=C has become C–C and the molecule is saturated.</p>`)+
+        `<p>Overall: ${A.F} + H${X} → ${prodF()}</p>`];
+    }
+  }
+  const aq=rx==='aq';
+  switch(step){
+    case 0:return [`Bring ${X}₂ towards the C=C`,
+      (close
+        ?`<p>The electron-rich π bond <b>repels</b> the electrons in the nearer ${X}–${X} bond. The molecule becomes polarised: the near ${X} is δ+ and the far ${X} is δ−. This is an <b>induced dipole</b>, and it makes ${X}₂ an electrophile.</p><p>Press <em>Next step</em> to see the electrons move.</p>`
+        :`<p>${cap(T.n)}, ${X}₂, is <b>non-polar</b>: the two atoms share electrons equally, so it is not obviously an electrophile. But the C=C π bond is a cloud of electron density.</p><p>Drag the slider to move ${X}₂ closer.</p>`)+
+      (aq?`<p>The faint molecules around are water. In ${T.n} water the solvent is H₂O, which matters later.</p>`:'')];
+    case 1:return [`The π bond attacks the δ+ ${X}`,
+      `<p><b>Arrow 1:</b> the π electrons form a new bond to the δ+ ${X}. <b>Arrow 2:</b> the ${X}–${X} bond breaks, and both electrons go to the far ${X}, which leaves as ${X}⁻.</p>`];
+    case 2:return [`A carbocation intermediate forms`,
+      (A.type===1
+        ?`<p>One ${X} atom is now bonded to a carbon. The other carbon has lost its share of the π electrons, so it carries a + charge: a <b>primary carbocation</b>.</p>`
+        :`<p>One ${X} atom is now bonded to the carbon with more H atoms. The + charge is on the carbon with more alkyl groups: a <b>${cat} carbocation</b>, the more stable arrangement.</p>`)+
+      meter+
+      (aq?`<p class="alt">There are only a few ${X}⁻ ions but a huge number of H₂O molecules. Which will get there first?</p>`:'')];
+    case 3:return aq
+      ?[`Water attacks the carbocation`,
+        `<p>H₂O is the solvent, so it is present in vast excess and mostly wins the race with ${X}⁻. <b>Arrow:</b> a lone pair on the oxygen forms a bond to the C⁺.</p>`]
+      :[`${X}⁻ attacks the carbocation`,
+        `<p><b>Arrow:</b> a lone pair on ${X}⁻ (the nucleophile) forms a bond to the electron-poor carbon.</p>`];
+    case 4:return aq
+      ?[`An oxonium ion forms`,`<p>The oxygen now has three bonds and a + charge: a protonated alcohol. It is very acidic, so it does not last.</p>`]
+      :[`Product: ${prodName()}`,
+        `<p>One ${X} is now on each of the two carbons that were joined by the double bond. The C=C has become C–C.</p><p>Overall: ${A.F} + ${X}₂ → ${prodF()}</p><p>The colour of ${X}₂ disappears, so this is a <b>test for C=C</b>.</p>`];
+    case 5:return [`Another water removes H⁺`,
+      `<p>A second H₂O acts as a base. <b>Arrow 1:</b> an O lone pair on the new water bonds to an H on the oxonium ion. <b>Arrow 2:</b> the O–H bond electrons stay on the first oxygen, which becomes neutral.</p>`];
+    default:return [`Product: ${prodName()}`,
+      `<p>An alcohol with a halogen on the neighbouring carbon. The –OH is on the carbon that carried the + charge. H₃O⁺ is produced too, so the solution becomes acidic.</p><p>Overall: ${A.F} + ${X}₂ + H₂O → ${prodF()} + H${X}</p><p>A little dihalide also forms when ${X}⁻ wins the race, but water is the main nucleophile. The orange colour fades.</p>`];
+  }
+}
+
+/* ---------- test tube ---------- */
+function tubeInfo(){
+  const X=state.X,rx=state.rx;
+  if(rx==='hx')return {col:null,txt:`H${X} is colourless and so is the product. There is no colour change, so ${X}₂ is used as the test for C=C, not H${X}.`};
+  const names={Cl:['pale yellow-green','pale yellow-green'],Br:['orange-brown','orange'],I:['violet','brown']};
+  const cols={Cl:['#D3DE6F','#E3EB98'],Br:['#F08A24','#F6B04E'],I:['#7A3FB0','#A8672E']};
+  const i=rx==='org'?0:1;
+  return {col:cols[X][i],txt:`${X}₂ ${rx==='org'?'in hexane':'in water'} is ${names[X][i]}. As the alkene uses it up, the colour fades to colourless.`};
+}
+function updateTube(){
+  const t=tubeInfo(),liq=$('#liq');
+  const prog={org:[1,1,.75,.4,0],aq:[1,1,.85,.6,.3,.15,0],hx:[0,0,0,0,0]}[state.rx][state.step];
+  liq.setAttribute('fill',t.col||'#cfe3ea');
+  liq.style.opacity=t.col?prog:0;
+  $('#tubeTxt').textContent=t.txt;
+}
+
+/* ---------- comparison table & quiz ---------- */
+function renderTable(){
+  const X=state.X,T=HAL[X];
+  const rows=[
+    ['org',`${X}₂ in organic solvent`,`${X}δ+ (induced dipole)`,'carbocation',`${X}⁻`,'1,2-dihalide','X adds to each carbon'],
+    ['hx',`H${X}`,`Hδ+ (permanent dipole)`,'carbocation',`${X}⁻`,'haloalkane','Markovnikov: X on the more substituted C'],
+    ['aq',`${X}₂ + H₂O`,`${X}δ+ (induced dipole)`,'carbocation','H₂O (solvent)','halohydrin (X and OH)','OH on the carbon that was C⁺']
+  ];
+  $('#cmp').innerHTML=`<thead><tr><th>Reagent</th><th>Electrophile</th><th>Intermediate</th><th>Nucleophile</th><th>Product type</th><th>Key point</th></tr></thead><tbody>`+
+    rows.map(r=>`<tr class="${r[0]===state.rx?'on':''}">${r.slice(1).map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')+`</tbody>`;
+}
+function quizData(){
+  const X=state.X,T=HAL[X];
+  return {
+    org:[
+      {q:`Why can non-polar ${X}₂ act as an electrophile?`,o:[
+        [`It is a permanent dipole.`,0,`${X}₂ is non-polar: identical atoms share electrons equally.`],
+        [`The π electrons repel the ${X}–${X} bond electrons and induce a dipole.`,1,`Correct: the near ${X} becomes δ+.`],
+        [`It splits into two ${X} radicals first.`,0,`That is a free-radical route (needs UV light), not this mechanism.`]]},
+      {q:`What is the intermediate?`,o:[
+        [`A carbocation (one C bonded to ${X}, the other C⁺)`,1,`Correct: the π electrons have bonded to ${X}, leaving a C⁺.`],
+        [`A free radical`,0,`Radicals are not involved in electrophilic addition.`],
+        [`A carbanion`,0,`The carbon lost electrons, so it is positive, not negative.`]]},
+      {q:`Which species attacks the carbocation in the last step?`,o:[
+        [`${X}⁻`,1,`Correct: it is the nucleophile, formed in step 1.`],
+        [`${X}•`,0,`That would be a radical mechanism.`],
+        [`H⁺`,0,`H⁺ is not involved with ${X}₂.`]]}],
+    hx:[
+      {q:`Which part of H${X} is the electrophile?`,o:[
+        [`The δ+ hydrogen`,1,`Correct: it accepts the π electron pair.`],
+        [`The δ− ${X}`,0,`δ− ${X} is the electron-rich end.`],
+        [`The C=C bond`,0,`The C=C is the nucleophile here.`]]},
+      {q:`Markovnikov's rule says ${X} ends up on the carbon that…`,o:[
+        [`already has more H atoms`,0,`It is the opposite: the H goes there.`],
+        [`has more alkyl groups (forms the more stable carbocation)`,1,`Correct: tertiary > secondary > primary.`],
+        [`is always the end carbon`,0,`Position depends on carbocation stability.`]]},
+      {q:`What happens to the H–${X} bond in step 1?`,o:[
+        [`It breaks, and both bonding electrons go to ${X}.`,1,`Correct: this gives H⁺ (to the alkene) and ${X}⁻.`],
+        [`It breaks, with one electron going to each atom.`,0,`That is homolytic fission (radicals), not this mechanism.`],
+        [`It stays intact.`,0,`The bond must break for H to bond to carbon.`]]}],
+    aq:[
+      {q:`Why does water, not ${X}⁻, mostly attack the carbocation?`,o:[
+        [`Water is the solvent, so there is a huge excess of it.`,1,`Correct: it wins by numbers.`],
+        [`Water is a stronger nucleophile than ${X}⁻.`,0,`Not the main reason: ${X}⁻ is actually a good nucleophile, but there is very little of it.`],
+        [`${X}⁻ is never formed.`,0,`It is formed in step 1.`]]},
+      {q:`In propene, which carbon carries the + charge, so water attacks it?`,o:[
+        [`The more substituted carbon (more alkyl groups)`,1,`Correct: that carbocation is more stable.`],
+        [`The less substituted carbon`,0,`That would be a less stable, primary cation.`],
+        [`Each with equal probability`,0,`Substituents make the two carbons different.`]]},
+      {q:`What type of organic product forms mainly?`,o:[
+        [`A dihaloalkane`,0,`That is the minor product.`],
+        [`A halohydrin (halogen and OH)`,1,`Correct: X on one carbon, OH on the other.`],
+        [`An alkane`,0,`The C=C is not reduced.`]]}]
+  }[state.rx];
+}
+function renderQuiz(){
+  const data=quizData();
+  $('#quiz').innerHTML=data.map((it,i)=>{
+    const k=state.rx+i,ch=state.quiz[k];
+    return `<div class="q"><p>${it.q}</p>`+it.o.map((o,j)=>`<button type="button" data-q="${i}" data-o="${j}" class="${ch===j?(o[1]?'right':'wrong'):''}">${o[0]}</button>`).join('')+
+      `<p class="fb">${ch!==undefined?it.o[ch][2]:''}</p></div>`;
+  }).join('');
+}
+
+/* ---------- UI ---------- */
+function seg(el,items,key){
+  el.innerHTML=items.map(([v,l])=>`<button type="button" data-v="${v}" aria-pressed="${state[key]===v}">${l}</button>`).join('');
+}
+function renderControls(){
+  const X=state.X;
+  seg($('#segAlk'),Object.keys(ALK).map(k=>[k,ALK[k].label]),'alk');
+  seg($('#segRx'),[['org',`${X}₂ in organic solvent`],['hx',`H${X}`],['aq',`${X}₂ + water`]],'rx');
+  seg($('#segX'),[['Cl','Cl'],['Br','Br'],['I','I']],'X');
+  $('#warn').textContent=(X==='I'&&state.rx!=='hx')?'Note: iodine adds to alkenes only reluctantly (the 1,2-diiodide is unstable), so textbooks usually use Cl₂ or Br₂. The mechanism is the same.':'';
+}
+function renderEq(){
+  const A=ALK[state.alk],X=state.X;
+  const reag={org:`${X}₂`,hx:`H${X}`,aq:`${X}₂ + H₂O`}[state.rx];
+  const sub={org:`${X}₂ dissolved in an organic solvent such as hexane, room temperature`,hx:`H${X} gas or concentrated solution, room temperature`,aq:`${T_n()} (${X}₂ dissolved in water)`}[state.rx];
+  $('#eq').innerHTML=`${A.F} + ${reag} → ${prodF()}${state.rx==='aq'?` + H${X}`:''}<small>${sub}</small>`;
+}
+function T_n(){return HAL[state.X].n+' water'}
+function renderChips(){
+  const st=stepsOf();
+  $('#chips').innerHTML=st.map((t,i)=>`<li><button type="button" data-i="${i}" class="${i<state.step?'done':''}" ${i===state.step?'aria-current="step"':''}>${i+1}. ${t}</button></li>`).join('');
+  $('#back').disabled=state.step===0;
+  $('#next').disabled=state.step===st.length-1;
+  $('#next').textContent=state.step===st.length-1?'Finished':'Next step';
+}
+function renderStage(){
+  $('#stage').innerHTML=scene();
+  state.slideD=0;
+  const [t,b]=caption();
+  $('#capT').textContent=t;$('#capB').innerHTML=b;
+}
+function render(){
+  renderControls();renderEq();renderChips();renderStage();updateTube();renderTable();renderQuiz();
+  $('#slideWrap').hidden=state.step!==0;
+  $('#dist').value=state.d;
+}
+function go(n){
+  const max=stepsOf().length-1;n=Math.max(0,Math.min(max,n));
+  state.slideD=(state.step===0&&n===1)?state.d:0;
+  if(n>=1)state.d=0;
+  state.step=n;
+  render();
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.closest('#segAlk')){state.alk=b.dataset.v;state.step=state.step;render();}
+  else if(b.closest('#segRx')){state.rx=b.dataset.v;state.step=0;state.d=100;render();}
+  else if(b.closest('#segX')){state.X=b.dataset.v;render();}
+  else if(b.closest('#chips')){go(+b.dataset.i);}
+  else if(b.closest('#quiz')){state.quiz[state.rx+b.dataset.q]=+b.dataset.o;renderQuiz();}
+});
+$('#next').addEventListener('click',()=>go(state.step+1));
+$('#back').addEventListener('click',()=>go(state.step-1));
+$('#replay').addEventListener('click',()=>{renderStage()});
+$('#dist').addEventListener('input',e=>{state.d=+e.target.value;renderStage()});
+$('#showArrows').addEventListener('change',e=>document.body.classList.toggle('noarrows',!e.target.checked));
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input[type=range]'))return;
+  if(e.key==='ArrowRight')go(state.step+1);
+  if(e.key==='ArrowLeft')go(state.step-1);
+});
+render();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
