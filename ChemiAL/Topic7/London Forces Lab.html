@@ -1,0 +1,685 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='SIYUxhvM8nOgOYwxkeG/bg==' src='https://d333e63b-dea2-465d-bafb-8e3b51129b9a.frame.claudeusercontent.com/n9sg3a_5lz1Kn6ycaoOO6yFOBy-F7GYrkmOhcuPv-5JlKL_a8ky2V__t5gvsoTXVxzUvXDKAxb-8HpUzPZCOZOiHCpTI83yj2qNkYi6nqbGUgeDK0puv3-JysP0ml5DW0jm3UTEJvjZpTZWVWcF2jhQDUI2yXMDS5M3tVPNZ-m7oQuS9h4aYuL5hIvyQFCumY0sd1d4KizR1jFr9YbpjumJ7ShoYw4zuLL4YL_Sj5y8E3a7g1zFy5NpC8FCsTTDhMWsUFrUk_Lq43tYPTSP6tKoI7gheHmLq6_2vHIy4AcYpCAIkSV4XNT1bJMBwrDhM-kaDoHADjAsawJFqpPAowVMmHa6ZsyY3wFz7bLYqF4YsMTj09blKDOBCGZjOxjSnftVoalnoFJn0ka73YpCDvCHcj0z8umbwA5Z7-Bbx25EF23PxDhp76rRtD33SYDpI-uf3HqEOityEL55GxAiM-wjQ4F0jjAl48s4XbPBuSnqVG0hl47QYU-qrsuwWsqu0Y7XJIGABToLZm9r_ql6PZe6VAEFuMQxkKYQ-dPyASHwO2691MFK8BursNWcPW-99ElkeLbHSmK3Ukip8o9cexDq33Y1tcHRf0zU5Am4XgGQtKoblDDPncHxdmO4Rmccywy-xrFP7NqUNls1Y-vLE-iMhkME-OkYjg_22h0bVl1s9H_ZqIHz3TEcuyTVgzzsJIX_G7kGmvBm98sp8-jYRPg'></script></head><body>
+<title>London Forces Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<style>
+/* Layout: one column of three experiments. Each experiment is a short explanation beside a live stage.
+   Colour code used everywhere: red = electrons / negative, blue = nuclei / positive, teal = the attraction. */
+:root{
+  --bg:#EDF1F4; --panel:#FFFFFF; --stage:#E1EAF0; --ink:#0E1C27; --muted:#4D5F6E; --line:#C7D3DC;
+  --accent:#0A7C86; --accent-ink:#FFFFFF; --pos:#2B62D9; --neg:#D2382F;
+  --s1:#0A7C86; --s2:#B06F0A; --s3:#6E4FD0; --near:#168A4A;
+  --f-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --f-body:"Instrument Sans",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1218; --panel:#111C25; --stage:#0C1820; --ink:#E7EFF4; --muted:#93A7B5; --line:#24374A;
+    --accent:#3CC4CF; --accent-ink:#06191C; --pos:#6FA3FF; --neg:#FF7B6F;
+    --s1:#3CC4CF; --s2:#F0B34A; --s3:#A895FF; --near:#4ADE80; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1218; --panel:#111C25; --stage:#0C1820; --ink:#E7EFF4; --muted:#93A7B5; --line:#24374A;
+  --accent:#3CC4CF; --accent-ink:#06191C; --pos:#6FA3FF; --neg:#FF7B6F;
+  --s1:#3CC4CF; --s2:#F0B34A; --s3:#A895FF; --near:#4ADE80; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 56px}
+.wrap{max-width:1080px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.08}
+h1{font-size:clamp(2.3rem,6vw,3.8rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.6vw,2.2rem);font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.05rem;font-weight:600;letter-spacing:0}
+p{margin:0}
+.eyebrow{font:600 .75rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.top{display:flex;flex-direction:column;gap:18px;max-width:760px}
+.top p.lead{font-size:1.15rem;color:var(--muted);max-width:60ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.9rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{font:600 .95rem var(--f-body);padding:11px 18px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);cursor:pointer;min-height:44px}
+.tab:hover{border-color:var(--accent)}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.nav a{font:600 .85rem var(--f-mono);color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:6px}
+.nav a:hover{border-color:var(--accent);color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.part{display:grid;grid-template-columns:minmax(0,1fr);gap:24px 40px;scroll-margin-top:16px}
+@media (min-width:920px){.part{grid-template-columns:minmax(0,340px) minmax(0,1fr);align-items:start}.prose{position:sticky;top:16px}}
+.prose{display:flex;flex-direction:column;gap:16px;min-width:0}
+.prose ol,.prose ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:10px}
+.prose li::marker{color:var(--accent);font-weight:600}
+.note{border-left:3px solid var(--accent);padding:2px 0 2px 14px;color:var(--muted);font-size:.95rem}
+.note b{color:var(--ink)}
+.stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+canvas{display:block;width:100%;height:auto;border-radius:8px;background:var(--stage)}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.btn{font:600 .85rem var(--f-body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 14px;cursor:pointer;min-height:38px}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+label.ctl{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--muted);min-width:0}
+label.ctl input[type=range]{width:min(190px,38vw);accent-color:var(--accent)}
+label.ctl input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.val{font-family:var(--f-mono);font-size:.82rem;color:var(--ink);min-width:3.6em}
+.meters{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px}
+.meter-h{display:flex;justify-content:space-between;font-size:.82rem;color:var(--muted);margin-bottom:5px}
+.meter-h b{font:600 .82rem var(--f-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.meter{height:10px;background:var(--stage);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.say{background:var(--stage);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:12px 16px;min-height:8.4em;display:flex;flex-direction:column;gap:6px}
+.say p{color:var(--ink);max-width:62ch}
+.cap{font-size:.82rem;color:var(--muted)}
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+.tbl th{font:600 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle;font-variant-numeric:tabular-nums}
+.tbl tr.pick{cursor:pointer}
+.tbl tr.pick:hover td{background:var(--stage)}
+.tbl tr.on td{background:var(--stage)}
+.tbl tr.on td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.tbl .sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:8px;vertical-align:-1px;border:1px solid var(--ink)}
+.tbl button.rowbtn{all:unset;cursor:pointer;font-weight:600}
+.tbl button.rowbtn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tscroll{overflow-x:auto}
+.mini{height:8px;background:var(--stage);border-radius:99px;min-width:70px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--accent)}
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.boxes figure{margin:0;display:flex;flex-direction:column;gap:6px;min-width:0}
+.boxes figcaption{display:flex;flex-direction:column;gap:2px;font-size:.82rem}
+.boxes figcaption strong{font:600 .95rem var(--f-display)}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 .75rem var(--f-mono)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.chip.solid i{background:var(--pos)}.chip.liquid i{background:var(--accent)}.chip.gas i{background:var(--s2)}
+svg text{font-family:var(--f-mono)}
+svg .ax{fill:var(--muted);font-size:11px}
+svg .vl{fill:var(--ink);font-size:11px;font-weight:600}
+svg .gl{stroke:var(--line);stroke-width:1}
+.foot{font-size:.82rem;color:var(--muted);max-width:70ch}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Intermolecular forces</p>
+    <h1>London Forces Lab</h1>
+    <p class="lead">Three experiments on instantaneous dipole–induced dipole attraction. Start with where the force comes from, then change the number of electrons, then change the shape.</p>
+    <div class="legend" aria-label="Colour key">
+      <span><i class="dot" style="background:var(--neg)"></i>electrons, δ−</span>
+      <span><i class="dot" style="background:var(--pos)"></i>nucleus, δ+</span>
+      <span><i class="dot" style="background:var(--accent)"></i>attraction</span>
+    </div>
+    </header>
+
+  <div class="tabs" role="tablist" aria-label="Experiments">
+    <button class="tab" role="tab" id="tab-origin" data-tab="origin" aria-controls="origin" aria-selected="true">1 · Origin</button>
+    <button class="tab" role="tab" id="tab-size" data-tab="size" aria-controls="size" aria-selected="false" tabindex="-1">2 · Size</button>
+    <button class="tab" role="tab" id="tab-shape" data-tab="shape" aria-controls="shape" aria-selected="false" tabindex="-1">3 · Shape</button>
+  </div>
+
+  <!-- PART 1 -->
+  <section class="part" id="origin" role="tabpanel" aria-labelledby="tab-origin">
+    <div class="prose">
+      <p class="eyebrow">Experiment 1 of 3</p>
+      <h2>Electrons never sit still</h2>
+      <p>Argon is a single atom with no permanent dipole, yet it becomes a liquid at 87 K. Something attracts the atoms to each other.</p>
+      <ol>
+        <li><b>Random movement.</b> On average the electron cloud is symmetrical. At one instant the electrons are bunched to one side, so that side is δ− and the other is δ+. This is an instantaneous dipole.</li>
+        <li><b>Induced dipole.</b> The δ− side repels the electrons of the neighbouring atom and the δ+ side attracts them. The neighbour's cloud tilts.</li>
+        <li><b>Attraction.</b> δ+ now faces δ−. The dipoles change direction all the time, but they change together, so the attraction stays.</li>
+      </ol>
+      <p class="note"><b>Try this.</b> Step through the five frames and watch which sides face each other. Then drag the atoms apart and go back to frame 4.</p>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <canvas id="c1" width="720" height="320" style="aspect-ratio:720/320" aria-label="Two argon atoms shown at five frames"></canvas>
+        <div class="steps" id="steps" role="group" aria-label="Frames"></div>
+        <div class="say" aria-live="polite"><h3 id="sayh"></h3><p id="sayp"></p></div>
+        <div class="row">
+          <button class="btn" id="p1back">Back</button>
+          <button class="btn" id="p1next">Next</button>
+          <button class="btn" id="p1play" aria-pressed="false">Pause auto-play</button>
+          <label class="ctl">Distance <input id="p1dist" type="range" min="150" max="420" step="1" value="250"><span class="val" id="p1distv"></span></label>
+          <label class="ctl"><input id="p1avg" type="checkbox"> Show average cloud</label>
+        </div>
+        <div><div class="meter-h"><span>Attraction between the atoms</span><b id="m1a">0%</b></div><div class="meter"><i id="b1a"></i></div></div>
+        <p class="cap">Schematic: 10 of argon's 18 electrons are drawn. Real electrons move far too fast to follow, so these frames freeze moments that really do happen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 2 -->
+  <section class="part" id="size" role="tabpanel" aria-labelledby="tab-size" hidden="">
+    <div class="prose">
+      <p class="eyebrow">Experiment 2 of 3</p>
+      <h2>More electrons, stronger pull</h2>
+      <p>The halogens are all non-polar diatomic molecules, so London forces are the only attraction between them. Going down the group the number of electrons rises from 18 to 106.</p>
+      <ul>
+        <li>A larger cloud has more electrons that can end up on one side, and its outer electrons are held loosely. At any moment the instantaneous dipole is bigger.</li>
+        <li>A bigger dipole induces a bigger dipole in the neighbour, so the attraction is stronger. More energy is needed to separate the molecules, so the boiling point rises.</li>
+      </ul>
+      <p class="note"><b>Try this.</b> Compare F₂ with I₂ in each moment. In every frame the same fraction of electrons moves to one side, so the difference you see comes only from size.</p>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <canvas id="c2" width="720" height="290" style="aspect-ratio:720/290" aria-label="A small and a large molecule shown at the same moment"></canvas>
+        <div class="row"><span class="cap">Small molecule</span><div class="steps" id="selS" role="group" aria-label="Small molecule"></div></div>
+        <div class="row"><span class="cap">Large molecule</span><div class="steps" id="selL" role="group" aria-label="Large molecule"></div></div>
+        <div class="steps" id="steps2" role="group" aria-label="Moments"></div>
+        <div class="say" aria-live="polite"><h3 id="say2h"></h3><p id="say2p"></p></div>
+        <div class="row">
+          <button class="btn" id="p2back">Back</button>
+          <button class="btn" id="p2next">Next</button>
+          <button class="btn" id="p2play" aria-pressed="false">Pause auto-play</button>
+        </div>
+        <p class="cap">Each dot is 2 electrons. Each molecule is two nuclei sharing one cloud, drawn to scale from bond length and van der Waals radius. In every moment the same fraction of each cloud shifts to one end. The count of extra electrons is taken from the dots on screen. The dipole size is that count multiplied by how far the cloud's centre has moved, shown relative to I₂ at its biggest.</p>
+      </div>
+      <div class="card">
+        <h3>What it means for boiling point</h3>
+        <svg id="chart" viewbox="0 0 640 250" width="100%" role="img" aria-label="Boiling points of the halogens"></svg>
+        <div class="tscroll"><table class="tbl" id="t2"><thead><tr><th>Molecule</th><th>Electrons</th><th>London force (model)</th><th>Boiling point</th></tr></thead><tbody></tbody></table></div>
+        <p class="cap">The model column comes from running the electron simulation for each molecule, relative to I₂. Boiling points are data-book values.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 3 -->
+  <section class="part" id="shape" role="tabpanel" aria-labelledby="tab-shape" hidden="">
+    <div class="prose">
+      <p class="eyebrow">Experiment 3 of 3</p>
+      <h2>Same electrons, different shape</h2>
+      <p>Pentane, 2-methylbutane and 2,2-dimethylpropane are all C₅H₁₂. Each has 42 electrons, so the size effect from experiment 2 cannot explain any difference.</p>
+      <p class="note"><b>Key idea.</b> It is not how many electrons there are. It is how many are close enough to the neighbouring molecule. The attraction between two electron clouds drops off so fast with distance that electrons further away add almost nothing.</p>
+      <ul>
+        <li>A long molecule lies flat against its neighbour, so many of its electrons are within range.</li>
+        <li>A compact, branched molecule touches at only a few points. Most of its electrons are too far away to count.</li>
+        <li>A larger contact surface means more electrons in range, so a stronger total attraction and a higher boiling point.</li>
+      </ul>
+      <p class="note"><b>Try this.</b> Go to frame 3. Compare how many dots stay bright in each pair, and how wide the contact bracket is.</p>
+    </div>
+    <div class="stack">
+      <div class="card">
+        <canvas id="c3" width="720" height="420" style="aspect-ratio:720/420" aria-label="Three pairs of C5H12 isomers lying against each other"></canvas>
+        <div class="steps" id="steps3" role="group" aria-label="Frames"></div>
+        <div class="say" aria-live="polite"><h3 id="say3h"></h3><p id="say3p"></p></div>
+        <div class="row">
+          <button class="btn" id="p3back">Back</button>
+          <button class="btn" id="p3next">Next</button>
+          <button class="btn" id="p3play" aria-pressed="false">Pause auto-play</button>
+        </div>
+        <div class="tscroll"><table class="tbl" id="t3"><thead><tr><th>Molecule</th><th>Formula</th><th>Electrons</th><th>Max touching pairs</th><th>Boiling point</th></tr></thead><tbody></tbody></table></div>
+        <p class="cap">Flat schematic: each CH₃, CH₂, CH or C group is one circle with its nucleus, and the 42 electrons (one dot each) are shared by the whole molecule. Each pair is shown lying in its closest-packed position. Only touching pairs are counted, and each pair is shown directly facing its neighbour, which is the best case. An electron counts as in range when it is within about one group of the other molecule's nuclei. The count and the bar are for the 42 electrons of the upper molecule, which are attracted to the exposed nuclei of the lower one. The lower molecule's electrons are drawn fainter and are not counted. In a real liquid every nearby pair contributes a little, and molecules tumble, so this counts the strongest contacts as a teaching simplification.</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="foot">Boiling and melting points are standard data-book values. The simulations are teaching models: they show the mechanism and the trends, not exact energies.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var TAU=Math.PI*2, FD='"Bricolage Grotesque",system-ui,sans-serif', FM='"JetBrains Mono",monospace';
+function rnd(){return Math.random()}
+function gauss(){return (rnd()+rnd()+rnd()+rnd()-2)*1.73}
+function clamp(v,a,b){return v<a?a:v>b?b:v}
+
+/* ---------- theme tokens for canvas ---------- */
+var TK={};
+function readTokens(){var cs=getComputedStyle(document.documentElement);
+  ["panel","stage","ink","muted","line","accent","pos","neg","s1","s2","s3","near"].forEach(function(k){TK[k]=cs.getPropertyValue("--"+k).trim()});}
+readTokens();
+new MutationObserver(readTokens).observe(document.documentElement,{attributes:true});
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){setTimeout(readTokens,60)});
+
+/* ---------- canvas helper ---------- */
+function Cv(el,W,H){
+  var o={el:el,W:W,H:H,ctx:el.getContext("2d"),k:1,vis:true};
+  function fit(){var w=el.clientWidth||W,d=Math.min(window.devicePixelRatio||1,2);el.width=Math.round(w*d);el.height=Math.round(w*d*H/W);o.k=el.width/W}
+  fit(); new ResizeObserver(fit).observe(el);
+  new IntersectionObserver(function(e){o.vis=e[0].isIntersecting},{rootMargin:"120px"}).observe(el);
+  o.begin=function(){var c=o.ctx;c.setTransform(o.k,0,0,o.k,0,0);c.clearRect(0,0,W,H);return c};
+  return o;
+}
+function circ(c,x,y,r){c.beginPath();c.arc(x,y,r,0,TAU)}
+function arrow(c,x1,y,x2,w,col){
+  var d=x2>x1?1:-1;c.strokeStyle=col;c.fillStyle=col;c.lineWidth=w;c.lineCap="round";
+  c.beginPath();c.moveTo(x1,y);c.lineTo(x2-d*7,y);c.stroke();
+  c.beginPath();c.moveTo(x2,y);c.lineTo(x2-d*11,y-6);c.lineTo(x2-d*11,y+6);c.closePath();c.fill();
+}
+
+/* =========================================================
+   Pair of electron clouds (experiments 1 and 2)
+   Electron positions are in units of the cloud radius.
+   ========================================================= */
+function Pair(p){
+  this.p=p;this.n=p.ndots;this.A=this.mk();this.B=this.mk();
+  this.cA=[0,0];this.cB=[0,0];this.S=0;this.fast=0;this.slow=0;this.hist=[];
+}
+Pair.prototype.mk=function(){var a=[],i,t,r;for(i=0;i<this.n;i++){t=rnd()*TAU;r=Math.sqrt(rnd())*.8;a.push({x:Math.cos(t)*r,y:Math.sin(t)*r,vx:0,vy:0})}return a};
+Pair.prototype.move=function(E){
+  var i,e,d,nx,ny,vr;
+  for(i=0;i<E.length;i++){e=E[i];
+    e.vx=e.vx*.94+gauss()*.0086-.002*e.x;e.vy=e.vy*.94+gauss()*.0086-.002*e.y;
+    e.x+=e.vx;e.y+=e.vy;d=Math.hypot(e.x,e.y);
+    if(d>.92){nx=e.x/d;ny=e.y/d;e.x=nx*.92;e.y=ny*.92;vr=e.vx*nx+e.vy*ny;if(vr>0){e.vx-=1.5*vr*nx;e.vy-=1.5*vr*ny}}
+  }};
+Pair.prototype.cen=function(E){var x=0,y=0,i;for(i=0;i<E.length;i++){x+=E[i].x;y+=E[i].y}return[x/E.length,y/E.length]};
+Pair.prototype.step=function(){
+  var p=this.p,a,b,k,i;
+  this.move(this.A);this.move(this.B);a=this.cen(this.A);b=this.cen(this.B);k=p.coupling*.07;
+  var dxA=k*(b[0]-a[0]),dyA=k*(-.5*b[1]-a[1]),dxB=k*(a[0]-b[0]),dyB=k*(-.5*a[1]-b[1]);
+  for(i=0;i<this.n;i++){this.A[i].x+=dxA;this.A[i].y+=dyA;this.B[i].x+=dxB;this.B[i].y+=dyB}
+  a=this.cen(this.A);b=this.cen(this.B);this.cA=a;this.cB=b;
+  var R=p.R;
+  /* collinear dipole energy: aligned shifts attract, side-on shifts attract when opposite */
+  this.S=p.coupling*(2*a[0]*b[0]-a[1]*b[1])*R*R*p.N*p.N/Math.pow(p.r,3);
+  this.fast+=(this.S-this.fast)*.08;this.slow+=(this.S-this.slow)*.004;
+  this.hist.push([a[0],b[0]]);if(this.hist.length>300)this.hist.shift();
+};
+function calibrate(p){var q=new Pair(p),i,s=0;for(i=0;i<700;i++)q.step();for(i=0;i<4000;i++){q.step();s+=q.S}return s/4000}
+Pair.prototype.atom=function(c,x,y,E,cen,showAvg,label,kk){
+  var p=this.p,R=p.R,G=p.G,ox=cen[0]*R*G,oy=cen[1]*R*G,k,i,e,gr=R*(.35+.4*(kk||1));
+  /* the circle is the fixed boundary of the atom; the glow shows where the electrons are */
+  c.fillStyle=TK.neg;c.globalAlpha=.06;circ(c,x,y,R);c.fill();
+  c.save();circ(c,x,y,R);c.clip();
+  for(k=0;k<6;k++){c.globalAlpha=.1;circ(c,x+ox,y+oy,gr*(1.25-k*.17));c.fill()}
+  c.restore();
+  c.globalAlpha=1;c.strokeStyle=TK.neg;c.lineWidth=1.8;circ(c,x,y,R);c.stroke();
+  if(showAvg){c.save();c.setLineDash([5,5]);c.strokeStyle=TK.muted;c.lineWidth=1.2;circ(c,x,y,R*.6);c.stroke();c.restore()}
+  c.fillStyle=TK.pos;circ(c,x,y,8);c.fill();
+  c.fillStyle="#fff";c.font="700 12px "+FD;c.textAlign="center";c.textBaseline="middle";c.fillText("+",x,y+.5);
+  c.fillStyle=TK.neg;
+  for(i=0;i<E.length;i++){e=E[i];var dx=(e.x-cen[0])*R+ox,dy=(e.y-cen[1])*R+oy,d=Math.hypot(dx,dy);if(d>R*.92){dx*=R*.92/d;dy*=R*.92/d}
+    circ(c,x+dx,y+dy,p.dot);c.fill()}
+  var m=Math.hypot(cen[0],cen[1])*G;
+  if(m>.16){var al=clamp((m-.16)/.3,0,1),h=Math.hypot(cen[0],cen[1]),ux=cen[0]/h,uy=cen[1]/h,fs=Math.round((13+8*al)*(p.ls||1)),o1=p.lblOut?R+22:R*.6;
+    c.font="700 "+fs+"px "+FD;c.globalAlpha=.25+.75*al;
+    c.fillStyle=TK.neg;c.fillText("δ−",x+ux*o1,y+uy*o1);
+    c.fillStyle=TK.pos;c.fillText("δ+",x-ux*o1,y-uy*o1);c.globalAlpha=1}
+  c.fillStyle=TK.muted;c.font="600 12px "+FM;c.fillText(label,x,y-R-14);
+};
+Pair.prototype.draw=function(cv,ref,opt){
+  var c=cv.begin(),p=this.p,W=cv.W,H=cv.H,cy=H/2+(opt.dy||0),xA=W/2-p.r/2,xB=W/2+p.r/2;
+  this.atom(c,xA,cy,this.A,this.cA,opt.avg,opt.nameA,this.kA);this.atom(c,xB,cy,this.B,this.cB,opt.avg,opt.nameB,this.kB);
+  var u=clamp(this.fast/ref,0,1),ay=cy+p.R+26,len=14+Math.min(p.r/2-10,70)*u;
+  if(u>.02){arrow(c,xA,ay,xA+len,2+3*u,TK.accent);arrow(c,xB,ay,xB-len,2+3*u,TK.accent)}
+  c.fillStyle=TK.muted;c.font="600 11px "+FM;c.textAlign="center";c.fillText(u>.02?"attraction":"no net pull",W/2,ay+20);
+};
+
+/* ---------- Experiment 1: five frozen frames ---------- */
+function bindPlay(btn,obj,on,off){
+  function sync(){btn.textContent=obj.play?(off||"Pause"):(on||"Play");btn.setAttribute("aria-pressed",obj.play?"false":"true")}
+  btn.addEventListener("click",function(){obj.play=!obj.play;sync()});sync();return sync;
+}
+var STEPS=[
+ {n:"Average",t:"Averaged over time",x:"Over a long time the electrons are spread evenly around the nucleus. The cloud is symmetrical, so there is no δ+ or δ− anywhere.",A:[1,0],B:[1,0],att:0},
+ {n:"One instant",t:"One instant: the electrons bunch up",x:"At one instant the electrons in atom A happen to be bunched on the right. That side has extra negative charge (δ−) and the left side is short of electrons (δ+). This is an instantaneous dipole.",A:[.3,.55],B:[1,0],att:0},
+ {n:"Neighbour reacts",t:"The neighbour reacts",x:"A's δ− side repels the electrons in atom B, so they move to the far side. B's left side becomes δ+. B now has a dipole that A induced.",A:[.3,.55],B:[.3,.55],att:.5,push:true},
+ {n:"Attraction",t:"δ+ faces δ−: attraction",x:"A's δ− side faces B's δ+ side. Opposite charges attract, so the atoms pull together. This pull is the London force.",A:[.3,.55],B:[.3,.55],att:1},
+ {n:"Next instant",t:"A moment later the dipoles flip together",x:"The electrons in A move to the left and B's electrons follow. δ+ still faces δ−, so the atoms are attracted all the time, not just in one frame.",A:[.3,-.55],B:[.3,-.55],att:1}
+];
+var cv1=Cv($("#c1"),720,320);
+var P1={cur:0,play:!reduce,clock:0,t0:0,avg:false,r:250,att:0,push:0,a:{k:1,ox:0},b:{k:1,ox:0}};
+P1.sim=new Pair({ndots:10,N:18,R:70,r:250,coupling:1,G:1,dot:3.6,lblOut:true});
+function phyl(off){var a=[],i,r,t;for(i=0;i<10;i++){r=.8*Math.sqrt((i+.5)/10);t=i*2.39996+off;a.push([Math.cos(t)*r,Math.sin(t)*r,i*1.7+off])}return a}
+P1.baseA=phyl(0);P1.baseB=phyl(1.1);
+function c1(){return Math.min(1,Math.pow(250/P1.r,3))}
+var stepBtns=[];
+(function(){
+  var host=$("#steps");
+  STEPS.forEach(function(s,i){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=(i+1)+" · "+s.n;
+    b.addEventListener("click",function(){P1.play=false;syncPlay1();go1(i)});host.appendChild(b);stepBtns.push(b)});
+})();
+function go1(i){P1.cur=(i+STEPS.length)%STEPS.length;P1.t0=P1.clock;
+  stepBtns.forEach(function(b,j){b.setAttribute("aria-pressed",j===P1.cur?"true":"false")});
+  $("#sayh").textContent=STEPS[P1.cur].t;$("#sayp").textContent=STEPS[P1.cur].x}
+var syncPlay1=bindPlay($("#p1play"),P1,"Start auto-play","Pause auto-play");
+$("#p1back").addEventListener("click",function(){P1.play=false;syncPlay1();go1(P1.cur-1)});
+$("#p1next").addEventListener("click",function(){P1.play=false;syncPlay1();go1(P1.cur+1)});
+$("#p1avg").addEventListener("change",function(e){P1.avg=e.target.checked});
+$("#p1dist").addEventListener("input",function(e){P1.r=+e.target.value;P1.sim.p.r=P1.r;
+  $("#p1distv").textContent=P1.r<=152?"touching":(P1.r/140).toFixed(1)+" × width"});
+$("#p1distv").textContent=(250/140).toFixed(1)+" × width";
+go1(0);
+function place(E,base,st){var i;for(i=0;i<E.length;i++){E[i].x=base[i][0]*st.k+st.ox+.03*Math.sin(P1.clock*1.6+base[i][2]);E[i].y=base[i][1]*st.k+.03*Math.cos(P1.clock*1.3+base[i][2])}}
+function upd1(dt){
+  var s=STEPS[P1.cur],c=c1(),f=1-Math.exp(-dt*4),sm=P1.sim;
+  P1.clock+=dt;
+  if(P1.play&&P1.clock-P1.t0>6)go1(P1.cur+1);
+  s=STEPS[P1.cur];
+  P1.a.k+=(s.A[0]-P1.a.k)*f;P1.a.ox+=(s.A[1]-P1.a.ox)*f;
+  P1.b.k+=((1-(1-s.B[0])*c)-P1.b.k)*f;P1.b.ox+=(s.B[1]*c-P1.b.ox)*f;
+  P1.att+=(s.att*c*c-P1.att)*f;P1.push+=((s.push?c:0)-P1.push)*f;
+  place(sm.A,P1.baseA,P1.a);place(sm.B,P1.baseB,P1.b);
+  sm.cA=sm.cen(sm.A);sm.cB=sm.cen(sm.B);sm.fast=P1.att;sm.kA=P1.a.k;sm.kB=P1.b.k;
+}
+function over1(){
+  var c=cv1.ctx,R=70,cy=170,xB=360+P1.r/2,i;
+  if(P1.push>.05){c.globalAlpha=P1.push;
+    for(i=-1;i<=1;i+=2)arrow(c,xB-P1.r+R+4,cy+i*36,xB-R-6,2.5,TK.neg);
+    c.fillStyle=TK.neg;c.font="600 12px "+FM;c.textAlign="center";c.fillText("pushed away",360,cy-R-34);c.globalAlpha=1}
+  c.fillStyle=TK.muted;c.font="600 12px "+FM;c.textAlign="left";c.fillText("frame "+(P1.cur+1)+" of "+STEPS.length,14,22);
+}
+
+/* ---------- Experiment 2: small and large molecule at the same moment ---------- */
+/* d = bond length, rho = van der Waals radius, both in angstrom; drawn to one common scale */
+var HAL=[
+  {id:"F2",n:"F₂",e:18,bp:85,col:"#E7E06E",d:1.42,rho:1.47},
+  {id:"Cl2",n:"Cl₂",e:34,bp:239,col:"#A8CB2D",d:1.99,rho:1.75},
+  {id:"Br2",n:"Br₂",e:70,bp:332,col:"#B8432A",d:2.28,rho:1.85},
+  {id:"I2",n:"I₂",e:106,bp:457,col:"#7B3FA0",d:2.67,rho:1.98}
+];
+var PXA=38;
+function calP(m){var R=18+37*Math.sqrt(m.e/106),nd=Math.round(m.e/2);return{ndots:nd,N:m.e,R:R,r:2*R+16,coupling:.95,G:1,dot:2.2}}
+HAL.forEach(function(m){m.S=calibrate(calP(m))});
+HAL.forEach(function(m){m.rel=m.S/HAL[3].S});
+/* evenly spread electron positions inside a capsule (two nuclei joined by a bond) */
+function capBases(n,dpx,rpx,seed){
+  var pts=[],r=rpx*.85,hw=dpx/2+r,st=seed*9301+49297,i,j,x,y,best,bd,k,md,q;
+  function R(){st=(st*9301+49297)%233280;return st/233280}
+  function inside(x,y){var cx=clamp(x,-dpx/2,dpx/2);return Math.hypot(x-cx,y)<=r}
+  for(i=0;i<n;i++){bd=-1;best=null;
+    for(j=0;j<16;j++){do{x=(R()*2-1)*hw;y=(R()*2-1)*r}while(!inside(x,y));
+      md=1e9;for(k=0;k<pts.length;k++){q=Math.hypot(x-pts[k][0],y-pts[k][1]);if(q<md)md=q}
+      if(md>bd){bd=md;best=[x,y,i*1.7+seed]}}
+    pts.push(best)}
+  return pts;
+}
+/* a moment where the cloud is squeezed to half its width and moved .45 of the half-length toward dir */
+function dipoleAt(m,dir){
+  var nd=Math.round(m.e/2),dpx=m.d*PXA,rpx=m.rho*PXA,b=capBases(nd,dpx,rpx,1),sx=.45*(dpx/2+rpx),n=0,i;
+  for(i=0;i<nd;i++){if((b[i][0]*.5+dir*sx)*dir>0)n++}
+  var exc=Math.max(0,2*n-nd);return{exc:exc,mu:exc*sx};
+}
+var MU_REF=dipoleAt(HAL[3],1).mu;
+var MOM=[{n:"Average",dir:0},{n:"Moment A",dir:1},{n:"Moment B",dir:-1}];
+var cv2=Cv($("#c2"),720,290);
+var P2={cur:1,play:!reduce,clock:0,t0:0,si:0,li:3};
+function side(idx){
+  var m=HAL[idx],nd=Math.round(m.e/2),dpx=m.d*PXA,rpx=m.rho*PXA,i,E=[];
+  for(i=0;i<nd;i++)E.push({x:0,y:0});
+  return{m:m,nd:nd,dpx:dpx,rpx:rpx,hw:dpx/2+rpx,base:capBases(nd,dpx,rpx,1),E:E,st:{k:1,s:0},exc:0,excT:0,mu:0,cx:0,cy:0};
+}
+function mkSides(){P2.S=side(P2.si);P2.L=side(P2.li);}
+var steps2=[];
+(function(){
+  var host=$("#steps2");
+  MOM.forEach(function(s,i){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=(i+1)+" · "+s.n;
+    b.addEventListener("click",function(){P2.play=false;syncPlay2();go2(i)});host.appendChild(b);steps2.push(b)});
+  function group(id,key){
+    var h=$(id),bs=[];
+    HAL.forEach(function(m,i){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=m.n+" · "+m.e+" e⁻";
+      b.addEventListener("click",function(){P2[key]=i;sync();mkSides();go2(P2.cur)});h.appendChild(b);bs.push(b)});
+    function sync(){bs.forEach(function(b,i){b.setAttribute("aria-pressed",i===P2[key]?"true":"false")})}
+    sync();
+  }
+  group("#selS","si");group("#selL","li");
+})();
+function go2(i){
+  P2.cur=(i+MOM.length)%MOM.length;P2.t0=P2.clock;
+  steps2.forEach(function(b,j){b.setAttribute("aria-pressed",j===P2.cur?"true":"false")});
+  var S=HAL[P2.si],L=HAL[P2.li],dir=MOM[P2.cur].dir,h,t;
+  if(dir===0){h="Averaged over time";t="Each molecule has two nuclei sharing one electron cloud. Over a long time the cloud is symmetrical, so neither molecule has a dipole. The difference between small and large only shows up in individual moments.";}
+  else{
+    var ds=dipoleAt(S,dir),dl=dipoleAt(L,dir),ratio=ds.mu>0?dl.mu/ds.mu:0;
+    if(P2.cur===1){h="One moment: the same shift, a bigger dipole";
+      t="At this moment the same fraction of electrons has moved to one end in both molecules. In "+L.n+" that leaves about "+dl.exc+" extra electrons on the δ− end, against about "+ds.exc+" in "+S.n+". "+(P2.li===P2.si?"":"The dipole of "+L.n+" is about "+(ratio>=10?Math.round(ratio):ratio.toFixed(1))+" times larger in this model.");}
+    else{h="Another moment: the ends swap";
+      t="The electrons are now at the other end, so δ+ and δ− have swapped places. The direction keeps changing, but "+L.n+" keeps the bigger charge imbalance every time. A bigger dipole induces a bigger dipole in the neighbour, so the attraction between "+L.n+" molecules is stronger.";}
+  }
+  $("#say2h").textContent=h;$("#say2p").textContent=t;
+}
+var syncPlay2=bindPlay($("#p2play"),P2,"Start auto-play","Pause auto-play");
+$("#p2back").addEventListener("click",function(){P2.play=false;syncPlay2();go2(P2.cur-1)});
+$("#p2next").addEventListener("click",function(){P2.play=false;syncPlay2();go2(P2.cur+1)});
+function upd2(dt){
+  var f=1-Math.exp(-dt*4),dir=MOM[P2.cur].dir,tk=dir===0?1:.5,ts=.45*dir;
+  P2.clock+=dt;if(P2.play&&P2.clock-P2.t0>6)go2(P2.cur+1);
+  [P2.S,P2.L].forEach(function(s){
+    var st=s.st,i,b,w,n=0,ox,sx=s.hw;
+    st.k+=(tk-st.k)*f;st.s+=(ts-st.s)*f;ox=st.s*sx;s.cx=0;s.cy=0;
+    for(i=0;i<s.nd;i++){b=s.base[i];s.E[i].x=b[0]*st.k+ox+1.2*Math.sin(P2.clock*1.6+b[2]);s.E[i].y=b[1]*st.k+1.2*Math.cos(P2.clock*1.3+b[2]);s.cx+=s.E[i].x;s.cy+=s.E[i].y}
+    s.cx/=s.nd;s.cy/=s.nd;
+    w=clamp(Math.abs(st.s)/.45,0,1);
+    if(dir!==0){for(i=0;i<s.nd;i++){b=s.base[i];if((b[0]*.5+dir*.45*sx)*dir>0)n++}s.excT=Math.max(0,2*n-s.nd)}
+    s.exc+=((dir===0?0:s.excT)*w-s.exc)*f;
+    s.mu=s.exc*Math.abs(st.s)*sx;
+  });
+}
+function capsule(c,x,y,d,r){c.beginPath();c.moveTo(x-d/2,y-r);c.lineTo(x+d/2,y-r);c.arc(x+d/2,y,r,-Math.PI/2,Math.PI/2);c.lineTo(x-d/2,y+r);c.arc(x-d/2,y,r,Math.PI/2,Math.PI*1.5);c.closePath()}
+function mol2(c,s,x,cy){
+  var m=s.m,k,i,e,sx=s.cx,gr=s.rpx*(.6+.5*s.st.k);
+  c.fillStyle=TK.neg;c.globalAlpha=.06;capsule(c,x,cy,s.dpx,s.rpx);c.fill();
+  c.save();capsule(c,x,cy,s.dpx,s.rpx);c.clip();
+  for(k=0;k<6;k++){c.globalAlpha=.1;circ(c,x+s.cx,cy+s.cy,gr*(1.25-k*.17));c.fill()}
+  c.restore();
+  c.globalAlpha=1;c.strokeStyle=TK.neg;c.lineWidth=1.8;capsule(c,x,cy,s.dpx,s.rpx);c.stroke();
+  [-1,1].forEach(function(q){c.fillStyle=TK.pos;circ(c,x+q*s.dpx/2,cy,9);c.fill();c.fillStyle="#fff";c.font="700 12px "+FD;c.textAlign="center";c.textBaseline="middle";c.fillText("+",x+q*s.dpx/2,cy+.5)});
+  c.fillStyle=TK.neg;
+  for(i=0;i<s.nd;i++){e=s.E[i];circ(c,x+e.x,cy+e.y,2.6);c.fill()}
+  var a=Math.abs(s.st.s);
+  if(a>.07){var al=clamp((a-.07)/.25,0,1),sg=s.st.s>0?1:-1,fs=Math.round(13+8*al);
+    c.font="700 "+fs+"px "+FD;c.globalAlpha=.25+.75*al;
+    c.fillStyle=TK.neg;c.fillText("δ−",x+sg*(s.hw+24),cy);
+    c.fillStyle=TK.pos;c.fillText("δ+",x-sg*(s.hw+24),cy);c.globalAlpha=1}
+  c.fillStyle=TK.muted;c.font="600 12px "+FM;c.textAlign="center";
+  c.fillText(m.n+" · "+m.e+" electrons",x,cy-s.rpx-30);
+  c.font="500 11px "+FM;c.fillText("2 nuclei, "+m.e/2+"+ each",x,cy-s.rpx-14);
+}
+function draw2(){
+  var c=cv2.begin(),xs=[190,530],cy=134,ss=[P2.S,P2.L];
+  ss.forEach(function(s,i){
+    var x=xs[i];mol2(c,s,x,cy);
+    c.textAlign="center";c.textBaseline="middle";c.fillStyle=TK.ink;c.font="600 13px "+FM;
+    c.fillText(Math.round(s.exc)>0?Math.round(s.exc)+" extra electrons on the δ− end":"electrons evenly spread",x,232);
+    var bw=220,pct=clamp(s.mu/MU_REF,0,1);
+    c.fillStyle=TK.stage;c.strokeStyle=TK.line;c.lineWidth=1;c.fillRect(x-bw/2,246,bw,10);c.strokeRect(x-bw/2,246,bw,10);
+    c.fillStyle=TK.accent;c.fillRect(x-bw/2,246,bw*pct,10);
+    c.fillStyle=TK.muted;c.font="600 12px "+FM;c.fillText("size of dipole: "+Math.round(pct*100)+"%",x,276);
+  });
+}
+(function(){
+  var tb=$("#t2 tbody");
+  HAL.forEach(function(m){var tr=document.createElement("tr");
+    tr.innerHTML='<td><span class="sw" style="background:'+m.col+'"></span>'+m.n+'</td><td>'+m.e+'</td><td><div class="mini"><i style="width:'+Math.round(100*m.rel)+'%"></i></div></td><td>'+m.bp+' K</td>';tb.appendChild(tr)});
+  mkSides();go2(1);
+})();
+function chart(){
+  var W=640,H=250,L=44,Bt=46,Tp=16,max=500,pw=W-L-12,slot=pw/4,bw=slot*.56,h="";
+  function Y(v){return H-Bt-v/max*(H-Bt-Tp)}
+  var i;for(i=0;i<=5;i++){h+='<line class="gl" x1="'+L+'" x2="'+(W-8)+'" y1="'+Y(i*100)+'" y2="'+Y(i*100)+'"/><text class="ax" x="'+(L-6)+'" y="'+(Y(i*100)+4)+'" text-anchor="end">'+i*100+'</text>'}
+  h+='<text class="ax" x="4" y="10">boiling point / K</text>';
+  HAL.forEach(function(m,k){var x=L+slot*k+(slot-bw)/2;
+    h+='<rect x="'+x+'" y="'+Y(m.bp)+'" width="'+bw+'" height="'+(Y(0)-Y(m.bp))+'" fill="'+m.col+'" stroke="var(--ink)" stroke-opacity=".5" rx="3"/>';
+    h+='<text class="vl" x="'+(x+bw/2)+'" y="'+(Y(m.bp)-6)+'" text-anchor="middle">'+m.bp+' K</text>';
+    h+='<text class="vl" x="'+(x+bw/2)+'" y="'+(H-26)+'" text-anchor="middle">'+m.n+'</text><text class="ax" x="'+(x+bw/2)+'" y="'+(H-10)+'" text-anchor="middle">'+m.e+' e⁻</text>'});
+  $("#chart").innerHTML=h;
+}
+chart();
+
+/* ---------- Experiment 3: where the molecules touch ---------- */
+/* Each CH3 / CH2 / CH / C group is a circle of radius 20 px. Touching circles are 40 px apart.
+   A is the upper molecule and B the lower one, each lying in its closest-packed position. */
+var GR=20;
+function row(xs,y){return xs.map(function(x){return[x,y]})}
+var ISO=[
+  {n:"Pentane",f:"CH₃CH₂CH₂CH₂CH₃",bp:36.1,col:"s1",
+   A:row([-64,-32,0,32,64],-20),B:row([-64,-32,0,32,64],20),pairs:[[0,0],[1,1],[2,2],[3,3],[4,4]]},
+  {n:"2-methylbutane",f:"(CH₃)₂CHCH₂CH₃",bp:27.8,col:"s2",
+   A:row([-48,-16,16,48],-20).concat([[-16,-52]]),B:row([-48,-16,16,48],20).concat([[16,52]]),pairs:[[0,0],[1,1],[2,2],[3,3]]},
+  {n:"2,2-dimethylpropane",f:"C(CH₃)₄",bp:9.5,col:"s3",
+   A:[[0,-42.6],[22.6,-20],[-22.6,-20],[22.6,-65.2],[-22.6,-65.2]],B:[[0,42.6],[22.6,20],[-22.6,20],[22.6,65.2],[-22.6,65.2]],pairs:[[1,1],[2,2]]}
+];
+function snap(pts,x,y){
+  var bi=0,bd=1e9,i,d;for(i=0;i<pts.length;i++){d=Math.hypot(x-pts[i][0],y-pts[i][1]);if(d<bd){bd=d;bi=i}}
+  var lim=GR*.8;if(bd>lim){x=pts[bi][0]+(x-pts[bi][0])*lim/bd;y=pts[bi][1]+(y-pts[bi][1])*lim/bd}
+  return[x,y];
+}
+/* electrons are shared by the whole molecule: spread them evenly over its outline */
+function spread(pts,n,seed){
+  var out=[],st=seed*9301+49297,i,j,k,q,best,bd,md,x,y,t;
+  function R(){st=(st*9301+49297)%233280;return st/233280}
+  for(i=0;i<n;i++){bd=-1;best=null;
+    for(j=0;j<16;j++){q=pts[Math.floor(R()*pts.length)];t=R()*TAU;var r=Math.sqrt(R())*GR*.75;x=q[0]+Math.cos(t)*r;y=q[1]+Math.sin(t)*r;
+      md=1e9;for(k=0;k<out.length;k++){md=Math.min(md,Math.hypot(x-out[k][0],y-out[k][1]))}
+      if(md>bd){bd=md;best=[x,y,i*1.7+seed]}}
+    out.push(best)}
+  return out;
+}
+ISO.forEach(function(m,i){
+  m.contacts=m.pairs.length;
+  m.dA=spread(m.A,42,i+1);m.dB=spread(m.B,42,i+7);
+  m.yA=Math.max.apply(null,m.A.map(function(p){return p[1]}))+GR*.5;
+  m.yB=Math.max.apply(null,m.B.map(function(p){return p[1]}))+GR*.5;
+});
+var cv3=Cv($("#c3"),720,420);
+var P3={cur:0,play:!reduce,clock:0,t0:0,sh:0,ct:0};
+var STEPS3=[
+  {n:"Average",sh:0,ct:0,h:"Averaged over time",t:"Each CH₃ or CH₂ group is drawn as a circle with its nucleus. The electrons belong to the whole molecule: 42 dots, one for each electron, spread evenly over it. Over time the cloud is symmetrical, so there are no dipoles. The three pairs are all C₅H₁₂ with 42 electrons, each lying in its closest-packed position."},
+  {n:"One instant",sh:1,ct:0,h:"One instant: the electrons shift",t:"At one instant the electrons of the whole upper molecule have shifted toward its lower side, the side facing its neighbour, so that side is δ−. These electrons push the electrons of the lower molecule down and away, which leaves the top of the lower molecule δ+."},
+  {n:"Touching pairs",sh:1,ct:1,h:"Only electrons that are close to the neighbour count",t:"The electrons of the upper molecule are attracted to the exposed nuclei of the lower molecule, but only if they are close to them. Upper-molecule electrons that are close to the lower molecule turn green, and the rest stay red because they add almost nothing. The lower molecule's electrons are drawn fainter because they are not counted here. Each pair of arrows joins two touching groups. These are best-case counts, because real molecules tumble and rarely line up this neatly. Pentane lies flat, so most of its electrons are in range and it can have up to 5 touching pairs. In 2-methylbutane the branch sticks out, leaving 4. 2,2-dimethylpropane is almost a sphere. It touches at only 2 points and most of its electrons are out of range. Same electrons, but fewer in range means a weaker total attraction and a lower boiling point."}
+];
+var steps3=[];
+(function(){
+  var host=$("#steps3");
+  STEPS3.forEach(function(s,i){var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=(i+1)+" · "+s.n;
+    b.addEventListener("click",function(){P3.play=false;syncPlay3();go3(i)});host.appendChild(b);steps3.push(b)});
+  var tb=$("#t3 tbody");
+  ISO.forEach(function(m){var tr=document.createElement("tr");
+    tr.innerHTML='<td><span class="sw" style="background:var(--'+m.col+')"></span>'+m.n+'</td><td>'+m.f+'</td><td>42</td><td>'+m.contacts+'</td><td>'+m.bp+' °C</td>';tb.appendChild(tr)});
+})();
+function go3(i){P3.cur=(i+STEPS3.length)%STEPS3.length;P3.t0=P3.clock;
+  steps3.forEach(function(b,j){b.setAttribute("aria-pressed",j===P3.cur?"true":"false")});
+  $("#say3h").textContent=STEPS3[P3.cur].h;$("#say3p").textContent=STEPS3[P3.cur].t}
+var syncPlay3=bindPlay($("#p3play"),P3,"Start auto-play","Pause auto-play");
+$("#p3back").addEventListener("click",function(){P3.play=false;syncPlay3();go3(P3.cur-1)});
+$("#p3next").addEventListener("click",function(){P3.play=false;syncPlay3();go3(P3.cur+1)});
+go3(0);
+function upd3(dt){
+  var f=1-Math.exp(-dt*4);P3.clock+=dt;
+  if(P3.play&&P3.clock-P3.t0>7)go3(P3.cur+1);
+  var s=STEPS3[P3.cur];P3.sh+=(s.sh-P3.sh)*f;P3.ct+=(s.ct-P3.ct)*f;
+}
+function outline3(c,pts,x,y,col){
+  var i;c.strokeStyle=col;c.lineWidth=3;
+  for(i=0;i<pts.length;i++){circ(c,x+pts[i][0],y+pts[i][1],GR);c.stroke()}
+  function path(){c.beginPath();pts.forEach(function(q){c.moveTo(x+q[0]+GR-1.6,y+q[1]);c.arc(x+q[0],y+q[1],GR-1.6,0,TAU)})}
+  c.fillStyle=TK.stage;path();c.fill();c.globalAlpha=.2;c.fillStyle=col;path();c.fill();c.globalAlpha=1;
+}
+function electrons3(c,pts,dots,yT,x,y,others,classify){
+  var sh=P3.sh,ct=P3.ct,i,j,k,it,p,q,d,md,n=0,P=[],dx,dy,push;
+  for(i=0;i<dots.length;i++){p=dots[i];P.push(snap(pts,p[0]+Math.cos(p[2]*3)*4*sh,p[1]+sh*.5*(yT-p[1])+Math.sin(p[2]*5)*4*sh))}
+  /* keep the dots from piling on top of each other so all of them stay visible */
+  for(it=0;it<14;it++){
+    for(i=0;i<P.length;i++)for(j=i+1;j<P.length;j++){dx=P[i][0]-P[j][0];dy=P[i][1]-P[j][1];if(dx===0&&dy===0){dx=Math.cos(i*2.4+j);dy=Math.sin(i*2.4+j)}d=Math.hypot(dx,dy)||.01;
+      if(d<4.6){push=(4.6-d)/2;P[i][0]+=dx/d*push;P[i][1]+=dy/d*push;P[j][0]-=dx/d*push;P[j][1]-=dy/d*push}}
+    for(i=0;i<P.length;i++)P[i]=snap(pts,P[i][0],P[i][1]);
+  }
+  for(i=0;i<P.length;i++){q=P[i];p=dots[i];
+    md=1e9;for(j=0;j<others.length;j++){d=Math.hypot(q[0]-others[j][0],q[1]-others[j][1]);if(d<md)md=d}
+    var inR=md<=45,px=x+q[0]+Math.sin(P3.clock*1.5+p[2])*.8,py=y+q[1]+Math.cos(P3.clock*1.2+p[2])*.8;
+    if(inR&&classify)n++;
+    if(!classify){c.globalAlpha=1-.6*ct;c.fillStyle=TK.neg;circ(c,px,py,1.9);c.fill();continue}
+    c.globalAlpha=1;c.fillStyle=TK.neg;circ(c,px,py,1.9);c.fill();
+    if(inR&&ct>.02){c.globalAlpha=ct;c.fillStyle=TK.near;circ(c,px,py,1.9);c.fill()}
+  }
+  c.globalAlpha=1;c.fillStyle=TK.pos;
+  for(i=0;i<pts.length;i++){circ(c,x+pts[i][0],y+pts[i][1],3.2);c.fill()}
+  return n;
+}
+function arrowV(c,x,y1,y2,w){
+  var d=y2>y1?1:-1;c.lineWidth=w;c.beginPath();c.moveTo(x,y1);c.lineTo(x,y2-d*5);c.stroke();
+  c.beginPath();c.moveTo(x,y2);c.lineTo(x-5,y2-d*8);c.lineTo(x+5,y2-d*8);c.closePath();c.fill();
+}
+function draw3(){
+  var c=cv3.begin(),xs=[120,360,600],cy=204;
+  ISO.forEach(function(m,q){
+    var x=xs[q],col=TK[m.col],hw=0,minX=1e9,maxX=-1e9,bot=-1e9;
+    outline3(c,m.A,x,cy,col);outline3(c,m.B,x,cy,col);
+    var nIn=0,nAll=m.dA.length;
+    m.A.forEach(function(p){hw=Math.max(hw,Math.abs(p[0]))});hw+=GR;
+    m.B.forEach(function(p){bot=Math.max(bot,p[1])});
+    c.textAlign="center";c.textBaseline="middle";
+    c.fillStyle=TK.ink;c.font="600 14px "+FD;c.fillText(m.n,x,26);
+    c.fillStyle=TK.muted;c.font="500 11px "+FM;c.fillText(m.f+" · 42 electrons",x,46);
+    if(P3.sh>.05){c.globalAlpha=P3.sh;c.font="700 17px "+FD;c.textAlign="right";
+      c.fillStyle=TK.neg;c.fillText("δ−",x-hw-8,cy-14);c.fillStyle=TK.pos;c.fillText("δ+",x-hw-8,cy+14);c.globalAlpha=1;c.textAlign="center"}
+    if(P3.ct>.02){
+      c.globalAlpha=P3.ct;c.strokeStyle=TK.accent;c.fillStyle=TK.accent;c.lineCap="round";
+      m.pairs.forEach(function(p){var a=m.A[p[0]],b=m.B[p[1]],mx=x+(a[0]+b[0])/2,my=cy+(a[1]+b[1])/2;
+        arrowV(c,mx,my-13,my-1,3);arrowV(c,mx,my+13,my+1,3);minX=Math.min(minX,a[0]);maxX=Math.max(maxX,a[0])});
+      c.globalAlpha=1;
+    }
+    /* electrons are drawn after the arrows so none are hidden behind them */
+    electrons3(c,m.B,m.dB,m.yB,x,cy,m.A,false);
+    nIn=electrons3(c,m.A,m.dA,m.yA,x,cy,m.B,true);
+    if(P3.ct>.02){
+      c.globalAlpha=P3.ct;c.strokeStyle=TK.accent;c.fillStyle=TK.accent;
+      var yb=cy+104+16;c.lineWidth=2;
+      c.beginPath();c.moveTo(x+minX-GR,yb-5);c.lineTo(x+minX-GR,yb);c.lineTo(x+maxX+GR,yb);c.lineTo(x+maxX+GR,yb-5);c.stroke();
+      c.font="600 11px "+FM;c.fillText("best-case contact zone",x+(minX+maxX)/2,yb+14);
+      c.fillStyle=TK.ink;c.font="600 13px "+FM;c.fillText("up to "+m.contacts+" touching pairs",x,362);
+      c.font="500 11px "+FM;c.fillStyle=TK.muted;c.fillText(Math.round(100*nIn/nAll)+"% in range ("+nIn+" of "+nAll+" electrons)",x,380);
+      var bw=200;c.fillStyle=TK.stage;c.strokeStyle=TK.line;c.lineWidth=1;c.fillRect(x-bw/2,390,bw,10);c.strokeRect(x-bw/2,390,bw,10);
+      c.fillStyle=TK.accent;c.fillRect(x-bw/2,390,bw*nIn/nAll,10);c.globalAlpha=1;
+    }
+    c.fillStyle=TK.muted;c.font="600 12px "+FM;c.textAlign="center";c.fillText("boiling point "+m.bp+" °C",x,414);
+  });
+  if(P3.ct>.02){
+    c.globalAlpha=P3.ct;c.textBaseline="middle";c.textAlign="left";c.font="500 12px "+FM;
+    c.fillStyle=TK.near;circ(c,150,76,3);c.fill();c.fillStyle=TK.ink;c.fillText("electron close to the lower molecule",162,76);
+    c.fillStyle=TK.neg;circ(c,470,76,3);c.fill();
+    c.fillStyle=TK.ink;c.fillText("too far to count",482,76);c.globalAlpha=1;
+  }
+}
+
+/* ---------- main loop ---------- */
+var last=performance.now();
+function loop(now){
+  requestAnimationFrame(loop);var dt=Math.min(.05,(now-last)/1000);last=now;
+  if(document.hidden)return;
+  if(cv1.vis){
+    upd1(dt);P1.sim.draw(cv1,1,{avg:P1.avg,dy:10,nameA:"Ar",nameB:"Ar"});over1();
+    $("#b1a").style.width=P1.att*100+"%";$("#m1a").textContent=Math.round(P1.att*100)+"%";
+  }
+  if(cv2.vis){upd2(dt);draw2()}
+  if(cv3.vis){upd3(dt);draw3()}
+}
+
+/* ---------- tabs ---------- */
+(function(){
+  var ids=["origin","size","shape"],tabs=ids.map(function(i){return $("#tab-"+i)}),panels=ids.map(function(i){return $("#"+i)});
+  function show(id,focus){
+    if(ids.indexOf(id)<0)id="origin";
+    panels.forEach(function(p){p.hidden=p.id!==id});
+    tabs.forEach(function(t){var on=t.dataset.tab===id;t.setAttribute("aria-selected",on?"true":"false");t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
+    try{history.replaceState(null,"","#"+id)}catch(e){}
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener("click",function(){show(t.dataset.tab)});
+    t.addEventListener("keydown",function(e){
+      var n=e.key==="ArrowRight"?i+1:e.key==="ArrowLeft"?i-1:-1;
+      if(n>=0){e.preventDefault();show(ids[(n+3)%3],true)}
+    });
+  });
+  var nexts={origin:["size","Next: more electrons →"],size:["shape","Next: different shapes →"],shape:["origin","Back to experiment 1"]};
+  ids.forEach(function(id){
+    var b=document.createElement("button");b.className="btn";b.type="button";b.textContent=nexts[id][1];b.style.alignSelf="flex-start";
+    b.addEventListener("click",function(){show(nexts[id][0])});$("#"+id+" .stack").appendChild(b);
+  });
+  window.addEventListener("hashchange",function(){show(location.hash.slice(1))});
+  show(location.hash.slice(1));
+})();
+requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,1212 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='nXb8K+ovSopFyOYKvBHWiQ==' src='https://74c5b599-04ca-488e-85cc-9d6864b64704.frame.claudeusercontent.com/d9OXMoG59HA1BZGgMjuVqfYy_Wcy2NzaLCPVIMy2JKlaSDmFpu6ReYB3mxRoj09GPgvs7XUkYMKaHKbkddQ0TiIcx_-6vw0RAulZnfPqYq398cakOfzyxOt0AO-jnu1ojQWL0lLICQeuVVscOf0988JPNc7kIR1v1Mhn_jLKPHtdiN9fHG-to8gqOda2wltXhj_0zmRq_OQIyp8OYW7PS6L0nLv9M5WLCaJ5XrWAHAWku23GG3IAUMU1V_bn01FtKj_RYxzklohiM0cjis_bauYH4lssz51ETs2UgbT3_jqroHpKdfo6vri59n4LHKUxzBotI8nSP6WBWr-I0zB9qfNWm-78CaxYVPGuxwRs8CccNkH2YtGg8jTX9rX3DkW4msF9vdQnO_tmGjx0GH2FE3AQkUlHjwqX3d5jt24W0Q_sMQ0ncqoAD2M97I-lsPIWTyDgVHAlPeoePBajslLDOsXpw5WbJneq_9XjYajLpXhSi7Pln_ZHhjTI_gfnAyo_rfmdItZhKd5Fb-A4aX-WzgtWgUGccZVkmwX7TDUuHnQ0fduiNFMvtfS_azDNyGIrH1iHOtb-Wg72U_gBvmtj4iu8TtUFcrLTkHhP7gM7itCLFf2RyXFbBGbwRdHfROhfuulTczh-oyhiRPWPdMfHqFdbSFWaLsFMBeZ7IFrgirecyThYStuboiWP5dwt5x2xWt5YDqr7xMd-tP2Cit-u1g'></script></head><body>
+<meta charset="utf-8">
+<title>Equation Balancing Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Bricolage+Grotesque:wght@700;800&amp;display=swap">
+<style>
+/* Layout idea: a squared exercise-book page. The equation is the hero of each worksheet card;
+   the caption sits left, the atom tally right, and the controls run along the bottom. */
+:root {
+  --bg: #EDF1F5; --grid: #E1E8EF; --surface: #FFFFFF; --surface2: #F4F7FA;
+  --ink: #13212E; --ink2: #4A5B6B; --line: #C9D4DF; --on-ink: #FFFFFF;
+  --accent: #1C5FD4; --good: #18794A; --warn: #B45309;
+  --u0: #E8590C; --u1: #1C7ED6; --u2: #2F9E44; --u3: #AE3EC9; --u4: #C98A00; --u5: #D6336C;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1720; --grid: #17222D; --surface: #17212C; --surface2: #1D2936;
+    --ink: #E6EDF3; --ink2: #9DB0C1; --line: #2E3E4E; --on-ink: #0F1720;
+    --accent: #6AA3FF; --good: #5FD07A; --warn: #FFA366;
+    --u0: #FF8A4C; --u1: #5AA9FF; --u2: #5FD07A; --u3: #D58BF0; --u4: #FFC93C; --u5: #FF7DA8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1720; --grid: #17222D; --surface: #17212C; --surface2: #1D2936;
+  --ink: #E6EDF3; --ink2: #9DB0C1; --line: #2E3E4E; --on-ink: #0F1720;
+  --accent: #6AA3FF; --good: #5FD07A; --warn: #FFA366;
+  --u0: #FF8A4C; --u1: #5AA9FF; --u2: #5FD07A; --u3: #D58BF0; --u4: #FFC93C; --u5: #FF7DA8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: var(--font-body); font-size: 16px; line-height: 1.5;
+  background-color: var(--bg); color: var(--ink);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  padding-inline: clamp(16px, 4vw, 40px); padding-block: 24px 64px;
+}
+.wrap { max-width: 1040px; margin-inline: auto; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; text-wrap: balance; line-height: 1.15; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* header */
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+.top h1 { font-size: clamp(1.9rem, 4.5vw + .5rem, 3rem); font-weight: 800; letter-spacing: -.02em; }
+.top p { color: var(--ink2); max-width: 46ch; margin-top: 6px; }
+.score { font-family: var(--font-mono); font-size: .9rem; border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px; background: var(--surface); font-variant-numeric: tabular-nums; }
+
+/* tier selector */
+.tiers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 760px) { .tiers { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.tier { text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; min-height: 44px; min-width: 0;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 14px; }
+.tier:hover { border-color: var(--ink); }
+.tier .t-n { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); font-weight: 700; }
+.tier .t-name { font-family: var(--font-display); font-weight: 800; font-size: 1.08rem; line-height: 1.15; }
+.tier .t-short { font-size: .85rem; color: var(--ink2); line-height: 1.3; }
+.tier[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.tier[aria-pressed="true"] .t-n, .tier[aria-pressed="true"] .t-short { color: var(--on-ink); opacity: .82; }
+
+/* rule panel */
+.rule { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px 28px; background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+@media (max-width: 760px) { .rule { grid-template-columns: minmax(0, 1fr); } }
+.rule h2 { font-size: 1.2rem; margin-bottom: 6px; }
+.rule .big { font-size: 1.02rem; max-width: 62ch; }
+.rule ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 6px; color: var(--ink2); font-size: .95rem; }
+.rule .eg { margin-top: 10px; font-size: .92rem; color: var(--ink2); max-width: 62ch; }
+.rule .lbl { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); font-weight: 700; margin-bottom: 6px; }
+
+/* mode switch */
+.modes { display: inline-flex; gap: 0; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; align-self: flex-start; background: var(--surface); }
+.mode { padding: 10px 18px; min-height: 44px; border: 0; background: transparent; font-weight: 700; }
+.mode[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+
+/* generic card */
+.card { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.lbl-sm { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); font-weight: 700; }
+.word { font-size: 1.05rem; }
+
+/* equation stage */
+.stage { background: var(--surface2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; position: relative; min-width: 0; }
+.eq { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 14px; }
+.eqside { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.eqside .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.slabel { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink2); font-weight: 700; }
+.op { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--ink2); padding-bottom: 2px; }
+.arrow { font-family: var(--font-display); font-size: 2rem; font-weight: 700; padding-bottom: 2px; align-self: flex-end; }
+.comp { display: inline-flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 12px; border: 2px solid transparent; white-space: nowrap; }
+.comp.hi { background: color-mix(in srgb, var(--accent) 12%, transparent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.comp.enter { animation: fadeUp .5s both; animation-delay: var(--d, 0s); }
+.coef { display: inline-grid; place-items: center; min-width: 2.7rem; height: 2.7rem; padding: 0 6px; border-radius: 999px;
+  border: 2px dashed var(--line); font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; background: var(--surface); color: var(--ink2); }
+.coef.set { border: 2px solid var(--ink); color: var(--ink); }
+.coef.letter { border-style: solid; border-color: var(--ink2); font-family: var(--font-mono); font-weight: 700; }
+.coef.omit { display: none; }
+.coef.pop { animation: pop .55s cubic-bezier(.3, 1.6, .5, 1); }
+.fr { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; font-size: 1rem; }
+.fr span:first-child { border-bottom: 2px solid currentColor; padding: 0 3px 2px; }
+.fr span:last-child { padding: 2px 3px 0; }
+.formula { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 4vw + .4rem, 2.3rem); line-height: 1.2; letter-spacing: .01em; }
+.formula sub { font-size: .55em; vertical-align: -.28em; line-height: 0; }
+.formula .par { color: var(--ink2); }
+.un { --uc: var(--u0); color: color-mix(in srgb, var(--uc) 78%, var(--ink)); border-radius: 6px; transition: opacity .25s, background .25s, box-shadow .25s; }
+.un.blk { border: 2px solid var(--uc); padding: 0 6px; margin: 0 2px; border-radius: 9px; background: color-mix(in srgb, var(--uc) 14%, transparent); }
+.stage.focusing .un:not(.hi) { opacity: .4; }
+.un.hi { background: color-mix(in srgb, var(--uc) 24%, transparent); box-shadow: 0 0 0 2px var(--uc); }
+.scalebadge { position: absolute; right: 14px; top: 10px; font-family: var(--font-display); font-weight: 800; font-size: 1.9rem;
+  background: var(--ink); color: var(--on-ink); border-radius: 12px; padding: 2px 14px; opacity: 0; pointer-events: none; transform: scale(.6); transition: opacity .3s, transform .3s; }
+.scalebadge.show { opacity: 1; transform: scale(1); animation: pop .7s cubic-bezier(.3, 1.6, .5, 1); }
+
+/* caption and tally */
+.cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 880px) { .cols { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); } }
+.caption { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.stepno { font-family: var(--font-mono); font-size: .8rem; color: var(--ink2); font-variant-numeric: tabular-nums; }
+.caption h3 { font-size: 1.35rem; font-weight: 800; }
+.caption .txt { font-size: 1.05rem; line-height: 1.55; }
+.why { background: color-mix(in srgb, var(--accent) 9%, var(--surface2)); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius: 10px; padding: 10px 14px; font-size: .98rem; line-height: 1.55; }
+.mathline { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; background: var(--surface2); border: 1px dashed var(--ink2); border-radius: 10px; padding: 10px 14px; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; white-space: pre-line; line-height: 1.7; }
+.chip { display: inline-block; padding: 0 7px; border: 2px solid var(--uc, var(--u0)); border-radius: 999px; font-weight: 700; font-family: var(--font-display); background: color-mix(in srgb, var(--uc, var(--u0)) 14%, transparent); line-height: 1.35; }
+.chip.blk { border-radius: 7px; }
+.chip sub { font-size: .7em; line-height: 0; }
+.chipf { font-family: var(--font-display); font-weight: 700; white-space: nowrap; background: var(--surface2); border: 1px solid var(--line); border-radius: 8px; padding: 0 6px; }
+.chipf sub { font-size: .7em; line-height: 0; }
+
+.side-panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.tally { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.thead { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr) 2.2rem minmax(0, 1fr); gap: 8px; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); font-weight: 700; }
+.thead span:nth-child(3) { text-align: center; }
+.trow { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr) 2.2rem minmax(0, 1fr); gap: 8px; align-items: center; padding: 8px 6px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface2); }
+.trow.ok { border-color: var(--good); background: color-mix(in srgb, var(--good) 10%, var(--surface2)); }
+.trow.off { border-color: var(--warn); }
+.trow.hi { box-shadow: 0 0 0 2px var(--accent); }
+.tside { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.tnum { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; min-width: 1.6rem; text-align: right; font-variant-numeric: tabular-nums; }
+.dots { display: flex; flex-wrap: wrap; gap: 3px; min-width: 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--uc, var(--u0)); }
+.dot.blk { width: 12px; height: 12px; border-radius: 3px; }
+.dot.new { animation: dotIn .4s both; animation-delay: var(--d, 0s); }
+.unk { font-size: .8rem; color: var(--ink2); font-weight: 700; }
+.tstat { text-align: center; font-weight: 800; font-size: 1.25rem; }
+.trow.ok .tstat { color: var(--good); }
+.trow.off .tstat { color: var(--warn); }
+.tkey { font-size: .85rem; color: var(--ink2); }
+
+.eqns { display: flex; flex-direction: column; gap: 6px; }
+.eqitem { display: flex; gap: 10px; align-items: baseline; padding: 6px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface2); font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; animation: fadeUp .4s both; }
+.eqitem.hi { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.known { display: flex; flex-wrap: wrap; gap: 6px; font-family: var(--font-mono); font-size: .95rem; font-weight: 700; }
+.known span { border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; background: var(--surface); }
+
+/* controls */
+.controls { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.btn { min-height: 44px; padding: 8px 16px; border-radius: 10px; border: 2px solid var(--ink); background: var(--surface); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+.btn:hover:not(:disabled) { background: var(--surface2); }
+.btn.primary { background: var(--ink); color: var(--on-ink); }
+.btn.primary:hover:not(:disabled) { background: var(--ink); opacity: .88; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn svg { width: 16px; height: 16px; fill: currentColor; }
+.speed { display: inline-flex; border: 2px solid var(--line); border-radius: 10px; overflow: hidden; margin-left: auto; }
+.speed button { border: 0; background: transparent; padding: 8px 12px; min-height: 40px; font-size: .9rem; font-weight: 700; color: var(--ink2); }
+.speed button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.progress { display: flex; gap: 5px; flex: 1 1 100%; }
+.progress button { flex: 1 1 0; min-width: 0; height: 12px; border: 0; padding: 0; border-radius: 6px; background: var(--line); position: relative; }
+.progress button::after { content: ""; position: absolute; inset: -16px 0; }
+.progress button.done { background: var(--ink2); }
+.progress button.now { background: var(--accent); }
+
+/* practice */
+.paper { border: 2px dashed var(--ink); border-radius: 14px; padding: 14px 18px; background: var(--surface); margin-bottom: 14px; }
+.paper h2 { font-size: 1.25rem; margin-bottom: 4px; }
+.paper ol { margin: 10px 0 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 4px; }
+.qchips { display: flex; flex-wrap: wrap; gap: 8px; }
+.qchip { min-width: 44px; min-height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--surface); font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
+.qchip.solved { border-color: var(--good); color: var(--good); }
+.qchip[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.qchip.solved[aria-current="true"] { background: var(--good); border-color: var(--good); color: var(--bg); }
+.qeq { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; background: var(--surface2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.qcomp { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.cin { width: 4.4rem; height: 3rem; text-align: center; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; border: 2px solid var(--ink); border-radius: 12px; background: var(--surface); color: var(--ink); padding: 0; }
+.cin::placeholder { color: var(--ink2); opacity: .5; }
+.row-btns { display: flex; flex-wrap: wrap; gap: 8px 10px; align-items: center; }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; color: var(--ink2); min-height: 44px; }
+.toggle input { width: 20px; height: 20px; accent-color: var(--accent); }
+.feedback { border-radius: 12px; padding: 12px 14px; border: 2px solid var(--line); background: var(--surface2); }
+.feedback.good { border-color: var(--good); background: color-mix(in srgb, var(--good) 10%, var(--surface2)); }
+.feedback.bad { border-color: var(--warn); }
+.feedback b { font-family: var(--font-display); font-size: 1.1rem; }
+.feedback .fe { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; margin-top: 6px; }
+.feedback .fe sub { font-size: .6em; line-height: 0; }
+.hints { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 6px; }
+.howwrap { border-top: 2px dashed var(--line); padding-top: 16px; }
+
+/* teacher key */
+details.key { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 4px 16px; }
+details.key summary { cursor: pointer; font-weight: 700; padding: 12px 0; min-height: 44px; }
+.keygrid { display: flex; flex-direction: column; gap: 4px; padding-bottom: 16px; }
+.keygrid h3 { font-size: 1.05rem; margin: 12px 0 4px; }
+.keyrow { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.keyrow .n { font-family: var(--font-mono); color: var(--ink2); }
+.keyrow .e { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; overflow-wrap: anywhere; }
+.keyrow .e sub { font-size: .6em; line-height: 0; }
+.keyrow .w { color: var(--ink2); font-size: .85rem; font-weight: 400; font-family: var(--font-body); }
+.foot { color: var(--ink2); font-size: .85rem; }
+
+@keyframes pop { 0% { transform: scale(.5); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes dotIn { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+<main class="wrap">
+  <header class="top">
+    <div>
+      <h1>Equation Balancing Lab</h1>
+      <p>Watch one equation get balanced, step by step. Then try the practice questions and count the atoms as you go.</p>
+    </div>
+    <div class="score" id="score" aria-live="polite"></div>
+  </header>
+  <div class="tiers" id="tiers" role="group" aria-label="Choose a tier"></div>
+  <section class="rule" id="rule" aria-label="Rule for this tier"></section>
+  <div class="modes" id="modes" role="group" aria-label="Choose a mode">
+    <button class="mode" data-m="watch" aria-pressed="true">Watch</button>
+    <button class="mode" data-m="practice" aria-pressed="false">Practice</button>
+  </div>
+  <section id="view" aria-label="Lesson"></section>
+  <details class="key">
+    <summary>Teacher answer key</summary>
+    <div class="keygrid" id="keygrid"></div>
+  </details>
+  <p class="foot">Tip: click an animation, then use the left and right arrow keys to step through it.</p>
+</main>
+<script>
+/* ---------- Engine part 1: fractions and formula parsing ---------- */
+const Engine = (function () {
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { const t = a % b; a = b; b = t; } return a; }
+  function lcm(a, b) { return (a / gcd(a, b)) * b; }
+  function F(n, d) {
+    if (d === undefined) d = 1;
+    if (d < 0) { n = -n; d = -d; }
+    const g = gcd(n, d) || 1;
+    return { n: n / g, d: d / g };
+  }
+  const fadd = (a, b) => F(a.n * b.d + b.n * a.d, a.d * b.d);
+  const fsub = (a, b) => F(a.n * b.d - b.n * a.d, a.d * b.d);
+  const fmul = (a, b) => F(a.n * b.n, a.d * b.d);
+  const fdiv = (a, b) => F(a.n * b.d, a.d * b.n);
+  const fzero = (a) => a.n === 0;
+  const feq = (a, b) => a.n === b.n && a.d === b.d;
+  const fstr = (a) => (a.d === 1 ? String(a.n) : a.n + '/' + a.d);
+  const fabs = (a) => F(Math.abs(a.n), a.d);
+
+  /* Parse a formula into Map(unit -> count). `blocks` lists polyatomic ions
+     that are kept whole, e.g. ['SO4','NO3']. With blocks = [] every unit is an element. */
+  function parseFormula(s, blocks) {
+    let i = 0;
+    function num() {
+      const m = /^\d+/.exec(s.slice(i));
+      if (m) { i += m[0].length; return +m[0]; }
+      return 1;
+    }
+    function group() {
+      const out = new Map();
+      while (i < s.length && s[i] !== ')') {
+        if (s[i] === '(') {
+          i++;
+          const inner = group();
+          i++;
+          const n = num();
+          inner.forEach((v, k) => out.set(k, (out.get(k) || 0) + v * n));
+          continue;
+        }
+        let unit = null;
+        for (const b of blocks) { if (s.startsWith(b, i)) { unit = b; break; } }
+        if (unit) { i += unit.length; }
+        else {
+          const m = /^[A-Z][a-z]?/.exec(s.slice(i));
+          if (!m) throw new Error('Bad formula ' + s + ' at ' + i);
+          unit = m[0]; i += unit.length;
+        }
+        const n = num();
+        out.set(unit, (out.get(unit) || 0) + n);
+      }
+      return out;
+    }
+    return group();
+  }
+
+  function parseEq(eq, blocks) {
+    const halves = eq.split('>');
+    const mk = (s, side) => s.split('+').map((x) => x.trim()).filter(Boolean).map((f) => ({
+      f, side, units: parseFormula(f, blocks), atoms: parseFormula(f, [])
+    }));
+    return mk(halves[0], 'L').concat(mk(halves[1], 'R'));
+  }
+
+  function unitList(comps, blocks) {
+    const seen = [];
+    comps.forEach((c) => c.units.forEach((v, k) => { if (seen.indexOf(k) < 0) seen.push(k); }));
+    return seen.map((name) => ({ name, isBlock: blocks.indexOf(name) >= 0 }));
+  }
+
+  /* does a list of whole-number coefficients balance every atom? */
+  function isBalanced(comps, ints) {
+    const tot = new Map();
+    comps.forEach((c, i) => c.atoms.forEach((v, k) => {
+      const s = c.side === 'L' ? 1 : -1;
+      tot.set(k, (tot.get(k) || 0) + s * v * ints[i]);
+    }));
+    let ok = true;
+    tot.forEach((v) => { if (v !== 0) ok = false; });
+    return ok;
+  }
+
+  /* totals of one unit on one side, from a coefficient snapshot (fractions or null) */
+  function sideTotal(comps, unit, side, coeffs) {
+    let tot = F(0), unknown = false;
+    comps.forEach((c, i) => {
+      if (c.side !== side || !c.units.has(unit)) return;
+      if (coeffs[i] == null) { unknown = true; return; }
+      tot = fadd(tot, fmul(coeffs[i], F(c.units.get(unit))));
+    });
+    return { tot, unknown };
+  }
+
+  /* ---------- Engine part 2: one-unit-at-a-time solver (tiers 1 to 3) ---------- */
+  const sideName = (s) => (s === 'L' ? 'left' : 'right');
+
+  function finishScale(co, comps, steps, snap, units) {
+    let D = 1;
+    co.forEach((x) => { D = lcm(D, x.d); });
+    let scaled = 1;
+    if (D > 1) {
+      const before = co.map((x) => fstr(x));
+      for (let i = 0; i < co.length; i++) co[i] = fmul(co[i], F(D));
+      steps.push({
+        kind: 'scale', scale: D,
+        title: 'Clear the fractions: multiply everything by ' + D,
+        text: 'A finished equation uses whole numbers only. Multiply EVERY coefficient by ' + D + ', not just the fractions.',
+        math: before.map((b, i) => comps[i].f + ':  ' + b + ' × ' + D + ' = ' + co[i].n).join('\n'),
+        focusComps: co.map((_, i) => i), focusUnits: [], setIdx: co.map((_, i) => i), coeffs: snap()
+      });
+      scaled = D;
+    }
+    let g = 0;
+    co.forEach((x) => { g = gcd(g, x.n); });
+    if (g > 1) {
+      const before = co.map((x) => x.n);
+      for (let i = 0; i < co.length; i++) co[i] = F(co[i].n / g);
+      steps.push({
+        kind: 'scale', scale: 1 / g,
+        title: 'Make the numbers as small as possible: divide everything by ' + g,
+        text: 'All the numbers share a factor of ' + g + '. Divide EVERY coefficient by ' + g + '.',
+        math: before.map((b, i) => comps[i].f + ':  ' + b + ' ÷ ' + g + ' = ' + co[i].n).join('\n'),
+        focusComps: co.map((_, i) => i), focusUnits: [], setIdx: co.map((_, i) => i), coeffs: snap()
+      });
+    }
+    const ints = co.map((x) => x.n);
+    steps.push({
+      kind: 'check', final: true,
+      title: 'Final check: count every atom',
+      text: 'Left and right must match in every row. A green tick means that row is balanced. Last touch: a 1 in front is never written, so those numbers disappear.',
+      math: '', focusComps: [], focusUnits: units.map((u) => u.name), setIdx: [], coeffs: snap()
+    });
+    return ints;
+  }
+
+  function solveProp(eq, opts) {
+    opts = opts || {};
+    const blocks = opts.blocks || [];
+    const comps = parseEq(eq, blocks);
+    const units = unitList(comps, blocks);
+    const isBlock = (u) => blocks.indexOf(u) >= 0;
+    const order = opts.order || units.map((u) => u.name);
+    const co = comps.map(() => null);
+    const steps = [];
+    const snap = () => co.map((x) => (x ? { n: x.n, d: x.d } : null));
+    const countIn = (u) => comps.filter((c) => c.units.has(u)).length;
+    const things = (n, u) => fstr(n) + ' [[u:' + u + ']] ' + (isBlock(u) ? 'block' : 'atom') + (feq(n, F(1)) ? '' : 's');
+
+    steps.push({
+      kind: 'write', title: 'Write down every reactant and product',
+      text: 'Reactants go on the left of the arrow, products on the right. Only formulas for now. No numbers in front yet.',
+      math: '', focusComps: comps.map((_, i) => i), focusUnits: [], setIdx: [], coeffs: snap()
+    });
+
+    if (opts.start != null) {
+      co[opts.start] = F(1);
+      steps.push({
+        kind: 'set', title: 'Give the product the number 1',
+        text: 'The product is our anchor. Every other number is built from it, so it starts at 1.',
+        math: '', focusComps: [opts.start], focusUnits: [], setIdx: [opts.start], coeffs: snap()
+      });
+    }
+
+    const done = [];
+    let guard = 0;
+    while (done.length < units.length && guard++ < 60) {
+      const cand = order.filter((u) => done.indexOf(u) < 0);
+      let pick = null, mode = null, unk = null;
+      for (const u of cand) {
+        const list = comps.map((c, i) => i).filter((i) => co[i] === null && comps[i].units.has(u));
+        if (list.length === 0) continue;
+        const holders = comps.map((c, i) => i).filter((i) => comps[i].units.has(u));
+        const Ls = list.filter((i) => comps[i].side === 'L'), Rs = list.filter((i) => comps[i].side === 'R');
+        if (holders.length === list.length && Ls.length === 1 && Rs.length === 1) { pick = u; mode = 'lcm'; unk = list; break; }
+        if (co.some((x) => x !== null) && list.length === 1) { pick = u; mode = 'solve'; unk = list; break; }
+      }
+
+      if (!pick) {
+        const chk = cand.find((u) => comps.every((c, i) => !(co[i] === null && c.units.has(u))));
+        if (!chk) throw new Error('Stuck while solving: ' + eq);
+        const l = sideTotal(comps, chk, 'L', co).tot, r = sideTotal(comps, chk, 'R', co).tot;
+        if (!feq(l, r)) throw new Error('Check failed for ' + chk + ' in ' + eq);
+        steps.push({
+          kind: 'verify', title: 'Check [[u:' + chk + ']]',
+          text: 'Count [[u:' + chk + ']] on each side. Left has ' + fstr(l) + ', right has ' + fstr(r) + '. They match, so nothing more to change here.',
+          math: fstr(l) + ' = ' + fstr(r),
+          focusComps: comps.map((c, i) => i).filter((i) => comps[i].units.has(chk)), focusUnits: [chk], setIdx: [], coeffs: snap()
+        });
+        done.push(chk);
+        continue;
+      }
+
+      const containing = comps.map((c, i) => i).filter((i) => comps[i].units.has(pick));
+      if (mode === 'lcm') {
+        const iL = unk.filter((i) => comps[i].side === 'L')[0], iR = unk.filter((i) => comps[i].side === 'R')[0];
+        const a = comps[iL].units.get(pick), b = comps[iR].units.get(pick), L = lcm(a, b);
+        const isFirst = co.every((x) => x === null);
+        co[iL] = F(L / a); co[iR] = F(L / b);
+        let why = isFirst
+          ? 'Why [[u:' + pick + ']] first? It is in only one reactant ([[c:' + iL + ']]) and only one product ([[c:' + iR + ']]), so no other number in the equation can disturb it.'
+          : 'Why [[u:' + pick + ']] now? [[c:' + iL + ']] and [[c:' + iR + ']] are the only compounds that contain [[u:' + pick + ']], and neither has a number yet. There is one on each side, so we can fit them together.';
+        if (isBlock(pick) && isFirst) why += ' The block never breaks up, so it is a safe place to start.';
+        const alsoOk = units.map((x) => x.name).filter((x) => x !== pick && comps.filter((c) => c.side === 'L' && c.units.has(x)).length === 1 && comps.filter((c) => c.side === 'R' && c.units.has(x)).length === 1);
+        if (isFirst && !isBlock(pick) && alsoOk.length) why += ' ' + alsoOk.map((x) => '[[u:' + x + ']]').join(' and ') + (alsoOk.length > 1 ? ' qualify' : ' qualifies') + ' too, so ' + (alsoOk.length > 1 ? 'they' : 'it') + ' can come next.';
+        units.map((x) => x.name).filter((x) => x !== pick && countIn(x) > 2).forEach((x) => {
+          why += ' [[u:' + x + ']] is in ' + countIn(x) + ' compounds, so it has to wait.';
+        });
+        steps.push({
+          why,
+          kind: 'lcm', title: 'Balance [[u:' + pick + ']]' + (isFirst ? ' first' : ''),
+          text: '[[c:' + iL + ']] has ' + things(F(a), pick) + ' and [[c:' + iR + ']] has ' + things(F(b), pick) +
+            '. The smallest number that both ' + a + ' and ' + b + ' go into is ' + L + '. So [[c:' + iL + ']] gets ' + L + ' ÷ ' + a +
+            ' = ' + (L / a) + ', and [[c:' + iR + ']] gets ' + L + ' ÷ ' + b + ' = ' + (L / b) + '.',
+          math: comps[iL].f + ':  ' + L + ' ÷ ' + a + ' = ' + (L / a) + '\n' + comps[iR].f + ':  ' + L + ' ÷ ' + b + ' = ' + (L / b),
+          focusComps: containing, focusUnits: [pick], setIdx: [iL, iR], coeffs: snap()
+        });
+      } else {
+        const i = unk[0], side = comps[i].side, other = side === 'L' ? 'R' : 'L';
+        const same = sideTotal(comps, pick, side, co).tot, oth = sideTotal(comps, pick, other, co).tot;
+        const n = comps[i].units.get(pick);
+        const c = fdiv(fsub(oth, same), F(n));
+        if (c.n <= 0) throw new Error('Non-positive coefficient for ' + comps[i].f + ' in ' + eq);
+        co[i] = c;
+        let text = 'The ' + sideName(other) + ' side has ' + things(oth, pick) + '. ';
+        if (!fzero(same)) text += 'The ' + sideName(side) + ' side already has ' + things(same, pick) + ' from the numbers we set. ';
+        text += 'Each [[c:' + i + ']] holds ' + things(F(n), pick) + ', so we need ' + (fzero(same) ? fstr(oth) : '(' + fstr(oth) + ' − ' + fstr(same) + ')') + ' ÷ ' + n + ' = ' + fstr(c) + ' of them.';
+        let why = 'Why [[u:' + pick + ']] now? Among the compounds that contain [[u:' + pick + ']], only [[c:' + i + ']] still has no number, so it can be worked out directly.';
+        if (countIn(pick) > 2) why += ' [[u:' + pick + ']] is in ' + countIn(pick) + ' compounds, which is why it waited until the others were fixed.';
+        steps.push({
+          why,
+          kind: 'solve', title: 'Balance [[u:' + pick + ']]',
+          text,
+          math: (fzero(same) ? fstr(oth) : '(' + fstr(oth) + ' − ' + fstr(same) + ')') + ' ÷ ' + n + ' = ' + fstr(c),
+          focusComps: containing, focusUnits: [pick], setIdx: [i], coeffs: snap()
+        });
+      }
+      done.push(pick);
+    }
+    if (done.length < units.length || co.some((x) => x === null)) throw new Error('Unfinished: ' + eq);
+
+    const ints = finishScale(co, comps, steps, snap, units);
+    if (!isBalanced(comps, ints)) throw new Error('Not balanced: ' + eq);
+    return { mode: 'prop', eq, blocks, comps, units, steps, final: ints };
+  }
+
+  /* ---------- Engine part 3: letters and dominoes (tier 4) ---------- */
+  function solveLetters(eq) {
+    const comps = parseEq(eq, []);
+    const n = comps.length;
+    const letters = 'abcdefgh'.slice(0, n).split('');
+    const units = unitList(comps, []);
+    const elems = units.map((u) => u.name);
+    const zeros = () => Array.from({ length: n }, () => F(0));
+    const mkVar = (i) => { const t = zeros(); t[i] = F(1); return { c: F(0), t }; };
+    const addA = (A, B, k) => ({ c: fadd(A.c, fmul(B.c, k)), t: A.t.map((x, j) => fadd(x, fmul(B.t[j], k))) });
+    const freeVars = (A) => A.t.map((x, j) => (fzero(x) ? -1 : j)).filter((j) => j >= 0);
+
+    function affStr(A) {
+      const parts = [];
+      A.t.forEach((k, j) => {
+        if (fzero(k)) return;
+        const ak = fabs(k);
+        const coef = feq(ak, F(1)) ? '' : (ak.d === 1 ? String(ak.n) : '(' + fstr(ak) + ')');
+        parts.push({ neg: k.n < 0, s: coef + letters[j] });
+      });
+      if (!fzero(A.c)) parts.push({ neg: A.c.n < 0, s: fstr(fabs(A.c)) });
+      if (!parts.length) return '0';
+      return parts.map((p, idx) => (idx === 0 ? (p.neg ? '−' : '') + p.s : (p.neg ? ' − ' : ' + ') + p.s)).join('');
+    }
+
+    const orig = elems.map((e) => {
+      const side = (sd) => comps.map((c, i) => ({ c, i })).filter((x) => x.c.side === sd && x.c.atoms.has(e))
+        .map((x) => { const k = x.c.atoms.get(e); return (k > 1 ? k : '') + letters[x.i]; }).join(' + ');
+      return { unit: e, text: side('L') + ' = ' + side('R') };
+    });
+
+    function run(seed) {
+      let val = comps.map((_, i) => mkVar(i));
+      const sub = (p, expr) => {
+        val = val.map((V) => {
+          const k = V.t[p];
+          if (fzero(k)) return V;
+          const V2 = { c: V.c, t: V.t.slice() };
+          V2.t[p] = F(0);
+          return addA(V2, expr, k);
+        });
+      };
+      const known = () => val.map((V) => (freeVars(V).length === 0 ? { n: V.c.n, d: V.c.d } : null));
+      const events = [];
+      sub(seed, { c: F(1), t: zeros() });
+      events.push({ type: 'seed', v: seed, known: known() });
+      const used = {};
+      let guard = 0;
+      while (guard++ < 40) {
+        if (val.every((V) => freeVars(V).length === 0)) break;
+        let best = null, failed = false;
+        elems.forEach((e, qi) => {
+          if (used[qi]) return;
+          let Lx = { c: F(0), t: zeros() }, Rx = { c: F(0), t: zeros() };
+          comps.forEach((c, i) => {
+            const k = c.atoms.get(e) || 0;
+            if (!k) return;
+            if (c.side === 'L') Lx = addA(Lx, val[i], F(k)); else Rx = addA(Rx, val[i], F(k));
+          });
+          const E = addA(Lx, Rx, F(-1));
+          const fv = freeVars(E);
+          if (fv.length === 0) { if (!fzero(E.c)) failed = true; used[qi] = true; return; }
+          if (fv.length > 2) return;
+          if (!best || fv.length < best.fv.length) best = { qi, e, Lx, Rx, E, fv };
+        });
+        if (failed || !best) return { ok: false };
+        used[best.qi] = true;
+        const before = known();
+        if (best.fv.length === 1) {
+          const p = best.fv[0];
+          const value = fdiv(F(-best.E.c.n, best.E.c.d), best.E.t[p]);
+          const ev = { type: 'solve', unit: best.e, L: affStr(best.Lx), R: affStr(best.Rx), v: p, value };
+          sub(p, { c: value, t: zeros() });
+          ev.known = known();
+          ev.cascade = ev.known.map((k, i) => (k && !before[i] && i !== p ? i : -1)).filter((i) => i >= 0);
+          events.push(ev);
+        } else {
+          const ones = best.fv.filter((j) => feq(fabs(best.E.t[j]), F(1)));
+          const p = (ones.length ? ones : best.fv).slice().sort((a, b) => b - a)[0];
+          const q = best.fv.filter((j) => j !== p)[0];
+          const tp = best.E.t[p];
+          const expr = { c: fdiv(F(-best.E.c.n, best.E.c.d), tp), t: zeros() };
+          expr.t[q] = fdiv(F(-best.E.t[q].n, best.E.t[q].d), tp);
+          const ev = { type: 'swap', unit: best.e, L: affStr(best.Lx), R: affStr(best.Rx), v: p, exprText: affStr(expr) };
+          sub(p, expr);
+          ev.known = known();
+          events.push(ev);
+        }
+      }
+      const vals = val.map((V) => V.c);
+      if (vals.some((v) => v.n <= 0)) return { ok: false };
+      return { ok: true, events, vals };
+    }
+
+    const appears = comps.map((c, i) => elems.filter((e) => c.atoms.has(e)).length);
+    let res = null, seed = -1;
+    for (let s = 0; s < n; s++) {
+      const r = run(s);
+      if (r.ok && (!res || appears[s] > appears[seed])) { res = r; seed = s; }
+    }
+    if (!res) throw new Error('No domino chain for ' + eq);
+
+    const steps = [];
+    const none = comps.map(() => null);
+    const all = comps.map((_, i) => i);
+    steps.push({ kind: 'write', title: 'Write down every reactant and product',
+      text: 'Reactants go on the left of the arrow, products on the right. Only formulas for now. No numbers in front yet.',
+      math: '', focusComps: all, focusUnits: [], setIdx: [], coeffs: none, showEqns: 0, hiEqn: null });
+    steps.push({ kind: 'letters', title: 'Give every substance a letter',
+      text: 'The numbers in front are unknown, so call them ' + letters.join(', ') + '. Same order as the formulas, left to right.',
+      math: letters.map((l, i) => l + ' → ' + comps[i].f).join(',  '),
+      focusComps: all, focusUnits: [], setIdx: [], coeffs: none, showLetters: true, showEqns: 0, hiEqn: null });
+    elems.forEach((e, k) => {
+      steps.push({ kind: 'eqn', title: 'Write the [[u:' + e + ']] equation',
+        text: 'Atoms of [[u:' + e + ']] going in must equal atoms of [[u:' + e + ']] coming out. Count how many [[u:' + e + ']] each substance has, and multiply by its letter.',
+        math: orig[k].text, focusComps: all.filter((i) => comps[i].atoms.has(e)), focusUnits: [e], setIdx: [],
+        coeffs: none, showLetters: true, showEqns: k + 1, hiEqn: k });
+    });
+    const E = elems.length;
+    steps.push({ kind: 'seed', title: 'Start the dominoes: let ' + letters[res.events[0].v] + ' = 1',
+      text: 'Choose one letter and set it to 1. [[c:' + seed + ']] appears in ' + appears[seed] + ' of the equations, so it gives the chain a good push. Everything else is worked out from it.',
+      math: letters[seed] + ' = 1', focusComps: [seed], focusUnits: [], setIdx: [seed],
+      coeffs: res.events[0].known, showLetters: true, showEqns: E, hiEqn: null });
+    res.events.slice(1).forEach((ev) => {
+      const hi = elems.indexOf(ev.unit);
+      if (ev.type === 'solve') {
+        const lt = letters[ev.v];
+        let text = 'Use the ' + ev.unit + ' equation. With what we know so far it reads ' + ev.L + ' = ' + ev.R + '. So ' + lt + ' = ' + fstr(ev.value) + '.';
+        if (ev.cascade.length) text += ' That also fixes ' + ev.cascade.map((i) => letters[i] + ' = ' + fstr(ev.known[i])).join(' and ') + '.';
+        steps.push({ kind: 'solve', title: 'Next domino: ' + lt, text, math: ev.L + ' = ' + ev.R + '   →   ' + lt + ' = ' + fstr(ev.value),
+          focusComps: all.filter((i) => comps[i].atoms.has(ev.unit)), focusUnits: [ev.unit],
+          setIdx: [ev.v].concat(ev.cascade), coeffs: ev.known, showLetters: true, showEqns: E, hiEqn: hi });
+      } else {
+        const lt = letters[ev.v];
+        steps.push({ kind: 'swap', title: 'Two unknowns? Swap one for the other',
+          text: 'The ' + ev.unit + ' equation reads ' + ev.L + ' = ' + ev.R + '. It has two unknown letters, so write ' + lt + ' using the other one: ' + lt + ' = ' + ev.exprText + '. From now on, wherever you see ' + lt + ', write ' + ev.exprText + ' instead.',
+          math: lt + ' = ' + ev.exprText, focusComps: all.filter((i) => comps[i].atoms.has(ev.unit)), focusUnits: [ev.unit],
+          setIdx: [], coeffs: ev.known, showLetters: true, showEqns: E, hiEqn: hi });
+      }
+    });
+    const co = res.vals.map((v) => ({ n: v.n, d: v.d }));
+    const snap = () => co.map((x) => ({ n: x.n, d: x.d }));
+    const ints = finishScale(co, comps, steps, snap, units);
+    steps.forEach((s) => { if (s.kind === 'scale' || s.kind === 'check') { s.showLetters = true; s.showEqns = E; s.hiEqn = null; } });
+    if (!isBalanced(comps, ints)) throw new Error('Not balanced: ' + eq);
+    return { mode: 'letters', eq, blocks: [], comps, units, steps, final: ints, letters, eqns: orig };
+  }
+
+  const BLOCKS = ['SO4', 'NO3'];
+  function solve(q) {
+    if (q.tier === 4) return solveLetters(q.eq);
+    const bl = q.blocks || BLOCKS;
+    const comps = parseEq(q.eq, q.tier === 2 ? bl : []);
+    if (q.tier === 1) return solveProp(q.eq, { blocks: [], start: comps.length - 1 });
+    if (q.tier === 2) return solveProp(q.eq, { blocks: bl, order: q.order });
+    return solveProp(q.eq, { blocks: [], order: q.order });
+  }
+
+  return { solve, solveProp, solveLetters, parseFormula, parseEq, isBalanced, sideTotal, unitList, F, fstr, gcd, BLOCKS };
+})();
+
+/* ---------- Question bank ---------- */
+const TIERS = [
+  { id: 1, name: 'Fractions, then clear', short: 'Two elements make one product',
+    rule: 'Give the product the number 1. Fit each reactant with a fraction. Then multiply the whole equation by a whole number to clear the fractions.',
+    tips: ['Start with the product = 1.', 'Divide: atoms needed ÷ atoms in one reactant molecule.', 'Fractions left? Multiply EVERY number by the same whole number.'] },
+  { id: 2, name: 'Ions are blocks', short: 'Ionic compounds, acids and oxides',
+    rule: 'Treat ions such as SO₄, NO₃, CO₃, HCO₃ and NH₄ as whole blocks that never break up. When a metal takes the place of another metal in an oxide, treat the O as the block. Balance the blocks first, then the single atoms.',
+    tips: ['Circle the block (SO₄, NO₃, CO₃, HCO₃, NH₄, Cl, or the O in an oxide). Count blocks, not S and O separately.', 'Make the blocks equal on both sides first.', 'Then balance the remaining element or elements.'] },
+  { id: 3, name: 'Lock the lone element', short: 'One element is easy to fix first',
+    rule: 'Fix first an element that sits in only one compound on each side. Then fix the next element that has only one number still unknown. Leave until last the element that shows up in the most compounds.',
+    eg: 'Typical orders. Burning: C, then H, then O. Sodium + water: Na, then O, then H. Iron oxide + hydrogen: Fe, then O, then H.',
+    tips: ['Find an element that appears once on the left and once on the right. Fix it first.', 'Next, pick an element with only one number left to find. Oxygen is often last because it appears in many compounds.', 'A half left over, often at the end? Multiply everything by 2.'] },
+  { id: 4, name: 'Letters and dominoes', short: 'Nothing is easy to lock, so use letters',
+    rule: 'Give every substance a letter. Write one equation for each element. Set one letter to 1 and the others fall like dominoes. Use fractions if you must, then clear them at the end.',
+    tips: ['One letter per substance: a, b, c ...', 'One equation per element: atoms in = atoms out.', 'Stuck with two unknowns in one equation? Swap one letter for the other.'] }
+];
+
+const WORKED = [
+  { tier: 1, id: 'w1', word: 'nitrogen + hydrogen → ammonia', eq: 'N2 + H2 > NH3' },
+  { tier: 2, id: 'w2', word: 'aluminium + copper(II) sulfate → aluminium sulfate + copper', eq: 'Al + CuSO4 > Al2(SO4)3 + Cu', order: ['SO4', 'Al', 'Cu'] },
+  { tier: 3, id: 'w3', word: 'ethane + oxygen → carbon dioxide + water', eq: 'C2H6 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 4, id: 'w4', word: 'copper(II) oxide + ammonia → copper + nitrogen + water', eq: 'CuO + NH3 > Cu + N2 + H2O' }
+];
+
+const PRACTICE = [
+  /* Tier 1 */
+  { tier: 1, word: 'magnesium + oxygen → magnesium oxide', eq: 'Mg + O2 > MgO' },
+  { tier: 1, word: 'hydrogen + chlorine → hydrogen chloride', eq: 'H2 + Cl2 > HCl' },
+  { tier: 1, word: 'sodium + chlorine → sodium chloride', eq: 'Na + Cl2 > NaCl' },
+  { tier: 1, word: 'hydrogen + oxygen → water', eq: 'H2 + O2 > H2O' },
+  { tier: 1, word: 'sodium + oxygen → sodium oxide', eq: 'Na + O2 > Na2O' },
+  { tier: 1, word: 'magnesium + nitrogen → magnesium nitride', eq: 'Mg + N2 > Mg3N2' },
+  { tier: 1, word: 'lithium + nitrogen → lithium nitride', eq: 'Li + N2 > Li3N' },
+  { tier: 1, word: 'aluminium + chlorine → aluminium chloride', eq: 'Al + Cl2 > AlCl3' },
+  { tier: 1, word: 'aluminium + oxygen → aluminium oxide', eq: 'Al + O2 > Al2O3' },
+  { tier: 1, word: 'iron + chlorine → iron(III) chloride', eq: 'Fe + Cl2 > FeCl3' },
+  { tier: 1, word: 'iron + oxygen → iron(III) oxide', eq: 'Fe + O2 > Fe2O3' },
+  { tier: 1, word: 'nitrogen + oxygen → dinitrogen pentoxide', eq: 'N2 + O2 > N2O5' },
+  { tier: 1, word: 'phosphorus + oxygen → phosphorus(V) oxide', eq: 'P4 + O2 > P2O5' },
+  { tier: 1, word: 'phosphorus + chlorine → phosphorus(V) chloride', eq: 'P4 + Cl2 > PCl5' },
+  { tier: 1, word: 'sulfur + oxygen → sulfur trioxide', eq: 'S8 + O2 > SO3' },
+  { tier: 1, word: 'aluminium + sulfur → aluminium sulfide', eq: 'Al + S8 > Al2S3' },
+  /* Tier 2 */
+  { tier: 2, word: 'magnesium + hydrochloric acid → magnesium chloride + hydrogen', eq: 'Mg + HCl > MgCl2 + H2', order: ['Cl', 'Mg', 'H'] },
+  { tier: 2, word: 'zinc + sulfuric acid → zinc sulfate + hydrogen', eq: 'Zn + H2SO4 > ZnSO4 + H2', order: ['SO4', 'Zn', 'H'] },
+  { tier: 2, word: 'zinc + silver nitrate → zinc nitrate + silver', eq: 'Zn + AgNO3 > Zn(NO3)2 + Ag', order: ['NO3', 'Zn', 'Ag'] },
+  { tier: 2, word: 'aluminium + hydrochloric acid → aluminium chloride + hydrogen', eq: 'Al + HCl > AlCl3 + H2', order: ['Cl', 'Al', 'H'] },
+  { tier: 2, word: 'aluminium + copper(II) chloride → aluminium chloride + copper', eq: 'Al + CuCl2 > AlCl3 + Cu', order: ['Cl', 'Al', 'Cu'] },
+  { tier: 2, word: 'aluminium + sulfuric acid → aluminium sulfate + hydrogen', eq: 'Al + H2SO4 > Al2(SO4)3 + H2', order: ['SO4', 'Al', 'H'] },
+  { tier: 2, word: 'barium chloride + sodium sulfate → barium sulfate + sodium chloride', eq: 'BaCl2 + Na2SO4 > BaSO4 + NaCl', order: ['SO4', 'Ba', 'Na', 'Cl'] },
+  { tier: 2, word: 'silver nitrate + calcium chloride → silver chloride + calcium nitrate', eq: 'AgNO3 + CaCl2 > AgCl + Ca(NO3)2', order: ['NO3', 'Ag', 'Ca', 'Cl'] },
+  { tier: 2, word: 'sodium carbonate + calcium chloride → calcium carbonate + sodium chloride', eq: 'Na2CO3 + CaCl2 > CaCO3 + NaCl', order: ['CO3', 'Ca', 'Na', 'Cl'], blocks: ['CO3'] },
+  { tier: 2, word: 'sodium carbonate + magnesium sulfate → magnesium carbonate + sodium sulfate', eq: 'Na2CO3 + MgSO4 > MgCO3 + Na2SO4', order: ['CO3', 'SO4', 'Mg', 'Na'], blocks: ['CO3', 'SO4'] },
+  { tier: 2, word: 'potassium carbonate + calcium nitrate → calcium carbonate + potassium nitrate', eq: 'K2CO3 + Ca(NO3)2 > CaCO3 + KNO3', order: ['CO3', 'Ca', 'K', 'NO3'], blocks: ['CO3', 'NO3'] },
+  { tier: 2, word: 'sodium carbonate + silver nitrate → silver carbonate + sodium nitrate', eq: 'Na2CO3 + AgNO3 > Ag2CO3 + NaNO3', order: ['CO3', 'Ag', 'Na', 'NO3'], blocks: ['CO3', 'NO3'] },
+  { tier: 2, word: 'ammonium carbonate + calcium chloride → calcium carbonate + ammonium chloride', eq: '(NH4)2CO3 + CaCl2 > CaCO3 + NH4Cl', order: ['CO3', 'Ca', 'NH4', 'Cl'], blocks: ['CO3', 'NH4'] },
+  { tier: 2, word: 'ammonium hydrogencarbonate + sodium chloride → sodium hydrogencarbonate + ammonium chloride', eq: 'NH4HCO3 + NaCl > NaHCO3 + NH4Cl', order: ['HCO3', 'Na', 'NH4', 'Cl'], blocks: ['HCO3', 'NH4'] },
+  { tier: 2, word: 'calcium hydrogencarbonate + sodium carbonate → calcium carbonate + sodium hydrogencarbonate', eq: 'Ca(HCO3)2 + Na2CO3 > CaCO3 + NaHCO3', order: ['CO3', 'Ca', 'HCO3', 'Na'], blocks: ['HCO3', 'CO3'] },
+  { tier: 2, word: 'magnesium + iron(III) sulfate → magnesium sulfate + iron', eq: 'Mg + Fe2(SO4)3 > MgSO4 + Fe', order: ['SO4', 'Mg', 'Fe'] },
+  { tier: 2, word: 'aluminium + iron(II,III) oxide → aluminium oxide + iron', eq: 'Al + Fe3O4 > Al2O3 + Fe', order: ['O', 'Al', 'Fe'], blocks: ['O'] },
+  /* Tier 3 */
+  { tier: 3, word: 'methane + oxygen → carbon dioxide + water', eq: 'CH4 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'sodium + water → sodium hydroxide + hydrogen', eq: 'Na + H2O > NaOH + H2', order: ['Na', 'O', 'H'] },
+  { tier: 3, word: 'potassium chlorate → potassium chloride + oxygen', eq: 'KClO3 > KCl + O2', order: ['K', 'O', 'Cl'] },
+  { tier: 3, word: 'propane + oxygen → carbon dioxide + water', eq: 'C3H8 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'calcium + water → calcium hydroxide + hydrogen', eq: 'Ca + H2O > Ca(OH)2 + H2', order: ['Ca', 'O', 'H'] },
+  { tier: 3, word: 'iron(III) oxide + hydrogen → iron + water', eq: 'Fe2O3 + H2 > Fe + H2O', order: ['Fe', 'O', 'H'] },
+  { tier: 3, word: 'methanol + oxygen → carbon dioxide + water', eq: 'CH3OH + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'iron(II,III) oxide + hydrogen → iron + water', eq: 'Fe3O4 + H2 > Fe + H2O', order: ['Fe', 'O', 'H'] },
+  { tier: 3, word: 'ethanol + oxygen → carbon dioxide + water', eq: 'C2H5OH + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'iron(III) oxide + aluminium → aluminium oxide + iron', eq: 'Fe2O3 + Al > Al2O3 + Fe', order: ['Fe', 'O', 'Al'] },
+  { tier: 3, word: 'ethyne + oxygen → carbon dioxide + water', eq: 'C2H2 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'zinc sulfide + oxygen → zinc oxide + sulfur dioxide', eq: 'ZnS + O2 > ZnO + SO2', order: ['Zn', 'S', 'O'] },
+  { tier: 3, word: 'butane + oxygen → carbon dioxide + water', eq: 'C4H10 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'iron(III) oxide + carbon monoxide → iron + carbon dioxide', eq: 'Fe2O3 + CO > Fe + CO2', order: ['C', 'O', 'Fe'] },
+  { tier: 3, word: 'iron(III) oxide + carbon monoxide → iron(II,III) oxide + carbon dioxide', eq: 'Fe2O3 + CO > Fe3O4 + CO2', order: ['Fe', 'C', 'O'] },
+  { tier: 3, word: 'ammonia + oxygen → nitrogen + water', eq: 'NH3 + O2 > N2 + H2O', order: ['N', 'H', 'O'] },
+  { tier: 3, word: 'octane + oxygen → carbon dioxide + water', eq: 'C8H18 + O2 > CO2 + H2O', order: ['C', 'H', 'O'] },
+  { tier: 3, word: 'ammonia + oxygen → nitrogen monoxide + water (Pt catalyst, 900 °C, 8 atm)', eq: 'NH3 + O2 > NO + H2O', order: ['N', 'H', 'O'] },
+  { tier: 3, word: 'sodium carbonate + hydrochloric acid → sodium chloride + water + carbon dioxide', eq: 'Na2CO3 + HCl > NaCl + H2O + CO2', order: ['Na', 'C', 'O', 'H', 'Cl'] },
+  { tier: 3, word: 'aluminium carbide + water → aluminium hydroxide + methane', eq: 'Al4C3 + H2O > Al(OH)3 + CH4', order: ['Al', 'C', 'H', 'O'] },
+  { tier: 3, word: 'magnesium nitride + water → magnesium hydroxide + ammonia', eq: 'Mg3N2 + H2O > Mg(OH)2 + NH3', order: ['Mg', 'N', 'H', 'O'] },
+  /* Tier 4 */
+  { tier: 4, word: 'copper + concentrated sulfuric acid → copper(II) sulfate + sulfur dioxide + water', eq: 'Cu + H2SO4 > CuSO4 + SO2 + H2O' },
+  { tier: 4, word: 'silver + dilute nitric acid → silver nitrate + nitrogen monoxide + water', eq: 'Ag + HNO3 > AgNO3 + NO + H2O' },
+  { tier: 4, word: 'copper + concentrated nitric acid → copper(II) nitrate + nitrogen dioxide + water', eq: 'Cu + HNO3 > Cu(NO3)2 + NO2 + H2O' },
+  { tier: 4, word: 'iron + dilute nitric acid → iron(III) nitrate + nitrogen monoxide + water', eq: 'Fe + HNO3 > Fe(NO3)3 + NO + H2O' },
+  { tier: 4, word: 'zinc + concentrated sulfuric acid → zinc sulfate + hydrogen sulfide + water', eq: 'Zn + H2SO4 > ZnSO4 + H2S + H2O' },
+  { tier: 4, word: 'copper + nitric acid → copper(II) nitrate + nitrogen monoxide + water', eq: 'Cu + HNO3 > Cu(NO3)2 + NO + H2O' },
+  { tier: 4, word: 'iron + concentrated sulfuric acid → iron(III) sulfate + sulfur dioxide + water', eq: 'Fe + H2SO4 > Fe2(SO4)3 + SO2 + H2O' },
+  { tier: 4, word: 'zinc + dilute nitric acid → zinc nitrate + dinitrogen monoxide + water', eq: 'Zn + HNO3 > Zn(NO3)2 + N2O + H2O' },
+  { tier: 4, word: 'zinc + very dilute nitric acid → zinc nitrate + ammonium nitrate + water', eq: 'Zn + HNO3 > Zn(NO3)2 + NH4NO3 + H2O' },
+  { tier: 4, word: 'iron(II) sulfate + potassium manganate(VII) + sulfuric acid → iron(III) sulfate + manganese(II) sulfate + potassium sulfate + water', eq: 'FeSO4 + KMnO4 + H2SO4 > Fe2(SO4)3 + MnSO4 + K2SO4 + H2O' },
+  { tier: 4, word: 'potassium dichromate(VI) + iron(II) sulfate + sulfuric acid → chromium(III) sulfate + iron(III) sulfate + potassium sulfate + water', eq: 'K2Cr2O7 + FeSO4 + H2SO4 > Cr2(SO4)3 + Fe2(SO4)3 + K2SO4 + H2O' }
+];
+
+/* ---------- App part 1: rendering helpers and the animated player ---------- */
+const $ = (sel, root) => (root || document).querySelector(sel);
+const $$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));
+function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+function subDigits(name) { return esc(name).replace(/(\d+)/g, '<sub>$1</sub>'); }
+function plainHTML(f) { return esc(f).replace(/(\d+)/g, '<sub>$1</sub>'); }
+function uidxOf(sol) { const m = {}; sol.units.forEach((u, i) => { m[u.name] = i; }); return m; }
+function ucolor(i) { return 'var(--u' + (i % 6) + ')'; }
+
+/* a formula with every unit (atom or ion block) wrapped in its colour */
+function formulaHTML(f, sol) {
+  const blocks = sol.blocks, uidx = uidxOf(sol);
+  let out = '', i = 0;
+  while (i < f.length) {
+    const ch = f[i];
+    if (ch === '(' || ch === ')') {
+      out += '<span class="par">' + ch + '</span>'; i++;
+      if (ch === ')') { const m = /^\d+/.exec(f.slice(i)); if (m) { out += '<sub>' + m[0] + '</sub>'; i += m[0].length; } }
+      continue;
+    }
+    let unit = null;
+    for (const b of blocks) { if (f.startsWith(b, i)) { unit = b; break; } }
+    if (!unit) unit = /^[A-Z][a-z]?/.exec(f.slice(i))[0];
+    i += unit.length;
+    let sub = '';
+    const m = /^\d+/.exec(f.slice(i));
+    if (m) { sub = m[0]; i += sub.length; }
+    const isB = blocks.indexOf(unit) >= 0;
+    out += '<span class="un' + (isB ? ' blk' : '') + '" data-u="' + unit + '" style="--uc:' + ucolor(uidx[unit]) + '">' + subDigits(unit) + (sub ? '<sub>' + sub + '</sub>' : '') + '</span>';
+  }
+  return out;
+}
+
+/* step text uses [[u:Cl]] for a coloured unit chip and [[c:2]] for a compound */
+function richText(text, sol) {
+  const uidx = uidxOf(sol);
+  return esc(text)
+    .replace(/\[\[u:([A-Za-z0-9]+)\]\]/g, (m, u) => '<span class="chip' + (sol.blocks.indexOf(u) >= 0 ? ' blk' : '') + '" style="--uc:' + ucolor(uidx[u]) + '">' + subDigits(u) + '</span>')
+    .replace(/\[\[c:(\d+)\]\]/g, (m, i) => '<span class="chipf">' + plainHTML(sol.comps[+i].f) + '</span>');
+}
+
+function coefInner(v, letter, showLetters) {
+  if (v) {
+    if (v.d === 1) return String(v.n);
+    return '<span class="fr"><span>' + v.n + '</span><span>' + v.d + '</span></span>';
+  }
+  return showLetters && letter ? letter : '?';
+}
+
+/* answer as a plain equation string with subscripts, e.g. 2Al + 3CuSO4 → ... */
+function answerHTML(sol, ints) {
+  const part = (side) => sol.comps.map((c, i) => ({ c, i })).filter((x) => x.c.side === side)
+    .map((x) => (ints[x.i] > 1 ? ints[x.i] : '') + plainHTML(x.c.f)).join(' + ');
+  return part('L') + ' → ' + part('R');
+}
+
+/* ----- atom tally (left versus right) ----- */
+function tallyHTML(sol, withHead) {
+  const uidx = uidxOf(sol);
+  const rows = sol.units.map((u) => {
+    const c = ucolor(uidx[u.name]);
+    return '<div class="trow" data-u="' + u.name + '" style="--uc:' + c + '">' +
+      '<div class="tname"><span class="chip' + (u.isBlock ? ' blk' : '') + '">' + subDigits(u.name) + '</span></div>' +
+      '<div class="tside" data-s="L"><span class="tnum"></span><div class="dots"></div></div>' +
+      '<div class="tstat" aria-hidden="true"></div>' +
+      '<div class="tside" data-s="R"><span class="tnum"></span><div class="dots"></div></div>' +
+      '<span class="sr-only tsr"></span></div>';
+  }).join('');
+  return (withHead === false ? '' : '<div class="thead"><span>' + (sol.blocks.length ? 'Unit' : 'Atom') + '</span><span>Left</span><span></span><span>Right</span></div>') + rows;
+}
+
+function updateTally(root, sol, coeffs, focusUnits) {
+  sol.units.forEach((u) => {
+    const row = $('.trow[data-u="' + u.name + '"]', root);
+    if (!row) return;
+    const res = {};
+    ['L', 'R'].forEach((sd) => {
+      const t = Engine.sideTotal(sol.comps, u.name, sd, coeffs);
+      res[sd] = t;
+      const side = $('.tside[data-s="' + sd + '"]', row);
+      const dots = $('.dots', side);
+      const n = Math.min(80, Math.floor(t.tot.n / t.tot.d));
+      const have = dots.children.length;
+      if (n < have) { while (dots.children.length > n) dots.removeChild(dots.lastChild); }
+      for (let k = have; k < n; k++) {
+        const d = document.createElement('span');
+        d.className = 'dot new' + (u.isBlock ? ' blk' : '');
+        d.style.setProperty('--d', ((k - have) * 0.035) + 's');
+        dots.appendChild(d);
+      }
+      const num = $('.tnum', side);
+      num.textContent = (t.unknown && t.tot.n === 0) ? '?' : Engine.fstr(t.tot) + (t.unknown ? '+?' : '');
+    });
+    const partial = res.L.unknown || res.R.unknown;
+    const same = res.L.tot.n === res.R.tot.n && res.L.tot.d === res.R.tot.d;
+    row.classList.toggle('ok', !partial && same);
+    row.classList.toggle('off', !partial && !same);
+    row.classList.toggle('hi', !!(focusUnits && focusUnits.indexOf(u.name) >= 0));
+    $('.tstat', row).textContent = partial ? '…' : (same ? '✓' : '≠');
+    $('.tsr', row).textContent = u.name + ': left ' + Engine.fstr(res.L.tot) + ', right ' + Engine.fstr(res.R.tot) + (partial ? ', not finished' : (same ? ', balanced' : ', not equal'));
+  });
+}
+
+/* ----- the animated player ----- */
+const ICON = {
+  back: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12 2L2 8l10 6z"/></svg>',
+  next: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>',
+  play: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z"/></svg>',
+  pause: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h4v12H3zM9 2h4v12H9z"/></svg>',
+  again: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2a6 6 0 1 0 6 6h-2a4 4 0 1 1-4-4v3l4-4-4-4z"/></svg>'
+};
+
+class Player {
+  constructor(root, sol, q) {
+    this.root = root; this.sol = sol; this.q = q;
+    this.i = 0; this.timer = null; this.playing = false; this.speed = 'normal';
+    this.build();
+    this.go(0);
+  }
+
+  build() {
+    const sol = this.sol, q = this.q;
+    const side = (sd) => sol.comps.map((c, i) => ({ c, i })).filter((x) => x.c.side === sd).map((x) =>
+      '<span class="comp" data-i="' + x.i + '"><span class="coef"></span><span class="formula">' + formulaHTML(x.c.f, sol) + '</span></span>'
+    ).join('<span class="op" aria-hidden="true">+</span>');
+    const eqns = sol.mode === 'letters'
+      ? '<div><div class="lbl-sm" style="margin-bottom:6px">One equation per element</div><div class="eqns">' +
+        sol.eqns.map((e) => '<div class="eqitem" hidden><span class="chip" style="--uc:' + ucolor(uidxOf(sol)[e.unit]) + '">' + subDigits(e.unit) + '</span><span>' + esc(e.text) + '</span></div>').join('') +
+        '</div><div class="known" style="margin-top:10px" hidden></div></div>'
+      : '';
+    this.root.innerHTML =
+      '<div class="card player">' +
+      '<div><div class="lbl-sm">In words</div><p class="word">' + esc(q.word) + '</p></div>' +
+      '<div class="stage"><div class="scalebadge" aria-hidden="true"></div><div class="eq">' +
+      '<div class="eqside"><div class="slabel">Reactants</div><div class="row">' + side('L') + '</div></div>' +
+      '<div class="arrow" aria-hidden="true">→</div>' +
+      '<div class="eqside"><div class="slabel">Products</div><div class="row">' + side('R') + '</div></div>' +
+      '</div></div>' +
+      '<div class="cols"><div class="caption" aria-live="polite"><div class="stepno"></div><h3></h3><p class="txt"></p><div class="why" hidden></div><div class="mathline"></div></div>' +
+      '<div class="side-panel">' + eqns + '<div class="tally"><div class="lbl-sm">Count the atoms</div>' + tallyHTML(sol) + '<p class="tkey">Each dot is one ' + (sol.blocks.length ? 'atom or block' : 'atom') + '. Left and right must match.</p></div></div></div>' +
+      '<div class="controls">' +
+      '<button class="btn" data-a="back">' + ICON.back + 'Back</button>' +
+      '<button class="btn primary" data-a="play"></button>' +
+      '<button class="btn" data-a="next">Next' + ICON.next + '</button>' +
+      '<button class="btn" data-a="restart">' + ICON.again + 'Restart</button>' +
+      '<span class="speed" role="group" aria-label="Playback speed"><button data-sp="slow" aria-pressed="false">Slow</button><button data-sp="normal" aria-pressed="true">Normal</button><button data-sp="fast" aria-pressed="false">Fast</button></span>' +
+      '<div class="progress" role="group" aria-label="Steps">' + sol.steps.map((s, k) => '<button data-k="' + k + '" aria-label="Go to step ' + (k + 1) + '"></button>').join('') + '</div>' +
+      '</div></div>';
+
+    const R = this.root;
+    this.stage = $('.stage', R);
+    this.comps = $$('.comp', R).sort((a, b) => a.dataset.i - b.dataset.i);
+    this.cap = { no: $('.stepno', R), h: $('h3', R), t: $('.txt', R), w: $('.why', R), m: $('.mathline', R) };
+    this.badge = $('.scalebadge', R);
+    this.tally = $('.tally', R);
+    this.eqItems = $$('.eqitem', R);
+    this.known = $('.known', R);
+    this.prog = $$('.progress button', R);
+    this.btn = { back: $('[data-a="back"]', R), next: $('[data-a="next"]', R), play: $('[data-a="play"]', R) };
+    R.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if (!b || !R.contains(b)) return;
+      if (b.dataset.a === 'back') { this.pause(); this.go(this.i - 1); }
+      else if (b.dataset.a === 'next') { this.pause(); this.go(this.i + 1); }
+      else if (b.dataset.a === 'restart') { this.pause(); this.go(0); }
+      else if (b.dataset.a === 'play') { this.playing ? this.pause() : this.play(); }
+      else if (b.dataset.sp) { this.speed = b.dataset.sp; $$('.speed button', R).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); if (this.playing) this.schedule(); }
+      else if (b.dataset.k !== undefined) { this.pause(); this.go(+b.dataset.k); }
+    });
+    R.addEventListener('keydown', (e) => {
+      if (e.target.closest('input,textarea')) return;
+      if (e.key === 'ArrowRight') { this.pause(); this.go(this.i + 1); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { this.pause(); this.go(this.i - 1); e.preventDefault(); }
+    });
+  }
+
+  go(i) {
+    const last = this.sol.steps.length - 1;
+    this.i = Math.max(0, Math.min(last, i));
+    this.render();
+  }
+
+  render() {
+    const sol = this.sol, s = sol.steps[this.i], last = sol.steps.length - 1;
+    sol.comps.forEach((c, k) => {
+      const comp = this.comps[k], coef = $('.coef', comp);
+      const v = s.coeffs[k];
+      const letterMode = s.showLetters && sol.letters;
+      const key = v ? v.n + '/' + v.d : (letterMode ? 'L' + sol.letters[k] : '?');
+      const changed = coef.dataset.k !== undefined && coef.dataset.k !== key && !!v;
+      if (coef.dataset.k !== key) { coef.innerHTML = coefInner(v, sol.letters && sol.letters[k], s.showLetters); coef.dataset.k = key; }
+      coef.className = 'coef' + (v ? ' set' : (letterMode ? ' letter' : ''));
+      if (changed) { void coef.offsetWidth; coef.classList.add('pop'); }
+      if (s.final && v && v.d === 1 && v.n === 1) coef.classList.add('omit');
+      coef.setAttribute('aria-label', 'Number in front of ' + c.f + ': ' + (v ? Engine.fstr(v) : 'not set yet'));
+      comp.classList.toggle('hi', s.focusComps.indexOf(k) >= 0);
+      if (s.kind === 'write') { comp.style.setProperty('--d', (k * 0.12) + 's'); comp.classList.remove('enter'); void comp.offsetWidth; comp.classList.add('enter'); }
+      else comp.classList.remove('enter');
+    });
+    this.stage.classList.toggle('focusing', s.focusUnits.length > 0);
+    $$('.un', this.stage).forEach((el) => el.classList.toggle('hi', s.focusUnits.indexOf(el.dataset.u) >= 0));
+
+    this.cap.no.textContent = 'Step ' + (this.i + 1) + ' of ' + (last + 1);
+    this.cap.h.innerHTML = richText(s.title, sol);
+    this.cap.t.innerHTML = richText(s.text, sol);
+    this.cap.w.hidden = !s.why;
+    this.cap.w.innerHTML = s.why ? richText(s.why, sol) : '';
+    this.cap.m.hidden = !s.math;
+    this.cap.m.textContent = s.math || '';
+
+    const scaling = s.kind === 'scale';
+    this.badge.classList.remove('show');
+    if (scaling) {
+      this.badge.textContent = s.scale > 1 ? '× ' + s.scale : '÷ ' + Math.round(1 / s.scale);
+      void this.badge.offsetWidth; this.badge.classList.add('show');
+    }
+
+    updateTally(this.tally, sol, s.coeffs, s.focusUnits);
+
+    if (sol.mode === 'letters') {
+      this.eqItems.forEach((el, k) => { el.hidden = k >= (s.showEqns || 0); el.classList.toggle('hi', s.hiEqn === k); });
+      const kn = [];
+      s.coeffs.forEach((v, k) => { if (v && s.showLetters && s.kind !== 'scale' && s.kind !== 'check') kn.push(sol.letters[k] + ' = ' + Engine.fstr(v)); });
+      this.known.hidden = kn.length === 0;
+      this.known.innerHTML = kn.map((t) => '<span>' + esc(t) + '</span>').join('');
+    }
+
+    this.prog.forEach((b, k) => { b.className = k < this.i ? 'done' : (k === this.i ? 'now' : ''); });
+    this.btn.back.disabled = this.i === 0;
+    this.btn.next.disabled = this.i === last;
+    this.updatePlayBtn();
+  }
+
+  updatePlayBtn() {
+    const atEnd = this.i >= this.sol.steps.length - 1;
+    this.btn.play.innerHTML = this.playing ? ICON.pause + 'Pause' : (atEnd ? ICON.again + 'Play again' : ICON.play + 'Play');
+  }
+
+  play() {
+    if (this.i >= this.sol.steps.length - 1) this.go(0);
+    this.playing = true; this.updatePlayBtn(); this.schedule();
+  }
+
+  pause() { this.playing = false; clearTimeout(this.timer); this.updatePlayBtn(); }
+
+  schedule() {
+    clearTimeout(this.timer);
+    if (!this.playing) return;
+    const s = this.sol.steps[this.i], f = { slow: 1.7, normal: 1, fast: 0.6 }[this.speed];
+    this.timer = setTimeout(() => {
+      if (this.i < this.sol.steps.length - 1) {
+        this.go(this.i + 1);
+        if (this.i >= this.sol.steps.length - 1) this.pause(); else this.schedule();
+      } else this.pause();
+    }, (2400 + (s.text || '').length * 24) * f);
+  }
+
+  destroy() { clearTimeout(this.timer); this.playing = false; }
+}
+
+/* ---------- App part 2: pages, practice and start-up ---------- */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage may be blocked */ } }
+};
+const state = { tier: 1, mode: 'watch', q: 0, live: true, qs: {}, solved: new Set(store.get('ebl-solved', [])) };
+let player = null;
+const SOL = {};
+function practiceOf(tier) { return PRACTICE.filter((q) => q.tier === tier).map((q, k) => Object.assign({ id: 't' + tier + '-' + k }, q)); }
+function solFor(q) { const id = q.id; if (!SOL[id]) SOL[id] = Engine.solve(q); return SOL[id]; }
+
+function setHash() {
+  try { history.replaceState(null, '', '#tier' + state.tier + (state.mode === 'practice' ? 'practice' : '')); } catch (e) { /* ignore */ }
+}
+
+function renderChrome() {
+  $('#tiers').innerHTML = TIERS.map((t) =>
+    '<button class="tier" data-t="' + t.id + '" aria-pressed="' + (state.tier === t.id) + '"><span class="t-n">Tier ' + t.id + '</span><span class="t-name">' + esc(t.name) + '</span><span class="t-short">' + esc(t.short) + '</span></button>').join('');
+  const t = TIERS[state.tier - 1];
+  $('#rule').innerHTML = '<div><h2>' + esc(t.name) + '</h2><p class="big">' + esc(t.rule) + '</p>' + (t.eg ? '<p class="eg">' + esc(t.eg) + '</p>' : '') + '</div>' +
+    '<div><div class="lbl">Three things to remember</div><ul>' + t.tips.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul></div>';
+  $$('#modes .mode').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.m === state.mode)));
+  updateScore();
+}
+
+function updateScore() {
+  $('#score').textContent = 'Solved ' + state.solved.size + ' of ' + PRACTICE.length;
+}
+
+function renderView() {
+  if (player) { player.destroy(); player = null; }
+  const view = $('#view');
+  if (state.mode === 'watch') {
+    const q = WORKED[state.tier - 1], sol = solFor(Object.assign({ id: q.id }, q));
+    view.innerHTML = '<div class="lbl-sm" style="margin-bottom:10px">Worked example. Press Play, or step with Next.</div><div id="pl"></div>';
+    player = new Player($('#pl', view), sol, q);
+  } else renderPractice(view);
+}
+
+/* ----- practice ----- */
+function parseBox(txt) {
+  const t = txt.trim();
+  if (t === '') return Engine.F(1);
+  const parts = t.split('/');
+  const n = parseInt(parts[0], 10) || 0;
+  let d = 1;
+  if (parts.length > 1 && parts[1] !== '') d = parseInt(parts[1], 10) || 0;
+  return d === 0 ? Engine.F(0) : Engine.F(n, d);
+}
+function readVals(sol) {
+  return sol.comps.map((c, i) => parseBox($('#cin-' + i).value));
+}
+function hintList(sol) {
+  const t = TIERS[state.tier - 1];
+  const out = t.tips.map((x) => ({ text: x }));
+  sol.steps.forEach((s) => { if (['write', 'scale', 'check'].indexOf(s.kind) < 0) out.push({ title: s.title }); });
+  return out;
+}
+function renderHints(sol, st) {
+  const L = hintList(sol), ol = $('#hints');
+  ol.hidden = st.hints === 0;
+  ol.innerHTML = L.slice(0, st.hints).map((h) => '<li>' + (h.text ? esc(h.text) : 'Next move: ' + richText(h.title, sol)) + '</li>').join('');
+  const b = $('#hintbtn');
+  b.disabled = st.hints >= L.length;
+  b.textContent = st.hints === 0 ? 'Hint' : (st.hints >= L.length ? 'No more hints' : 'Another hint');
+}
+
+function renderPractice(view) {
+  const list = practiceOf(state.tier);
+  if (state.q >= list.length) state.q = 0;
+  const q = list[state.q], sol = solFor(q);
+  const st = state.qs[q.id] || (state.qs[q.id] = { vals: [], hints: 0, how: false });
+  const chips = list.map((x, k) => {
+    const done = state.solved.has(x.id);
+    return '<button class="qchip' + (done ? ' solved' : '') + '" data-q="' + k + '" aria-current="' + (k === state.q) + '" aria-label="Question ' + (k + 1) + (done ? ', solved' : '') + '">' + (done ? '✓' : '') + (k + 1) + '</button>';
+  }).join('');
+  const eqHTML = sol.comps.map((c, i) =>
+    '<span class="qcomp"><input class="cin" id="cin-' + i + '" type="text" maxlength="5" placeholder="1" autocomplete="off" aria-label="Number in front of ' + esc(c.f) + '" value="' + esc(st.vals[i] || '') + '">' +
+    '<span class="formula">' + formulaHTML(c.f, sol) + '</span></span>' +
+    (i < sol.comps.length - 1 ? (sol.comps[i + 1].side !== c.side ? '<span class="arrow" aria-hidden="true">→</span>' : '<span class="op" aria-hidden="true">+</span>') : '')
+  ).join('');
+
+  view.innerHTML =
+    '<div class="paper"><h2>Work it out on paper first</h2><p>Writing each step yourself is how this skill sticks. Use this page to check your answer, not to find it.</p>' +
+    '<ol><li>Copy the equation and leave a gap in front of every formula.</li><li>Follow the rule for this tier and write down every step, fractions included.</li><li>Type your final whole numbers below, then press Check.</li><li>Stuck? Try a hint first. Use Show me how last, and compare it with your paper working.</li></ol></div>' +
+    '<div class="qchips" role="group" aria-label="Questions" style="margin-bottom:14px">' + chips + '</div>' +
+    '<div class="card" id="pq">' +
+    '<div><div class="lbl-sm">Question ' + (state.q + 1) + ' of ' + list.length + '</div><p class="word">' + esc(q.word) + '</p></div>' +
+    '<div class="qeq">' + eqHTML + '</div>' +
+    '<div class="tally" id="ptally"' + (state.live ? '' : ' hidden') + '><div class="lbl-sm">Live atom count</div>' + tallyHTML(sol) + '<p class="tkey">Empty boxes count as 1. While working you may type a fraction such as 1/2. The final answer needs whole numbers.</p></div>' +
+    '<div class="row-btns"><button class="btn primary" id="chk">Check my answer</button><button class="btn" id="hintbtn">Hint</button><button class="btn" id="howbtn">Show me how</button>' +
+    '<label class="toggle"><input type="checkbox" id="live"' + (state.live ? ' checked' : '') + '>Live atom count</label></div>' +
+    '<div class="feedback" id="fb" role="status" hidden></div>' +
+    '<ol class="hints" id="hints" hidden></ol>' +
+    '<div class="howwrap" id="how" hidden></div>' +
+    '<div class="row-btns"><button class="btn" id="prevq"' + (state.q === 0 ? ' disabled' : '') + '>Previous question</button><button class="btn" id="nextq"' + (state.q === list.length - 1 ? ' disabled' : '') + '>Next question</button></div>' +
+    '</div>';
+
+  const tally = $('#ptally');
+  const refresh = () => updateTally(tally, sol, readVals(sol), []);
+  refresh();
+  renderHints(sol, st);
+  const showHow = () => {
+    const how = $('#how'), btn = $('#howbtn');
+    if (player) { player.destroy(); player = null; }
+    how.hidden = !st.how;
+    btn.textContent = st.how ? 'Hide the animation' : 'Show me how';
+    btn.setAttribute('aria-expanded', String(st.how));
+    if (st.how) { how.innerHTML = '<div id="pl"></div>'; player = new Player($('#pl', how), sol, q); }
+  };
+  showHow();
+
+  sol.comps.forEach((c, i) => {
+    const inp = $('#cin-' + i);
+    inp.addEventListener('input', () => {
+      inp.value = inp.value.replace(/[^0-9/]/g, '').replace(/\/(?=.*\/)/g, '');
+      st.vals[i] = inp.value;
+      $('#fb').hidden = true;
+      refresh();
+    });
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('#chk').click(); } });
+  });
+  $('#live').addEventListener('change', (e) => { state.live = e.target.checked; tally.hidden = !state.live; });
+  $('#hintbtn').addEventListener('click', () => { st.hints++; renderHints(sol, st); });
+  $('#howbtn').addEventListener('click', () => {
+    if (st.how) { st.how = false; showHow(); return; }
+    if (st.sure) { st.how = true; showHow(); return; }
+    const how = $('#how');
+    how.hidden = false;
+    how.innerHTML = '<p><b>Have you tried it on paper first?</b> Watching before you try takes away most of the learning.</p>' +
+      '<div class="row-btns" style="margin-top:10px"><button class="btn primary" id="sureyes">Yes, show me how</button><button class="btn" id="sureno">Not yet, I will try first</button></div>';
+    $('#sureyes').addEventListener('click', () => { st.sure = true; st.how = true; showHow(); });
+    $('#sureno').addEventListener('click', () => { how.hidden = true; how.innerHTML = ''; });
+  });
+  $('#prevq').addEventListener('click', () => { state.q--; renderView(); });
+  $('#nextq').addEventListener('click', () => { state.q++; renderView(); });
+  $('#chk').addEventListener('click', () => checkAnswer(sol, q));
+  $$('.qchip', view).forEach((b) => b.addEventListener('click', () => { state.q = +b.dataset.q; renderView(); }));
+}
+
+function checkAnswer(sol, q) {
+  const fb = $('#fb');
+  const vals = readVals(sol);
+  const allBlank = sol.comps.every((c, i) => $('#cin-' + i).value.trim() === '');
+  fb.hidden = false;
+  const bad = (html) => { fb.className = 'feedback bad'; fb.innerHTML = html; };
+  if (allBlank) { bad('<b>Type your numbers first.</b> Put a number in each box, then check.'); return; }
+  if (vals.some((v) => v.n < 1)) { bad('<b>Every number must be more than 0.</b> Zero would remove a substance.'); return; }
+  const hasFrac = vals.some((v) => v.d > 1);
+  const mism = [];
+  sol.units.forEach((u) => {
+    const l = Engine.sideTotal(sol.comps, u.name, 'L', vals).tot, r = Engine.sideTotal(sol.comps, u.name, 'R', vals).tot;
+    if (l.n !== r.n || l.d !== r.d) mism.push('<div>' + richText('[[u:' + u.name + ']]: ' + Engine.fstr(l) + ' on the left, ' + Engine.fstr(r) + ' on the right.', sol) + '</div>');
+  });
+  if (mism.length) {
+    bad('<b>Not balanced yet.</b> These rows do not match:' + mism.join('') + '<div style="margin-top:6px">Change one number at a time and watch the counts.</div>');
+    return;
+  }
+  if (hasFrac) {
+    bad('<b>Balanced with fractions. Good working.</b> Now multiply EVERY number by the same whole number so no fractions are left, then check again.');
+    return;
+  }
+  const ints = vals.map((v) => v.n);
+  const g = ints.reduce((a, b) => Engine.gcd(a, b), 0);
+  if (g > 1) { bad('<b>Balanced, but not the smallest numbers.</b> Every one of your numbers can be divided by ' + g + '.'); return; }
+  fb.className = 'feedback good';
+  fb.innerHTML = '<b>✓ Balanced.</b><div class="fe">' + answerHTML(sol, ints) + '</div><div style="margin-top:8px">Does your paper working match the steps? Press Show me how to compare.</div>';
+  if (!state.solved.has(q.id)) {
+    state.solved.add(q.id);
+    store.set('ebl-solved', Array.from(state.solved));
+    updateScore();
+    const chip = $('.qchip[data-q="' + state.q + '"]');
+    if (chip) { chip.classList.add('solved'); chip.textContent = '✓' + (state.q + 1); chip.setAttribute('aria-label', 'Question ' + (state.q + 1) + ', solved'); }
+  }
+}
+
+/* ----- teacher key ----- */
+function renderKey() {
+  $('#keygrid').innerHTML = TIERS.map((t) => {
+    const w = Object.assign({ id: 'w' + t.id }, WORKED[t.id - 1]), ws = solFor(w);
+    const rows = practiceOf(t.id).map((q, k) => {
+      const sol = solFor(q);
+      return '<div class="keyrow"><span class="n">' + (k + 1) + '</span><div class="e">' + answerHTML(sol, sol.final) + '<div class="w">' + esc(q.word) + '</div></div></div>';
+    }).join('');
+    return '<h3>Tier ' + t.id + '. ' + esc(t.name) + '</h3>' +
+      '<div class="keyrow"><span class="n">Ex.</span><div class="e">' + answerHTML(ws, ws.final) + '<div class="w">' + esc(w.word) + '</div></div></div>' + rows;
+  }).join('');
+}
+
+/* ----- start-up ----- */
+function init() {
+  const m = /^#tier([1-4])(practice)?$/.exec(location.hash || '');
+  if (m) { state.tier = +m[1]; state.mode = m[2] ? 'practice' : 'watch'; }
+  $('#tiers').addEventListener('click', (e) => {
+    const b = e.target.closest('.tier');
+    if (!b) return;
+    state.tier = +b.dataset.t; state.q = 0; setHash(); renderChrome(); renderView();
+  });
+  $('#modes').addEventListener('click', (e) => {
+    const b = e.target.closest('.mode');
+    if (!b) return;
+    state.mode = b.dataset.m; setHash(); renderChrome(); renderView();
+  });
+  renderChrome();
+  renderView();
+  renderKey();
+}
+init();
+</script>
+
+</body></html>

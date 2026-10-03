@@ -1,0 +1,1114 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='KThGdBvbZx/+bSRbvXG4nw==' src='https://2997f5c6-5b4d-4446-8738-6a238c0594bb.frame.claudeusercontent.com/w6f7Mgckzci6Zkn1heZAMR80cnpix8_R7Kacta4nOcDy9tb9tBktKHglxlU-Y95W3U4aTwj2nqmZzG-LrJVghSzO-YfpKgDC-2WXmZDmK6Frr9Vz1EZ4GVpxXoYp5xoTqwZAMVEz4ByJDU_LZEI2cVPZTFqCkrZJCMsQqmZW6qumS6zwN9pBQLDCd3rpLQBkkzEolNcd8PmvrhDNryoceh6xXd__mlUmxwjVBHZ3Eh5h39RB4bY3H4mMs3Eu8XXgGuxk4zI8TkDRSnhnlhvtTY0j6076_eOCMRT400C_vRa8v-9re4Z__wgv2zJ0vEw_7IoRFjCZn1cO-p1kQCWcI1OHDP0e-Yp24A_F3pRnkFGSLYOr8ZRNY85P44_gT3NJE7htSWcbxAHQcCOjLl9195IkeN5A7q09DolanId6drXg5XXWIvtlu6LOeOmrQ81890ZYTs_dOFKzIWTfhj1WkzUQHvzijZbA-sYP6DtdaMUHnHjp-PI5a2qcQTpX5qWZCfgDBmfxp22CHhwkCOWLcYvHDKqIKH3zCf4-Nzac_771M2oHWWrHyIj4jn_XkKfkXn-JSwErNCvb0qykg08_sjGrOu_LdNlEdo_X3sfAraMqw9NKtL2AVwRuQOfRKxtnvknR7JFC8aZhzZK3MWGLlR_8P4nNwesoQgRNVXdyunreYRCXQOpKrwZq0jkMSd-YgVzWRhKxSj825Wj8tCCdJA'></script></head><body>
+<title>Molecular Shapes Quiz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap">
+<style>
+/* Layout: one centred column. Question card on top, feedback card (3D model + worked explanation) opens below it. */
+:root{
+  --bg:#eef2f6; --card:#ffffff; --ink:#13202b; --muted:#566673; --line:#d3dce4;
+  --accent:#1c5fd6; --accent-ink:#ffffff;
+  --ok:#17803f; --ok-bg:#e3f4ea; --bad:#b92f2a; --bad-bg:#fbe7e5;
+  --stage:#e6ecf2; --bond:#7d8b97; --outline:#2b3944; --lp:#c98200; --dip:#0b8a7a; --net:#d6336c;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1520; --card:#142030; --ink:#e7eef5; --muted:#9bacbb; --line:#26384a;
+    --accent:#79a6ff; --accent-ink:#0b1626;
+    --ok:#5fd18a; --ok-bg:#133625; --bad:#ff8a82; --bad-bg:#3d1b1b;
+    --stage:#0f1a27; --bond:#8fa0af; --outline:#d9e3ec; --lp:#f0b73a; --dip:#4fd1c0; --net:#ff7aa8; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1520; --card:#142030; --ink:#e7eef5; --muted:#9bacbb; --line:#26384a;
+  --accent:#79a6ff; --accent-ink:#0b1626;
+  --ok:#5fd18a; --ok-bg:#133625; --bad:#ff8a82; --bad-bg:#3d1b1b;
+  --stage:#0f1a27; --bond:#8fa0af; --outline:#d9e3ec; --lp:#f0b73a; --dip:#4fd1c0; --net:#ff7aa8; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:20px 48px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px}
+.eyebrow{margin:0;font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+h1{margin:2px 0 0;font-family:var(--f-display);font-size:1.75rem;line-height:1.15;font-weight:700;text-wrap:balance}
+.score{display:flex;gap:18px;font-size:.85rem;color:var(--muted)}
+.score b{display:block;font-size:1.25rem;color:var(--ink);font-variant-numeric:tabular-nums;font-family:var(--f-display)}
+.modes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.modes .lbl{font-size:.8rem;color:var(--muted);margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--muted);padding:6px 14px;border-radius:999px;font:inherit;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}
+.qtype{margin:0;font-size:.75rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.qstem{margin:6px 0 4px;font-family:var(--f-display);font-weight:600;font-size:clamp(1.35rem,4.6vw,1.9rem);line-height:1.3;text-wrap:balance}
+.f{font-family:var(--f-mono);font-weight:500;color:var(--accent);white-space:nowrap}
+.qsub{margin:0 0 16px;color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;padding:12px 14px;min-height:48px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:inherit;font-weight:500;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt .k{font-family:var(--f-mono);font-size:.75rem;border:1px solid var(--line);border-radius:4px;padding:0 6px;color:var(--muted)}
+.opt[disabled]{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--ok-bg)}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg)}
+button:focus-visible,canvas:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pill{display:inline-block;padding:2px 12px;border-radius:999px;font-weight:600;font-size:.8rem}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.fbhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:1.05rem}
+.fb-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;margin-top:14px}
+@media (min-width:760px){.fb-grid{grid-template-columns:minmax(0,300px) minmax(0,1fr)}}
+.stage{background:var(--stage);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+canvas{display:block;width:100%;height:280px;touch-action:none;cursor:grab}
+.vctl{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-top:1px solid var(--line)}
+.mini{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 10px;font:inherit;font-size:.8rem;cursor:pointer}
+.legend{margin:0;padding:0 10px 10px;font-size:.75rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--lp);vertical-align:-1px;margin-right:4px}
+.legend{display:flex;flex-direction:column;gap:4px}
+.legend .sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+.legend .sw.dip{background:var(--dip)}
+.legend .sw.net{background:var(--net);height:5px}
+.why{min-width:0;display:flex;flex-direction:column;gap:10px}
+.steps{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:8px}
+.why p{margin:0}
+.note{color:var(--muted);font-size:.9rem}
+.wrongnote{background:var(--bad-bg);border-radius:8px;padding:10px 12px;font-size:.92rem}
+.next{margin-top:16px;border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;padding:11px 22px;border-radius:10px;cursor:pointer}
+sub,sup{line-height:0}
+.opt[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.opt[aria-pressed="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.next:disabled{opacity:.45;cursor:not-allowed}
+.oname{font-size:.8rem;color:var(--muted);font-weight:400}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:8px;border-bottom:1px solid var(--line)}
+.tabbtn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:4px 10px;font:inherit;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.tabbtn[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.opt2{border-top:1px solid var(--line);padding-top:10px;display:flex;flex-direction:column;gap:6px}
+.opt2:first-child{border-top:0;padding-top:0}
+.opt2h{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tag{font-size:.72rem;padding:1px 9px;border-radius:999px;font-weight:600}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.no{background:var(--stage);color:var(--muted)}
+.tag.you{background:var(--accent);color:var(--accent-ink)}
+</style>
+
+<main class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Bonding · Shapes and polarity</p>
+      <h1>Molecular Shapes Quiz</h1>
+    </div>
+    <div class="score" aria-live="polite">
+      <div><b id="sAns">0</b>Answered</div>
+      <div><b id="sOk">0</b>Correct</div>
+      <div><b id="sStreak">0</b>Streak</div>
+    </div>
+  </header>
+
+  <div class="modes" role="group" aria-label="Level">
+    <span class="lbl">Level</span>
+    <button class="chip" id="lv1" aria-pressed="true">One molecule</button>
+    <button class="chip" id="lv2" aria-pressed="false">Find the matches</button>
+  </div>
+
+  <div class="modes" role="group" aria-label="Question types">
+    <span class="lbl">Question types</span>
+    <button class="chip" id="mMixed" aria-pressed="true">All mixed</button>
+    <button class="chip" id="mShape" aria-pressed="false">Shape</button>
+    <button class="chip" id="mAngle" aria-pressed="false">Bond angle</button>
+    <button class="chip" id="mPlanar" aria-pressed="false">Planar or not</button>
+    <button class="chip" id="mPolar" aria-pressed="false">Polarity</button>
+  </div>
+
+  <section class="card" id="qcard">
+    <p class="qtype" id="qtype"></p>
+    <h2 class="qstem" id="qstem"></h2>
+    <p class="qsub" id="qsub"></p>
+    <div class="opts" id="opts" role="group" aria-label="Answer choices"></div>
+  </section>
+
+  <section class="card" id="fb" hidden="">
+    <div class="fbhead" id="fbhead" role="status"></div>
+    <div class="fb-grid">
+      <div class="stage">
+        <div class="tabs" id="tabs" hidden=""></div>
+        <canvas id="cv" tabindex="0" aria-label="3D model of the molecule. Drag to rotate."></canvas>
+        <div class="vctl">
+          <button class="mini" id="bSpin">Pause spin</button>
+          <button class="mini" id="bLp">Hide lone pairs</button>
+          <button class="mini" id="bDip">Show dipoles</button>
+          <button class="mini" id="bSum" hidden="">Add as vectors</button>
+          <button class="mini" id="bReset">Reset view</button>
+        </div>
+        <div class="legend">
+          <span>Drag to rotate. <span id="lpLegend"><i></i>Amber lobes are lone pairs.</span></span>
+          <span id="dipLegend" hidden=""><span class="sw dip"></span>Bond dipoles (+ at the tail, pointing to the more electronegative atom) <span class="sw net"></span>Net dipole. All arrows use the same scale: length is proportional to the electronegativity difference.</span>
+        </div>
+      </div>
+      <div class="why" id="why"></div>
+    </div>
+    <button class="next" id="next">Next question</button>
+  </section>
+</main>
+
+<script id="data">
+const R=d=>d*Math.PI/180;
+const SHAPE_LABEL={linear:'Linear',v:'V-shape',trigplanar:'Trigonal planar',tetra:'Tetrahedral',pyramidal:'Trigonal pyramidal',tbp:'Trigonal bipyramidal',oct:'Octahedral'};
+const SHAPE_ORDER=['linear','v','trigplanar','tetra','pyramidal','tbp','oct'];
+const SHAPE_NEEDS={
+  linear:'2 bonding regions and no lone pairs',
+  v:'2 bonding regions and 1 or 2 lone pairs',
+  trigplanar:'3 bonding regions and no lone pairs',
+  tetra:'4 bonding regions and no lone pairs',
+  pyramidal:'3 bonding regions and 1 lone pair',
+  tbp:'5 bonding regions and no lone pairs',
+  oct:'6 bonding regions and no lone pairs'
+};
+const SHAPE_DOMAINS={linear:[2],v:[3,4],trigplanar:[3],tetra:[4],pyramidal:[4],tbp:[5],oct:[6]};
+const ARR={2:'linear',3:'trigonal planar',4:'tetrahedral',5:'trigonal bipyramidal',6:'octahedral'};
+const WEAK=['CH4','SiH4','CS2'];
+
+function shapeOf(n,lp){
+  const t={'2,0':'linear','2,1':'v','2,2':'v','3,0':'trigplanar','3,1':'pyramidal','4,0':'tetra','5,0':'tbp','6,0':'oct'};
+  return t[n+','+lp]||null;
+}
+/* IAL rule: each lone pair takes 2.5 degrees off the standard angle of the electron-pair arrangement */
+const STD={2:180,3:120,4:109.5,6:90};
+const deg=v=>(Number.isInteger(v)?String(v):v.toFixed(1))+'°';
+function angleInfo(s){
+  const N=s.lig.length+s.lp;
+  if(N===5)return {label:'90° and 120°',std:'90° and 120°',val:999,tbp:true};
+  const std=STD[N],val=std-2.5*s.lp;
+  return {label:deg(val),std:deg(std),val:val,tbp:false};
+}
+function angleText(shape,lp){
+  switch(shape){
+    case 'linear':return '180°';
+    case 'v':return lp===1?'117.5° (120° − 2.5°)':'104.5° (109.5° − 2 × 2.5°)';
+    case 'trigplanar':return '120°';
+    case 'tetra':return '109.5°';
+    case 'pyramidal':return '107° (109.5° − 2.5°)';
+    case 'tbp':return '90° and 120°';
+    case 'oct':return '90°';
+  }
+}
+
+/* ---------- single-centre species ---------- */
+const el=l=>l.replace(/^[=≡]/,'');
+const ord=l=>l[0]==='='?2:l[0]==='≡'?3:1;
+function S(f,name,c,lig,lp,polar,res){
+  return {f,name,c,lig,lp,polar:polar===undefined?null:polar,res:!!res,ion:f.indexOf('^')>-1,shape:shapeOf(lig.length,lp)};
+}
+const H2=['H','H'],H4=['H','H','H','H'];
+const SPECIES=[
+  S('CO2','Carbon dioxide','C',['=O','=O'],0,false),
+  S('BeCl2','Beryllium chloride (gas phase)','Be',['Cl','Cl'],0,false),
+  S('CS2','Carbon disulfide','C',['=S','=S'],0,false),
+  S('HCN','Hydrogen cyanide','C',['H','≡N'],0,true),
+  S('NO2^+','Nitronium ion','N',['=O','=O'],0),
+  S('H2O','Water','O',H2,2,true),
+  S('H2S','Hydrogen sulfide','S',H2,2,true),
+  S('OF2','Oxygen difluoride','O',['F','F'],2,true),
+  S('Cl2O','Dichlorine monoxide','O',['Cl','Cl'],2,true),
+  S('SCl2','Sulfur dichloride','S',['Cl','Cl'],2,true),
+  S('SO2','Sulfur dioxide','S',['=O','=O'],1,true),
+  S('O3','Ozone','O',['O','=O'],1),
+  S('NO2^-','Nitrite ion','N',['O','O'],1,undefined,true),
+  S('BF3','Boron trifluoride','B',['F','F','F'],0,false),
+  S('BCl3','Boron trichloride','B',['Cl','Cl','Cl'],0,false),
+  S('SO3','Sulfur trioxide','S',['=O','=O','=O'],0,false),
+  S('HCHO','Methanal','C',['H','H','=O'],0,true),
+  S('COCl2','Carbonyl chloride (phosgene)','C',['=O','Cl','Cl'],0,true),
+  S('CO3^2-','Carbonate ion','C',['O','O','O'],0,undefined,true),
+  S('NO3^-','Nitrate ion','N',['O','O','O'],0,undefined,true),
+  S('CH4','Methane','C',H4,0,false),
+  S('CCl4','Tetrachloromethane','C',['Cl','Cl','Cl','Cl'],0,false),
+  S('SiH4','Silane','Si',H4,0,false),
+  S('SiCl4','Silicon tetrachloride','Si',['Cl','Cl','Cl','Cl'],0,false),
+  S('CH2Cl2','Dichloromethane','C',['H','H','Cl','Cl'],0,true),
+  S('CHCl3','Trichloromethane','C',['H','Cl','Cl','Cl'],0,true),
+  S('CH3Cl','Chloromethane','C',['H','H','H','Cl'],0,true),
+  S('NH4^+','Ammonium ion','N',H4,0),
+  S('SO4^2-','Sulfate ion','S',['O','O','O','O'],0,undefined,true),
+  S('PO4^3-','Phosphate ion','P',['O','O','O','O'],0,undefined,true),
+  S('ClO4^-','Perchlorate ion','Cl',['O','O','O','O'],0,undefined,true),
+  S('NH3','Ammonia','N',['H','H','H'],1,true),
+  S('PCl3','Phosphorus trichloride','P',['Cl','Cl','Cl'],1,true),
+  S('NF3','Nitrogen trifluoride','N',['F','F','F'],1),
+  S('PH3','Phosphine','P',['H','H','H'],1),
+  S('H3O^+','Oxonium ion (hydronium)','O',['H','H','H'],1),
+  S('SO3^2-','Sulfite ion','S',['O','O','O'],1,undefined,true),
+  S('ClO3^-','Chlorate(V) ion','Cl',['O','O','O'],1,undefined,true),
+  S('PCl5','Phosphorus pentachloride','P',['Cl','Cl','Cl','Cl','Cl'],0,false),
+  S('PF5','Phosphorus pentafluoride','P',['F','F','F','F','F'],0,false),
+  S('SF6','Sulfur hexafluoride','S',['F','F','F','F','F','F'],0,false),
+  S('SF5Cl','Sulfur chloride pentafluoride','S',['Cl','F','F','F','F','F'],0,true),
+  S('PF6^-','Hexafluorophosphate ion','P',['F','F','F','F','F','F'],0),
+  S('SiF6^2-','Hexafluorosilicate ion','Si',['F','F','F','F','F','F'],0)
+];
+
+const _t=[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(v=>v.map(x=>x/Math.sqrt(3)));
+const _p=k=>{const a=R(90+120*k);return [Math.cos(a),0,Math.sin(a)];};
+const DIRS={
+  2:[[1,0,0],[-1,0,0]],
+  3:[_p(0),_p(1),_p(2)],
+  4:_t,
+  5:[_p(0),_p(1),_p(2),[0,1,0],[0,-1,0]],
+  6:[[0,1,0],[0,-1,0],[1,0,0],[-1,0,0],[0,0,1],[0,0,-1]]
+};
+function buildSpecies(s){
+  const n=s.lig.length+s.lp,dirs=DIRS[n];
+  const atoms=[{e:s.c,p:[0,0,0]}],bonds=[],lps=[];
+  s.lig.forEach((l,i)=>{atoms.push({e:el(l),p:dirs[i].slice()});bonds.push([0,i+1,ord(l)]);});
+  for(let k=0;k<s.lp;k++)lps.push({from:0,dir:dirs[s.lig.length+k]});
+  const m={atoms,bonds,lps};
+  if(!s.ion)m.dip=dipoleOf(m);
+  return m;
+}
+/* Pauling electronegativities. Bond dipoles point from the delta-plus atom to the delta-minus atom. */
+const EN={H:2.20,C:2.55,N:3.04,O:3.44,F:3.98,Cl:3.16,S:2.58,P:2.19,Si:1.90,B:2.04,Be:1.57,Br:2.96,Se:2.55,As:2.18,Te:2.10,Sb:2.05,Sn:1.96,Ge:2.01,I:2.66,Al:1.61};
+function dipoleOf(m){
+  const bonds=[],net=[0,0,0];
+  m.bonds.forEach(b=>{
+    const d=EN[m.atoms[b[0]].e]-EN[m.atoms[b[1]].e];
+    if(Math.abs(d)<0.1)return;
+    const to=d>0?b[0]:b[1],from=d>0?b[1]:b[0],mag=Math.abs(d);
+    const pf=m.atoms[from].p,pt=m.atoms[to].p;
+    const v=[pt[0]-pf[0],pt[1]-pf[1],pt[2]-pf[2]],L=Math.hypot(v[0],v[1],v[2]);
+    for(let k=0;k<3;k++)net[k]+=mag*v[k]/L;
+    bonds.push({from:from,to:to,mag:mag});
+  });
+  const mag=Math.hypot(net[0],net[1],net[2]);
+  return {bonds:bonds,net:mag<1e-6?[0,0,0]:net,mag:mag<1e-6?0:mag};
+}
+
+/* ---------- extra single-centre species: formulas, names and polarity are generated consistently ---------- */
+function comb(syms,n){
+  const out=[];
+  (function rec(start,cur){
+    if(cur.length===n){out.push(cur.slice());return;}
+    for(let i=start;i<syms.length;i++){cur.push(syms[i]);rec(i,cur);cur.pop();}
+  })(0,[]);
+  return out;
+}
+const cnt=(arr,x)=>arr.filter(y=>y===x).length;
+const MULT=['','','di','tri','tetra'],SUBN={Br:'bromo',Cl:'chloro',F:'fluoro'},HALN={Br:'bromide',Cl:'chloride',F:'fluoride'};
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function subName(arr,base){
+  let s='';['Br','Cl','F'].forEach(x=>{const n=cnt(arr,x);if(n)s+=MULT[n]+SUBN[x];});
+  return cap(s+base);
+}
+function halideName(arr,pre){
+  const parts=[];['Br','Cl','F'].forEach(x=>{const n=cnt(arr,x);if(n)parts.push(MULT[n]+HALN[x]);});
+  return pre+' '+parts.join(' ');
+}
+function halFormula(head,arr){
+  let s=head;const h=cnt(arr,'H');if(h)s+='H'+(h>1?h:'');
+  ['F','Cl','Br'].forEach(x=>{const n=cnt(arr,x);if(n)s+=x+(n>1?n:'');});
+  return s;
+}
+function autoPolar(s){
+  if(s.ion)return null;
+  if(s.lp===0&&new Set(s.lig.map(el)).size===1)return false;
+  return dipoleOf(buildSpecies(s)).mag>0.15?true:null;
+}
+function gen(f,name,c,lig,lp,res){
+  if(SPECIES.some(s=>s.f===f))return;
+  const s=S(f,name,c,lig,lp,null,res);
+  s.polar=autoPolar(s);
+  SPECIES.push(s);
+}
+const X4=x=>[x,x,x,x],X3=x=>[x,x,x];
+/* linear */
+gen('BeF2','Beryllium fluoride (gas phase)','Be',['F','F'],0);
+gen('BeBr2','Beryllium bromide (gas phase)','Be',['Br','Br'],0);
+gen('BeH2','Beryllium hydride (gas phase)','Be',['H','H'],0);
+gen('COS','Carbonyl sulfide','C',['=O','=S'],0);
+gen('OCN^-','Cyanate ion','C',['=O','=N'],0);
+gen('SCN^-','Thiocyanate ion','C',['=S','=N'],0);
+gen('N3^-','Azide ion','N',['=N','=N'],0);
+/* V-shaped */
+gen('H2Se','Hydrogen selenide','Se',['H','H'],2);
+gen('Br2O','Dibromine monoxide','O',['Br','Br'],2);
+gen('SF2','Sulfur difluoride','S',['F','F'],2);
+gen('SBr2','Sulfur dibromide','S',['Br','Br'],2);
+gen('SeCl2','Selenium dichloride','Se',['Cl','Cl'],2);
+gen('SeF2','Selenium difluoride','Se',['F','F'],2);
+gen('SeBr2','Selenium dibromide','Se',['Br','Br'],2);
+gen('SeO2','Selenium dioxide (gas phase)','Se',['=O','=O'],1);
+gen('HOF','Hypofluorous acid','O',['H','F'],2);
+gen('HOCl','Hypochlorous acid','O',['H','Cl'],2);
+gen('HOBr','Hypobromous acid','O',['H','Br'],2);
+gen('NOF','Nitrosyl fluoride','N',['=O','F'],1);
+gen('NOCl','Nitrosyl chloride','N',['=O','Cl'],1);
+gen('NOBr','Nitrosyl bromide','N',['=O','Br'],1);
+gen('ClO2^-','Chlorite ion','Cl',['O','O'],2,true);
+gen('BrO2^-','Bromite ion','Br',['O','O'],2,true);
+gen('NH2^-','Amide ion','N',['H','H'],2);
+/* trigonal planar */
+comb(['F','Cl','Br'],3).forEach(a=>gen(halFormula('B',a),halideName(a,'Boron'),'B',a,0));
+comb(['F','Cl','Br'],2).forEach(a=>gen(halFormula('CO',a),halideName(a,'Carbonyl'),'C',['=O'].concat(a),0));
+['F','Cl','Br'].forEach(x=>gen('HCO'+x,'Formyl '+HALN[x],'C',['H','=O',x],0));
+['F','Cl','Br'].forEach(x=>gen('CS'+x+'2',halideName([x,x],'Thiocarbonyl'),'C',['=S',x,x],0));
+gen('H2CS','Thioformaldehyde','C',['H','H','=S'],0);
+gen('SeO3','Selenium trioxide (gas phase)','Se',['=O','=O','=O'],0);
+gen('BO3^3-','Borate ion','B',X3('O'),0,true);
+/* tetrahedral */
+comb(['H','F','Cl','Br'],4).forEach(a=>gen(halFormula('C',a),subName(a.filter(x=>x!=='H'),'methane'),'C',a,0));
+comb(['H','F','Cl','Br'],4).forEach(a=>gen(halFormula('Si',a),subName(a.filter(x=>x!=='H'),'silane'),'Si',a,0));
+gen('GeH4','Germane','Ge',X4('H'),0);
+gen('GeCl4','Germanium tetrachloride','Ge',X4('Cl'),0);
+gen('POF3','Phosphoryl fluoride','P',['=O','F','F','F'],0);
+gen('POCl3','Phosphoryl chloride','P',['=O','Cl','Cl','Cl'],0);
+gen('POBr3','Phosphoryl bromide','P',['=O','Br','Br','Br'],0);
+gen('PSF3','Thiophosphoryl fluoride','P',['=S','F','F','F'],0);
+gen('PSCl3','Thiophosphoryl chloride','P',['=S','Cl','Cl','Cl'],0);
+gen('SO2F2','Sulfuryl fluoride','S',['=O','=O','F','F'],0);
+gen('SO2Cl2','Sulfuryl chloride','S',['=O','=O','Cl','Cl'],0);
+gen('BF4^-','Tetrafluoroborate ion','B',X4('F'),0);
+gen('BH4^-','Tetrahydridoborate ion','B',X4('H'),0);
+gen('AlCl4^-','Tetrachloroaluminate ion','Al',X4('Cl'),0);
+gen('PH4^+','Phosphonium ion','P',X4('H'),0);
+gen('AsO4^3-','Arsenate ion','As',X4('O'),0,true);
+gen('SeO4^2-','Selenate ion','Se',X4('O'),0,true);
+gen('BrO4^-','Perbromate ion','Br',X4('O'),0,true);
+gen('IO4^-','Periodate ion','I',X4('O'),0,true);
+gen('SiO4^4-','Orthosilicate ion','Si',X4('O'),0,true);
+/* trigonal pyramidal */
+comb(['F','Cl','Br'],3).forEach(a=>gen(halFormula('P',a),halideName(a,'Phosphorus'),'P',a,1));
+comb(['F','Cl','Br'],3).forEach(a=>gen(halFormula('As',a),halideName(a,'Arsenic'),'As',a,1));
+gen('SOF2','Thionyl fluoride','S',['=O','F','F'],1);
+gen('SOCl2','Thionyl chloride','S',['=O','Cl','Cl'],1);
+gen('SOBr2','Thionyl bromide','S',['=O','Br','Br'],1);
+gen('BrO3^-','Bromate ion','Br',X3('O'),1,true);
+gen('IO3^-','Iodate ion','I',X3('O'),1,true);
+gen('SeO3^2-','Selenite ion','Se',X3('O'),1,true);
+gen('AsO3^3-','Arsenite ion','As',X3('O'),1,true);
+/* trigonal bipyramidal and octahedral */
+gen('AsF5','Arsenic pentafluoride','As',['F','F','F','F','F'],0);
+gen('SbCl5','Antimony pentachloride (gas phase)','Sb',['Cl','Cl','Cl','Cl','Cl'],0);
+gen('SeF6','Selenium hexafluoride','Se',['F','F','F','F','F','F'],0);
+gen('TeF6','Tellurium hexafluoride','Te',['F','F','F','F','F','F'],0);
+gen('SF5Br','Sulfur bromide pentafluoride','S',['Br','F','F','F','F','F'],0);
+gen('AlF6^3-','Hexafluoroaluminate ion','Al',['F','F','F','F','F','F'],0);
+gen('SbF6^-','Hexafluoroantimonate ion','Sb',['F','F','F','F','F','F'],0);
+gen('GeF6^2-','Hexafluorogermanate ion','Ge',['F','F','F','F','F','F'],0);
+gen('SnCl6^2-','Hexachlorostannate ion','Sn',['Cl','Cl','Cl','Cl','Cl','Cl'],0);
+gen('PCl6^-','Hexachlorophosphate ion','P',['Cl','Cl','Cl','Cl','Cl','Cl'],0);
+
+/* ---------- multi-centre molecules (planar or not) ---------- */
+function mol(fn){
+  const a=[],b=[];
+  const m={add(e,p){a.push({e,p});return a.length-1;},bond(i,j,o){b.push([i,j,o||1]);}};
+  fn(m);
+  return {atoms:a,bonds:b,lps:[]};
+}
+function methylH(m,c,cx,sgn,rot){
+  for(let k=0;k<3;k++){
+    const t=R(rot+120*k);
+    m.bond(c,m.add('H',[cx+sgn*0.36,1.03*Math.cos(t),1.03*Math.sin(t)]));
+  }
+}
+function ethene(X,hx,hy){
+  return mol(m=>{
+    const c1=m.add('C',[-0.67,0,0]),c2=m.add('C',[0.67,0,0]);
+    m.bond(c1,c2,2);
+    [[-1,1],[-1,-1]].forEach(s=>m.bond(c1,m.add(X,[s[0]*hx,s[1]*hy,0])));
+    [[1,1],[1,-1]].forEach(s=>m.bond(c2,m.add(X,[s[0]*hx,s[1]*hy,0])));
+  });
+}
+const MULTI=[
+  {f:'CH2=CH2',name:'Ethene',planar:true,
+   why:'Each carbon has 3 regions of electron density (two C–H bonds and the C=C double bond) and no lone pairs, so each C is trigonal planar. The C=C double bond cannot rotate, which holds both CH<sub>2</sub> groups in the same plane. All 6 atoms are coplanar.',
+   m:ethene('H',1.24,0.93)},
+  {f:'CF2=CF2',name:'Tetrafluoroethene',planar:true,
+   why:'Each carbon has 3 regions of electron density (two C–F bonds and the C=C double bond) and no lone pairs, so each C is trigonal planar. The C=C double bond cannot rotate, so both CF<sub>2</sub> groups stay in one plane. All 6 atoms are coplanar.',
+   m:ethene('F',1.3,1.0)},
+  {f:'CH2=CHCl',name:'Chloroethene',planar:true,
+   why:'Both carbons have 3 regions of electron density and no lone pairs, so both are trigonal planar. The C=C double bond cannot twist, so every H and the Cl atom lie in the plane of the double bond.',
+   m:mol(m=>{
+     const c1=m.add('C',[-0.67,0,0]),c2=m.add('C',[0.67,0,0]);
+     m.bond(c1,c2,2);
+     m.bond(c1,m.add('H',[-1.24,0.93,0]));m.bond(c1,m.add('H',[-1.24,-0.93,0]));
+     m.bond(c2,m.add('H',[1.24,0.93,0]));m.bond(c2,m.add('Cl',[1.5,-1.56,0]));
+   })},
+  {f:'C6H6',name:'Benzene',planar:true,
+   why:'All 6 carbons have 3 regions of electron density (two C–C bonds and one C–H bond) and no lone pairs, so each is trigonal planar with 120° angles. Joined in a ring they form a flat hexagon, with the 6 hydrogens in the same plane. The delocalised π electrons sit above and below it.',
+   m:mol(m=>{
+     const c=[];
+     for(let k=0;k<6;k++){const a=R(60*k);c.push(m.add('C',[1.4*Math.cos(a),0,1.4*Math.sin(a)]));}
+     for(let k=0;k<6;k++){const a=R(60*k);m.bond(c[k],c[(k+1)%6],k%2===0?2:1);m.bond(c[k],m.add('H',[2.48*Math.cos(a),0,2.48*Math.sin(a)]));}
+   })},
+  {f:'CH3-CH3',name:'Ethane',planar:false,
+   why:'Each carbon has 4 regions of electron density and no lone pairs, so each C is tetrahedral. A tetrahedral carbon always has H atoms sticking out above and below any plane through its other bonds, so ethane cannot be planar.',
+   m:mol(m=>{
+     const c1=m.add('C',[-0.77,0,0]),c2=m.add('C',[0.77,0,0]);
+     m.bond(c1,c2);
+     methylH(m,c1,-0.77,-1,90);methylH(m,c2,0.77,1,150);
+   })},
+  {f:'CH3OH',name:'Methanol',planar:false,
+   why:'The carbon has 4 regions of electron density and no lone pairs, so it is tetrahedral. Its three H atoms cannot all lie in one plane with C and O, so methanol is not planar.',
+   m:mol(m=>{
+     const c=m.add('C',[0,0,0]),o=m.add('O',[1.43,0,0]);
+     m.bond(c,o);methylH(m,c,0,-1,0);
+     m.bond(o,m.add('H',[1.73,0.9,0]));
+   })},
+  {f:'CH3-CHO',name:'Ethanal',planar:false,
+   why:'The CHO carbon is trigonal planar (3 regions), but the CH<sub>3</sub> carbon has 4 regions and no lone pairs, so it is tetrahedral. Two of its H atoms stick out of any plane that contains the other atoms, so ethanal is not planar.',
+   m:mol(m=>{
+     const c1=m.add('C',[0,0,0]),c2=m.add('C',[1.5,0,0]);
+     m.bond(c1,c2);methylH(m,c1,0,-1,0);
+     m.bond(c2,m.add('O',[2.1,1.04,0]),2);m.bond(c2,m.add('H',[2.05,-0.95,0]));
+   })},
+  {f:'CH3-C≡N',name:'Ethanenitrile',planar:false,
+   why:'The C–C≡N part is linear, but the CH<sub>3</sub> carbon has 4 regions of electron density and no lone pairs, so it is tetrahedral. Its three H atoms cannot all lie in one plane with the C–C≡N line, so the molecule is not planar.',
+   m:mol(m=>{
+     const c1=m.add('C',[0,0,0]),c2=m.add('C',[1.47,0,0]),n=m.add('N',[2.63,0,0]);
+     m.bond(c1,c2);m.bond(c2,n,3);methylH(m,c1,0,-1,0);
+   })}
+];
+
+/* ---------- extra multi-centre molecules ---------- */
+const SUBP={H:[1.24,0.93],F:[1.3,1.0],Cl:[1.45,1.2],Br:[1.55,1.3]};
+function ethenX(a,b){
+  return mol(m=>{
+    const c1=m.add('C',[-0.67,0,0]),c2=m.add('C',[0.67,0,0]);
+    m.bond(c1,c2,2);
+    [[c1,-1,a],[c2,1,b]].forEach(t=>{
+      [[1,t[2][0]],[-1,t[2][1]]].forEach(s=>{const q=SUBP[s[1]];m.bond(t[0],m.add(s[1],[t[1]*q[0],s[0]*q[1],0]));});
+    });
+  });
+}
+function planarEthene(f,name,a,b){
+  MULTI.push({f:f,name:name,planar:true,
+    why:'Both carbons have 3 regions of electron density (the C=C double bond and two single bonds) and no lone pairs, so both are trigonal planar. The C=C double bond cannot rotate, so all the atoms attached to it lie in one plane.',
+    m:ethenX(a,b)});
+}
+planarEthene('CCl2=CCl2','Tetrachloroethene',['Cl','Cl'],['Cl','Cl']);
+planarEthene('CH2=CCl2','1,1-Dichloroethene',['H','H'],['Cl','Cl']);
+planarEthene('CH2=CF2','1,1-Difluoroethene',['H','H'],['F','F']);
+planarEthene('CH2=CHF','Fluoroethene',['H','H'],['H','F']);
+planarEthene('CH2=CHBr','Bromoethene',['H','H'],['H','Br']);
+planarEthene('CHCl=CHCl','trans-1,2-Dichloroethene',['H','Cl'],['Cl','H']);
+function ring(m,subst){
+  const c=[];
+  for(let k=0;k<6;k++){const a=R(60*k);c.push(m.add('C',[1.4*Math.cos(a),0,1.4*Math.sin(a)]));}
+  for(let k=0;k<6;k++)m.bond(c[k],c[(k+1)%6],k%2===0?2:1);
+  return c;
+}
+['F','Cl','Br'].forEach(x=>{
+  const len={F:2.75,Cl:3.15,Br:3.3}[x];
+  MULTI.push({f:'C6H5'+x,name:{F:'Fluorobenzene',Cl:'Chlorobenzene',Br:'Bromobenzene'}[x],planar:true,
+    why:'All 6 ring carbons have 3 regions of electron density and no lone pairs, so each is trigonal planar (120°) and the ring is a flat hexagon. The '+x+' atom is joined to a trigonal planar carbon, so it lies in the same plane as the ring. All the atoms are coplanar.',
+    m:mol(m=>{
+      const c=ring(m);
+      m.bond(c[0],m.add(x,[len,0,0]));
+      for(let k=1;k<6;k++){const a=R(60*k);m.bond(c[k],m.add('H',[2.48*Math.cos(a),0,2.48*Math.sin(a)]));}
+    })});
+});
+MULTI.push({f:'C6H5-CH3',name:'Methylbenzene',planar:false,
+  why:'The six ring carbons are trigonal planar and form a flat ring, but the CH<sub>3</sub> carbon has 4 regions of electron density and no lone pairs, so it is tetrahedral. Two of its H atoms stick out of the plane of the ring, so methylbenzene is not planar.',
+  m:mol(m=>{
+    const c=ring(m),me=m.add('C',[2.9,0,0]);
+    m.bond(c[0],me);methylH(m,me,2.9,1,30);
+    for(let k=1;k<6;k++){const a=R(60*k);m.bond(c[k],m.add('H',[2.48*Math.cos(a),0,2.48*Math.sin(a)]));}
+  })});
+function ethaneX(f,name,subs){
+  const sc={H:1,F:1.25,Cl:1.6,Br:1.75};
+  MULTI.push({f:f,name:name,planar:false,
+    why:'Both carbons have 4 regions of electron density and no lone pairs, so both are tetrahedral. A tetrahedral carbon always has atoms sticking out above and below any plane through its other bonds, so the molecule cannot be planar.',
+    m:mol(m=>{
+      const c1=m.add('C',[-0.77,0,0]),c2=m.add('C',[0.77,0,0]);
+      m.bond(c1,c2);methylH(m,c1,-0.77,-1,90);
+      for(let k=0;k<3;k++){const a=R(150+120*k),s=sc[subs[k]];m.bond(c2,m.add(subs[k],[0.77+0.36*s,1.03*Math.cos(a)*s,1.03*Math.sin(a)*s]));}
+    })});
+}
+ethaneX('CH3-CH2F','Fluoroethane',['H','H','F']);
+ethaneX('CH3-CH2Cl','Chloroethane',['H','H','Cl']);
+ethaneX('CH3-CH2Br','Bromoethane',['H','H','Br']);
+ethaneX('CH3-CHF2','1,1-Difluoroethane',['H','F','F']);
+ethaneX('CH3-CHCl2','1,1-Dichloroethane',['H','Cl','Cl']);
+ethaneX('CH3-CF3','1,1,1-Trifluoroethane',['F','F','F']);
+ethaneX('CH3-CCl3','1,1,1-Trichloroethane',['Cl','Cl','Cl']);
+
+function coplanar(pts,eps){
+  eps=eps||1e-6;
+  const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+  const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+  const p0=pts[0];let nrm=null;
+  for(let i=1;i<pts.length&&!nrm;i++)for(let j=i+1;j<pts.length&&!nrm;j++){
+    const c=cross(sub(pts[i],p0),sub(pts[j],p0));
+    if(dot(c,c)>1e-6)nrm=c;
+  }
+  if(!nrm)return true;
+  return pts.every(p=>Math.abs(dot(nrm,sub(p,p0)))<eps*Math.sqrt(dot(nrm,nrm))+1e-9);
+}
+
+function fmt(s){
+  let out='',i=0;
+  while(i<s.length){
+    const ch=s[i];
+    if(ch==='^'){let j=i+1;while(j<s.length&&/[0-9+\-]/.test(s[j]))j++;out+='<sup>'+s.slice(i+1,j).replace('-','−')+'</sup>';i=j;continue;}
+    if(/[0-9]/.test(ch)){out+='<sub>'+ch+'</sub>';i++;continue;}
+    out+=ch;i++;
+  }
+  return out;
+}
+</script>
+
+<script id="ui">
+(function(){
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const state={level:1,mode:'mixed',bags:{},lastItem:{},n:0,ok:0,ans:0,streak:0,q:null,done:false};
+const POOLS={shape:SPECIES,angle:SPECIES,planar:MULTI,polar:SPECIES.filter(s=>s.polar!==null&&!s.ion)};
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+/* items are drawn group by group (by shape, angle, planarity, or shape + polarity), so common groups like tetrahedral do not swamp rare ones */
+const KEYS={shape:s=>s.shape,angle:s=>angleInfo(s).label,planar:m=>String(m.planar),polar:s=>s.shape+'|'+s.polar};
+const GROUPS={};
+function groupsOf(type){
+  if(!GROUPS[type]){const g={};POOLS[type].forEach(it=>{const k=KEYS[type](it);(g[k]=g[k]||[]).push(it);});GROUPS[type]=g;}
+  return GROUPS[type];
+}
+function nextItem(type){
+  const g=groupsOf(type),keys=Object.keys(g);
+  const key=keys[Math.floor(Math.random()*keys.length)],id=type+'#'+key;
+  let bag=state.bags[id];
+  if(!bag||!bag.length){
+    bag=shuffle(g[key]);
+    if(bag.length>1&&bag[bag.length-1]===state.lastItem[id]){const x=bag[0];bag[0]=bag[bag.length-1];bag[bag.length-1]=x;}
+    state.bags[id]=bag;
+  }
+  const it=bag.pop();state.lastItem[id]=it;return it;
+}
+
+function makeQuestion(){
+  const types=['shape','angle','planar','polar'];
+  const type=state.mode==='mixed'?types[Math.floor(Math.random()*types.length)]:state.mode;
+  const item=nextItem(type);
+  state.n++;
+  if(state.level===2){state.q=build2(type,item);state.done=false;renderQuestion();return;}
+  let q={type:type,item:item};
+  if(type==='shape'){
+    const doms=SHAPE_DOMAINS[item.shape];
+    const others=shuffle(SHAPE_ORDER.filter(k=>k!==item.shape));
+    const near=k=>SHAPE_DOMAINS[k].some(d=>d===item.lig.length+item.lp||doms.indexOf(d)>-1)?1:0;
+    others.sort((a,b)=>near(b)-near(a));
+    const keys=[item.shape].concat(others.slice(0,3));
+    q.options=SHAPE_ORDER.filter(k=>keys.indexOf(k)>-1).map(k=>({label:SHAPE_LABEL[k],value:k}));
+    q.answer=item.shape;
+    q.label='Shape';
+    q.stem='What is the shape of the <span class="f">'+fmt(item.f)+'</span> '+(item.ion?'ion':'molecule')+'?';
+    q.sub=item.name+'. Name the shape formed by the atoms around the central atom.';
+  }else if(type==='angle'){
+    const ai=angleInfo(item);
+    let labels;
+    if(ai.tbp)labels=['90°','109.5°','120°'];
+    else{
+      const nums=[180,120,117.5,109.5,107,104.5,90];
+      labels=nums.filter(v=>v!==ai.val).sort((a,b)=>Math.abs(a-ai.val)-Math.abs(b-ai.val)).slice(0,3).map(deg);
+    }
+    const all=[ai.label].concat(labels);
+    all.sort((a,b)=>parseFloat(a)+(a.indexOf('and')>-1?1000:0)-parseFloat(b)-(b.indexOf('and')>-1?1000:0));
+    q.options=all.map(l=>({label:l,value:l}));
+    q.answer=ai.label;
+    q.label='Bond angle';
+    q.stem='What '+(ai.tbp?'are the bond angles':'is the bond angle')+' in the <span class="f">'+fmt(item.f)+'</span> '+(item.ion?'ion':'molecule')+'?';
+    q.sub=item.name+'. Give the angle between the bonded atoms.';
+  }else if(type==='planar'){
+    q.options=[{label:'Planar',value:true},{label:'Not planar',value:false}];
+    q.answer=item.planar;
+    q.label='Planar or not';
+    q.stem='Is <span class="f">'+fmt(item.f)+'</span> a planar molecule?';
+    q.sub=item.name+'. Planar means every atom lies in one flat plane.';
+  }else{
+    q.options=[{label:'True',value:true},{label:'False',value:false}];
+    q.answer=item.polar;
+    q.label='Polarity';
+    q.stem='True or false: <span class="f">'+fmt(item.f)+'</span> is a polar molecule.';
+    q.sub=item.name+'.';
+  }
+  state.q=q;state.done=false;
+  renderQuestion();
+}
+
+/* ---------- level 2: pick the molecule that matches ---------- */
+const LBL2={shape:'Shape',angle:'Bond angle',planar:'Planar or not',polar:'Polarity'};
+function pickN(cands,keyFn,n){
+  const out=[];
+  cands.forEach(c=>{if(out.length<n&&!out.some(o=>keyFn(o)===keyFn(c)))out.push(c);});
+  cands.forEach(c=>{if(out.length<n&&out.indexOf(c)<0)out.push(c);});
+  return out;
+}
+function optLabel(it){return '<span class="f">'+fmt(it.f)+'</span> <span class="oname">'+it.name+'</span>';}
+const PROP={shape:s=>s.shape,angle:s=>angleInfo(s).label,planar:s=>s.planar,polar:s=>s.polar};
+function build2(type,item){
+  const pool=POOLS[type],prop=PROP[type],val=prop(item);
+  const same=shuffle(pool.filter(x=>x.f!==item.f&&prop(x)===val));
+  const r=Math.random();
+  const k=Math.min(r<0.35?1:r<0.75?2:3,1+same.length);
+  const targets=[item].concat(same.slice(0,k-1));
+  let cands=shuffle(pool.filter(x=>prop(x)!==val)),keyFn=x=>x.f,stem;
+  if(type==='shape'){
+    const mine=SHAPE_DOMAINS[item.shape];
+    const near=s=>SHAPE_DOMAINS[s.shape].some(x=>mine.indexOf(x)>-1)?1:0;
+    cands=cands.sort((a,b)=>near(b)-near(a));keyFn=s=>s.shape;
+    stem='Which of these have a <b>'+SHAPE_LABEL[item.shape].toLowerCase()+'</b> shape?';
+  }else if(type==='angle'){
+    const ai=angleInfo(item);
+    cands=cands.sort((a,b)=>Math.abs(angleInfo(a).val-ai.val)-Math.abs(angleInfo(b).val-ai.val));keyFn=s=>angleInfo(s).label;
+    stem='Which of these have '+(ai.tbp?'bond angles':'a bond angle')+' of <b>'+ai.label+'</b>?';
+  }else if(type==='planar'){
+    stem='Which of these molecules are <b>'+(item.planar?'planar':'not planar')+'</b>?';
+  }else{
+    stem='Which of these molecules are <b>'+(item.polar?'polar':'non-polar')+'</b>?';
+  }
+  const items=shuffle(targets.concat(pickN(cands,keyFn,3-k)));
+  return {type:type,level:2,multi:true,item:item,items:items,targets:targets,answers:targets.map(x=>x.f),
+          label:LBL2[type]+' · Level 2',stem:stem,sub:'Select all that apply. There may be one, two or all three.',
+          options:items.map(it=>({label:optLabel(it),value:it.f}))};
+}
+function molOf(type,it){return type==='planar'?it.m:buildSpecies(it);}
+function fullExplain(type,it){
+  if(type==='shape')return explainShape(it);
+  if(type==='angle')return explainAngle(it);
+  if(type==='planar')return '<p>'+it.why+'</p>';
+  return explainPolar(it);
+}
+function briefExplain(type,it){
+  if(type==='planar')return '<p>'+it.why+'</p>';
+  const nb=it.lig.length,N=nb+it.lp;
+  const lpTxt=it.lp===0?'no lone pairs':it.lp===1?'1 lone pair':it.lp+' lone pairs';
+  if(type==='shape')return '<p>'+nb+' bonding regions and '+lpTxt+' give a <b>'+SHAPE_LABEL[it.shape].toLowerCase()+'</b> shape.</p>';
+  if(type==='angle'){const ai=angleInfo(it);return '<p>'+N+' regions ('+ARR[N]+', standard '+ai.std+') with '+lpTxt+(ai.tbp||it.lp===0?' give <b>':' give <b>')+ai.label+'</b>.</p>';}
+  const shape=SHAPE_LABEL[it.shape].toLowerCase();
+  return '<p>It is '+shape+(it.lp?' with '+lpTxt:'')+'. '+(it.polar?'The bond dipoles do not cancel, so it is <b>polar</b>.':'The bond dipoles cancel, so it is <b>non-polar</b>.')+'</p>';
+}
+function answer2(q,sel,right){
+  const names=q.targets.map(x=>'<span class="f">'+fmt(x.f)+'</span>');
+  const list=names.length>1?names.slice(0,-1).join(', ')+' and '+names[names.length-1]:names[0];
+  $('fbhead').innerHTML='<span class="pill '+(right?'ok':'bad')+'">'+(right?'Correct':'Not quite')+'</span><span>'+(right?'Yes: ':'The matching ones are ')+list+'.</span>';
+  let why='';
+  q.items.forEach(it=>{
+    const isT=q.answers.indexOf(it.f)>-1,isS=sel.indexOf(it.f)>-1;
+    let tag='';
+    if(isT&&isS)tag='<span class="tag ok">you selected</span>';
+    else if(isT)tag='<span class="tag you">you missed this</span>';
+    else if(isS)tag='<span class="tag bad">you selected</span>';
+    why+='<div class="opt2"><p class="opt2h"><span class="f">'+fmt(it.f)+'</span><span class="tag '+(isT?'ok':'no')+'">'+(isT?'matches':'does not match')+'</span>'+tag+'</p>'+(isT?fullExplain(q.type,it):briefExplain(q.type,it))+'</div>';
+  });
+  $('why').innerHTML=why;
+  const tabs=$('tabs');tabs.innerHTML='';tabs.hidden=false;
+  const show=it=>{
+    [...tabs.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(q.items[i]===it)));
+    setMolecule(molOf(q.type,it),q.type==='polar');
+  };
+  q.items.forEach(it=>{
+    const b=document.createElement('button');
+    b.type='button';b.className='tabbtn';b.setAttribute('aria-pressed','false');
+    b.innerHTML='<span class="f">'+fmt(it.f)+'</span>';
+    b.addEventListener('click',()=>show(it));
+    tabs.appendChild(b);
+  });
+  $('fb').hidden=false;
+  show(q.targets[0]);
+  $('next').focus({preventScroll:true});
+  $('fb').scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'});
+}
+function toggleOpt(i){
+  if(state.done)return;
+  const b=$('opts').children[i];
+  const on=b.getAttribute('aria-pressed')!=='true';
+  b.setAttribute('aria-pressed',String(on));
+  const any=[...$('opts').children].some(x=>x.getAttribute('aria-pressed')==='true');
+  const c=$('check');if(c)c.disabled=!any;
+}
+function checkMulti(){
+  if(state.done)return;
+  const q=state.q,kids=[...$('opts').children];
+  const sel=q.options.filter((o,i)=>kids[i].getAttribute('aria-pressed')==='true').map(o=>o.value);
+  if(!sel.length)return;
+  state.done=true;
+  const right=sel.length===q.answers.length&&sel.every(v=>q.answers.indexOf(v)>-1);
+  state.ans++;if(right){state.ok++;state.streak++;}else state.streak=0;
+  $('sAns').textContent=state.ans;$('sOk').textContent=state.ok;$('sStreak').textContent=state.streak;
+  kids.forEach((b,k)=>{
+    b.disabled=true;
+    const isT=q.answers.indexOf(q.options[k].value)>-1;
+    if(isT)b.classList.add('ok');
+    else if(sel.indexOf(q.options[k].value)>-1)b.classList.add('bad');
+  });
+  const c=$('check');if(c)c.remove();
+  answer2(q,sel,right);
+}
+
+function renderQuestion(){
+  const q=state.q;
+  $('qtype').textContent='Question '+state.n+' · '+q.label;
+  $('qstem').innerHTML=q.stem;
+  $('qsub').textContent=q.sub;
+  const box=$('opts');box.innerHTML='';
+  q.options.forEach((o,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';b.type='button';
+    b.innerHTML='<span class="k">'+(i+1)+'</span><span>'+o.label+'</span>';
+    if(q.multi){b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>toggleOpt(i));}
+    else b.addEventListener('click',()=>answer(i));
+    box.appendChild(b);
+  });
+  const oldc=$('check');if(oldc)oldc.remove();
+  if(q.multi){
+    const c=document.createElement('button');
+    c.type='button';c.id='check';c.className='next';c.textContent='Check answer';c.disabled=true;
+    c.addEventListener('click',checkMulti);
+    box.after(c);
+  }
+  $('fb').hidden=true;
+  stopLoop();
+}
+
+function explainShape(s,chosen){
+  const nb=s.lig.length,N=nb+s.lp;
+  const multi=s.lig.some(l=>/^[=≡]/.test(l));
+  const lpTxt=s.lp===0?'no lone pairs':s.lp===1?'1 lone pair':s.lp+' lone pairs';
+  const label=SHAPE_LABEL[s.shape],ang=angleText(s.shape,s.lp);
+  let h='<ol class="steps">';
+  h+='<li>Count the regions of electron density around the central '+s.c+' atom: <b>'+nb+' bonding</b>'+(multi?' (a double or triple bond counts as one region)':'')+' and <b>'+lpTxt+'</b>. That is '+N+' regions in total.</li>';
+  h+='<li>'+N+' regions spread out as far apart as possible in a <b>'+ARR[N]+'</b> arrangement.</li>';
+  if(s.lp===0)h+='<li>All the regions are bonds, so the shape matches the arrangement: <b>'+label+'</b>, with bond angles of '+ang+'.</li>';
+  else h+='<li>Only atoms count in the name of the shape. With '+lpTxt+', the '+nb+' bonded atoms form a <b>'+label+'</b> shape. Lone pairs repel more than bonding pairs, so the bond angle is '+ang+'.</li>';
+  h+='</ol>';
+  if(s.res)h+='<p class="note">This ion has resonance: the charge and the double bond are shared across all the '+s.c+'–O bonds, so they are identical. For the shape, count each outer atom as one bonding region.</p>';
+  if(chosen!==undefined&&chosen!==s.shape)h+='<p class="wrongnote"><b>Why not '+SHAPE_LABEL[chosen].toLowerCase()+'?</b> That shape needs '+SHAPE_NEEDS[chosen]+'. '+fmt(s.f)+' has '+nb+' bonding regions and '+lpTxt+'.</p>';
+  return h;
+}
+function explainAngle(s,chosen){
+  const nb=s.lig.length,N=nb+s.lp,ai=angleInfo(s);
+  const lpTxt=s.lp===0?'no lone pairs':s.lp===1?'1 lone pair':s.lp+' lone pairs';
+  let h='<ol class="steps">';
+  h+='<li>Count the regions of electron density around the central '+s.c+' atom: <b>'+nb+' bonding</b> and <b>'+lpTxt+'</b>. That is '+N+' regions, a <b>'+ARR[N]+'</b> arrangement.</li>';
+  if(ai.tbp)h+='<li>The standard angles are <b>90°</b> (between an axial and an equatorial bond) and <b>120°</b> (between two equatorial bonds). There are no lone pairs, so nothing is subtracted.</li>';
+  else h+='<li>The standard angle for a '+ARR[N]+' arrangement is <b>'+ai.std+'</b>.</li>';
+  if(!ai.tbp){
+    if(s.lp===0)h+='<li>There are no lone pairs, so the bond angle stays at <b>'+ai.std+'</b>.</li>';
+    else h+='<li>Each lone pair reduces the angle by 2.5°. With '+lpTxt+': '+ai.std+' − '+(s.lp>1?s.lp+' × ':'')+'2.5° = <b>'+ai.label+'</b>.</li>';
+  }
+  h+='</ol>';
+  if(chosen!==undefined&&chosen!==ai.label){
+    let msg='That does not match '+fmt(s.f)+', which has '+N+' regions ('+ARR[N]+') and '+lpTxt+'.';
+    if(!ai.tbp&&s.lp>0&&chosen===ai.std)msg='That is the standard angle before the lone-pair reduction. Remember to subtract 2.5° for each lone pair.';
+    h+='<p class="wrongnote"><b>Why not '+chosen+'?</b> '+msg+'</p>';
+  }
+  return h;
+}
+function explainPolar(s){
+  const m=buildSpecies(s),dip=m.dip;
+  const uniq=[...new Set(s.lig.map(el))];
+  const shape=SHAPE_LABEL[s.shape].toLowerCase();
+  const weak=WEAK.indexOf(s.f)>-1;
+  const seen={},pairs=[];
+  dip.bonds.forEach(d=>{
+    const a=m.atoms[d.from].e,b=m.atoms[d.to].e,k=a+'–'+b;
+    if(!seen[k]){seen[k]=1;pairs.push(a+'–'+b+' (towards '+b+')');}
+  });
+  let h='<ol class="steps">';
+  if(!pairs.length)h+='<li>The bonds are almost non-polar, because the electronegativity difference is tiny.</li>';
+  else h+='<li>'+(weak?'The bonds are only slightly polar. ':'')+'Each bond dipole points towards the more electronegative atom: '+pairs.join(', ')+'.</li>';
+  h+='<li>'+fmt(s.f)+' is <b>'+shape+'</b>'+(s.lp?' with '+(s.lp===1?'1 lone pair':s.lp+' lone pairs')+' on the central atom':' with no lone pairs')+'.</li>';
+  if(!s.polar)h+='<li>All the outer atoms are the same ('+uniq.join(', ')+') and the shape is symmetrical, so the bond dipoles are equal in size and cancel. The net dipole moment is zero: the molecule is <b>non-polar</b>.</li>';
+  else if(s.lp>0)h+='<li>The lone pair'+(s.lp>1?'s make':' makes')+' the shape asymmetrical, so the bond dipoles do not cancel. They add up to a net dipole moment (the pink arrow): the molecule is <b>polar</b>.</li>';
+  else h+='<li>The shape is symmetrical, but the outer atoms are not all the same ('+uniq.join(' and ')+'). The bond dipoles have different sizes, so they do not cancel and leave a net dipole moment (the pink arrow). The molecule is <b>polar</b>.</li>';
+  h+='</ol>';
+  return h;
+}
+function answer(i){
+  if(state.done)return;
+  state.done=true;
+  const q=state.q,chosen=q.options[i],right=chosen.value===q.answer;
+  state.ans++;if(right){state.ok++;state.streak++;}else state.streak=0;
+  $('sAns').textContent=state.ans;$('sOk').textContent=state.ok;$('sStreak').textContent=state.streak;
+  [...$('opts').children].forEach((b,k)=>{
+    b.disabled=true;
+    if(q.options[k].value===q.answer)b.classList.add('ok');
+    else if(k===i)b.classList.add('bad');
+  });
+  $('tabs').hidden=true;
+  const it=q.item;
+  let ans,why,mol3d;
+  if(q.type==='shape'){
+    ans='the shape of '+fmt(it.f)+' is <b>'+SHAPE_LABEL[q.answer]+'</b>.';
+    why=explainShape(it,right?undefined:chosen.value);mol3d=buildSpecies(it);
+  }else if(q.type==='angle'){
+    ans='the bond angle'+(angleInfo(it).tbp?'s':'')+' in '+fmt(it.f)+(angleInfo(it).tbp?' are ':' is ')+'<b>'+q.answer+'</b>.';
+    why=explainAngle(it,right?undefined:chosen.value);mol3d=buildSpecies(it);
+  }else if(q.type==='planar'){
+    ans=fmt(it.f)+' is <b>'+(it.planar?'planar':'not planar')+'</b>.';
+    why='<p>'+it.why+'</p>';mol3d=it.m;
+  }else{
+    ans=fmt(it.f)+' is <b>'+(it.polar?'polar':'non-polar')+'</b>.';
+    why=explainPolar(it);mol3d=buildSpecies(it);
+  }
+  $('fbhead').innerHTML='<span class="pill '+(right?'ok':'bad')+'">'+(right?'Correct':'Not quite')+'</span><span>'+(right?'Yes, ':'')+ans+'</span>';
+  $('why').innerHTML=why;
+  $('fb').hidden=false;
+  setMolecule(mol3d,q.type==='polar');
+  $('next').focus({preventScroll:true});
+  $('fb').scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'});
+}
+
+/* ---------- 3D viewer ---------- */
+const cv=$('cv'),ctx=cv.getContext('2d');
+const view={mol:null,rx:-0.45,ry:0.6,auto:!reduce,lp:true,drag:false,running:false,maxR:1,dip:false,sum:false};
+const COL={I:'#9c4bd1',Ge:'#668f8f',Sn:'#6f8a8a',Sb:'#9e63b5',Te:'#d47a00',H:'#e9edf1',C:'#4a5560',N:'#3b6fe0',O:'#e0473c',F:'#7bc66f',Cl:'#3fb34f',Br:'#a2492f',S:'#e6c229',P:'#f08a24',Si:'#c9a67a',B:'#f0a7a0',Be:'#9ccf6c',Al:'#b9a6d9',As:'#a56dc4',Se:'#d17f3b'};
+const RAD={As:0.35,Se:0.35,Br:0.36,Te:0.38,Sb:0.38,Sn:0.38,Ge:0.35,I:0.4,H:0.2,C:0.27,N:0.26,O:0.25,F:0.22,Cl:0.32,S:0.33,P:0.33,Si:0.34,B:0.26,Be:0.26,Al:0.34};
+function hex(c){return [parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)];}
+function mix(c,t,k){const a=hex(c),b=hex(t);return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*k)).join(',')+')';}
+function lum(c){const a=hex(c);return (0.299*a[0]+0.587*a[1]+0.114*a[2])/255;}
+
+function resizeCanvas(){
+  const dpr=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;
+  if(!w||!h)return;
+  cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  drawView();
+}
+if(window.ResizeObserver)new ResizeObserver(resizeCanvas).observe(cv);
+
+function setMolecule(m,dipOn){
+  view.mol=m;
+  view.rx=-0.45;view.ry=0.6;
+  view.dip=!!(dipOn&&m.dip);view.sum=false;
+  let mr=0.9;
+  m.atoms.forEach(a=>{mr=Math.max(mr,Math.hypot(a.p[0],a.p[1],a.p[2])+0.4);});
+  view.maxR=mr;
+  const has=m.lps.length>0;
+  $('bLp').hidden=!has;$('lpLegend').hidden=!has;
+  $('bDip').hidden=!m.dip;
+  syncDip();
+  $('bLp').textContent=view.lp?'Hide lone pairs':'Show lone pairs';
+  $('bSpin').textContent=view.auto?'Pause spin':'Spin';
+  resizeCanvas();
+  startLoop();
+}
+function syncDip(){
+  const has=!!(view.mol&&view.mol.dip);
+  $('bDip').textContent=view.dip?'Hide dipoles':'Show dipoles';
+  $('bSum').hidden=!(view.dip&&has);
+  $('bSum').textContent=view.sum?'Show on bonds':'Add as vectors';
+  $('dipLegend').hidden=!(view.dip&&has);
+}
+function startLoop(){
+  if(view.running)return;
+  view.running=true;
+  (function tick(){
+    if(!view.running)return;
+    if(view.auto&&!view.drag&&!reduce)view.ry+=0.008;
+    drawView();
+    requestAnimationFrame(tick);
+  })();
+}
+function stopLoop(){view.running=false;}
+
+function drawView(){
+  const w=cv.clientWidth,h=cv.clientHeight;
+  ctx.clearRect(0,0,w,h);
+  const m=view.mol;if(!m||!w||!h)return;
+  const cs=getComputedStyle(document.documentElement);
+  const bondC=cs.getPropertyValue('--bond').trim()||'#7d8b97';
+  const outC=cs.getPropertyValue('--outline').trim()||'#2b3944';
+  const lpC=cs.getPropertyValue('--lp').trim()||'#c98200';
+  const font=cs.getPropertyValue('--f-body').trim()||'sans-serif';
+  const D=5,sc=Math.min(w,h)/2*0.8/view.maxR;
+  const cy=Math.cos(view.ry),sy=Math.sin(view.ry),cx=Math.cos(view.rx),sx=Math.sin(view.rx);
+  function proj(p){
+    const x1=p[0]*cy+p[2]*sy,z1=-p[0]*sy+p[2]*cy;
+    const y1=p[1]*cx-z1*sx,z2=p[1]*sx+z1*cx;
+    const f=D/(D-z2/view.maxR);
+    return {x:w/2+x1*sc*f,y:h/2-y1*sc*f,z:z2,f:f};
+  }
+  const P=m.atoms.map(a=>proj(a.p));
+  const items=[];
+  const radPx=i=>(RAD[m.atoms[i].e]||0.3)*1.1*sc*P[i].f;
+  m.bonds.forEach(b=>{
+    const A=P[b[0]],B=P[b[1]];
+    items.push({z:(A.z+B.z)/2,fn:()=>{
+      /* bonds are clipped out of the two atom discs, so they never draw across an atom */
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0,0,w,h);
+      ctx.moveTo(A.x+radPx(b[0])-0.5,A.y);ctx.arc(A.x,A.y,radPx(b[0])-0.5,0,Math.PI*2);
+      ctx.moveTo(B.x+radPx(b[1])-0.5,B.y);ctx.arc(B.x,B.y,radPx(b[1])-0.5,0,Math.PI*2);
+      ctx.clip('evenodd');
+      const dx=B.x-A.x,dy=B.y-A.y,L=Math.hypot(dx,dy)||1;
+      const nx=-dy/L,ny=dx/L,f=(A.f+B.f)/2,sp=0.11*sc*f;
+      const offs=b[2]===1?[0]:b[2]===2?[-0.5,0.5]:[-1,0,1];
+      ctx.strokeStyle=bondC;ctx.lineCap='butt';
+      ctx.lineWidth=Math.max(2,(b[2]===1?0.1:0.065)*sc*f);
+      offs.forEach(o=>{
+        ctx.beginPath();
+        ctx.moveTo(A.x+nx*o*sp,A.y+ny*o*sp);
+        ctx.lineTo(B.x+nx*o*sp,B.y+ny*o*sp);
+        ctx.stroke();
+      });
+      ctx.restore();
+    }});
+  });
+  m.atoms.forEach((a,i)=>{
+    const p=P[i],c=COL[a.e]||'#999999',r=(RAD[a.e]||0.3)*1.1*sc*p.f;
+    items.push({z:p.z,fn:()=>{
+      const g=ctx.createRadialGradient(p.x-r*0.35,p.y-r*0.4,r*0.1,p.x,p.y,r);
+      g.addColorStop(0,mix(c,'#ffffff',0.5));g.addColorStop(0.55,c);g.addColorStop(1,mix(c,'#000000',0.25));
+      ctx.beginPath();ctx.arc(p.x,p.y,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.lineWidth=1.2;ctx.strokeStyle=outC;ctx.globalAlpha=0.55;ctx.stroke();ctx.globalAlpha=1;
+      ctx.font='600 '+Math.max(10,r*(a.e==='H'?0.95:0.8))+'px '+font;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle=lum(c)>0.6?'#13202b':'#ffffff';
+      ctx.fillText(a.e,p.x,p.y+r*0.04);
+    }});
+  });
+  if(view.lp)m.lps.forEach(l=>{
+    const o=m.atoms[l.from].p,d=l.dir;
+    const p0=proj([o[0]+d[0]*0.2,o[1]+d[1]*0.2,o[2]+d[2]*0.2]);
+    const p1=proj([o[0]+d[0]*0.95,o[1]+d[1]*0.95,o[2]+d[2]*0.95]);
+    const mid={x:(p0.x+p1.x)/2,y:(p0.y+p1.y)/2,z:(p0.z+p1.z)/2,f:(p0.f+p1.f)/2};
+    items.push({z:mid.z,fn:()=>{
+      const ry=0.17*sc*mid.f,len=Math.hypot(p1.x-p0.x,p1.y-p0.y)/2,rx=Math.max(len,ry*0.85);
+      const ang=Math.atan2(p1.y-p0.y,p1.x-p0.x);
+      ctx.save();ctx.translate(mid.x,mid.y);ctx.rotate(ang);
+      ctx.beginPath();ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
+      ctx.globalAlpha=0.3;ctx.fillStyle=lpC;ctx.fill();
+      ctx.globalAlpha=0.9;ctx.lineWidth=1.3;ctx.strokeStyle=lpC;ctx.stroke();
+      ctx.fillStyle=lpC;
+      [-0.35,0.35].forEach(k=>{ctx.beginPath();ctx.arc(k*rx,0,Math.max(2,ry*0.2),0,Math.PI*2);ctx.fill();});
+      ctx.restore();
+    }});
+  });
+  items.sort((a,b)=>a.z-b.z).forEach(it=>it.fn());
+  if(view.dip&&m.dip){
+    const dipC=cs.getPropertyValue('--dip').trim()||'#0b8a7a';
+    const netC=cs.getPropertyValue('--net').trim()||'#d6336c';
+    const stageC=cs.getPropertyValue('--stage').trim()||'#e6ecf2';
+    const K=0.5; /* raw length per unit of electronegativity difference: bond and net arrows share this one scale */
+    const unit=v=>{const L=Math.hypot(v[0],v[1],v[2])||1;return [v[0]/L,v[1]/L,v[2]/L];};
+    const add=(a,b,s)=>[a[0]+b[0]*s,a[1]+b[1]*s,a[2]+b[2]*s];
+    const dirOf=d=>{const a=m.atoms[d.from].p,b=m.atoms[d.to].p;return unit([b[0]-a[0],b[1]-a[1],b[2]-a[2]]);};
+    const arrow=(x0,y0,x1,y1,color,wd,plus,outline)=>{
+      const len=Math.hypot(x1-x0,y1-y0);
+      if(len<3)return;
+      const ang=Math.atan2(y1-y0,x1-x0),hl=Math.min(wd*2.6+5,len*0.6),hw=Math.min(wd*1.5+2,hl*0.75);
+      const hx=x1-Math.cos(ang)*hl,hy=y1-Math.sin(ang)*hl;
+      const passes=outline===false?[[color,wd]]:[[stageC,wd+3.5],[color,wd]];
+      passes.forEach(pass=>{
+        ctx.strokeStyle=pass[0];ctx.fillStyle=pass[0];ctx.lineWidth=pass[1];ctx.lineCap='round';ctx.lineJoin='round';
+        ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(hx,hy);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(x1,y1);
+        ctx.lineTo(hx-Math.sin(ang)*hw,hy+Math.cos(ang)*hw);
+        ctx.lineTo(hx+Math.sin(ang)*hw,hy-Math.cos(ang)*hw);
+        ctx.closePath();ctx.fill();if(pass[1]>wd)ctx.stroke();
+        if(plus){
+          const s=Math.min(wd*1.7+1.5,len*0.25);
+          ctx.beginPath();ctx.moveTo(x0-s,y0);ctx.lineTo(x0+s,y0);ctx.moveTo(x0,y0-s);ctx.lineTo(x0,y0+s);ctx.stroke();
+        }
+      });
+    };
+    const net=m.dip.mag>0?unit(m.dip.net):null;
+    let labelFrom=null,labelTo=null;
+    if(view.sum){
+      /* head-to-tail: the pink arrow runs from the start of the first arrow to the tip of the last */
+      let P=[0,0,0];const pts=[P];
+      m.dip.bonds.forEach(d=>{P=add(P,dirOf(d),K*d.mag);pts.push(P);});
+      if(net){labelFrom=proj(pts[0]);labelTo=proj(P);arrow(labelFrom.x,labelFrom.y,labelTo.x,labelTo.y,netC,6,false,false);}
+      for(let k=0;k<m.dip.bonds.length;k++){
+        const s0=proj(pts[k]),s1=proj(pts[k+1]);
+        arrow(s0.x,s0.y,s1.x,s1.y,dipC,2.2,true);
+      }
+    }else{
+      m.dip.bonds.forEach(d=>{
+        const a=m.atoms[d.from].p,b=m.atoms[d.to].p,u=dirOf(d),half=K*d.mag/2;
+        const mid=[(a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2];
+        const q0=proj(add(mid,u,-half)),q1=proj(add(mid,u,half));
+        const dx=q1.x-q0.x,dy=q1.y-q0.y,L=Math.hypot(dx,dy);
+        if(L<3)return;
+        /* drawn on the bond axis, centred on the bond midpoint, so equivalent bonds look identical */
+        arrow(q0.x,q0.y,q1.x,q1.y,dipC,2,true);
+      });
+      if(net){
+        const half=K*m.dip.mag/2;
+        labelFrom=proj(add([0,0,0],net,-half));labelTo=proj(add([0,0,0],net,half));
+        arrow(labelFrom.x,labelFrom.y,labelTo.x,labelTo.y,netC,4,true);
+      }
+    }
+    ctx.font='600 12px '+font;ctx.textBaseline='alphabetic';ctx.fillStyle=netC;
+    if(net&&labelFrom&&labelTo){
+      const dx=labelTo.x-labelFrom.x,dy=labelTo.y-labelFrom.y,L=Math.hypot(dx,dy)||1;
+      ctx.textAlign='center';
+      ctx.fillText('net',(labelFrom.x+labelTo.x)/2-dy/L*18,(labelFrom.y+labelTo.y)/2+dx/L*18+4);
+    }
+    ctx.textAlign='left';
+    ctx.fillText(m.dip.mag>0?'Net dipole ≠ 0':'Net dipole = 0',12,22);
+  }
+}
+
+let lx=0,ly=0;
+cv.addEventListener('pointerdown',e=>{view.drag=true;lx=e.clientX;ly=e.clientY;try{cv.setPointerCapture(e.pointerId);}catch(_){}cv.style.cursor='grabbing';});
+cv.addEventListener('pointermove',e=>{
+  if(!view.drag)return;
+  view.ry+=(e.clientX-lx)*0.012;
+  view.rx=Math.max(-1.4,Math.min(1.4,view.rx+(e.clientY-ly)*0.012));
+  lx=e.clientX;ly=e.clientY;
+  if(!view.running)drawView();
+});
+const endDrag=()=>{view.drag=false;cv.style.cursor='grab';};
+cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',endDrag);
+cv.addEventListener('keydown',e=>{
+  const k={ArrowLeft:[-0.15,0],ArrowRight:[0.15,0],ArrowUp:[0,-0.15],ArrowDown:[0,0.15]}[e.key];
+  if(k){e.preventDefault();view.ry+=k[0];view.rx=Math.max(-1.4,Math.min(1.4,view.rx+k[1]));if(!view.running)drawView();}
+});
+$('bSpin').addEventListener('click',()=>{view.auto=!view.auto;$('bSpin').textContent=view.auto?'Pause spin':'Spin';});
+$('bLp').addEventListener('click',()=>{view.lp=!view.lp;$('bLp').textContent=view.lp?'Hide lone pairs':'Show lone pairs';drawView();});
+$('bDip').addEventListener('click',()=>{view.dip=!view.dip;syncDip();drawView();});
+$('bSum').addEventListener('click',()=>{view.sum=!view.sum;syncDip();drawView();});
+$('bReset').addEventListener('click',()=>{view.rx=-0.45;view.ry=0.6;drawView();});
+
+/* ---------- controls ---------- */
+/* choosing a level or a question type starts a fresh question straight away */
+function switchNow(){
+  if(!state.done&&state.q)state.n--; /* the unanswered question is dropped, so it is not counted */
+  makeQuestion();
+  $('qcard').scrollIntoView({block:'nearest',behavior:reduce?'auto':'smooth'});
+}
+const MODE_BTNS=[['mMixed','mixed'],['mShape','shape'],['mAngle','angle'],['mPlanar','planar'],['mPolar','polar']];
+MODE_BTNS.forEach(p=>{
+  $(p[0]).addEventListener('click',()=>{
+    if(state.mode===p[1])return;
+    state.mode=p[1];
+    MODE_BTNS.forEach(q=>$(q[0]).setAttribute('aria-pressed',String(q[1]===state.mode)));
+    switchNow();
+  });
+});
+$('lv1').addEventListener('click',()=>setLevel(1));
+$('lv2').addEventListener('click',()=>setLevel(2));
+function setLevel(l){
+  if(state.level===l)return;
+  state.level=l;
+  $('lv1').setAttribute('aria-pressed',String(l===1));
+  $('lv2').setAttribute('aria-pressed',String(l===2));
+  switchNow();
+}
+$('next').addEventListener('click',()=>{
+  makeQuestion();
+  $('qcard').scrollIntoView({block:'start',behavior:reduce?'auto':'smooth'});
+});
+document.addEventListener('keydown',e=>{
+  if(state.done||e.ctrlKey||e.metaKey||e.altKey)return;
+  const n=parseInt(e.key,10);
+  if(n>=1&&n<=state.q.options.length){if(state.q.multi)toggleOpt(n-1);else answer(n-1);}
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>drawView());
+new MutationObserver(()=>drawView()).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+makeQuestion();
+})();
+</script>
+
+</body></html>

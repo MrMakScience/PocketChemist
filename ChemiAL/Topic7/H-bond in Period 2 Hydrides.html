@@ -1,0 +1,561 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='5cXpZR+Kb3T54h5+m6WuGA==' src='https://65e95613-ae62-435a-b4fd-a5bd9aa012c7.frame.claudeusercontent.com/cwNZlKlr2z6eIIK1FZKPBiG7dRWS0FSYPMmKlfCQQpvX5m707Yg0aecaQ1XNgWMSmdbjZmOk-8DNdCvgp1ECoqevozT44ETuA7obobn5cDXVRt8IAUeDvFTjW-1JijT3Hv2Qq57kr2O8yQAF0VIBvyxT50hl29gtgIinYHtedXeAHX-qzP2EAr2h611m9N37-3Lg2YEgCKDyrP8NYF8j9yj5oARENeyOcEdlRVba0MGPY2hqIBVEDpFLeaf8v2x0TWBA95Tf24K9e5v-oDWsX6_IbBsduw9LCU-8tp8evX0uB0rJqw0SOKD5xEXtIN1s2k4xwqwYrLWTDmgAOMZQqUyd4-9PW8cbeg3phPm5b-LT_RNd7h_ko7BVyl_kzGn6Q29mgChzoc7Mrog6Sdsu16A8C3dIhodxfRH2MufLWCVxo9kqKr-Xh_AK3GAaO-Q13LkOeLqOICpYkC2aHh2YqfoyqRnGxGTH4aFY19APQQAviT5UqX6d7-QngRmw8rtanARwCtEjc8M81Oq1JHp0Vb1ca4USppoV0KpYkp8UvUfN7e7Hgw2-2lREvdFN5dQw3jw1fRtWqNuoDI4tdWJ08W_IxUFeYjNR_xuRvkbwKkXAoDKifr7MstrpWp4VYpJSD6ksHjoLP9dqpbqbBZe3wWSzz1lEm984Yrd_MeeTjuSEmEhLFOPWBzy8d76_2UoyowhosE4W-ItcciCH3yYFSA'></script></head><body>
+<title>Hydrogen bond budget</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&amp;family=Source+Sans+3:wght@400;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+/* Layout: header, predict strip, controls, three equal simulation panels, bar comparison, delta-EN tie-break. H sites = orange circles, lone pairs = blue lobes, everything else neutral. */
+:root{
+  --bg:#EDF1F3; --surface:#FFFFFF; --ink:#12232E; --muted:#51626D; --line:#D3DCE1;
+  --h:#D9480F; --lp:#2563D6; --hb:#16A34A; --atom:#E3E9ED; --ok:#1B7A4B; --warn:#B4531A;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E171D; --surface:#16232B; --ink:#E8EEF1; --muted:#9BAAB4; --line:#2A3B46;
+  --h:#FF7A45; --lp:#6EA2FF; --hb:#8CF58F; --atom:#22333E; --ok:#5CC48C; --warn:#F0A060; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E171D; --surface:#16232B; --ink:#E8EEF1; --muted:#9BAAB4; --line:#2A3B46;
+  --h:#FF7A45; --lp:#6EA2FF; --hb:#8CF58F; --atom:#22333E; --ok:#5CC48C; --warn:#F0A060; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:clamp(16px,4vw,32px);padding-block:28px 56px;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.15}
+h1{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:18px;font-weight:700}
+p{margin:0}
+sub{font-size:.7em;line-height:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:64ch;font-size:18px;color:var(--muted);margin-top:12px}
+.lede b{color:var(--ink);font-weight:600}
+.step{display:flex;flex-direction:column;gap:14px}
+.step-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tabs{display:flex;flex-wrap:wrap;gap:2px 8px;border-bottom:1px solid var(--line)}
+button.tab{background:none;border:none;border-bottom:3px solid transparent;border-radius:0;padding:10px 14px;margin-bottom:-1px;font-family:var(--display);font-size:18px;font-weight:700;color:var(--muted);min-height:44px}
+button.tab:hover{color:var(--ink);border-bottom-color:var(--line)}
+button.tab[aria-selected="true"]{color:var(--ink);background:none;border-bottom-color:var(--ink)}
+.step-n{font-family:var(--mono);font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 8px}
+.sub{color:var(--muted);max-width:68ch}
+.legend{margin-top:-4px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 14px;cursor:pointer;min-height:40px}
+button:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--lp);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button.go{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600;padding-inline:20px}
+.feedback{min-height:1.6em;color:var(--ink);max-width:70ch}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.controls label{display:flex;align-items:center;gap:10px;font-size:15px}
+.controls output{font-family:var(--mono);min-width:3ch;text-align:right}
+input[type=range]{accent-color:var(--ink);width:150px}
+input[type=checkbox]{accent-color:var(--ink);width:18px;height:18px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend svg{display:block}
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.panel-top h3{font-size:26px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:4px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.h{color:var(--h);border-color:var(--h)}
+.chip.l{color:var(--lp);border-color:var(--lp)}
+canvas{display:block;width:100%;aspect-ratio:1/1;background:var(--bg);border-radius:8px}
+.big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.big .num{font-family:var(--display);font-size:46px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.big .per{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:15px;border-top:1px solid var(--line);padding-top:10px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.note{font-size:15px;color:var(--ink)}
+.note.warn{color:var(--warn)}
+.note.good{color:var(--ok)}
+.bars{display:flex;flex-direction:column;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.brow{display:grid;grid-template-columns:64px minmax(0,1fr);gap:6px 14px;align-items:center}
+.brow .lab{font-family:var(--display);font-size:22px;font-weight:700}
+.track{position:relative;height:24px;background:var(--bg);border-radius:4px}
+.ghost{position:absolute;left:0;top:0;bottom:0;border:1.5px dashed var(--muted);border-radius:4px;transition:width .3s}
+.real{position:absolute;left:0;top:0;bottom:0;background:var(--ink);border-radius:4px;opacity:.88}
+.bmeta{grid-column:2;font-family:var(--mono);font-size:13px;color:var(--muted);display:flex;gap:6px 18px;flex-wrap:wrap}
+.bmeta b{color:var(--ink);font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card .rank{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.gauge{display:flex;flex-direction:column;gap:6px}
+.gauge .gt{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
+.gauge .gt b{font-family:var(--mono);font-weight:500;color:var(--ink)}
+.gtrack{height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
+.gfill{height:100%;background:var(--h);border-radius:5px}
+.bond{font-family:var(--mono);font-size:15px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.bond .dp{color:var(--h)} .bond .dm{color:var(--lp)}
+.bp{font-family:var(--display);font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ladder{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px 32px}
+.ladder h3{font-size:16px;margin-bottom:6px}
+.ladder p{color:var(--muted);font-size:15px}
+.order{font-family:var(--display);font-size:24px;font-weight:700;margin-top:6px;color:var(--ink)}
+.fine{font-size:13px;color:var(--muted);max-width:80ch}
+
+
+.look{display:flex;flex-direction:column;gap:16px}
+.lbody{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:16px 24px;align-items:center}
+@media (max-width:820px){.lbody{grid-template-columns:minmax(0,1fr)}}
+.lbody svg{max-height:330px;margin-inline:auto}
+.lside{display:flex;flex-direction:column;gap:10px}
+.look .card svg{width:100%;height:auto;display:block;background:#FFFFFF;border-radius:8px;--bg:#FFFFFF;--ink:#12232E;--muted:#51626D;--atom:#E3E9ED;--h:#D9480F;--lp:#2563D6;--hb:#16A34A}
+.look .card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:16px}
+.look .card li{color:var(--ink)}
+.look .card li.w{color:var(--warn)} .look .card li.g{color:var(--ok)}
+.cov{stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;fill:none}
+.hb{stroke:var(--hb);stroke-width:2;stroke-dasharray:4 3.5;fill:none;stroke-linecap:round}
+.hdot{fill:var(--h)} .htxt{fill:var(--bg);font:600 13px var(--mono);text-anchor:middle;dominant-baseline:central}
+.xc{fill:var(--atom);stroke:var(--muted);stroke-width:1.2}
+.xt{fill:var(--ink);font:700 19px var(--display);text-anchor:middle;dominant-baseline:central}
+.lpd{fill:var(--lp)}
+.strand{fill:none;stroke-width:2;stroke-dasharray:3 3}
+.sH{stroke:var(--h)} .sL{stroke:var(--lp)}
+.dpl{fill:var(--h);font:600 14px var(--mono)} .dmi{fill:var(--lp);font:600 14px var(--mono)}
+.stag{fill:var(--muted);font:400 14px var(--body)}
+.hbring{fill:var(--hb);fill-opacity:.12;stroke:var(--hb);stroke-width:2}
+.dq{font:700 17px var(--mono)}
+.focus{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:2 5}
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.boxes.large{grid-template-columns:minmax(0,1fr)}
+.bx{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.bx canvas{display:block;width:100%;aspect-ratio:1/1;border-radius:8px;background:#FFFFFF;border:1px solid var(--line)}
+.tick{position:absolute;top:-5px;bottom:-5px;width:3px;margin-left:-1px;background:var(--lp);border-radius:2px}
+.lrow{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.lhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap}
+.lhead h3{font-size:26px}
+.lres{font-family:var(--mono);font-size:14px;color:var(--muted)}
+.lres b{font-family:var(--display);font-size:26px;color:var(--ink);font-weight:700}
+.lrow canvas{aspect-ratio:900/272;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (prefers-reduced-motion:reduce){.ghost{transition:none}}
+</style>
+
+<main class="wrap">
+<header>
+  <p class="eyebrow">Intermolecular forces</p>
+  <h1>Hydrogen bond budget</h1>
+  <p class="lede">A hydrogen bond needs two things at once: an <b>H attached to N, O or F</b>, and a <b>lone pair on a neighbouring molecule</b>. Each bond uses up one of each. Count both, not just the hydrogens.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="Sections">
+  <button type="button" class="tab" role="tab" id="t-look" aria-controls="p-look" aria-selected="true">The anatomy of a hydrogen bond</button>
+  <button type="button" class="tab" role="tab" id="t-box" aria-controls="p-box" aria-selected="false" tabindex="-1">One box, three liquids</button>
+  <button type="button" class="tab" role="tab" id="t-tie" aria-controls="p-tie" aria-selected="false" tabindex="-1">Electronegativity matters</button>
+</div>
+
+<section class="step" id="p-look" role="tabpanel" aria-labelledby="t-look">
+  <div class="step-h"><h2>The anatomy of a hydrogen bond</h2></div>
+  <p class="sub">Solid black line: covalent bond. Green dashed line: hydrogen bond. Orange H is the δ+ hydrogen. Blue dots are a lone pair. A hydrogen bond runs from an H to a lone pair on the next molecule, and the X&ndash;H&middot;&middot;&middot;Y atoms sit roughly in a line. In each diagram one hydrogen bond is circled to show why it forms: the X&ndash;H bond is polar, so X is δ&minus; and H is δ+, and the δ+ H is attracted to the δ&minus; lone pair next door.</p>
+  <div class="legend" aria-label="Legend">
+    <span><svg width="22" height="16" viewbox="0 0 22 16" aria-hidden="true"><circle cx="11" cy="8" r="7" fill="var(--h)"/></svg>H bonded to N, O or F</span>
+    <span><svg width="22" height="16" viewbox="0 0 22 16" aria-hidden="true"><circle cx="7" cy="8" r="3" fill="var(--lp)"/><circle cx="15" cy="8" r="3" fill="var(--lp)"/></svg>Lone pair</span>
+    <span><svg width="26" height="16" viewbox="0 0 26 16" aria-hidden="true"><line x1="1" y1="8" x2="25" y2="8" stroke="var(--hb)" stroke-width="2" stroke-dasharray="3 3"/></svg>Hydrogen bond</span>
+  </div>
+  <div class="look" id="look"></div>
+</section>
+
+<section class="step" id="p-box" role="tabpanel" aria-labelledby="t-box" hidden="">
+  <div class="step-h"><h2>One box, three liquids</h2></div>
+  <p class="sub">Same box size, same number of molecules, same rule for what counts as a hydrogen bond: an H has to point at a lone pair on a neighbour, roughly in a straight line. Molecules jiggle and turn at random. Watch how often an H and a lone pair line up.</p>
+  <div class="controls">
+    <label for="count">Molecules per box <input id="count" type="range" min="0" max="6" step="1" value="1"><output id="countOut">25</output></label>
+    <button type="button" class="go" id="pause">Pause</button>
+    <button type="button" id="reset">Shuffle again</button>
+    <label for="large"><input id="large" type="checkbox"> Larger boxes</label>
+  </div>
+  <div class="legend" aria-label="Legend">
+    <span><svg width="14" height="14" viewbox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="var(--h)"/></svg>H</span>
+    <span><svg width="22" height="14" viewbox="0 0 22 14" aria-hidden="true"><circle cx="7" cy="7" r="2.6" fill="var(--lp)"/><circle cx="15" cy="7" r="2.6" fill="var(--lp)"/></svg>Lone pair</span>
+    <span><svg width="26" height="14" viewbox="0 0 26 14" aria-hidden="true"><line x1="1" y1="7" x2="25" y2="7" stroke="var(--hb)" stroke-width="2" stroke-dasharray="3 3"/></svg>Hydrogen bond right now (green dashes)</span>
+  </div>
+  <div class="boxes" id="boxes"></div>
+  <h3 style="margin-top:8px">Counting H atoms vs counting bonds</h3>
+  <p class="sub">Dashed bar: bonds if every H found a partner. Tick mark: the ceiling set by the smaller of the H count and the lone pair count. Solid bar: what the box actually produces, averaged over the last few seconds.</p>
+  <div class="bars" id="bars"></div>
+  <p class="fine">This is a 2D model with the same rule for every molecule. A bond counts when the H is 36&ndash;58 units from the other atom, within 40° of a straight X&ndash;H&middot;&middot;&middot;Y line, and within 40° of the lone pair direction. Each H and each lone pair can be used once. Every molecule moves and turns within its own patch of the box, so they stay spread out evenly. Real liquids are 3D and their bonds break and re-form constantly, so the counts are time averages.</p>
+</section>
+
+<section class="step" id="p-tie" role="tabpanel" aria-labelledby="t-tie" hidden="">
+  <div class="step-h"><h2>Electronegativity matters</h2></div>
+  <p class="sub">NH<sub>3</sub> and HF both form 1 hydrogen bond per molecule. So which bond is stronger? It depends on how positive the H is, and that depends on the electronegativity difference (ΔEN) across the X&ndash;H bond.</p>
+  <div class="cards" id="cards"></div>
+  <div class="ladder">
+    <div><h3>Rule 1: bonds per molecule</h3><p>Take the smaller of the H count and the lone pair count.</p><p class="order">H<sub>2</sub>O (2) &gt; NH<sub>3</sub> = HF (1)</p></div>
+    <div><h3>Rule 2: if tied, compare ΔEN</h3><p>A larger ΔEN leaves H more δ+, so it attracts the lone pair more strongly. HF (1.78) beats NH<sub>3</sub> (0.84).</p><p class="order">HF &gt; NH<sub>3</sub></p></div>
+    <div><h3>Result</h3><p>Matches the measured boiling points.</p><p class="order">H<sub>2</sub>O &gt; HF &gt; NH<sub>3</sub></p></div>
+  </div>
+  <p class="fine">Electronegativity (Pauling): H 2.20, N 3.04, O 3.44, F 3.98. Hydrogen bond energies are typical textbook values and vary by source. Boiling points at 1 atm.</p>
+</section>
+</main>
+
+<script>
+(function(){
+var MOLS=[
+  {key:'NH3',label:'NH<sub>3</sub>',plain:'NH₃',atom:'N',H:3,LP:1,en:3.04,bp:-33,E:13},
+  {key:'H2O',label:'H<sub>2</sub>O',plain:'H₂O',atom:'O',H:2,LP:2,en:3.44,bp:100,E:21},
+  {key:'HF',label:'HF',plain:'HF',atom:'F',H:1,LP:3,en:3.98,bp:19.5,E:29}
+];
+var HEN=2.20, N=100, progress=0, ran=false, anim=null, hl=true, pick=null, formed={};
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function byKey(k){return MOLS.filter(function(d){return d.key===k})[0]}
+function rad(a){return a*Math.PI/180}
+
+/* ---------- structural drawings ---------- */
+var L1=46, RX=15, RH=11, LPD=25, HB=96;
+function P(m,a,d){return[m.x+d*Math.cos(rad(a)),m.y+d*Math.sin(rad(a))]}
+function f(n){return n.toFixed(1)}
+function molSvg(m){
+  var s='';
+  m.h.forEach(function(h){
+    var p=P(m,h.a,L1),q=P(m,h.a,RX),r=P(m,h.a,L1-RH+2);
+    s+='<line class="cov" x1="'+f(q[0])+'" y1="'+f(q[1])+'" x2="'+f(r[0])+'" y2="'+f(r[1])+'"/>';
+    s+='<circle class="hdot" cx="'+f(p[0])+'" cy="'+f(p[1])+'" r="'+RH+'"/><text class="htxt" x="'+f(p[0])+'" y="'+f(p[1]+.5)+'">H</text>';
+  });
+  m.lp.forEach(function(l){
+    var c=P(m,l.a,LPD), o=[Math.cos(rad(l.a+90))*5,Math.sin(rad(l.a+90))*5];
+    s+='<circle class="lpd" cx="'+f(c[0]+o[0])+'" cy="'+f(c[1]+o[1])+'" r="3.4"/><circle class="lpd" cx="'+f(c[0]-o[0])+'" cy="'+f(c[1]-o[1])+'" r="3.4"/>';
+  });
+  s+='<circle class="xc" cx="'+f(m.x)+'" cy="'+f(m.y)+'" r="'+RX+'"/><text class="xt" x="'+f(m.x)+'" y="'+f(m.y+.5)+'">'+m.el+'</text>';
+  return s;
+}
+function hbSvg(d,a,acc){
+  var hp=P(d,a,L1), dx=acc.x-hp[0], dy=acc.y-hp[1], len=Math.hypot(dx,dy), u=[dx/len,dy/len];
+  var st=[hp[0]+u[0]*(RH+3),hp[1]+u[1]*(RH+3)], en=[acc.x-u[0]*(LPD+9),acc.y-u[1]*(LPD+9)];
+  return '<line class="hb" x1="'+f(st[0])+'" y1="'+f(st[1])+'" x2="'+f(en[0])+'" y2="'+f(en[1])+'"/>';
+}
+function stub(m,a,out){
+  var s=P(m,a,out?L1+RH+3:LPD+9), e=P(m,a,out?L1+HB-4:LPD+9+44);
+  return '<line class="hb" style="opacity:.35" x1="'+f(s[0])+'" y1="'+f(s[1])+'" x2="'+f(e[0])+'" y2="'+f(e[1])+'"/>';
+}
+function txt(x,y,t,c,anchor){return '<text class="'+c+'" x="'+x+'" y="'+y+'"'+(anchor?' text-anchor="'+anchor+'"':'')+'>'+t+'</text>'}
+function focusRing(m,r){return '<circle class="focus" cx="'+f(m.x)+'" cy="'+f(m.y)+'" r="'+(r||64)+'"/>'}
+
+function bondHL(d,hAng,acc,lpAng,o){
+  var hp=P(d,hAng,L1),lp=P(acc,lpAng,LPD),mx=(hp[0]+lp[0])/2,my=(hp[1]+lp[1])/2,len=Math.hypot(lp[0]-hp[0],lp[1]-hp[1]);
+  var rot=Math.atan2(lp[1]-hp[1],lp[0]-hp[0])*180/Math.PI;
+  var ring='<ellipse class="hbring" cx="'+f(mx)+'" cy="'+f(my)+'" rx="'+f(len/2+14)+'" ry="21" transform="rotate('+f(rot)+' '+f(mx)+' '+f(my)+')"/>';
+  var u=[(lp[0]-hp[0])/len,(lp[1]-hp[1])/len],n=[-u[1],u[0]];
+  function at(p,side,dist){return [p[0]+n[0]*side*dist,p[1]+n[1]*side*dist]}
+  var a=o.H?[hp[0]+o.H[0],hp[1]+o.H[1]]:at(hp,o.sH,o.dH||27),b=o.Ac?[acc.x+o.Ac[0],acc.y+o.Ac[1]]:o.A?[lp[0]+o.A[0],lp[1]+o.A[1]]:at(lp,o.sA,o.dA||28),c=o.D?[d.x+o.D[0],d.y+o.D[1]]:at(d.pt||[d.x,d.y],o.sD,30);
+  var lab='<text class="dq dpl" x="'+f(a[0])+'" y="'+f(a[1])+'" text-anchor="middle">δ+</text><text class="dq dmi" x="'+f(b[0])+'" y="'+f(b[1])+'" text-anchor="middle">δ−</text><text class="dq dmi" x="'+f(c[0])+'" y="'+f(c[1])+'" text-anchor="middle">δ−</text>';
+  return {ring:ring,lab:lab};
+}
+function nh3Svg(){
+  var ms=[],i,x0=96,y=104,step=L1+HB;
+  for(i=0;i<4;i++)ms.push({x:x0+i*step,y:y,el:'N',h:[{a:-70,used:false},{a:0,used:true},{a:70,used:false}],lp:[{a:180,used:true}]});
+  var s='<svg viewBox="20 36 620 190" role="img" aria-label="Four NH3 molecules in a chain. Each N has one lone pair, so only one of its three H atoms can bond.">';
+  s+=stub(ms[0],180,false);s+=stub(ms[3],0,true);
+  for(i=0;i<3;i++)s+=hbSvg(ms[i],0,ms[i+1]);
+  var hl=bondHL(ms[1],0,ms[2],180,{H:[0,-27],A:[-4,-27],D:[-14,-30]});
+  s+=hl.ring;
+  ms.forEach(function(m){s+=molSvg(m)});
+  s+=hl.lab;
+  s+=txt(ms[1].x,ms[1].y+104,'2 of these 3 H have no lone pair to point at','stag','middle');
+  return s+'</svg>';
+}
+function hfSvg(){
+  var ms=[],i,h=[37.5,-37.5],x=60,y=62;
+  for(i=0;i<4;i++){
+    var a=h[i%2];
+    ms.push({x:x,y:y,el:'F',h:[{a:a,used:true}],lp:[{a:a+180,used:false},{a:a+255,used:false},{a:a+105,used:false}]});
+    var p=P({x:x,y:y},a,L1+HB);x=p[0];y=p[1];
+  }
+  for(i=0;i<4;i++){
+    var inc=(i===0)?h[1]+180:h[(i-1)%2]+180;
+    ms[i].lp.forEach(function(l){if(Math.abs(((l.a-inc+540)%360)-180)<1)l.used=true});
+  }
+  var s='<svg viewBox="20 6 560 250" role="img" aria-label="Four HF molecules in a zigzag chain. Each F has three lone pairs but only one H, so two lone pairs per molecule go unused.">';
+  s+=stub(ms[0],h[1]+180,false);s+=stub(ms[3],h[1],true);
+  for(i=0;i<3;i++)s+=hbSvg(ms[i],ms[i].h[0].a,ms[i+1]);
+  var hl=bondHL(ms[2],ms[2].h[0].a,ms[3],ms[2].h[0].a+180,{sH:-1,sA:-1,dH:30,dA:31,D:[38,-16]});
+  s+=hl.ring;
+  ms.forEach(function(m){s+=molSvg(m)});
+  s+=hl.lab;
+  s+=txt(ms[1].x,ms[1].y+84,'2 of these 3 lone pairs have no H to receive','stag','middle');
+  return s+'</svg>';
+}
+function h2oSvg(){
+  var c={x:300,y:196,el:'O',h:[{a:-142,used:true},{a:-38,used:true}],lp:[{a:35,used:true},{a:145,used:true}]};
+  var D=L1+HB;
+  var A=(function(){var p=P(c,-142,D);return{x:p[0],y:p[1],el:'O',h:[{a:-139,used:true},{a:-35,used:true}],lp:[{a:38,used:true},{a:148,used:true}]}})();
+  var B=(function(){var p=P(c,-38,D);return{x:p[0],y:p[1],el:'O',h:[{a:-145,used:true},{a:-41,used:true}],lp:[{a:32,used:true},{a:142,used:true}]}})();
+  var C=(function(){var p=P(c,35,D);return{x:p[0],y:p[1],el:'O',h:[{a:215,used:true},{a:-40.5,used:true}],lp:[{a:32,used:true},{a:142,used:true}]}})();
+  var E=(function(){var p=P(c,145,D);return{x:p[0],y:p[1],el:'O',h:[{a:325,used:true},{a:220.5,used:true}],lp:[{a:148,used:true},{a:38,used:true}]}})();
+  var s='<svg viewBox="100 66 400 296" role="img" aria-label="A central H2O molecule with four hydrogen bonds: it donates its two H atoms and receives two more on its two lone pairs.">';
+  s+=hbSvg(c,-142,A)+hbSvg(c,-38,B)+hbSvg(C,215,c)+hbSvg(E,325,c);
+  var hl=bondHL(c,-38,B,142,{sH:-1,sA:1,dH:30,dA:30,D:[-36,-2]});
+  s+=hl.ring;
+  [A,B,C,E,c].forEach(function(m){s+=molSvg(m)});
+  s+=hl.lab;
+  s+=txt(300,350,'every H and every lone pair here is in use','stag','middle');
+  return s+'</svg>';
+}
+function buildLook(){
+  var L=document.getElementById('look');
+  var cards=[
+    {d:MOLS[0],svg:nh3Svg(),tag:'1 H bond per molecule',items:[['','Each N donates 1 H and receives 1 H bond.'],['w','Only 1 lone pair, so only 1 incoming bond.'],['w','The other 2 H per molecule are stranded.']]},
+    {d:MOLS[1],svg:h2oSvg(),tag:'2 H bonds per molecule',items:[['','The centre O donates 2 H and receives 2 H.'],['g','4 bond ends shared between 2 molecules each: 2 bonds per molecule.'],['g','Nothing is stranded.']]},
+    {d:MOLS[2],svg:hfSvg(),tag:'1 H bond per molecule',items:[['','Each F donates 1 H and receives 1 H bond.'],['w','Only 1 H, so only 1 outgoing bond.'],['w','The other 2 lone pairs per molecule are stranded.']]}
+  ];
+  cards.forEach(function(c){
+    L.insertAdjacentHTML('beforeend','<article class="card"><div class="panel-top"><h3 style="font-size:26px">'+c.d.label+'</h3><div class="chips"><span class="chip h">'+c.d.H+' H</span><span class="chip l">'+c.d.LP+' lone pair'+(c.d.LP>1?'s':'')+'</span></div></div><div class="lbody">'+c.svg+
+      '<div class="lside"><div class="bp" style="font-size:24px">'+c.tag+'</div><ul>'+c.items.map(function(i){return '<li class="'+i[0]+'">'+i[1]+'</li>'}).join('')+'</ul></div></div></article>');
+  });
+}
+
+/* ---------- box simulation ---------- */
+var BODY={NH3:{H:[0,70,-70],LP:[180]},H2O:{H:[52.25,-52.25],LP:[125,-125]},HF:{H:[0],LP:[180,105,-105]}};
+var G=0.65,SL1=24*G,RLO=36*G,RHI=58*G,AMAX=40*Math.PI/180,BMAX=40*Math.PI/180,CUT=SL1+RHI+2,AREA=3600;
+function rng2(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function wrapA(a){while(a>Math.PI)a-=6.2832;while(a<-Math.PI)a+=6.2832;return a}
+function cellIdx(S,x,y){var cx=Math.min(S.g-1,Math.max(0,Math.floor(x/S.cs))),cy=Math.min(S.g-1,Math.max(0,Math.floor(y/S.cs)));return cy*S.g+cx}
+function addCell(S,i){var c=cellIdx(S,S.x[i],S.y[i]);S.cellOf[i]=c;S.cells[c].push(i)}
+function moveCell(S,i){var c=cellIdx(S,S.x[i],S.y[i]);if(c!==S.cellOf[i]){var o=S.cells[S.cellOf[i]];o.splice(o.indexOf(i),1);S.cells[c].push(i);S.cellOf[i]=c}}
+function gather(S,x,y,t){
+  t.length=0;
+  var cx=Math.min(S.g-1,Math.max(0,Math.floor(x/S.cs))),cy=Math.min(S.g-1,Math.max(0,Math.floor(y/S.cs)));
+  for(var dy=-1;dy<=1;dy++){var yy=cy+dy;if(yy<0||yy>=S.g)continue;
+    for(var dx=-1;dx<=1;dx++){var xx=cx+dx;if(xx<0||xx>=S.g)continue;
+      var cell=S.cells[yy*S.g+xx];for(var k=0;k<cell.length;k++)t.push(cell[k])}}
+  return t;
+}
+function valid(S,i){
+  var x=S.x[i],y=S.y[i],th=S.th[i],H=S.b.H;
+  var WM=30*G;if(x<WM||y<WM||x>S.W-WM||y>S.W-WM)return false;
+  var hx0=x-S.hx[i],hy0=y-S.hy[i];if(hx0*hx0+hy0*hy0>S.rc2)return false;
+  var nb=gather(S,x,y,S.t1);
+  for(var k=0;k<nb.length;k++){
+    var j=nb[k];if(j===i)continue;
+    var dx=S.x[j]-x,dy=S.y[j]-y,d2=dx*dx+dy*dy;
+    if(d2>CUT*CUT)continue;
+    if(d2<900*G*G)return false;
+    for(var a=0;a<H.length;a++){
+      var t=th+H[a]*0.017453,px=x+SL1*Math.cos(t),py=y+SL1*Math.sin(t);
+      var ex=px-S.x[j],ey=py-S.y[j];if(ex*ex+ey*ey<289*G*G)return false;
+      for(var b=0;b<H.length;b++){
+        var u=S.th[j]+H[b]*0.017453,qx=S.x[j]+SL1*Math.cos(u),qy=S.y[j]+SL1*Math.sin(u);
+        var fx=px-qx,fy=py-qy;if(fx*fx+fy*fy<196*G*G)return false;
+      }
+    }
+    for(var b2=0;b2<H.length;b2++){
+      var u2=S.th[j]+H[b2]*0.017453,gx=S.x[j]+SL1*Math.cos(u2)-x,gy=S.y[j]+SL1*Math.sin(u2)-y;
+      if(gx*gx+gy*gy<289*G*G)return false;
+    }
+  }
+  return true;
+}
+function bondTest(S,d,a,c,l){
+  var t=S.th[d]+S.b.H[a]*0.017453,hx=S.x[d]+SL1*Math.cos(t),hy=S.y[d]+SL1*Math.sin(t);
+  var vx=S.x[c]-hx,vy=S.y[c]-hy,r=Math.sqrt(vx*vx+vy*vy);
+  if(r<RLO||r>RHI)return false;
+  if(Math.abs(wrapA(Math.atan2(vy,vx)-t))>AMAX)return false;
+  var lt=S.th[c]+S.b.LP[l]*0.017453;
+  return Math.abs(wrapA(Math.atan2(hy-S.y[c],hx-S.x[c])-lt))<=BMAX;
+}
+function bondsOf(S,i,out){
+  var nb=gather(S,S.x[i],S.y[i],S.t2),n=0,nH=S.b.H.length,nL=S.b.LP.length;
+  for(var k=0;k<nb.length;k++){
+    var j=nb[k];if(j===i)continue;
+    var dx=S.x[j]-S.x[i],dy=S.y[j]-S.y[i];if(dx*dx+dy*dy>CUT*CUT)continue;
+    for(var a=0;a<nH;a++){
+      for(var l=0;l<nL;l++)if(bondTest(S,i,a,j,l)){n++;if(out)out.push([i,a,j,l]);break}
+      for(var l3=0;l3<nL;l3++)if(bondTest(S,j,a,i,l3)){n++;if(out)out.push([j,a,i,l3]);break}
+    }
+  }
+  return n;
+}
+function exclusive(S,list){
+  var nH=S.b.H.length,nL=S.b.LP.length;
+  for(var k=0;k<list.length;k++){
+    var d=list[k][0],a=list[k][1],c=list[k][2],l=list[k][3],j,m,nb,cnt=0;
+    nb=gather(S,S.x[d],S.y[d],S.t3);
+    for(m=0;m<nb.length;m++){j=nb[m];if(j===d)continue;for(var l2=0;l2<nL;l2++)if(bondTest(S,d,a,j,l2)){cnt++;break}}
+    if(cnt!==1)return false;
+    cnt=0;
+    nb=gather(S,S.x[c],S.y[c],S.t4);
+    for(m=0;m<nb.length;m++){j=nb[m];if(j===c)continue;for(var a2=0;a2<nH;a2++)if(bondTest(S,j,a2,c,l))cnt++}
+    if(cnt!==1)return false;
+  }
+  return true;
+}
+function mkSys(key,N,seed){
+  var side=Math.sqrt(N*AREA),g=Math.max(1,Math.floor(side/CUT));
+  var S={key:key,b:BODY[key],N:N,W:side,g:g,cs:side/g,cells:[],cellOf:new Int32Array(N),x:new Float64Array(N),y:new Float64Array(N),th:new Float64Array(N),hx:new Float64Array(N),hy:new Float64Array(N),rc2:0,r:rng2(seed),t1:[],t2:[],t3:[],t4:[],lst:[],blist:[]};
+  for(var c=0;c<g*g;c++)S.cells.push([]);
+  var cols=Math.round(Math.sqrt(N)),sx=side/cols,placed=0;
+  S.rc2=Math.pow(0.85*sx,2);
+  for(var i=0;i<N;i++){S.hx[i]=((i%cols)+.5)*sx;S.hy[i]=(Math.floor(i/cols)+.5)*sx}
+  for(placed=0;placed<N;placed++){
+    var ok=false;
+    for(var t=0;t<200&&!ok;t++){
+      S.x[placed]=S.hx[placed]+(S.r()-.5)*.5*sx;S.y[placed]=S.hy[placed]+(S.r()-.5)*.5*sx;S.th[placed]=S.r()*6.2832;
+      ok=valid(S,placed);
+    }
+    if(!ok){S.x[placed]=S.hx[placed];S.y[placed]=S.hy[placed]}
+    addCell(S,placed);
+  }
+  S.N=placed;
+  return S;
+}
+var TS=14*G,RS=1.2;
+function sweepSys(S,T,ts,rs){
+  ts=ts||TS;rs=rs||RS;
+  var N=S.N,r=S.r;
+  for(var m=0;m<N;m++){
+    var i=Math.floor(r()*N),ox=S.x[i],oy=S.y[i],oth=S.th[i];
+    var before=bondsOf(S,i,null);
+    if(r()<.5){S.x[i]=ox+(r()-.5)*ts;S.y[i]=oy+(r()-.5)*ts;S.th[i]=oth+(r()-.5)*rs}
+    else S.th[i]=oth+(r()-.5)*rs*2;
+    moveCell(S,i);
+    var good=valid(S,i),after=0;
+    if(good){S.lst.length=0;after=bondsOf(S,i,S.lst);if(after>0&&!exclusive(S,S.lst))good=false}
+    if(good&&before>after&&r()>=Math.exp((after-before)/T))good=false;
+    if(!good){S.x[i]=ox;S.y[i]=oy;S.th[i]=oth;moveCell(S,i)}
+  }
+}
+function refresh(S){
+  S.blist.length=0;var tmp=[];
+  for(var i=0;i<S.N;i++){tmp.length=0;bondsOf(S,i,tmp);for(var k=0;k<tmp.length;k++)if(tmp[k][0]===i)S.blist.push(tmp[k])}
+  return S.blist.length;
+}
+
+/* ---------- page wiring ---------- */
+var sims={}, avg={}, NM=25, TT=.3, NS=[16,25,36,49,64,81,100], running=true, frames=0, pick=null, seedBase=7;
+function initDisp(S){S.px=Float64Array.from(S.x);S.py=Float64Array.from(S.y);S.pth=Float64Array.from(S.th);S.dx=Float64Array.from(S.x);S.dy=Float64Array.from(S.y);S.dth=Float64Array.from(S.th)}
+var KF=48;
+function resetSims(){
+  seedBase=(seedBase*7919+13)%100000;frames=0;
+  MOLS.forEach(function(d,i){var S=mkSys(d.key,NM,seedBase+i*101);sims[d.key]=S;var sw=NM<=50?500:300;for(var k=0;k<sw;k++)sweepSys(S,TT);avg[d.key]=refresh(S);initDisp(S)});
+  draw();readout();
+}
+function bodyDraw(ctx,S,d){
+  var H=S.b.H,LP=S.b.LP,k;
+  for(var i=0;i<S.N;i++){
+    var x=S.x[i],y=S.y[i],th=S.th[i];
+    ctx.strokeStyle=css('--ink');ctx.lineWidth=1.8;
+    for(k=0;k<H.length;k++){var t=th+H[k]*0.017453;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+SL1*Math.cos(t),y+SL1*Math.sin(t));ctx.stroke()}
+  }
+}
+function draw(){
+  var c={hb:'#16A34A',h:'#D9480F',lp:'#2563D6',ink:'#12232E',atom:'#E3E9ED',muted:'#51626D',bg:'#FFFFFF'};
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  MOLS.forEach(function(d){
+    var S=sims[d.key],cv=document.getElementById('bx-'+d.key);if(!S||!cv||!cv.clientWidth)return;
+    var X=S.dx||S.x,Y=S.dy||S.y,TH=S.dth||S.th;
+    var px=Math.max(200,Math.round((cv.clientWidth||320)*dpr));
+    if(cv.width!==px){cv.width=px;cv.height=px}
+    var ctx=cv.getContext('2d'),sc=px/S.W,H=S.b.H,LP=S.b.LP,i,k;
+    ctx.setTransform(sc,0,0,sc,0,0);ctx.clearRect(0,0,S.W,S.W);
+    ctx.lineCap='round';
+    ctx.strokeStyle=c.hb;ctx.lineWidth=1.5;ctx.setLineDash([3,2.5]);
+    S.blist.forEach(function(b){
+      var t=TH[b[0]]+H[b[1]]*0.017453,hx=X[b[0]]+SL1*Math.cos(t),hy=Y[b[0]]+SL1*Math.sin(t);
+      var lt=TH[b[2]]+LP[b[3]]*0.017453,lx=X[b[2]]+13*G*Math.cos(lt),ly=Y[b[2]]+13*G*Math.sin(lt);
+      var vx=lx-hx,vy=ly-hy,len=Math.hypot(vx,vy)||1;
+      ctx.beginPath();ctx.moveTo(hx+vx/len*5*G,hy+vy/len*5*G);ctx.lineTo(lx-vx/len*3*G,ly-vy/len*3*G);ctx.stroke();
+    });
+    ctx.setLineDash([]);
+    var showH=sc>1.15,bondedH={};S.blist.forEach(function(b){bondedH[b[0]*4+b[1]]=1});
+    for(i=0;i<S.N;i++){
+      var x=X[i],y=Y[i],th=TH[i];
+      ctx.strokeStyle=c.ink;ctx.lineWidth=1.8;
+      for(k=0;k<H.length;k++){var t2=th+H[k]*0.017453;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+SL1*Math.cos(t2),y+SL1*Math.sin(t2));ctx.stroke()}
+      ctx.fillStyle=c.lp;
+      for(k=0;k<LP.length;k++){
+        var lt2=th+LP[k]*0.017453,cx=x+13*G*Math.cos(lt2),cy=y+13*G*Math.sin(lt2),ox=Math.cos(lt2+1.5708)*3.4*G,oy=Math.sin(lt2+1.5708)*3.4*G;
+        ctx.beginPath();ctx.arc(cx+ox,cy+oy,1.9*G,0,6.2832);ctx.fill();ctx.beginPath();ctx.arc(cx-ox,cy-oy,1.9*G,0,6.2832);ctx.fill();
+      }
+      ctx.fillStyle=c.atom;ctx.strokeStyle=c.muted;ctx.lineWidth=1;
+      ctx.beginPath();ctx.arc(x,y,10*G,0,6.2832);ctx.fill();ctx.stroke();
+      ctx.fillStyle=c.ink;ctx.font='700 '+(15*G).toFixed(1)+'px "IBM Plex Mono",monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(d.atom,x,y+.5);
+      for(k=0;k<H.length;k++){
+        var t3=th+H[k]*0.017453,hx2=x+SL1*Math.cos(t3),hy2=y+SL1*Math.sin(t3);
+        ctx.fillStyle=c.h;ctx.beginPath();ctx.arc(hx2,hy2,7*G,0,6.2832);ctx.fill();if(bondedH[i*4+k]){ctx.strokeStyle=c.hb;ctx.lineWidth=1.3;ctx.stroke()}
+        if(showH){ctx.fillStyle=c.bg;ctx.font='600 '+(11*G).toFixed(1)+'px "IBM Plex Mono",monospace';ctx.fillText('H',hx2,hy2+.5)}
+      }
+    }
+  });
+}
+function readout(){
+  MOLS.forEach(function(d){
+    var S=sims[d.key],n=S.N,cur=S.blist.length,a=avg[d.key],ceil=n*Math.min(d.H,d.LP);
+    document.getElementById('bn-'+d.key).textContent=a.toFixed(1);
+    document.getElementById('bp-'+d.key).textContent=(a/n).toFixed(2)+' per molecule';
+    document.getElementById('bc-'+d.key).textContent=cur;
+    document.getElementById('bm-'+d.key).textContent=ceil+' ('+Math.round(a/ceil*100)+'% reached)';
+    var row=document.getElementById('b-'+d.key),mx=n*3;
+    row.querySelector('.ghost').style.width=(n*d.H/mx*100)+'%';
+    row.querySelector('.tick').style.left=(ceil/mx*100)+'%';
+    row.querySelector('.real').style.width=(a/mx*100)+'%';
+    row.querySelector('.mH').textContent=n*d.H;
+    row.querySelector('.mL').textContent=ceil;
+    row.querySelector('.mA').textContent=a.toFixed(1);
+  });
+}
+function buildDOM(){
+  var B=document.getElementById('boxes'),R=document.getElementById('bars'),C=document.getElementById('cards');
+  MOLS.forEach(function(d){
+    B.insertAdjacentHTML('beforeend','<article class="bx"><div class="panel-top"><h3 style="font-size:26px">'+d.label+'</h3><div class="chips"><span class="chip h">'+d.H+' H</span><span class="chip l">'+d.LP+' LP</span></div></div><canvas id="bx-'+d.key+'" role="img" aria-label="Box of '+d.plain+' molecules moving and forming hydrogen bonds"></canvas>'+
+      '<div class="big"><span class="num" id="bn-'+d.key+'">–</span><span class="per" id="bp-'+d.key+'"></span></div><p class="note" style="margin-top:-6px">hydrogen bonds, average</p>'+
+      '<dl class="kv"><dt>Bonds right now</dt><dd id="bc-'+d.key+'">–</dd><dt>Ceiling</dt><dd id="bm-'+d.key+'">–</dd></dl></article>');
+    R.insertAdjacentHTML('beforeend','<div class="brow" id="b-'+d.key+'"><div class="lab">'+d.label+'</div><div class="track"><div class="ghost"></div><div class="real"></div><div class="tick"></div></div><div class="bmeta"><span>If every H bonded: <b class="mH"></b></span><span>Ceiling: <b class="mL"></b></span><span>In the box: <b class="mA"></b></span></div></div>');
+    var d1=(d.en-HEN),per=Math.min(d.H,d.LP);
+    C.insertAdjacentHTML('beforeend','<article class="card"><div class="rank">'+per+' bond'+(per>1?'s':'')+' per molecule at most</div><h3>'+d.label+'</h3><div class="bond"><span>'+d.atom+'<sup>δ&minus;</sup></span><span>&ndash;</span><span class="dp">H<sup>δ+</sup></span><span style="color:var(--hb);font-weight:600">&middot;&middot;&middot;</span><span class="dm">:'+d.atom+'<sup>δ&minus;</sup></span></div><div class="fine" style="margin-top:-6px">δ+ H is pulled toward the lone pair on the next molecule</div><div class="gauge"><div class="gt"><span>ΔEN of '+d.atom+'&ndash;H</span><b>'+d1.toFixed(2)+'</b></div><div class="gtrack"><div class="gfill" style="width:'+(d1/2*100)+'%"></div></div><div class="gt"><span>Typical H bond energy</span><b>~'+d.E+' kJ/mol</b></div></div><div><div class="fine" style="margin-bottom:2px">Boiling point</div><div class="bp">'+d.bp+' °C</div></div></article>');
+  });
+}
+function loop(){
+  if(running){
+    var ph=frames%KF;
+    MOLS.forEach(function(d){
+      var S=sims[d.key];
+      if(ph===0){
+        S.px.set(S.x);S.py.set(S.y);S.pth.set(S.th);
+        sweepSys(S,TT,5,.4);sweepSys(S,TT,5,.4);
+        var c=refresh(S);avg[d.key]+=(c-avg[d.key])*.08;
+      }
+      var t=ph/KF,e=t*t*(3-2*t);
+      for(var i=0;i<S.N;i++){S.dx[i]=S.px[i]+(S.x[i]-S.px[i])*e;S.dy[i]=S.py[i]+(S.y[i]-S.py[i])*e;S.dth[i]=S.pth[i]+(S.th[i]-S.pth[i])*e}
+    });
+    frames++;draw();if(frames%6===0)readout();
+  }
+  requestAnimationFrame(loop);
+}
+document.getElementById('pause').addEventListener('click',function(){running=!running;this.textContent=running?'Pause':'Resume'});
+document.getElementById('reset').addEventListener('click',resetSims);
+document.getElementById('count').addEventListener('input',function(){NM=NS[+this.value];document.getElementById('countOut').textContent=NM;resetSims()});
+document.getElementById('large').addEventListener('change',function(){document.getElementById('boxes').classList.toggle('large',this.checked);draw()});
+buildLook();buildDOM();resetSims();
+var TABS=['look','box','tie'];
+function showTab(id,focus){
+  TABS.forEach(function(k){
+    var on=k===id,t=document.getElementById('t-'+k);
+    document.getElementById('p-'+k).hidden=!on;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;
+    if(on&&focus)t.focus();
+  });
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+  draw();
+}
+TABS.forEach(function(k,i){
+  var t=document.getElementById('t-'+k);
+  t.addEventListener('click',function(){showTab(k)});
+  t.addEventListener('keydown',function(e){
+    var j=e.key==='ArrowRight'?(i+1)%3:e.key==='ArrowLeft'?(i+2)%3:-1;
+    if(j>=0){e.preventDefault();showTab(TABS[j],true)}
+  });
+});
+var h0=(location.hash||'').slice(1);if(TABS.indexOf(h0)>=0)showTab(h0);
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduce){MOLS.forEach(function(d){var S=sims[d.key];for(var i=0;i<500;i++)sweepSys(S,TT);avg[d.key]=refresh(S);initDisp(S)});running=false;document.getElementById('pause').textContent='Resume';draw();readout()}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+window.addEventListener('resize',draw);
+requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

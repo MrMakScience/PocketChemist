@@ -1,0 +1,871 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='4xmld1bryTW9SMZXPY3Hfw==' src='https://cac1dbba-deed-493e-ac11-b89df2227409.frame.claudeusercontent.com/3fw7TzOH0di93IeNLbqP8q7SHBXCE9MNukBm7Fxh6kLlGJ2dL_HKij29WyZQ4FdMsXkIlV-9IdP4Bg3zEVw8PYulsGrUBWGza9dAqO6dek5mckbyx4hg30Mp7o3Yr-KbnLJHI4q_KFS8FI2Uopi24SKgwQO3TVsnndZKdN4Jn6piwoX7ypyIXjXPnbSBW76rilDurcdfDkeoWnwgn8CB9Spmim8LgbmCeZeNlKd8SZhhcbAQGgdpJ2FZTsiBrHNpMXGBdrdzxlOcSVnKHX5-PmM2dsfi1OvePU2vwk9zxRPcNVXbhyp1epBDQMjUVvjDQZf8BFpCInmUh9cgYMq0oe55OceCWamnBOgchlztnqAcWcd5REX0JRPO1Kdwa-2CDPjOZRxPkA831NeOTUvWaAPEdvGFeF-GmyTSh4wOovegTDRVSjT7uhza1m46XVpLjNIZioWAzJ9dZiVCiegc5Sk8pk2t6rqSMx3y9WZ_9zXcGaJ2Lf4iL8mMqxbt7fq2kZdcN8OiWKSH9PFqwz7xQEk_2oxKpG6r0LwW_2BvbhSN0zDMz74LeHqoA48kzly2Ultp453Oitjvd8wxWkfC1Ee-ChFvzecKSvRd-WyrMLUJTwwaDT2LV9rU-ebAiDa3PxUFIWJDj9uAZ_hY0-tH6a1f2AGA92sGoAMwDKce0YI9UmheLD6tIikPKFRp-rf3FQDyj8LaSNEeN0sMH6xzVA'></script></head><body>
+<title>Intermolecular Forces Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+/* Layout: sticky force-strength bar on top, three lab tabs below; each lab = macro view beside molecular view, then readout, results and explanation. */
+:root{
+  --bg:#edf3f4; --panel:#ffffff; --panel2:#e2ecee; --line:#c3d3d7;
+  --fg:#12262c; --muted:#4d6870;
+  --accent:#0d7684; --accent-ink:#ffffff;
+  --liquid:#9cc7d4; --liquid-deep:#6fa6b8; --glass:#7e98a0;
+  --mol:#5b646a; --mol-hi:#2c3338;
+  --force:#d63f2a; --warm:#c9801a; --cold:#2c78c9; --ok:#1c8a55; --bad:#c23b2e;
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'Source Sans 3','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c181c; --panel:#13262c; --panel2:#1a323a; --line:#2a444d;
+  --fg:#e3eff1; --muted:#9bb5bc;
+  --accent:#4cc3d3; --accent-ink:#06242a;
+  --liquid:#2f6577; --liquid-deep:#235163; --glass:#6a8a94;
+  --mol:#b4c0c6; --mol-hi:#e6eef1;
+  --force:#ff6a52; --warm:#f0a83c; --cold:#6cb0f5; --ok:#4cc98a; --bad:#ff7a6b;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c181c; --panel:#13262c; --panel2:#1a323a; --line:#2a444d;
+  --fg:#e3eff1; --muted:#9bb5bc;
+  --accent:#4cc3d3; --accent-ink:#06242a;
+  --liquid:#2f6577; --liquid-deep:#235163; --glass:#6a8a94;
+  --mol:#b4c0c6; --mol-hi:#e6eef1;
+  --force:#ff6a52; --warm:#f0a83c; --cold:#6cb0f5; --ok:#4cc98a; --bad:#ff7a6b;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1080px;margin-inline:auto}
+header.top{padding-block:28px 14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,4.5vw,2.5rem);line-height:1.1;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+header.top p{margin:0;color:var(--muted);max-width:62ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 18px;align-items:center;box-shadow:0 6px 18px -12px rgba(0,0,0,.35)}
+.bar .lbl{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.bar .row{display:flex;gap:12px;align-items:center;min-width:0}
+.bar input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+.imfval{font-family:var(--mono);font-weight:500;min-width:4.2ch;text-align:right}
+.ends{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+button,select{font:inherit}
+.chip{border:1px solid var(--line);background:var(--panel2);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.88rem}
+.chip:hover{border-color:var(--accent)}
+.chip:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sliderbox{min-width:0}
+@media (max-width:640px){.bar{grid-template-columns:minmax(0,1fr);position:static}}
+nav.tabs{display:flex;gap:4px;margin-block:22px 0;border-bottom:2px solid var(--line);overflow-x:auto}
+nav.tabs button{background:none;border:0;color:var(--muted);padding:10px 16px;cursor:pointer;font-family:var(--display);font-weight:600;font-size:1.05rem;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+section.lab{display:none;padding-block:20px 0}
+section.lab.on{display:block}
+h2{font-family:var(--display);font-size:1.45rem;margin:0 0 4px;text-wrap:balance}
+.q{margin:0 0 16px;color:var(--muted);max-width:70ch}
+.views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.views{grid-template-columns:minmax(0,1fr)}}
+.view{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.view h3{margin:0;padding:8px 12px;font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px}
+.view canvas{display:block;width:100%;aspect-ratio:4/3.2;max-width:100%}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-block:14px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:var(--panel2);color:var(--fg);border:1px solid var(--line)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+label.tg{display:flex;gap:6px;align-items:center;font-size:.92rem;cursor:pointer}
+.read{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:6px 26px;align-items:baseline;min-height:60px}
+.read .big{font-family:var(--mono);font-size:1.5rem;font-weight:500}
+.read .msg{flex:1 1 260px;min-width:0}
+.read .ok{color:var(--ok)}.read .bad{color:var(--bad)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+@media (max-width:760px){.cols{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.card h3{font-family:var(--display);font-size:1.08rem;margin:0 0 6px}
+.card p{margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+.card ol,.card ul{margin:0;padding-left:1.2em}
+.card li{margin-bottom:6px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:5px 8px;text-align:left;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.plot{display:block;width:100%;aspect-ratio:16/9;max-width:100%}
+.hint{font-size:.88rem;color:var(--muted)}
+.swatch{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-1px;margin-right:4px}
+.note{margin-top:26px;font-size:.88rem;color:var(--muted);max-width:75ch}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+</style>
+<div class="wrap">
+<header class="top">
+  <h1>Intermolecular Forces Lab</h1>
+  <p>Turn one dial, the strength of the attraction between molecules, and watch three properties of a liquid respond: surface tension, viscosity and volatility.</p>
+</header>
+
+<div class="bar" role="group" aria-label="Intermolecular force strength">
+  <div class="sliderbox">
+    <div class="lbl">Strength of intermolecular attraction in the model liquid</div>
+    <div class="row">
+      <input type="range" id="imf" min="1" max="10" step="1" value="5" aria-label="Intermolecular force strength">
+      <span class="imfval" id="imfVal">5 / 10</span>
+    </div>
+    <div class="ends"><span>weaker</span><span>stronger</span></div>
+  </div>
+  <div class="presets" aria-label="Example liquids">
+    <button class="chip" data-s="2" type="button">Weak: alkane-like</button>
+    <button class="chip" data-s="5" type="button">Medium: alcohol-like</button>
+    <button class="chip" data-s="9" type="button">Strong: many H-bonds</button>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist" aria-label="Experiments">
+  <button role="tab" id="t-st" data-tab="st" aria-selected="true" type="button">Surface tension</button>
+  <button role="tab" id="t-vi" data-tab="vi" aria-selected="false" type="button">Viscosity</button>
+  <button role="tab" id="t-vo" data-tab="vo" aria-selected="false" type="button">Volatility</button>
+</nav>
+
+<!-- ============ SURFACE TENSION ============ -->
+<section class="lab on" id="lab-st" role="tabpanel" aria-labelledby="t-st">
+  <h2>How heavy a load can the surface carry?</h2>
+  <p class="q">Add weights, one unit at a time, onto the liquid surface. The surface holds until the load is too much, then the weight breaks through and sinks. Change the force strength and repeat.</p>
+  <div class="views">
+    <div class="view"><h3><span>What you see</span><span>beaker</span></h3><canvas id="stMacro"></canvas></div>
+    <div class="view"><h3><span>Molecular view</span><span>zoomed in</span></h3><canvas id="stMol"></canvas></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="stAdd" type="button">Add 1 weight</button>
+    <button class="btn alt" id="stReset" type="button">Start again</button>
+    <label class="tg"><input type="checkbox" id="stForces" checked=""> Show pulls on the surface</label>
+    <label class="tg"><input type="checkbox" id="stSprings"> Show attractions as trampoline springs</label>
+  </div>
+  <div class="read" aria-live="polite">
+    <div><div class="hint">Load on surface</div><div class="big" id="stLoad">0 units</div></div>
+    <div class="msg" id="stMsg">Press “Add 1 weight” to start.</div>
+    <button class="btn alt" id="stRec" type="button" disabled="">Record result</button>
+  </div>
+  <div class="cols">
+    <div class="card">
+      <h3>Look at the surface layer</h3>
+      <ol>
+        <li>Each molecule on the surface is attracted to the molecules <b>beside it</b>, so it is pulled sideways along the surface (red arrows).</li>
+        <li>Joined side to side like this, the top layer of molecules acts like a <b>stretched sheet</b>.</li>
+        <li>A weight pushes the sheet down. The stretched sheet pulls back <b>up and out</b> at the edges of the weight (blue arrows), just as a trampoline mat holds up a person.</li>
+        <li>Stronger attraction means a stiffer, tighter sheet, so it can carry a heavier weight before it tears.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>The trampoline picture</h3>
+      <p>Tick “trampoline springs”. Each sideways attraction between neighbouring surface molecules is a spring in the mat. Stiffer springs mean the mat sags less under the same person, and it takes a heavier person to tear it.</p>
+      <p><b>Try this:</b></p>
+      <ol>
+        <li>Set the force strength to 2 and add weights until the surface breaks. Note the load.</li>
+        <li>Set it to 9 and repeat. Watch how the springs and the sag change.</li>
+        <li>Before you start, predict the load limit at strength 5. Then check.</li>
+      </ol>
+      <p class="hint">Weights here are idealised “mass units”. A real paper clip floats on water for the same reason, but only if placed gently.</p>
+    </div>
+    <div class="card"><h3>Your results</h3><div class="tablewrap"><table id="stTable"></table></div></div>
+    <div class="card"><h3>Pattern</h3><canvas class="plot" id="stPlot"></canvas></div>
+  </div>
+</section>
+
+<!-- ============ VISCOSITY ============ -->
+<section class="lab" id="lab-vi" role="tabpanel" aria-labelledby="t-vi">
+  <h2>How long does a metal ball take to sink?</h2>
+  <p class="q">Release a steel ball at the top of a column of liquid and time its fall to the bottom. Compare liquids with different force strengths.</p>
+  <div class="views">
+    <div class="view"><h3><span>What you see</span><span>measuring cylinder</span></h3><canvas id="viMacro"></canvas></div>
+    <div class="view"><h3><span>Molecular view</span><span>zoomed in</span></h3><canvas id="viMol"></canvas></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="viDrop" type="button">Release ball</button>
+    <button class="btn alt" id="viReset" type="button">Reset</button>
+    <label class="tg"><input type="checkbox" id="viBonds" checked=""> Show attractions between molecules</label>
+    <label class="tg">Speed <select id="viSpeed"><option value="1">Real time</option><option value="0.25" selected="">Slow motion ×4</option><option value="0.1">Slow motion ×10</option></select></label>
+  </div>
+  <div class="read" aria-live="polite">
+    <div><div class="hint">Stopwatch</div><div class="big" id="viTime">0.00 s</div></div>
+    <div class="msg" id="viMsg">Press “Release ball” to start.</div>
+    <button class="btn alt" id="viRec" type="button" disabled="">Record result</button>
+  </div>
+  <div class="cols">
+    <div class="card">
+      <h3>Look inside the liquid</h3>
+      <ol>
+        <li>Molecules in a liquid are close together and constantly attracted to their neighbours. They can slide past each other, but they hold on as they go.</li>
+        <li>For the ball to move down, molecules in front must <b>move aside</b> and flow round to fill the space behind. Each molecule has to pull free from some of its neighbours.</li>
+        <li>The stronger the attraction, the more each molecule resists being pulled away, so the liquid flows more slowly. That resistance to flow is <b>viscosity</b>.</li>
+        <li>Watch the molecules near the ball: with strong forces they drag and stretch together, and the ball is held back.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Think about it</h3>
+      <ul>
+        <li>What would the fall time be if the molecules did not attract each other at all?</li>
+        <li>The ball reaches a steady speed quickly. What two forces are balanced at that point?</li>
+        <li>Real liquids also differ in molecular size and shape. What else could slow the ball besides attraction strength?</li>
+      </ul>
+    </div>
+    <div class="card"><h3>Your results</h3><div class="tablewrap"><table id="viTable"></table></div></div>
+    <div class="card"><h3>Pattern</h3><canvas class="plot" id="viPlot"></canvas></div>
+  </div>
+</section>
+
+<!-- ============ VOLATILITY ============ -->
+<section class="lab" id="lab-vo" role="tabpanel" aria-labelledby="t-vo">
+  <h2>How far does the temperature fall in 60 seconds?</h2>
+  <p class="q">A temperature probe is wrapped in paper soaked in the liquid. As the liquid evaporates, how much does the probe cool in a fixed time? This follows Experiment 8 in <i>Investigating Chemistry through Inquiry</i>.</p>
+  <div class="views">
+    <div class="view"><h3><span>What you see</span><span>probe wrapped in soaked paper</span></h3><canvas id="voMacro"></canvas></div>
+    <div class="view"><h3><span>Molecular view</span><span>zoomed in</span></h3><canvas id="voMol"></canvas></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="voStart" type="button">Start 60 s run</button>
+    <button class="btn alt" id="voReset" type="button">Reset probe</button>
+    <button class="btn alt" id="voClear" type="button">Clear chart</button>
+    <label class="tg">Speed
+      <select id="voSpeed"><option value="1">1×</option><option value="4" selected="">4×</option><option value="12">12×</option></select>
+    </label>
+  </div>
+  <div class="read" aria-live="polite">
+    <div><div class="hint">Probe temperature</div><div class="big" id="voTemp">24.0 °C</div></div>
+    <div><div class="hint">Time</div><div class="big" id="voClock">0 s</div></div>
+    <div class="msg" id="voMsg">Press “Start 60 s run” to begin.</div>
+    <button class="btn alt" id="voRec" type="button" disabled="">Record result</button>
+  </div>
+  <div class="cols">
+    <div class="card">
+      <h3>Energy of the molecules</h3>
+      <canvas class="plot" id="voHist"></canvas>
+      <p class="hint">Molecules in a liquid have a spread of energies. To escape into the vapour, a molecule needs enough energy to break away from its neighbours (the dashed line). Only the shaded tail can do that.</p>
+    </div>
+    <div class="card">
+      <h3>Look inside the liquid</h3>
+      <ol>
+        <li>Weaker attraction means a lower escape threshold, so a bigger share of the molecules can leave. The liquid is more <b>volatile</b>.</li>
+        <li>The molecules that leave are the fastest ones, so the energy they take with them is lost from the liquid.</li>
+        <li>The molecules left behind have a lower average energy, which is a lower temperature. Evaporation is <b>endothermic</b>.</li>
+        <li>More volatile liquid means faster evaporation and a bigger temperature drop. Molecule colour shows energy: red is high, blue is low.</li>
+      </ol>
+    </div>
+    <div class="card"><h3>Temperature against time</h3><canvas class="plot" id="voChart"></canvas><p class="hint" id="voLegend"></p></div>
+    <div class="card"><h3>Your results</h3><div class="tablewrap"><table id="voTable"></table></div><canvas class="plot" id="voPlot" style="margin-top:10px"></canvas></div>
+  </div>
+</section>
+
+<p class="note">This is a model that changes only the strength of attraction between identical molecules. Real liquids also differ in molecular size, shape and the type of force, and the numbers shown are illustrative, not measured data.</p>
+</div>
+<script>
+/* ---------- Physical models (pure functions, no DOM) ---------- */
+const Model = {
+  // Surface tension: chain of surface molecules joined by springs.
+  chainN: 18,
+  chainK: function (s) { return 14 * s; },
+  chainG: 1.8,
+  breakStretch: 0.15,
+  makeChain: function (s) {
+    const N = this.chainN, pts = [];
+    for (let i = 0; i <= N; i++) pts.push({ x: i, y: 0, vy: 0 });
+    return { s: s, pts: pts, broken: false, load: 0 };
+  },
+  chainStep: function (c, load, dt) {
+    const N = this.chainN, k = this.chainK(c.s), p = c.pts;
+    const f = new Array(N + 1).fill(0);
+    let maxStretch = 0;
+    for (let i = 0; i < N; i++) {
+      const dx = p[i + 1].x - p[i].x, dy = p[i + 1].y - p[i].y;
+      const len = Math.hypot(dx, dy), st = len - 1;
+      if (st > maxStretch) maxStretch = st;
+      const F = k * st, fy = F * dy / len;
+      f[i] += fy; f[i + 1] -= fy;
+    }
+    const mid = N / 2, per = load * this.chainG / 8;
+    for (let j = mid - 3; j <= mid + 4; j++) f[j] += per;
+    for (let i = 1; i < N; i++) {
+      p[i].vy += (f[i] - 3 * p[i].vy) * dt;
+      p[i].y += p[i].vy * dt;
+    }
+    return maxStretch;
+  },
+  // returns {held, maxY} after settling
+  chainTest: function (s, load) {
+    const c = this.makeChain(s);
+    let maxS = 0;
+    for (let n = 0; n < 40000; n++) {
+      const ms = this.chainStep(c, load, 0.005);
+      if (ms > maxS) maxS = ms;
+      if (ms > this.breakStretch) return { held: false, t: n * 0.005 };
+    }
+    return { held: true, maxY: c.pts[this.chainN / 2].y, maxS: maxS };
+  },
+  // Viscosity: time (s) for the sphere to reach the bottom
+  fallTime: function (s) { return 0.6 * Math.pow(1.28, s - 1); },
+  // Volatility: fraction of molecules with energy above the escape threshold
+  escapeEnergy: function (s) { return 1.2 + 0.35 * s; },
+  tail: function (Et, kT) { const x = Et / kT; return (1 + x) * Math.exp(-x); },
+  Tamb: 24,
+  coolC: 1.6,
+  heatH: 0.03,
+  kT: function (T) { return Math.max(0.3, 1 + (T - this.Tamb) / 60); },
+  dTdt: function (s, T) {
+    const kT = this.kT(T);
+    return -this.coolC * this.tail(this.escapeEnergy(s), kT) + this.heatH * (this.Tamb - T);
+  }
+};
+/* ---------- Shared helpers ---------- */
+const $ = (id) => document.getElementById(id);
+const S = { s: 5 };
+const COL = {};
+function readColors() {
+  const cs = getComputedStyle(document.documentElement);
+  ['bg','panel','panel2','line','fg','muted','accent','liquid','liquid-deep','glass','mol','mol-hi','force','warm','cold','ok','bad']
+    .forEach((k) => { COL[k] = cs.getPropertyValue('--' + k).trim(); });
+}
+function fit(cv) {
+  const r = cv.getBoundingClientRect();
+  if (r.width < 2) return null;
+  const d = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.round(r.width), h = Math.round(r.height);
+  if (cv._w !== w || cv._h !== h || cv._d !== d) { cv.width = w * d; cv.height = h * d; cv._w = w; cv._h = h; cv._d = d; }
+  const g = cv.getContext('2d');
+  g.setTransform(d, 0, 0, d, 0, 0);
+  g.clearRect(0, 0, w, h);
+  return { g, w, h };
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+// deterministic pseudo-random for stable molecule jitter
+function rnd(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+function arrow(g, x1, y1, x2, y2, color, width) {
+  const a = Math.atan2(y2 - y1, x2 - x1), hl = 6 + width * 1.2;
+  g.strokeStyle = color; g.fillStyle = color; g.lineWidth = width; g.lineCap = 'round';
+  g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2 - Math.cos(a) * hl * 0.6, y2 - Math.sin(a) * hl * 0.6); g.stroke();
+  g.beginPath(); g.moveTo(x2, y2);
+  g.lineTo(x2 - hl * Math.cos(a - 0.45), y2 - hl * Math.sin(a - 0.45));
+  g.lineTo(x2 - hl * Math.cos(a + 0.45), y2 - hl * Math.sin(a + 0.45));
+  g.closePath(); g.fill();
+}
+function ball(g, x, y, r, base, hi) {
+  const gr = g.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
+  gr.addColorStop(0, hi || COL['mol-hi']); gr.addColorStop(1, base || COL.mol);
+  g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+}
+function label(g, text, x, y, color, align, size, bg) {
+  g.textAlign = align || 'left'; g.textBaseline = 'middle';
+  g.font = '500 ' + (size || 12) + 'px "IBM Plex Mono", ui-monospace, monospace';
+  if (bg) {
+    const tw = g.measureText(text).width, sz = size || 12, x0 = align === 'right' ? x - tw : align === 'center' ? x - tw / 2 : x;
+    g.fillStyle = COL.panel; g.globalAlpha = .88; g.fillRect(x0 - 4, y - sz * 0.8, tw + 8, sz * 1.6); g.globalAlpha = 1;
+  }
+  g.fillStyle = color || COL.fg;
+  g.fillText(text, x, y);
+}
+
+/* ---------- Results table + scatter plot ---------- */
+function Results(tableId, plotId, o) {
+  const rows = [];
+  const tbl = $(tableId), plot = $(plotId);
+  function render() {
+    rows.sort((a, b) => a.s - b.s);
+    tbl.innerHTML = '<thead><tr><th>Force strength</th><th>' + o.head + '</th></tr></thead><tbody>' +
+      (rows.length ? rows.map((r) => '<tr><td>' + r.s + ' / 10</td><td>' + r.v.toFixed(o.dec) + ' ' + o.unit + '</td></tr>').join('')
+        : '<tr><td colspan="2" class="hint">No results yet. Run the experiment, then press Record result.</td></tr>') + '</tbody>';
+    draw();
+  }
+  function draw() {
+    const f = fit(plot); if (!f) return;
+    const { g, w, h } = f, L = 46, R = 12, T = 12, B = 34;
+    const ymax = o.ymax || Math.max(1, ...rows.map((r) => r.v)) * 1.2;
+    const X = (s) => L + (s - 1) / 9 * (w - L - R), Y = (v) => h - B - v / ymax * (h - B - T);
+    g.strokeStyle = COL.line; g.fillStyle = COL.muted; g.lineWidth = 1; g.font = '11px "IBM Plex Mono", monospace';
+    g.textAlign = 'right'; g.textBaseline = 'middle';
+    for (let i = 0; i <= 4; i++) { const v = ymax * i / 4, y = Y(v); g.beginPath(); g.moveTo(L, y); g.lineTo(w - R, y); g.stroke(); g.fillText(v.toFixed(v < 10 ? 1 : 0), L - 6, y); }
+    g.textAlign = 'center'; g.textBaseline = 'top';
+    for (let s = 1; s <= 10; s += 1) g.fillText(s, X(s), h - B + 6);
+    g.fillText('Force strength', (L + w - R) / 2, h - 14);
+    g.save(); g.translate(11, (T + h - B) / 2); g.rotate(-Math.PI / 2); g.textBaseline = 'middle'; g.fillText(o.axis, 0, 0); g.restore();
+    if (rows.length > 1) { g.strokeStyle = COL.accent; g.lineWidth = 2; g.beginPath(); rows.forEach((r, i) => { i ? g.lineTo(X(r.s), Y(r.v)) : g.moveTo(X(r.s), Y(r.v)); }); g.stroke(); }
+    rows.forEach((r) => { g.fillStyle = COL.accent; g.beginPath(); g.arc(X(r.s), Y(r.v), 5, 0, 7); g.fill(); });
+  }
+  return {
+    add(s, v) { const i = rows.findIndex((r) => r.s === s); if (i >= 0) rows[i].v = v; else rows.push({ s, v }); render(); },
+    render
+  };
+}
+/* ---------- Lab 1: surface tension ---------- */
+const stRes = Results('stTable', 'stPlot', { head: 'Largest load held', unit: 'units', dec: 0, axis: 'Largest load held (units)', ymax: 10 });
+const ST = { chain: null, w: 0, phase: 'idle', lift: 0, t: 0, sink: 0, sinkV: 0, held: 0, snap: 0 };
+function stUI() {
+  const busy = ST.phase === 'placing' || ST.phase === 'loaded';
+  $('stAdd').disabled = busy || ST.phase === 'broken';
+  $('stRec').disabled = ST.phase !== 'broken';
+  $('stLoad').textContent = ST.w + (ST.w === 1 ? ' unit' : ' units');
+  let m = 'Press “Add 1 weight” to start.', cls = '';
+  if (ST.phase === 'placing') m = 'Placing weight…';
+  else if (ST.phase === 'loaded') m = 'Surface is stretching…';
+  else if (ST.phase === 'held') { m = 'The surface holds ' + ST.held + (ST.held === 1 ? ' unit' : ' units') + '. Add another.'; cls = 'ok'; }
+  else if (ST.phase === 'broken') {
+    m = 'Surface broke at ' + ST.w + ' units. Largest load held: ' + ST.held + (ST.held === 1 ? ' unit.' : ' units.') + ' Record it, then change the force strength.'; cls = 'bad';
+  }
+  const el = $('stMsg'); el.textContent = m; el.className = 'msg ' + cls;
+}
+function stReset() { ST.chain = Model.makeChain(S.s); ST.w = 0; ST.phase = 'idle'; ST.lift = 0; ST.t = 0; ST.sink = 0; ST.sinkV = 0; ST.held = 0; ST.snap = 0; stUI(); }
+function stFrame(dt) {
+  const c = ST.chain, b = Model.breakStretch;
+  let load = 0;
+  if (ST.phase === 'placing') {
+    ST.lift = Math.max(0, ST.lift - dt * 9); load = ST.w - 1;
+    if (ST.lift === 0) { ST.phase = 'loaded'; ST.t = 0; stUI(); }
+  } else if (ST.phase === 'loaded' || ST.phase === 'held') load = ST.w;
+  if (ST.phase === 'broken') {
+    for (let k = 0; k < 20; k++) Model.chainStep(c, 0, 0.005);
+    ST.sinkV += dt * 6; ST.sink += ST.sinkV * dt; ST.snap = Math.max(0, ST.snap - dt);
+    return;
+  }
+  let maxV = 0, broke = false;
+  for (let k = 0; k < 20; k++) { if (Model.chainStep(c, load, 0.005) > b) { broke = true; break; } }
+  if (broke && ST.phase === 'loaded') { ST.phase = 'broken'; ST.sink = 0; ST.sinkV = 0; ST.snap = 1.2; stUI(); return; }
+  if (ST.phase === 'loaded') {
+    ST.t += 0.1;
+    for (const p of c.pts) maxV = Math.max(maxV, Math.abs(p.vy));
+    if (ST.t > 2.4 && (maxV < 0.03 || ST.t > 6)) { ST.phase = 'held'; ST.held = ST.w; stUI(); }
+  }
+}
+function stSurfY(i) { return ST.chain.pts[clamp(i, 0, Model.chainN)].y; }
+function stDrawMacro() {
+  const f = fit($('stMacro')); if (!f) return; const { g, w, h } = f;
+  const x0 = w * 0.1, x1 = w * 0.9, top = h * 0.2, bot = h * 0.93, yS = h * 0.5, N = Model.chainN, u = 0;
+  const span = w * 0.2, cxm = w * 0.5, sx = cxm - span / 2;
+  const px = (i) => sx + i / N * span, py = (i) => yS + stSurfY(i) * u;
+  // liquid: flat everywhere except a small dimple under the weight
+  g.fillStyle = COL.liquid; g.beginPath(); g.moveTo(x0, bot); g.lineTo(x0, yS); g.lineTo(px(0), py(0));
+  for (let i = 1; i <= N; i++) g.lineTo(px(i), py(i));
+  g.lineTo(x1, yS); g.lineTo(x1, bot); g.closePath(); g.fill();
+  g.strokeStyle = COL['liquid-deep']; g.lineWidth = 2.5; g.beginPath(); g.moveTo(x0, yS); g.lineTo(px(0), py(0));
+  for (let i = 1; i <= N; i++) g.lineTo(px(i), py(i));
+  g.lineTo(x1, yS); g.stroke();
+  // beaker
+  g.strokeStyle = COL.glass; g.lineWidth = 3; g.lineJoin = 'round';
+  g.beginPath(); g.moveTo(x0 - 4, top); g.lineTo(x0 - 4, bot + 2); g.lineTo(x1 + 4, bot + 2); g.lineTo(x1 + 4, top); g.stroke();
+  // one chunky block; it gets taller as units are added
+  const mid = N / 2, bw = w * 0.09, bh = h * (0.06 + 0.011 * ST.w);
+  if (ST.w > 0) {
+    const sinking = ST.phase === 'broken';
+    let y = py(mid) - bh;
+    if (ST.phase === 'placing') y -= ST.lift * h * 0.03;
+    if (sinking) y = Math.min(y + ST.sink * h * 0.05, bot - bh - 1);
+    const x = px(mid) + 0.5 * (px(1) - px(0)) - bw / 2;
+    g.fillStyle = COL.mol; g.fillRect(x, y, bw, bh);
+    g.fillStyle = COL['mol-hi']; g.globalAlpha = .3; g.fillRect(x, y, bw, 4); g.globalAlpha = 1;
+    label(g, String(ST.w), x + bw / 2, y + bh / 2, COL.bg, 'center', 13);
+  }
+  // marker for the zoomed region
+  g.strokeStyle = COL.accent; g.lineWidth = 1.5; g.setLineDash([5, 4]);
+  g.strokeRect(px(0) - 6, yS - h * 0.2, span + 12, h * 0.34); g.setLineDash([]);
+  label(g, 'zoomed in at right', cxm, yS + h * 0.2, COL.accent, 'center', 11);
+  label(g, 'the dent is too small to see by eye', cxm, yS + h * 0.26, COL.muted, 'center', 11);
+  label(g, 'surface level', x1 - 4, yS - 14, COL.muted, 'right', 11);
+}
+function stDrawMol() {
+  const f = fit($('stMol')); if (!f) return; const { g, w, h } = f;
+  const N = Model.chainN, s = S.s, t = performance.now() / 1000;
+  const padX = w * 0.04, dx = (w - 2 * padX) / N, r = dx * 0.31, dy = dx * 0.87, yS = h * 0.42, u = dx * 0.6;
+  const rows = Math.floor((h - yS - r) / dy);
+  const sag = (xp) => { const fi = clamp((xp - padX) / dx, 0, N), i0 = Math.floor(fi), i1 = Math.min(N, i0 + 1); return lerp(stSurfY(i0), stSurfY(i1), fi - i0) * u; };
+  const showSprings = $('stSprings').checked, showF = $('stForces').checked;
+  const pos = [];
+  for (let j = 0; j <= rows; j++) {
+    const row = [], off = j % 2 ? dx / 2 : 0, cnt = j % 2 ? N : N + 1;
+    for (let i = 0; i < cnt; i++) {
+      const xp = padX + i * dx + off, id = j * 40 + i;
+      const decay = Math.pow(0.82, j);
+      const jx = (rnd(id) - .5) * 2 + Math.sin(t * 5 + id) * 1.1, jy = (rnd(id + 99) - .5) * 2 + Math.cos(t * 4.3 + id) * 1.1;
+      row.push({ x: xp + jx, y: (j === 0 ? yS + stSurfY(i) * u : yS + j * dy + sag(xp) * decay) + jy });
+    }
+    pos.push(row);
+  }
+  // liquid body
+  g.fillStyle = COL.liquid; g.globalAlpha = .55; g.beginPath(); g.moveTo(0, h);
+  g.lineTo(0, pos[0][0].y); pos[0].forEach((p) => g.lineTo(p.x, p.y)); g.lineTo(w, pos[0][N].y); g.lineTo(w, h); g.closePath(); g.fill(); g.globalAlpha = 1;
+  // bonds
+  const bw = 0.8 + s * 0.38;
+  g.lineCap = 'round';
+  const bond = (a, b, spring) => {
+    const len = Math.hypot(b.x - a.x, b.y - a.y) / dx, st = Math.max(0, len - 1);
+    g.strokeStyle = st > 0.1 ? COL.warm : COL.mol; g.globalAlpha = clamp(0.3 + s * 0.06, 0.3, 0.9);
+    g.lineWidth = spring ? bw * 0.8 : bw;
+    if (!spring) { g.beginPath(); g.moveTo(a.x, a.y); g.lineTo(b.x, b.y); g.stroke(); }
+    else {
+      const ang = Math.atan2(b.y - a.y, b.x - a.x), L = Math.hypot(b.x - a.x, b.y - a.y), segs = 7, amp = 6 + (10 - s) * 0.1;
+      g.beginPath(); g.moveTo(a.x, a.y);
+      for (let k = 1; k < segs; k++) { const d = L * k / segs, sgn = k % 2 ? 1 : -1; g.lineTo(a.x + Math.cos(ang) * d - Math.sin(ang) * amp * sgn, a.y + Math.sin(ang) * d + Math.cos(ang) * amp * sgn); }
+      g.lineTo(b.x, b.y); g.stroke();
+    }
+    g.globalAlpha = 1;
+  };
+  for (let j = 0; j <= rows; j++) {
+    const row = pos[j];
+    for (let i = 0; i + 1 < row.length; i++) bond(row[i], row[i + 1], showSprings && j === 0);
+    if (j < rows) {
+      const nx = pos[j + 1];
+      for (let i = 0; i < row.length; i++) {
+        const cands = j % 2 ? [i, i + 1] : [i - 1, i];
+        for (const k of cands) if (k >= 0 && k < nx.length) bond(row[i], nx[k], false);
+      }
+    }
+  }
+  // molecules
+  for (let j = 0; j <= rows; j++) for (const p of pos[j]) ball(g, p.x, p.y, r, j === 0 ? COL.mol : COL.mol, COL['mol-hi']);
+  // weight pressing on the surface
+  if (ST.w > 0) {
+    // same width : height ratio as the block in the beaker view
+    const asp = 0.1125 / (0.06 + 0.011 * ST.w), contact = Math.max(pos[0][N / 2].y, pos[0][N / 2 + 1].y) - r;
+    let bwid = dx * 7.6, bhh = bwid / asp;
+    if (bhh > contact - 6) { const k = (contact - 6) / bhh; bwid *= k; bhh *= k; }
+    const cx = pos[0][N / 2].x + dx / 2, broken = ST.phase === 'broken';
+    let yb = contact - (ST.phase === 'placing' ? ST.lift * dx * 1.3 : 0) + (broken ? ST.sink * dx * 3 : 0);
+    if (yb - bhh < h) {
+      g.fillStyle = COL.fg; g.globalAlpha = .9; g.fillRect(cx - bwid / 2, yb - bhh, bwid, bhh); g.globalAlpha = 1;
+      label(g, ST.w + (ST.w === 1 ? ' unit' : ' units'), cx, yb - bhh / 2, COL.bg, 'center', 12);
+    }
+    if (broken) label(g, 'skin torn: the weight breaks through and sinks', w / 2, h * 0.07, COL.bad, 'center', 12, true);
+  }
+  // pull arrows: bulk vs surface molecule
+  if (showF) {
+    const th = 1.2 + s * 0.35, A = dx * 1.7, row = pos[0];
+    const dir = (i) => { const p = row[Math.max(0, i - 1)], q = row[Math.min(N, i + 1)], L = Math.hypot(q.x - p.x, q.y - p.y) || 1; return { x: (q.x - p.x) / L, y: (q.y - p.y) / L }; };
+    // sideways pulls along the surface
+    for (const i of [2, 5, N - 5, N - 2]) {
+      const d = dir(i), p = row[i];
+      arrow(g, p.x, p.y, p.x - d.x * A, p.y - d.y * A, COL.force, th);
+      arrow(g, p.x, p.y, p.x + d.x * A, p.y + d.y * A, COL.force, th);
+    }
+    label(g, 'sideways pulls', 8, row[2].y - dx * 2, COL.force, 'left', 11, true);
+    // the stretched surface pulls up and out at the edges of the weight
+    if (ST.w > 0 && ST.phase !== 'broken') {
+      const iL = N / 2 - 3, iR = N / 2 + 4, dL = dir(iL), dR = dir(iR);
+      arrow(g, row[iL].x, row[iL].y, row[iL].x - dL.x * dx * 2.4, row[iL].y - dL.y * dx * 2.4, COL.accent, th + 1.8);
+      arrow(g, row[iR].x, row[iR].y, row[iR].x + dR.x * dx * 2.4, row[iR].y + dR.y * dx * 2.4, COL.accent, th + 1.8);
+      label(g, 'pulls up and out', 8, row[iL].y + dx * 1.7, COL.accent, 'left', 11, true);
+      label(g, 'pulls up and out', w - 8, row[iR].y + dx * 1.7, COL.accent, 'right', 11, true);
+    }
+  }
+}
+$('stAdd').addEventListener('click', () => { if (ST.phase === 'broken') return; ST.w += 1; ST.phase = 'placing'; ST.lift = 3; stUI(); });
+$('stReset').addEventListener('click', stReset);
+$('stRec').addEventListener('click', () => { stRes.add(S.s, ST.held); });
+/* ---------- Lab 2: viscosity ---------- */
+const viRes = Results('viTable', 'viPlot', { head: 'Fall time', unit: 's', dec: 2, axis: 'Fall time (s)' });
+const VI = { phase: 'idle', p: 0, v: 0, t: 0, time: 0 };
+function viTotal() { return 1.6 * Model.fallTime(S.s); }
+function viScale() { return Number($('viSpeed').value); }
+// geometry of the cylinder view (shared by both views so they stay in proportion)
+function viGeom() {
+  const cv = $('viMacro'), w = cv.clientWidth, h = cv.clientHeight, br = w * 0.034, lvl = h * 0.16, bot = h * 0.93;
+  return { w, h, br, lvl, bot, cx: w * 0.5, cw: w * 0.26, top: h * 0.07, yStart: lvl - br - 8, y1: bot - br - 0.5 };
+}
+function viY(G) { return VI.phase === 'idle' ? G.yStart : lerp(G.yStart, G.y1, VI.p); }
+function viUI() {
+  $('viDrop').disabled = VI.phase === 'falling';
+  $('viRec').disabled = VI.phase !== 'done';
+  $('viTime').textContent = (VI.phase === 'done' ? VI.time : VI.t).toFixed(2) + ' s';
+  const el = $('viMsg'); el.className = 'msg';
+  el.textContent = VI.phase === 'idle' ? 'Press “Release ball” to start.' : VI.phase === 'falling' ? 'Ball is sinking…' : 'Ball reached the bottom. Record the time, then change the force strength and repeat.';
+}
+function viReset() { VI.phase = 'idle'; VI.p = 0; VI.v = 0; VI.t = 0; VI.time = 0; viUI(); }
+function viFrame(sdt) {
+  if (VI.phase !== 'falling') return;
+  const vt = 1 / (viTotal() - 0.12);
+  VI.v += (vt - VI.v) / 0.12 * sdt; VI.p += VI.v * sdt; VI.t += sdt;
+  if (VI.p >= 1) { VI.p = 1; VI.phase = 'done'; VI.time = VI.t; viUI(); }
+  else $('viTime').textContent = VI.t.toFixed(2) + ' s';
+}
+function viDrawMacro() {
+  const f = fit($('viMacro')); if (!f) return; const { g, w, h } = f;
+  const G = viGeom(), cx = G.cx, x0 = cx - G.cw / 2, x1 = cx + G.cw / 2, br = G.br;
+  g.fillStyle = COL.liquid; g.fillRect(x0, G.lvl, G.cw, G.bot - G.lvl);
+  g.strokeStyle = COL.glass; g.lineWidth = 3; g.lineJoin = 'round';
+  g.beginPath(); g.moveTo(x0 - 1.5, G.top); g.lineTo(x0 - 1.5, G.bot + 1.5); g.lineTo(x1 + 1.5, G.bot + 1.5); g.lineTo(x1 + 1.5, G.top); g.stroke();
+  g.strokeStyle = COL.muted; g.lineWidth = 1; g.setLineDash([4, 4]);
+  for (const y of [G.yStart + br, G.y1 + br]) { g.beginPath(); g.moveTo(x0 - 40, y); g.lineTo(x1 + 40, y); g.stroke(); }
+  g.setLineDash([]);
+  label(g, 'start', x0 - 44, G.yStart + br, COL.muted, 'right', 11); label(g, 'finish', x0 - 44, G.y1 + br, COL.muted, 'right', 11);
+  const yy = viY(G);
+  if (VI.phase !== 'idle') { g.strokeStyle = COL['liquid-deep']; g.lineWidth = 2; g.beginPath(); g.moveTo(cx, G.yStart); g.lineTo(cx, yy); g.stroke(); }
+  ball(g, cx, yy, br, COL.mol, '#ffffff');
+  const bwid = 2 * br / 0.4, bhei = bwid * 0.8;
+  g.strokeStyle = COL.accent; g.lineWidth = 1.5; g.setLineDash([4, 3]);
+  g.strokeRect(cx - bwid / 2, yy - bhei / 2, bwid, bhei); g.setLineDash([]);
+  label(g, 'zoomed in', x1 + 10, clamp(yy, 14, h - 10), COL.accent, 'left', 11);
+}
+const viMolecules = [];
+function viInit(w, h) {
+  viMolecules.length = 0;
+  const dx = w / 13, dy = dx * 0.87; let rows = Math.ceil(h / dy) + 3; if (rows % 2) rows++;
+  for (let j = 0; j < rows; j++) for (let i = -1; i < 15; i++) {
+    const hx = i * dx + (j % 2 ? dx / 2 : 0) + (rnd(j * 50 + i) - .5) * dx * 0.18, hy = (j + 0.5) * dy + (rnd(j * 50 + i + 7) - .5) * dx * 0.12;
+    viMolecules.push({ hx, hy, x: hx, y: hy, id: j * 50 + i, dhy: hy, ox: 0, oy: 0, skip: false });
+  }
+  viMolecules.dx = dx; viMolecules.w = w; viMolecules.h = h; viMolecules.P = rows * dy;
+}
+function viDrawMol(dt) {
+  const f = fit($('viMol')); if (!f) return; const { g, w, h } = f;
+  if (viMolecules.w !== w || viMolecules.h !== h || !viMolecules.length) viInit(w, h);
+  const G = viGeom(), dx = viMolecules.dx, r = dx * 0.38, R = w * 0.2, s = S.s, cx = w / 2, cy = h * 0.5, t = performance.now() / 1000;
+  const P = viMolecules.P, k = 1 - Math.exp(-dt * 9), amp = (1 + s * 0.55) * dx * 0.08, moving = VI.phase === 'falling';
+  // everything below is the cylinder view magnified by sg, centred on the ball
+  const sg = R / G.br, yy = viY(G);
+  const surfY = cy + (G.lvl - yy) * sg, floorY = cy + (G.bot - yy) * sg, scroll = (yy - G.yStart) * sg;
+  const top = Math.max(0, surfY), bottom = Math.min(h, floorY);
+  const eng = clamp((cy + R - surfY) / (2 * R), 0, 1);   // how far the ball has entered the liquid
+  // liquid body, clipped between the liquid surface and the floor
+  g.save(); g.beginPath(); g.rect(0, top, w, Math.max(0, bottom - top)); g.clip();
+  g.fillStyle = COL.liquid; g.globalAlpha = .55; g.fillRect(0, 0, w, h); g.globalAlpha = 1;
+  // lattice is anchored to the liquid surface, so rows always line up with it
+  for (const m of viMolecules) {
+    const hy = ((m.hy + surfY) % P + P) % P - 1.5 * dx;
+    m.skip = hy < surfY;                      // above the surface there is no liquid
+    if (m.skip) { m.dhy = hy; continue; }
+    const jx = Math.sin(t * 4 + m.id) * 1.1, jy = Math.cos(t * 3.7 + m.id * 1.3) * 1.1;
+    const hX = m.hx + jx, hY = hy + jy;
+    // Liquid pushed aside by the ball. Right at the ball the map d' = sqrt(d^2 + K^2) keeps the number of
+    // molecules per area unchanged, so molecules touch the ball with no gap. It then fades out smoothly
+    // with distance (full effect to K, none beyond D), so the liquid is never split.
+    const ddx = hX - cx, ddy = hY - cy, d = Math.hypot(ddx, ddy) || 1, K = R + r * 1.05, D = 3 * K;
+    let tx = hX, ty = hY;
+    if (d < D) {
+      const u = clamp((d - K) / (D - K), 0, 1), wt = 1 - u * u * (3 - 2 * u), dm = d + (Math.sqrt(d * d + K * K) - d) * wt;
+      tx = hX + (cx + ddx / d * dm - hX) * eng; ty = hY + (cy + ddy / d * dm - hY) * eng;
+    }
+    if (moving) { const fall = clamp(1 - (d - R) / (dx * 3), 0, 1); if (fall > 0 && ddy > -R * 0.2) { ty += amp * fall * fall * 1.8; tx += (ddx / d) * amp * fall * 0.5; } }
+    ty = Math.max(ty, surfY + r * 0.8);
+    const wrapped = Math.abs(hy - m.dhy) > P / 2;
+    if (wrapped) { m.ox = tx - hX; m.oy = ty - hY; }
+    else { m.ox += (tx - hX - m.ox) * k; m.oy += (ty - hY - m.oy) * k; }
+    m.x = hX + m.ox; m.y = hY + m.oy; m.dhy = hy;
+  }
+  const bw = 0.7 + s * 0.38;
+  if ($('viBonds').checked) {
+    g.lineCap = 'round';
+    const link = dx * 1.25;
+    for (let a = 0; a < viMolecules.length; a++) {
+      const A = viMolecules[a]; if (A.skip) continue;
+      for (let b = a + 1; b < Math.min(viMolecules.length, a + 40); b++) {
+        const B = viMolecules[b]; if (B.skip) continue;
+        const ex = B.hx - A.hx, ey = B.dhy - A.dhy;
+        if (Math.abs(ex) > link || Math.abs(ey) > link) continue;
+        const hd = Math.hypot(ex, ey); if (hd > link) continue;
+        const st = Math.hypot(B.x - A.x, B.y - A.y) / hd - 1;
+        if (st > 1.2) continue;                        // pulled completely apart: bond released
+        const hot = st > 0.2;
+        g.strokeStyle = hot ? COL.warm : COL.mol; g.globalAlpha = clamp(0.25 + s * 0.06 + (hot ? 0.2 : 0), 0.25, 0.95);
+        g.lineWidth = hot ? bw * 1.25 : bw;
+        g.beginPath(); g.moveTo(A.x, A.y); g.lineTo(B.x, B.y); g.stroke();
+      }
+    }
+    g.globalAlpha = 1;
+  }
+  for (const m of viMolecules) if (!m.skip && m.x > -r && m.x < w + r && m.y > -r && m.y < h + r) ball(g, m.x, m.y, r, COL.mol, COL['mol-hi']);
+  g.restore();
+  // liquid surface and cylinder floor, when they come into view
+  if (surfY > 0 && surfY < h) {
+    g.strokeStyle = COL['liquid-deep']; g.lineWidth = 3; g.beginPath(); g.moveTo(0, surfY); g.lineTo(w, surfY); g.stroke();
+    label(g, 'air', 10, surfY - 14, COL.muted, 'left', 11, true); label(g, 'liquid surface', w - 10, surfY + 14, COL['liquid-deep'] === COL.liquid ? COL.fg : COL.fg, 'right', 11, true);
+  }
+  if (floorY < h) {
+    g.fillStyle = COL.glass; g.globalAlpha = .55; g.fillRect(0, floorY, w, h - floorY); g.globalAlpha = 1;
+    g.strokeStyle = COL.glass; g.lineWidth = 3; g.beginPath(); g.moveTo(0, floorY + 1.5); g.lineTo(w, floorY + 1.5); g.stroke();
+    label(g, 'bottom of cylinder', 10, Math.min(h - 12, floorY + 16), COL.fg, 'left', 11, true);
+  }
+  ball(g, cx, cy, R, COL.mol, '#ffffff');
+  label(g, 'steel ball', cx, cy, COL.bg, 'center', 13);
+  label(g, moving ? 'bonds stretch as molecules are dragged' : VI.phase === 'idle' ? 'ball above the liquid' : 'ball at the bottom', w - 10, h - 12, moving ? COL.warm : COL.muted, 'right', 11, true);
+}
+$('viDrop').addEventListener('click', () => { if (VI.phase === 'falling') return; VI.phase = 'falling'; VI.p = 0; VI.v = 0; VI.t = 0; viUI(); });
+$('viReset').addEventListener('click', viReset);
+$('viRec').addEventListener('click', () => { viRes.add(S.s, VI.time); });
+/* ---------- Lab 3: volatility ---------- */
+const voRes = Results('voTable', 'voPlot', { head: 'Temperature drop', unit: '°C', dec: 1, axis: 'Temperature drop (°C)', ymax: 20 });
+const VO = { phase: 'idle', t: 0, T: Model.Tamb, runs: [], cur: null, wisps: [], liq: [], gas: [], acc: 0 };
+const runColor = (s) => 'hsl(' + Math.round((s - 1) / 9 * 225) + ',72%,50%)';
+const gamma2 = (kT) => -kT * (Math.log(1 - Math.random()) + Math.log(1 - Math.random()));
+const speedOf = (E) => Math.sqrt(E) * 42;
+function energyColor(E) { const q = clamp(E / 5, 0, 1); return 'hsl(' + Math.round(215 + q * 145) + ',75%,52%)'; }
+function voUI() {
+  const running = VO.phase === 'running';
+  $('voStart').disabled = running;
+  $('voRec').disabled = VO.phase !== 'done';
+  $('voTemp').textContent = VO.T.toFixed(1) + ' °C';
+  $('voClock').textContent = Math.round(VO.t) + ' s';
+  const el = $('voMsg'); el.className = 'msg';
+  if (VO.phase === 'idle') el.textContent = 'Press “Start 60 s run” to begin.';
+  else if (running) el.textContent = 'Liquid is evaporating from the paper…';
+  else { el.textContent = 'After 60 s the probe fell by ' + (Model.Tamb - VO.cur.final).toFixed(1) + ' °C. Record it, then change the force strength and run again.'; }
+  legend();
+}
+function legend() {
+  $('voLegend').innerHTML = VO.runs.length ? VO.runs.map((r) => '<span style="white-space:nowrap;margin-right:12px"><span class="swatch" style="background:' + r.color + '"></span>strength ' + r.s + (r.final != null ? ': ' + r.final.toFixed(1) + ' °C at 60 s' : '') + '</span>').join('') : 'Each run is kept on the chart so you can compare.';
+}
+function voReset() {
+  if (VO.cur && VO.cur.final == null) VO.runs = VO.runs.filter((r) => r !== VO.cur);
+  VO.phase = 'idle'; VO.t = 0; VO.T = Model.Tamb; VO.cur = null; VO.wisps.length = 0; VO.gas.length = 0; VO.liq.length = 0; voUI();
+}
+function voStart() {
+  if (VO.phase === 'running') return;
+  voReset();
+  VO.cur = { s: S.s, color: runColor(S.s), pts: [[0, Model.Tamb]], final: null };
+  VO.runs.push(VO.cur); VO.phase = 'running'; VO.acc = 0; voUI();
+}
+function voFrame(dt) {
+  if (VO.phase !== 'running') return;
+  const sim = dt * Number($('voSpeed').value), n = Math.max(1, Math.ceil(sim / 0.1)), h = sim / n;
+  for (let i = 0; i < n && VO.t < 60; i++) {
+    const before = Math.floor(VO.t);
+    VO.T += Model.dTdt(S.s, VO.T) * h; VO.t = Math.min(60, VO.t + h);
+    if (Math.floor(VO.t) > before) VO.cur.pts.push([Math.floor(VO.t), VO.T]);
+  }
+  $('voTemp').textContent = VO.T.toFixed(1) + ' °C'; $('voClock').textContent = Math.round(VO.t) + ' s';
+  if (VO.t >= 60) { VO.phase = 'done'; VO.cur.final = VO.T; if (VO.cur.pts[VO.cur.pts.length - 1][0] < 60) VO.cur.pts.push([60, VO.T]); voUI(); }
+}
+/* what you see: probe wrapped in soaked paper */
+function voDrawMacro(dt) {
+  const f = fit($('voMacro')); if (!f) return; const { g, w, h } = f;
+  const cx = w * 0.36, tw = w * 0.05, topY = h * 0.07, bulbY = h * 0.74, br = w * 0.058;
+  const kT = Model.kT(VO.T), rate = Model.tail(Model.escapeEnergy(S.s), kT);
+  // wisps
+  if (VO.phase === 'running') {
+    VO.acc += dt * rate * 16 * Math.min(2.5, Number($('voSpeed').value) / 2);
+    while (VO.acc > 1) { VO.acc -= 1; VO.wisps.push({ x: cx + (Math.random() - .5) * w * 0.14, y: bulbY - h * 0.12 + Math.random() * h * 0.2, a: 0, ph: Math.random() * 6 }); }
+  }
+  for (const q of VO.wisps) { q.y -= dt * h * 0.2; q.a += dt; }
+  VO.wisps = VO.wisps.filter((q) => q.a < 2.2);
+  for (const q of VO.wisps) {
+    g.strokeStyle = COL.cold; g.globalAlpha = Math.max(0, .7 - q.a / 3.2); g.lineWidth = 2; g.lineCap = 'round';
+    g.beginPath(); for (let k = 0; k <= 6; k++) { const yy = q.y - k * 5, xx = q.x + Math.sin(q.ph + q.a * 3 + k * .9) * 4; k ? g.lineTo(xx, yy) : g.moveTo(xx, yy); } g.stroke();
+  }
+  g.globalAlpha = 1;
+  // probe body
+  g.fillStyle = COL.panel2; g.strokeStyle = COL.glass; g.lineWidth = 2.5;
+  g.beginPath(); g.roundRect(cx - tw / 2, topY, tw, bulbY - topY, tw / 2); g.fill(); g.stroke();
+  g.beginPath(); g.arc(cx, bulbY + br * 0.2, br, 0, 7); g.fill(); g.stroke();
+  const col = clamp((VO.T - 0) / 30, 0, 1), colTop = lerp(bulbY, topY + 6, col);
+  g.fillStyle = COL.force; g.beginPath(); g.arc(cx, bulbY + br * 0.2, br - 5, 0, 7); g.fill();
+  g.fillRect(cx - 3, colTop, 6, bulbY - colTop);
+  // paper wrap
+  g.fillStyle = COL.liquid; g.globalAlpha = .75; g.strokeStyle = COL['liquid-deep']; g.lineWidth = 2;
+  g.beginPath(); g.roundRect(cx - w * 0.09, bulbY - h * 0.14, w * 0.18, h * 0.3, 8); g.fill(); g.globalAlpha = 1; g.stroke();
+  g.strokeStyle = COL.accent; g.lineWidth = 1.5; g.setLineDash([4, 3]);
+  g.strokeRect(cx + w * 0.035, bulbY - h * 0.14 - h * 0.04, w * 0.05, h * 0.08); g.setLineDash([]);
+  label(g, 'zoomed in', cx + w * 0.1, bulbY - h * 0.2, COL.accent, 'left', 11);
+  label(g, 'paper soaked in liquid', cx + w * 0.11, bulbY + h * 0.06, COL.fg, 'left', 11);
+  label(g, 'temperature probe', cx - tw, topY + h * 0.03, COL.muted, 'right', 11);
+  // digital readout
+  const rx = w * 0.62, ry = h * 0.12, rw = w * 0.32, rh = h * 0.17;
+  g.fillStyle = COL.panel2; g.strokeStyle = COL.line; g.lineWidth = 1.5; g.beginPath(); g.roundRect(rx, ry, rw, rh, 8); g.fill(); g.stroke();
+  label(g, VO.T.toFixed(1) + ' °C', rx + rw / 2, ry + rh / 2, VO.phase === 'idle' ? COL.fg : COL.cold, 'center', Math.round(w * 0.06));
+  label(g, 'evaporation rate', rx, ry + rh + 18, COL.muted, 'left', 11);
+  g.fillStyle = COL.panel2; g.fillRect(rx, ry + rh + 28, rw, 9);
+  g.fillStyle = COL.cold; g.fillRect(rx, ry + rh + 28, rw * clamp(VO.phase === 'idle' ? 0 : rate / 0.6, 0, 1), 9);
+}
+/* molecular view: a small slice of a larger liquid, open on the sides and bottom */
+function voDrawMol(dt) {
+  const f = fit($('voMol')); if (!f) return; const { g, w, h } = f;
+  const surf = h * 0.42, r = Math.max(6, w * 0.025), kT = Model.kT(VO.T), Et = Model.escapeEnergy(S.s), TARGET = 64;
+  const bornAt = (x, y, up) => { const E = gamma2(kT), a = Math.random() * 6.283, sp = speedOf(E); return { x, y, E, vx: Math.cos(a) * sp, vy: up ? -Math.abs(Math.sin(a) * sp) - 4 : Math.sin(a) * sp }; };
+  if (!VO.liq.length) for (let i = 0; i < TARGET; i++) VO.liq.push(bornAt(r + Math.random() * (w - 2 * r), surf + r + Math.random() * (h - surf - 2 * r), false));
+  const live = VO.phase === 'running';
+  g.fillStyle = COL.liquid; g.globalAlpha = .5; g.fillRect(0, surf, w, h - surf); g.globalAlpha = 1;
+  g.strokeStyle = COL['liquid-deep']; g.lineWidth = 2; g.beginPath(); g.moveTo(0, surf); g.lineTo(w, surf); g.stroke();
+  const leaving = [];
+  for (const m of VO.liq) {
+    if (live && Math.random() < dt * 1.3) { m.E = gamma2(kT); const a = Math.random() * 6.283; m.vx = Math.cos(a) * speedOf(m.E); m.vy = Math.sin(a) * speedOf(m.E); }
+    const k = live ? 1 : 0.35; m.x += m.vx * dt * k; m.y += m.vy * dt * k;
+    // open sides: the liquid carries on beyond the view, so leaving one side means entering the other
+    if (m.x < 0) m.x += w; if (m.x > w) m.x -= w;
+    if (m.y > h + r) { leaving.push(m); continue; }
+    if (m.y < surf + r) {
+      if (live && m.E > Et && VO.gas.length < 40) { VO.gas.push({ x: m.x, y: surf - r, E: m.E, vx: m.vx * .5, vy: -Math.abs(speedOf(m.E)) * 0.9 }); leaving.push(m); }
+      else { m.y = surf + r; m.vy = Math.abs(m.vy); }
+    }
+  }
+  if (leaving.length) VO.liq = VO.liq.filter((m) => leaving.indexOf(m) < 0);
+  // the open bottom edge: the larger liquid below supplies molecules to keep the density steady
+  for (let i = 0; i < 2 && VO.liq.length < TARGET; i++) VO.liq.push(bornAt(Math.random() * w, h + r * 0.6, true));
+  for (const m of VO.gas) {
+    m.x += m.vx * dt; m.y += m.vy * dt;
+    if (m.x < 0) m.x += w; if (m.x > w) m.x -= w;
+  }
+  VO.gas = VO.gas.filter((m) => m.y > -r);
+  g.save(); g.beginPath(); g.rect(0, 0, w, h); g.clip();
+  for (const m of VO.liq) ball(g, m.x, m.y, r, energyColor(m.E), '#ffffff');
+  for (const m of VO.gas) ball(g, m.x, m.y, r, energyColor(m.E), '#ffffff');
+  g.restore();
+  label(g, 'vapour', 10, 14, COL.muted, 'left', 11, true); label(g, 'liquid', 10, surf + 14, COL.fg, 'left', 11, true);
+  label(g, 'red = high energy, blue = low', w - 10, 14, COL.fg, 'right', 10, true);
+  label(g, 'a slice of the liquid: molecules cross the edges freely', w / 2, h - 12, COL.muted, 'center', 10, true);
+}
+function voDrawHist() {
+  const f = fit($('voHist')); if (!f) return; const { g, w, h } = f;
+  const L = 12, R = 12, T = 18, B = 30, X = (E) => L + E / 8 * (w - L - R), Y = (v) => h - B - v / 0.42 * (h - B - T);
+  const kT = Model.kT(VO.T), Et = Model.escapeEnergy(S.s), fE = (E, k) => E * Math.exp(-E / k) / (k * k) * (k > 0 ? 1 : 0);
+  const curve = (k, fill) => { g.beginPath(); g.moveTo(X(fill ? Et : 0), Y(0)); for (let E = fill ? Et : 0; E <= 8.001; E += 0.05) g.lineTo(X(E), Y(fE(E, k))); if (fill) g.lineTo(X(8), Y(0)); };
+  g.setLineDash([5, 4]); g.strokeStyle = COL.muted; g.lineWidth = 1.5; curve(1, false); g.stroke(); g.setLineDash([]);
+  g.fillStyle = COL.warm; g.globalAlpha = .75; curve(kT, true); g.fill(); g.globalAlpha = 1;
+  g.strokeStyle = COL.accent; g.lineWidth = 2.5; curve(kT, false); g.stroke();
+  g.strokeStyle = COL.fg; g.setLineDash([4, 3]); g.lineWidth = 1.5; g.beginPath(); g.moveTo(X(Et), Y(0)); g.lineTo(X(Et), T - 4); g.stroke(); g.setLineDash([]);
+  g.strokeStyle = COL.line; g.lineWidth = 1; g.beginPath(); g.moveTo(L, h - B); g.lineTo(w - R, h - B); g.stroke();
+  label(g, 'escape energy', X(Et) + 5, T - 4, COL.fg, X(Et) > w * .7 ? 'right' : 'left', 11);
+  if (X(Et) > w * .7) { /* keep label inside */ }
+  label(g, 'energy of a molecule →', w / 2, h - 10, COL.muted, 'center', 11);
+  const pct = Model.tail(Et, kT) * 100;
+  label(g, 'able to escape: ' + pct.toFixed(pct < 10 ? 1 : 0) + '%', w - R, T + 14, COL.warm, 'right', 12);
+  label(g, VO.phase === 'idle' ? 'dashed: starting temperature' : 'dashed: start, solid: now', w - R, T + 34, COL.muted, 'right', 10);
+}
+function voDrawChart() {
+  const f = fit($('voChart')); if (!f) return; const { g, w, h } = f;
+  const L = 40, R = 12, T = 12, B = 34, y0 = 2, y1 = 26, X = (t) => L + t / 60 * (w - L - R), Y = (v) => h - B - (v - y0) / (y1 - y0) * (h - B - T);
+  g.strokeStyle = COL.line; g.fillStyle = COL.muted; g.lineWidth = 1; g.font = '11px "IBM Plex Mono", monospace'; g.textAlign = 'right'; g.textBaseline = 'middle';
+  for (let v = 5; v <= 25; v += 5) { g.beginPath(); g.moveTo(L, Y(v)); g.lineTo(w - R, Y(v)); g.stroke(); g.fillText(v, L - 6, Y(v)); }
+  g.textAlign = 'center'; g.textBaseline = 'top';
+  for (let t = 0; t <= 60; t += 10) g.fillText(t, X(t), h - B + 6);
+  g.fillText('Time (s)', (L + w - R) / 2, h - 14);
+  g.save(); g.translate(11, (T + h - B) / 2); g.rotate(-Math.PI / 2); g.textBaseline = 'middle'; g.fillText('Temperature (°C)', 0, 0); g.restore();
+  for (const r of VO.runs) {
+    g.strokeStyle = r.color; g.lineWidth = r === VO.cur ? 3 : 2; g.lineJoin = 'round'; g.beginPath();
+    r.pts.forEach((p, i) => { i ? g.lineTo(X(p[0]), Y(p[1])) : g.moveTo(X(p[0]), Y(p[1])); }); g.stroke();
+    const e = r.pts[r.pts.length - 1]; g.fillStyle = r.color; g.beginPath(); g.arc(X(e[0]), Y(r === VO.cur ? VO.T : e[1]), 4, 0, 7); g.fill();
+  }
+}
+$('voStart').addEventListener('click', voStart);
+$('voReset').addEventListener('click', voReset);
+$('voClear').addEventListener('click', () => { VO.runs = []; voReset(); });
+$('voRec').addEventListener('click', () => { if (VO.cur && VO.cur.final != null) voRes.add(VO.cur.s, Model.Tamb - VO.cur.final); });
+/* ---------- Tabs, slider, main loop ---------- */
+const TABS = ['st', 'vi', 'vo'], HASH = { st: 'surface-tension', vi: 'viscosity', vo: 'volatility' };
+function showTab(id) {
+  TABS.forEach((t) => { $('lab-' + t).classList.toggle('on', t === id); $('t-' + t).setAttribute('aria-selected', t === id ? 'true' : 'false'); });
+  try { history.replaceState(null, '', '#' + HASH[id]); } catch (e) { /* ignore */ }
+  stRes.render(); viRes.render(); voRes.render();
+}
+document.querySelectorAll('nav.tabs button').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
+function setStrength(v) {
+  S.s = v; $('imf').value = v; $('imfVal').textContent = v + ' / 10';
+  stReset(); viReset(); voReset();
+}
+$('imf').addEventListener('input', (e) => setStrength(Number(e.target.value)));
+document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => setStrength(Number(c.dataset.s))));
+readColors();
+try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors); } catch (e) { /* ignore */ }
+new MutationObserver(readColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+window.addEventListener('resize', () => { stRes.render(); viRes.render(); voRes.render(); });
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const on = TABS.find((t) => $('lab-' + t).classList.contains('on'));
+  if (on === 'st') { stFrame(dt); stDrawMacro(); stDrawMol(); }
+  else if (on === 'vi') { viFrame(dt * viScale()); viDrawMacro(); viDrawMol(dt); }
+  else { voFrame(dt); voDrawMacro(dt); voDrawMol(dt); voDrawHist(); voDrawChart(); }
+  requestAnimationFrame(loop);
+}
+stReset(); viReset(); voReset();
+const hv = Object.keys(HASH).find((k) => '#' + HASH[k] === location.hash);
+showTab(hv || 'st');
+requestAnimationFrame(loop);
+</script>
+
+</body></html>

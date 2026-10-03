@@ -1,0 +1,1158 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='Ga1XZPg043QNkdFS4H6z3A==' src='https://57731737-7915-4a36-abf2-16ff0a3eb8c8.frame.claudeusercontent.com/9JVeFXw0o0rpEpa-zNZj2CHtVn9esVDOOeuDMI707gh9GZV0Dn7PXi6fZpXdyuWFTAJaJmSOs5BMe39c-lVSbq_SwkoN0FOvtlkI1mtjLP8DYefA0o5wtHkcRgHZe6d8_SIQoJdApw7gG_jWKs05CZkFJM3TtJfxiroPgV_64jvYCu8amLyDaLznpnJ_fyhkOdAyPrqSbuEbR6edxzq6rzggTStNtjgefQkwwQTbFXs9sUtRHhFI0kUx2fMUnCD0t9dJe9sS8C-4jqDsNvOx9PeAhivt1phc0f8AbxnFYTv4deqOEPAb00RR2FF_LmFcNCZJWKsRqpHuFPDJfwzDD9XkrIm_c5NRailT4VKn2KdRbFVNiw2fmK9F9TBJcNECenUl9W2lvFrbC6WUJeYmf5oKBtpg1jwCMJMlztMTIVdVdKRl-XrRxUHwbKC299xGJX1Wk2Y6hm-IfVFAx09-GlLAzeCWAJTWM-pNQYeg-2GYUeUyrd4Y2wQhvYdOI9yrx6NGKOeyvoM8UkLpMRz5J-dasqrB0Uum9L1S1NApi6RycymMH3g79CMnM39lTx5ivkC3ph326EpCxZhCfxwFQTtP9YLwzAQMlosiUhEFMDWwTn_oDTw9rkkUKOpWFnFmOgaKwuEwtwhpoq-iI61vKV6lZZkisDyMFrmACq_c0-cb_HzLjul6bRRoHvrEwyBEtQ21b6rkSeyrzYLqu_RQcw'></script></head><body>
+<title>Electron Tug of War</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Big+Shoulders+Display:wght@600;800&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+/* Layout: single-column lesson in three parts. Each part is a wide "arena" canvas
+   (rope + amber electron pair) with controls underneath; poster-style condensed headings. */
+:root{
+  --bg:#EDF1F0; --surface:#FAFCFB; --raised:#FFFFFF; --stage:#E2EAEA;
+  --ink:#14222A; --ink2:#51636C; --line:#C9D5D7;
+  --rope:#A8753A; --rope-hi:#DDB77F; --electron:#F0A81A;
+  --neg:#D6364A; --pos:#2C69D6; --net:#7A3FE0;
+  --accent:#0E7C73; --accent-ink:#FFFFFF; --good:#18814A; --bad:#C23A2E;
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E161A; --surface:#152228; --raised:#1B2B32; --stage:#101B20;
+    --ink:#E8F0F1; --ink2:#9FB2B8; --line:#2A3D45;
+    --rope:#C9944F; --rope-hi:#EBCB98; --electron:#FFC63A;
+    --neg:#FF6F80; --pos:#78A8FF; --net:#B99BFF;
+    --accent:#47C4B9; --accent-ink:#06201D; --good:#58D08E; --bad:#FF8B7E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E161A; --surface:#152228; --raised:#1B2B32; --stage:#101B20;
+  --ink:#E8F0F1; --ink2:#9FB2B8; --line:#2A3D45;
+  --rope:#C9944F; --rope-hi:#EBCB98; --electron:#FFC63A;
+  --neg:#FF6F80; --pos:#78A8FF; --net:#B99BFF;
+  --accent:#47C4B9; --accent-ink:#06201D; --good:#58D08E; --bad:#FF8B7E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;padding-inline:20px;padding-block:32px 64px}
+.wrap{max-width:1120px;margin-inline:auto;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;letter-spacing:.01em;line-height:1;margin:0;text-wrap:balance;text-transform:uppercase}
+h1{font-size:clamp(48px,9vw,96px)}
+h2{font-size:clamp(30px,4.6vw,46px)}
+h3{font-size:26px}
+p{margin:0}
+sub{font-size:.72em;line-height:0}
+.kicker{font-family:var(--f-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+.tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);padding-block:8px;margin-block:-8px;border-bottom:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tab{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;min-width:0}
+.tab:hover{border-color:var(--accent)}
+.tab .tn{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.tab .tl{font-family:var(--f-display);font-weight:800;font-size:21px;line-height:1.05;text-transform:uppercase;letter-spacing:.01em}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tab[aria-selected="true"] .tn{color:var(--accent-ink);opacity:.8}
+.part:focus-visible{outline:none}
+.pager{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:8px;border-top:1px solid var(--line)}
+@media (max-width:700px){
+  .tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tab .tl{font-size:18px}
+}
+.top{display:flex;flex-direction:column;gap:16px;max-width:760px}
+.lede{font-size:19px;color:var(--ink2);max-width:62ch}
+.part{display:flex;flex-direction:column;gap:20px;min-width:0}
+.part-head{display:flex;flex-direction:column;gap:10px;max-width:70ch}
+.tag{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.part-head p{color:var(--ink2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.stage{position:relative;background:var(--stage);border-radius:10px;overflow:hidden}
+canvas{display:block;width:100%}
+#labCanvas{height:clamp(270px,36vw,360px)}
+#molCanvas{height:clamp(320px,46vw,470px);touch-action:pan-y;cursor:grab}
+#molCanvas:active{cursor:grabbing}
+#rodCanvas{height:clamp(320px,40vw,420px)}
+#zoomCanvas{height:clamp(240px,30vw,320px)}
+#vecCanvas{height:clamp(300px,36vw,400px);touch-action:pan-y;cursor:grab}
+#vecCanvas:active{cursor:grabbing}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+button,select,input{font:inherit;color:inherit}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:9px 16px;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent)}
+.chip{background:var(--raised);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;font-family:var(--f-mono);font-size:14px;color:var(--ink)}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lab-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.team{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.team-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.team-name{font-family:var(--f-display);font-weight:800;font-size:22px;text-transform:uppercase}
+select{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 8px;min-width:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.slide-row{display:flex;align-items:center;gap:10px}
+output{font-family:var(--f-mono);min-width:3.2ch;text-align:right}
+.readout{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.big{display:flex;flex-direction:column;line-height:1;min-width:110px}
+.big .lab{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--ink2)}
+.big .num{font-family:var(--f-display);font-weight:800;font-size:64px;font-variant-numeric:tabular-nums}
+.readout-text{display:flex;flex-direction:column;gap:6px;flex:1;min-width:220px}
+.pill{display:inline-block;align-self:flex-start;border-radius:999px;padding:3px 12px;font-weight:700;font-size:14px;border:1.5px solid currentColor}
+.v-non{color:var(--ink2)} .v-pol{color:var(--net)} .v-ion{color:var(--neg)}
+.v-liq{color:var(--accent)} .v-gas{color:var(--ink2)} .v-sol{color:var(--pos)}
+.v-yes{color:var(--net)} .v-no{color:var(--good)}
+.rod-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.note{font-size:14px;color:var(--ink2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.grid2{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:20px;align-items:start}
+.legend{position:absolute;left:10px;bottom:8px;right:10px;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--ink2);pointer-events:none}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px 18px}
+.toggle{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:15px}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.picker{display:flex;flex-direction:column;gap:12px}
+.picker .grp{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.picker .gname{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);min-width:190px}
+.info{gap:14px}
+.info h3 .f{font-size:1.05em}
+.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
+.facts dt{color:var(--ink2);font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.facts dd{margin:0}
+.box{border:1px solid var(--line);background:var(--raised);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.box.key{border-color:var(--net)}
+.box .q{font-weight:700}
+.fb{font-weight:700}
+.fb.ok{color:var(--good)} .fb.no{color:var(--bad)}
+.vec-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:center}
+.vec-text{display:flex;flex-direction:column;gap:12px;color:var(--ink2)}
+.vec-text strong{color:var(--ink)}
+.quiz{display:flex;flex-direction:column;gap:14px}
+.q-item{background:var(--raised);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q-item .qt{font-weight:700}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--surface))}
+.opt:disabled{cursor:default;color:var(--ink)}
+.score{font-family:var(--f-mono);color:var(--ink2)}
+.foot{font-size:13px;color:var(--ink2);border-top:1px solid var(--line);padding-top:16px;max-width:80ch}
+@media (max-width:860px){
+  .grid2,.vec-grid{grid-template-columns:minmax(0,1fr)}
+  .lab-controls,.rod-controls{grid-template-columns:minmax(0,1fr)}
+  .picker .gname{min-width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<div class="wrap">
+
+<header class="top">
+  <span class="kicker">Bonding and polarity</span>
+  <h1>Electron tug of war</h1>
+  <p class="lede">Every covalent bond is a rope with a pair of electrons knotted on it. The atom with the higher electronegativity pulls harder. Whether a whole molecule ends up polar depends on one thing: do its ropes cancel out, or add up?</p>
+</header>
+
+<nav class="tabbar" aria-label="Lesson parts">
+  <div class="tabs" role="tablist" id="tablist">
+    <button class="tab" role="tab" type="button" id="tab-bond" data-tab="bond" aria-controls="lab" aria-selected="true"><span class="tn">Part 1</span><span class="tl">Polarity of bond</span></button>
+    <button class="tab" role="tab" type="button" id="tab-molecule" data-tab="molecule" aria-controls="mol" aria-selected="false" tabindex="-1"><span class="tn">Part 2</span><span class="tl">Polarity of molecule</span></button>
+    <button class="tab" role="tab" type="button" id="tab-experiment" data-tab="experiment" aria-controls="rod" aria-selected="false" tabindex="-1"><span class="tn">Part 3</span><span class="tl">Polarity experiment</span></button>
+    <button class="tab" role="tab" type="button" id="tab-quiz" data-tab="quiz" aria-controls="check" aria-selected="false" tabindex="-1"><span class="tn">Part 4</span><span class="tl">Polarity quiz</span></button>
+  </div>
+</nav>
+
+<!-- PART 1 -->
+<section class="part" id="lab" role="tabpanel" aria-labelledby="tab-bond" tabindex="0">
+  <div class="part-head">
+    <span class="tag">Part 1 · Polarity of bond</span>
+    <h2>One rope, two teams</h2>
+    <p>Choose two atoms, or drag the sliders to set any electronegativity you like. The knot is the shared electron pair. Watch where it settles, and what that does to the charges on each atom.</p>
+  </div>
+  <div class="card">
+    <div class="stage"><canvas id="labCanvas" role="img" aria-label="Tug of war between two atoms over a shared electron pair"></canvas></div>
+    <div class="lab-controls">
+      <div class="team">
+        <div class="team-top"><span class="team-name">Team A</span><select id="selA" aria-label="Atom for team A"></select></div>
+        <div class="slide-row"><input type="range" id="slA" min="0.7" max="4" step="0.1" aria-label="Electronegativity of team A"><output id="outA" for="slA"></output></div>
+      </div>
+      <div class="team">
+        <div class="team-top"><span class="team-name">Team B</span><select id="selB" aria-label="Atom for team B"></select></div>
+        <div class="slide-row"><input type="range" id="slB" min="0.7" max="4" step="0.1" aria-label="Electronegativity of team B"><output id="outB" for="slB"></output></div>
+      </div>
+    </div>
+    <div class="row" id="presets" aria-label="Preset bonds"></div>
+    <div class="readout">
+      <div class="big"><span class="lab">ΔEN</span><span class="num" id="dEN">0.0</span></div>
+      <div class="readout-text">
+        <span class="pill" id="labVerdict">Non-polar covalent</span>
+        <p id="labText"></p>
+      </div>
+      <button class="btn" id="pullBtn" type="button">Pull!</button>
+    </div>
+  </div>
+<div class="pager"><span></span><button class="btn" type="button" data-go="molecule">Polarity of molecule →</button></div>
+</section>
+
+<!-- PART 2 -->
+<section class="part" id="mol" role="tabpanel" aria-labelledby="tab-molecule" hidden="" tabindex="0">
+  <div class="part-head">
+    <span class="tag">Part 2 · Polarity of molecule</span>
+    <h2>Many ropes, one centre</h2>
+    <p>Now the central atom has several bonds, each with its own tug of war. The arrow on each bond is its dipole, pointing toward the δ− atom. Pick a molecule and turn it around, then check the vector sum: if the arrows form a closed loop, they cancel.</p>
+  </div>
+
+  <div class="picker" id="picker"></div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="stage">
+        <canvas id="molCanvas" tabindex="0" role="img" aria-label="Rotating 3D molecule. Drag or use arrow keys to turn it."></canvas>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--neg)"></i>δ− side</span>
+          <span><i style="background:var(--pos)"></i>δ+ side</span>
+          <span><i style="background:var(--net)"></i>net dipole</span>
+          <span>⊙ ⊗ dipole toward / away from you</span>
+        </div>
+      </div>
+      <div class="toolbar">
+        <label class="toggle"><input type="checkbox" id="tgSpin" checked=""> Auto-rotate</label>
+        <label class="toggle"><input type="checkbox" id="tgArrows" checked=""> Bond dipole arrows</label>
+        <label class="toggle"><input type="checkbox" id="tgCharge" checked=""> Partial charges</label>
+        <label class="toggle"><input type="checkbox" id="tgPredict"> Prediction mode</label>
+      </div>
+    </div>
+
+    <aside class="card info" aria-live="polite">
+      <div>
+        <h3 id="mName"></h3>
+      </div>
+      <dl class="facts">
+        <dt>Shape</dt><dd id="mShape"></dd>
+        <dt>Bonds</dt><dd id="mBonds"></dd>
+        <dt>Lone pairs</dt><dd id="mLP"></dd>
+      </dl>
+      <div class="box" id="predictBox" hidden="">
+        <p class="q">Is this molecule polar?</p>
+        <div class="row">
+          <button class="btn ghost" type="button" data-guess="polar">Polar</button>
+          <button class="btn ghost" type="button" data-guess="non">Non-polar</button>
+          <button class="btn ghost" type="button" id="showBtn">Just show me</button>
+        </div>
+      </div>
+      <div id="resultBox" class="box">
+        <span class="fb" id="guessFb" hidden=""></span>
+        <span class="pill" id="mVerdict"></span>
+        <p id="mWhy"></p>
+      </div>
+      <div class="box key" id="keyBox">
+        <p id="mKey"></p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="card">
+    <h3>Adding the pulls</h3>
+    <div class="vec-grid">
+      <div class="stage"><canvas id="vecCanvas" tabindex="0" role="img" aria-label="Bond pulls placed head to tail to find the net dipole"></canvas></div>
+      <div class="vec-text">
+        <p>Each bond dipole is an arrow whose length is its ΔEN. Place them <strong>head to tail</strong>, one after another, in the same 3D directions as the bonds. Drag the view to turn it, or use the arrow keys, and look at the loop from several sides.</p>
+        <p><strong>Back at the start?</strong> The pulls cancel. The net dipole is zero and the molecule is non-polar.</p>
+        <p><strong>Ended somewhere else?</strong> The purple arrow from start to finish is the net pull. The molecule is polar, and the δ− end is where that arrow points.</p>
+        <div class="row"><button class="btn ghost" id="replayBtn" type="button">Replay</button><button class="btn ghost" id="pauseBtn" type="button">Pause rotation</button></div>
+      </div>
+    </div>
+  </div>
+<div class="pager"><button class="btn ghost" type="button" data-go="bond">← Polarity of bond</button><button class="btn" type="button" data-go="experiment">Polarity experiment →</button></div>
+</section>
+
+<!-- PART 3 -->
+<section class="part" id="rod" role="tabpanel" aria-labelledby="tab-experiment" hidden="" tabindex="0">
+  <div class="part-head">
+    <span class="tag">Part 3 · Polarity experiment</span>
+    <h2>Does the stream bend?</h2>
+    <p>Hold a charged rod next to a thin stream of liquid. All five liquids here are liquid at room temperature. Pick one, switch the rod on and watch the stream. The panel below the stream shows the real 3D shape of the molecules and how they turn toward the rod. Then reverse the charge.</p>
+  </div>
+  <div class="picker" id="rodPicker"></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="stage"><canvas id="rodCanvas" role="img" aria-label="A stream of liquid falling past a charged rod"></canvas></div>
+      <div class="stage"><canvas id="zoomCanvas" role="img" aria-label="Zoomed view of 3D molecules in the stream turning toward the rod"></canvas></div>
+      <p class="note" id="zoomCap" aria-live="polite"></p>
+      <div class="rod-controls">
+        <div class="team">
+          <div class="team-top"><span class="team-name">Charged rod</span></div>
+          <div class="row" id="rodModes">
+            <button class="chip" type="button" data-mode="off" aria-pressed="false">Off</button>
+            <button class="chip" type="button" data-mode="neg" aria-pressed="true">Negative −</button>
+            <button class="chip" type="button" data-mode="pos" aria-pressed="false">Positive +</button>
+          </div>
+          <div class="row"><button class="btn" id="flipBtn" type="button">Reverse charge</button></div>
+        </div>
+        <div class="team">
+          <div class="team-top"><span class="team-name">View</span></div>
+          <label class="toggle"><input type="checkbox" id="tgRodQ" checked=""> Show δ+ / δ− and dipole arrow</label>
+        </div>
+      </div>
+    </div>
+    <aside class="card info" aria-live="polite">
+      <h3 id="rName"></h3>
+      <span class="pill" id="rState"></span>
+      <dl class="facts">
+        <dt>State</dt><dd>Liquid at room temperature</dd>
+        <dt>Shape</dt><dd id="rShape"></dd>
+        <dt>Result</dt><dd id="rOut"></dd>
+      </dl>
+      <div class="box"><p id="rWhy"></p></div>
+      <p class="note">On screen only. CS₂, CHCl₃ and CCl₄ are toxic, and CS₂ is also highly flammable, so they are not suitable for a class demonstration. The bend is drawn the same size for every polar liquid; in a real demonstration it also depends on the liquid's density, viscosity and surface tension.</p>
+    </aside>
+  </div>
+  <div class="pager"><button class="btn ghost" type="button" data-go="molecule">← Polarity of molecule</button><button class="btn" type="button" data-go="quiz">Polarity quiz →</button></div>
+</section>
+
+<!-- PART 4 -->
+<section class="part" id="check" role="tabpanel" aria-labelledby="tab-quiz" hidden="" tabindex="0">
+  <div class="part-head">
+    <span class="tag">Part 4 · Polarity quiz</span>
+    <h2>Five quick questions</h2>
+    <p>These use molecules and bonds that did not appear above.</p>
+  </div>
+  <div class="card">
+    <div class="quiz" id="quiz"></div>
+    <p class="score" id="score" aria-live="polite"></p>
+  </div>
+<div class="pager"><button class="btn ghost" type="button" data-go="experiment">← Polarity experiment</button><span></span></div>
+</section>
+
+<p class="foot">Electronegativity values are Pauling values, rounded to one decimal place. Rule of thumb used here: ΔEN below 0.4 is treated as non-polar, 0.4 to 1.8 as polar covalent, and above 1.8 as mostly ionic. Real bonds sit on a continuum, so the cut-offs are a convenience.</p>
+
+</div>
+<script>
+'use strict';
+/* ---------- shared data & helpers ---------- */
+const $ = s => document.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const r1 = v => Math.round(v * 10) / 10;
+
+const EN = {Na:0.9, Be:1.6, B:2.0, H:2.2, P:2.2, C:2.5, S:2.6, Se:2.6, N:3.0, Br:3.0, Cl:3.2, O:3.5, F:4.0};
+const ORDER = Object.keys(EN).sort((a, b) => EN[a] - EN[b]);
+// [fill colour, visual radius in bond-length units]
+const LOOK = {
+  H:['#EDEFF0',.26], C:['#59656B',.34], B:['#E8A6B8',.34], Be:['#A2CE74',.36], N:['#5983EA',.33],
+  O:['#E5484D',.31], F:['#93D586',.28], Cl:['#41B86C',.38], Br:['#A85A33',.42], P:['#F28E2B',.38],
+  S:['#E9D13F',.38], Se:['#E8A065',.42], Na:['#9373E3',.5]
+};
+function textOn(hex) {
+  const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  return (0.299 * r + 0.587 * g + 0.114 * b) > 150 ? '#14222A' : '#FFFFFF';
+}
+
+const col = {};
+const COLNAMES = ['ink','ink2','line','rope','rope-hi','electron','neg','pos','net','accent','surface','stage'];
+function readCols() {
+  const cs = getComputedStyle(document.documentElement);
+  COLNAMES.forEach(n => col[n] = cs.getPropertyValue('--' + n).trim());
+}
+readCols();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readCols);
+new MutationObserver(readCols).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+function setupCanvas(cv) {
+  const o = {cv, ctx: cv.getContext('2d'), w: 0, h: 0};
+  const rs = () => {
+    const d = Math.min(devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+    o.w = r.width; o.h = r.height;
+    cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
+    o.ctx.setTransform(d, 0, 0, d, 0, 0);
+  };
+  new ResizeObserver(rs).observe(cv); rs();
+  return o;
+}
+let tab = 'bond';
+// which canvases are drawn: only those in the visible tab
+const vis = {lab:true, mol:false, vec:false, rod:false};
+function watchVis() {}
+
+function arrow(ctx, x1, y1, x2, y2, wid, head) {
+  const a = Math.atan2(y2 - y1, x2 - x1), c = Math.cos(a), s = Math.sin(a);
+  ctx.lineCap = 'round'; ctx.lineWidth = wid;
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2 - c * head * 0.7, y2 - s * head * 0.7); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - c * head - s * head * 0.5, y2 - s * head + c * head * 0.5);
+  ctx.lineTo(x2 - c * head + s * head * 0.5, y2 - s * head - c * head * 0.5);
+  ctx.closePath(); ctx.fill();
+}
+function halo(ctx, x, y, r, color, alpha) {
+  if (alpha <= 0.02) return;
+  const g = ctx.createRadialGradient(x, y, r * 0.5, x, y, r * 2);
+  g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+  ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(x, y, r * 2, 0, 7); ctx.fill(); ctx.restore();
+}
+function disc(ctx, x, y, r, fill, label) {
+  ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+  const g = ctx.createRadialGradient(x - r * .35, y - r * .4, r * .05, x, y, r);
+  g.addColorStop(0, 'rgba(255,255,255,.55)'); g.addColorStop(.6, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(0,0,0,.22)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+  ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke();
+  if (label) {
+    ctx.fillStyle = textOn(fill); ctx.font = '700 ' + Math.max(11, r * 0.8) + 'px ' + 'Atkinson Hyperlegible, system-ui, sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(label, x, y + 1);
+  }
+}
+function drawRope(ctx, x1, y1, x2, y2, w) {
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = col.rope; ctx.lineWidth = w; ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.strokeStyle = col['rope-hi']; ctx.lineWidth = Math.max(1.5, w * 0.3); ctx.setLineDash([w * 0.5, w * 0.9]);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.setLineDash([]);
+}
+function drawKnot(ctx, x, y, k) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, 30 * k);
+  g.addColorStop(0, col.electron); g.addColorStop(1, 'transparent');
+  ctx.save(); ctx.globalAlpha = .55; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 30 * k, 0, 7); ctx.fill(); ctx.restore();
+  ctx.fillStyle = col.electron; ctx.strokeStyle = 'rgba(0,0,0,.45)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.arc(x, y, 10 * k, 0, 7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = 'rgba(20,34,42,.85)';
+  ctx.beginPath(); ctx.arc(x - 3.6 * k, y, 2.1 * k, 0, 7); ctx.arc(x + 3.6 * k, y, 2.1 * k, 0, 7); ctx.fill();
+}
+function classify(d) {
+  const r = r1(d);
+  if (r < 0.4) return {key:'non', label:'Non-polar covalent'};
+  if (r <= 1.8) return {key:'pol', label:'Polar covalent'};
+  return {key:'ion', label:'Mostly ionic'};
+}
+
+/* ---------- Part 1: the one-bond lab ---------- */
+const lab = {A:'H', B:'Br', enA:EN.H, enB:EN.Br, s:0.5, v:0};
+lab.s = clamp(0.5 + 0.14 * (lab.enB - lab.enA), 0.12, 0.88);
+const L = setupCanvas($('#labCanvas'));
+const labPresets = [['Cl','Cl'],['C','H'],['H','Br'],['O','H'],['Na','Cl']];
+
+function fillSelect(sel) {
+  sel.innerHTML = '<option value="custom">Custom</option>' +
+    ORDER.map(e => `<option value="${e}">${e} · ${EN[e].toFixed(1)}</option>`).join('');
+}
+['A','B'].forEach(k => {
+  const sel = $('#sel' + k), sl = $('#sl' + k);
+  fillSelect(sel);
+  sel.addEventListener('change', () => {
+    if (sel.value === 'custom') { lab[k] = 'custom'; } else { lab[k] = sel.value; lab['en' + k] = EN[sel.value]; }
+    labSync(true);
+  });
+  sl.addEventListener('input', () => {
+    lab['en' + k] = parseFloat(sl.value); lab[k] = 'custom'; labSync(false);
+  });
+});
+$('#presets').innerHTML = '<span class="tag">Try</span>' + labPresets.map((p, i) =>
+  `<button class="chip" type="button" data-i="${i}" aria-pressed="false">${p[0]}–${p[1]}</button>`).join('');
+$('#presets').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const p = labPresets[+b.dataset.i];
+  lab.A = p[0]; lab.B = p[1]; lab.enA = EN[p[0]]; lab.enB = EN[p[1]];
+  labSync(true);
+});
+
+function labSync(kick) {
+  ['A','B'].forEach(k => {
+    $('#sel' + k).value = lab[k];
+    $('#sl' + k).value = lab['en' + k];
+    $('#out' + k).textContent = lab['en' + k].toFixed(1);
+  });
+  document.querySelectorAll('#presets .chip').forEach((b, i) => {
+    const p = labPresets[i];
+    b.setAttribute('aria-pressed', String(lab.A === p[0] && lab.B === p[1]));
+  });
+  const d = Math.abs(lab.enA - lab.enB), c = classify(d);
+  $('#dEN').textContent = r1(d).toFixed(1);
+  const pill = $('#labVerdict'); pill.textContent = c.label; pill.className = 'pill v-' + c.key;
+  const hi = lab.enA > lab.enB ? 'A' : 'B';
+  const txt = {
+    non: r1(d) === 0
+      ? 'A perfect tie. Both teams pull equally hard, so the knot stays in the middle and neither atom gains a partial charge.'
+      : 'Almost a tie. The knot barely moves, so the electrons are shared evenly enough to treat the bond as non-polar.',
+    pol: `Team ${hi} wins the tug, so the electron pair sits closer to it. That atom becomes δ− and the other becomes δ+. The bond is polar.`,
+    ion: `Team ${hi} pulls so much harder that the pair is almost completely on its side. This behaves like ionic bonding.`
+  }[c.key];
+  $('#labText').textContent = txt;
+  if (kick) { lab.s = 0.5; lab.v = 0; }
+}
+$('#pullBtn').addEventListener('click', () => { lab.s = 0.5; lab.v = 0; });
+labSync(false);
+
+function drawLab(t, dt) {
+  const {ctx, w, h} = L; ctx.clearRect(0, 0, w, h);
+  const y = h * 0.52, r = Math.min(h * 0.19, 44), ax = Math.max(r + 14, w * 0.13), bx = w - ax;
+  const x0 = ax + r, x1 = bx - r;
+  const d = lab.enB - lab.enA, ad = Math.abs(d), cls = classify(ad);
+  const tgt = clamp(0.5 + 0.14 * d, 0.12, 0.88);
+  lab.v += ((tgt - lab.s) * 70 - lab.v * 4.5) * dt; lab.s += lab.v * dt;
+  const wob = reduce ? 0 : 0.01 * Math.sin(t * 9) + 0.006 * Math.sin(t * 14.3);
+  const kx = x0 + (x1 - x0) * clamp(lab.s + wob, 0.05, 0.95);
+
+  // midline: where the pair sits when the tug is a tie
+  ctx.strokeStyle = col.line; ctx.lineWidth = 1.5; ctx.setLineDash([5, 6]);
+  ctx.beginPath(); ctx.moveTo((x0 + x1) / 2, y - 66); ctx.lineTo((x0 + x1) / 2, y + 30); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = col.ink2; ctx.font = '12px IBM Plex Mono, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  ctx.fillText('equal sharing', (x0 + x1) / 2, y + 46);
+
+  // halos + atoms
+  const hiB = d > 0, a = Math.min(0.6, ad * 0.35);
+  const showQ = cls.key !== 'non';
+  [[ax, 'A'], [bx, 'B']].forEach(([x, k]) => {
+    const wins = (k === 'B') === hiB;
+    if (showQ) halo(ctx, x, y, r, wins ? col.neg : col.pos, a);
+    const sym = lab[k] === 'custom' ? k : lab[k];
+    disc(ctx, x, y, r, lab[k] === 'custom' ? col.accent : LOOK[lab[k]][0], sym);
+    ctx.fillStyle = col.ink2; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('EN ' + lab['en' + k].toFixed(1), x, y + r + 22);
+    if (showQ) {
+      ctx.fillStyle = wins ? col.neg : col.pos; ctx.font = '800 26px Big Shoulders Display, Arial Narrow, sans-serif';
+      ctx.fillText(wins ? 'δ−' : 'δ+', x, y - r - 12);
+    }
+  });
+
+  drawRope(ctx, x0 - 2, y, x1 + 2, y, 10);
+  drawKnot(ctx, kx, y, 1.15);
+
+  // pull arrows: each team's strength, drawn from the knot toward its atom
+  const ya = y - 36;
+  // fixed scale (px per EN unit), independent of knot position: the same EN always gives the same length.
+  // Both arrows start at the midline, so even EN 4.0 fits inside its half of the rope.
+  const mid = (x0 + x1) / 2, kpx = (x1 - x0) / 2 / 4.1;
+  [[-1, lab.enA, lab.enA >= lab.enB], [1, lab.enB, lab.enB >= lab.enA]].forEach(([dir, en, win]) => {
+    const len = kpx * en;
+    ctx.strokeStyle = ctx.fillStyle = win && ad > 0.04 ? col.ink : col.ink2;
+    ctx.globalAlpha = win && ad > 0.04 ? 1 : 0.7;
+    arrow(ctx, mid, ya, mid + dir * len, ya, 5, 13);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = col.ink2; ctx.font = '500 12px IBM Plex Mono, monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('pull ' + en.toFixed(1), mid + dir * len / 2, ya - 12);
+  });
+
+  // conventional dipole symbol
+  if (showQ) {
+    const yd = y - 88, from = hiB ? ax : bx, to = hiB ? bx : ax, sg = Math.sign(to - from);
+    ctx.strokeStyle = ctx.fillStyle = col.ink; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(from, yd - 6); ctx.lineTo(from, yd + 6); ctx.moveTo(from - 6, yd); ctx.lineTo(from + 6, yd); ctx.stroke();
+    arrow(ctx, from + sg * 10, yd, to - sg * 4, yd, 2.5, 11);
+    ctx.fillStyle = col.ink2; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('dipole moment', (ax + bx) / 2, yd - 10);
+  } else {
+    ctx.fillStyle = col.ink2; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.textAlign = 'center';
+    ctx.fillText('no dipole moment', (ax + bx) / 2, y - 88);
+  }
+}
+/* ---------- Part 2: molecules ---------- */
+const nrm = v => { const m = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0] / m, v[1] / m, v[2] / m]; };
+const mul = (v, k) => [v[0] * k, v[1] * k, v[2] * k];
+const sub3 = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const TET = [[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(nrm);
+const deg = d => d * Math.PI / 180;
+const trig = (a, len) => [Math.cos(deg(a)) * len, Math.sin(deg(a)) * len, 0];
+const eq = (a, len) => [Math.cos(deg(a)) * len, 0, Math.sin(deg(a)) * len];
+const pyr = (phi, ang, len) => [Math.sin(deg(ang)) * Math.cos(deg(phi)) * len, -Math.cos(deg(ang)) * len, Math.sin(deg(ang)) * Math.sin(deg(phi)) * len];
+
+const MOLS = [
+  {id:'Cl2', f:'Cl<sub>2</sub>', name:'Chlorine', grp:0, shape:'Linear (two atoms)', central:false,
+   atoms:[['Cl',[-.9,0,0]],['Cl',[.9,0,0]]], lp:[], lpText:'None shown (3 on each Cl)',
+   why:'Two identical atoms pull with identical strength, so ΔEN is 0. The bonding pair stays in the middle and neither atom gains a partial charge. The bond is non-polar, so the molecule is too.'},
+  {id:'HBr', f:'HBr', name:'Hydrogen bromide', grp:0, shape:'Linear (two atoms)', central:false,
+   atoms:[['H',[-.7,0,0]],['Br',[.9,0,0]]], lp:[], lpText:'None shown (3 on Br)',
+   why:'Bromine (3.0) out-pulls hydrogen (2.2), so the bonding pair sits closer to Br. With only one bond there is nothing to cancel that pull, so the molecule has a permanent dipole.'},
+  {id:'BeCl2', f:'BeCl<sub>2</sub>', name:'Beryllium chloride (gas)', grp:1, shape:'Linear, 180°', central:true,
+   atoms:[['Be',[0,0,0]],['Cl',[1.4,0,0]],['Cl',[-1.4,0,0]]], lp:[], lpText:'0 on Be',
+   why:'Both Be–Cl bonds are polar, but the molecule is linear. Two equal pulls in exactly opposite directions cancel, like two equal teams at the ends of a rope. The net dipole is zero.'},
+  {id:'BCl3', f:'BCl<sub>3</sub>', name:'Boron trichloride', grp:1, shape:'Trigonal planar, 120°', central:true,
+   atoms:[['B',[0,0,0]],['Cl',trig(90,1.35)],['Cl',trig(210,1.35)],['Cl',trig(330,1.35)]], lp:[], lpText:'0 on B',
+   why:'Three equal B–Cl pulls point 120° apart in one plane. Placed head to tail they close into a triangle, so the vector sum is zero. Equal pulls in a symmetrical shape cancel.'},
+  {id:'CCl4', f:'CCl<sub>4</sub>', name:'Tetrachloromethane', grp:1, shape:'Tetrahedral, 109.5°', central:true,
+   atoms:[['C',[0,0,0]],...TET.map(v => ['Cl', mul(v, 1.35)])], lp:[], lpText:'0 on C',
+   why:'Four identical C–Cl pulls point to the corners of a tetrahedron. They balance exactly and the four arrows close into a loop, so the molecule is non-polar even though every bond is polar.'},
+  {id:'PF5', f:'PF<sub>5</sub>', name:'Phosphorus pentafluoride', grp:1, shape:'Trigonal bipyramidal', central:true,
+   atoms:[['P',[0,0,0]],['F',[0,1.4,0]],['F',eq(90,1.35)],['F',eq(210,1.35)],['F',eq(330,1.35)],['F',[0,-1.4,0]]], lp:[], lpText:'0 on P',
+   why:'The two axial P–F pulls cancel each other. The three equatorial pulls, 120° apart, cancel each other too. Every pull has a partner, so the net dipole is zero.'},
+  {id:'SeF6', f:'SeF<sub>6</sub>', name:'Selenium hexafluoride', grp:1, shape:'Octahedral, 90°', central:true,
+   atoms:[['Se',[0,0,0]],['F',[1.35,0,0]],['F',[0,1.35,0]],['F',[0,0,1.35]],['F',[-1.35,0,0]],['F',[0,-1.35,0]],['F',[0,0,-1.35]]], lp:[], lpText:'0 on Se',
+   why:'Six equal pulls along +x, −x, +y, −y, +z and −z. Each one has an equal and opposite partner, so all three pairs cancel.'},
+  {id:'SCl2', f:'SCl<sub>2</sub>', name:'Sulfur dichloride', grp:1, shape:'V-shaped (bent), about 103°', central:true,
+   atoms:[['S',[0,0,0]],['Cl',[Math.sin(deg(51.5)) * 1.4, -Math.cos(deg(51.5)) * 1.4, 0]],['Cl',[-Math.sin(deg(51.5)) * 1.4, -Math.cos(deg(51.5)) * 1.4, 0]]],
+   lp:[nrm([0,.8,.6]), nrm([0,.8,-.6])], lpText:'2 on S',
+   why:'The molecule is V-shaped, not linear. Both S–Cl pulls lean to the same side, so they partly add instead of cancelling. The two lone pairs shape the molecule, and the net pull points between the two Cl atoms.'},
+  {id:'PCl3', f:'PCl<sub>3</sub>', name:'Phosphorus trichloride', grp:1, shape:'Trigonal pyramidal, about 100°', central:true,
+   atoms:[['P',[0,0,0]],['Cl',pyr(90,62,1.4)],['Cl',pyr(210,62,1.4)],['Cl',pyr(330,62,1.4)]], lp:[[0,1,0]], lpText:'1 on P',
+   why:'All three P–Cl pulls lean toward the base of the pyramid, and nothing pulls the other way. They reinforce each other, so the molecule is polar with δ− on the Cl side.'},
+  {id:'CH2Cl2', f:'CH<sub>2</sub>Cl<sub>2</sub>', name:'Dichloromethane', grp:1, shape:'Tetrahedral, about 109.5°', central:true,
+   atoms:[['C',[0,0,0]],['Cl',mul(TET[0], 1.45)],['Cl',mul(TET[1], 1.45)],['H',mul(TET[2], .95)],['H',mul(TET[3], .95)]], lp:[], lpText:'0 on C',
+   why:'The shape is tetrahedral, but the four bonds are not identical, so the pulls are not balanced. The two strong C–Cl pulls and the two weaker C–H pulls (toward C) all lean the same way. They reinforce.'}
+];
+const GROUPS = ['Two atoms', 'A central atom with terminal atoms'];
+
+MOLS.forEach(m => {
+  m.bonds = m.central ? m.atoms.slice(1).map((_, i) => [0, i + 1]) : [[0, 1]];
+  m.maxR = Math.max(...m.atoms.map(a => Math.hypot(...a[1])));
+  m.q = m.atoms.map(() => 0);
+  m.vecs = m.bonds.map(([i, j]) => {
+    const A = m.atoms[i], B = m.atoms[j], d = r1(EN[B[0]] - EN[A[0]]), u = nrm(sub3(B[1], A[1]));
+    if (d > 0) { m.q[j] += d; m.q[i] -= d; return {i, j, win:j, d, v:mul(u, d)}; }
+    if (d < 0) { m.q[i] += -d; m.q[j] -= -d; return {i, j, win:i, d:-d, v:mul(u, d)}; }
+    return {i, j, win:-1, d:0, v:[0, 0, 0]};
+  });
+  m.net = m.vecs.reduce((s, b) => [s[0] + b.v[0], s[1] + b.v[1], s[2] + b.v[2]], [0, 0, 0]);
+  m.netMag = Math.hypot(...m.net);
+  m.polar = m.netMag > 0.05;
+  m.hasPolarBond = m.vecs.some(b => classify(b.d).key !== 'non');
+  // vector-sum path (cumulative points)
+  m.path = [[0, 0, 0]];
+  m.vecs.forEach(b => { const p = m.path[m.path.length - 1]; m.path.push([p[0] + b.v[0], p[1] + b.v[1], p[2] + b.v[2]]); });
+  m.cen = m.path.reduce((s, p) => [s[0] + p[0], s[1] + p[1], s[2] + p[2]], [0, 0, 0]).map(x => x / m.path.length);
+  m.pathR = Math.max(1, ...m.path.map(p => Math.hypot(...sub3(p, m.cen))));
+});
+
+/* picker */
+$('#picker').innerHTML = GROUPS.map((g, gi) =>
+  `<div class="grp"><span class="gname">${g}</span>` +
+  MOLS.filter(m => m.grp === gi).map(m => `<button class="chip" type="button" data-id="${m.id}" aria-pressed="false">${m.f}</button>`).join('') + '</div>').join('');
+$('#picker').addEventListener('click', e => { const b = e.target.closest('button'); if (b) selectMol(b.dataset.id); });
+
+/* state */
+let cur = MOLS[2], revealed = true, yaw = 0.7, pitch = 0.32, drag = null, vecT0 = 0;
+const M = setupCanvas($('#molCanvas')), V = setupCanvas($('#vecCanvas'));
+const rot = p => {
+  const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+  const x1 = p[0] * cy + p[2] * sy, z1 = -p[0] * sy + p[2] * cy;
+  return [x1, p[1] * cp - z1 * sp, p[1] * sp + z1 * cp];
+};
+
+function selectMol(id) {
+  cur = MOLS.find(m => m.id === id);
+  document.querySelectorAll('#picker .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+  const pred = $('#tgPredict').checked;
+  revealed = !pred; vecT0 = performance.now() / 1000;
+  $('#mName').innerHTML = `<span class="f">${cur.f}</span> · ${cur.name}`;
+  $('#mShape').textContent = cur.shape;
+  $('#mLP').textContent = cur.lpText;
+  const groups = {};
+  cur.vecs.forEach(b => {
+    const k = cur.atoms[b.i][0] + '–' + cur.atoms[b.j][0];
+    (groups[k] = groups[k] || {n: 0, d: b.d}).n++;
+  });
+  $('#mBonds').innerHTML = Object.entries(groups).map(([k, g]) =>
+    `${g.n} × ${k}, ΔEN ${g.d.toFixed(1)} (${classify(g.d).key === 'non' ? 'non-polar' : 'polar'})`).join('<br>');
+  $('#predictBox').hidden = !pred;
+  $('#guessFb').hidden = true;
+  showResult();
+}
+function showResult() {
+  $('#resultBox').hidden = !revealed; $('#keyBox').hidden = !revealed;
+  if (!revealed) return;
+  const pill = $('#mVerdict');
+  pill.textContent = cur.polar ? 'Polar molecule' : 'Non-polar molecule';
+  pill.className = 'pill ' + (cur.polar ? 'v-yes' : 'v-no');
+  $('#mWhy').textContent = cur.why;
+  $('#mKey').textContent = cur.polar
+    ? (cur.bonds.length === 1 ? 'One polar bond, and nothing to cancel it.' : 'Polar bonds alone are not enough. A polar molecule also needs a shape in which the pulls fail to cancel.')
+    : (cur.hasPolarBond ? 'A non-polar molecule can still contain polar bonds. What matters is whether the pulls cancel.' : 'Non-polar bonds only, so there is no pull to add up.');
+}
+document.querySelectorAll('[data-guess]').forEach(b => b.addEventListener('click', () => {
+  const ok = (b.dataset.guess === 'polar') === cur.polar;
+  revealed = true; vecT0 = performance.now() / 1000;
+  const fb = $('#guessFb'); fb.hidden = false; fb.className = 'fb ' + (ok ? 'ok' : 'no');
+  fb.textContent = ok ? 'Correct.' : 'Not quite. Watch the vector sum.';
+  showResult();
+}));
+$('#showBtn').addEventListener('click', () => { revealed = true; vecT0 = performance.now() / 1000; showResult(); });
+$('#tgPredict').addEventListener('change', () => selectMol(cur.id));
+$('#replayBtn').addEventListener('click', () => { vecT0 = performance.now() / 1000; });
+
+/* rotate by dragging or keys (both 3D views share one orientation) */
+function attachDrag(cv) {
+  cv.addEventListener('pointerdown', ev => { drag = {x: ev.clientX, y: ev.clientY}; cv.setPointerCapture(ev.pointerId); });
+  cv.addEventListener('pointermove', ev => {
+    if (!drag) return;
+    yaw += (ev.clientX - drag.x) * 0.01; pitch = clamp(pitch + (ev.clientY - drag.y) * 0.01, -1.3, 1.3);
+    drag = {x: ev.clientX, y: ev.clientY};
+  });
+  ['pointerup', 'pointercancel'].forEach(n => cv.addEventListener(n, () => { drag = null; }));
+  cv.addEventListener('keydown', ev => {
+    const k = {ArrowLeft:[-.15,0], ArrowRight:[.15,0], ArrowUp:[0,-.15], ArrowDown:[0,.15]}[ev.key];
+    if (k) { ev.preventDefault(); yaw += k[0]; pitch = clamp(pitch + k[1], -1.3, 1.3); }
+  });
+}
+attachDrag($('#molCanvas')); attachDrag($('#vecCanvas'));
+
+/* draw molecule */
+function drawMol(t, dt) {
+  if ($('#tgSpin').checked && !drag && !reduce) yaw += dt * 0.5;
+  const {ctx, w, h} = M; ctx.clearRect(0, 0, w, h);
+  const m = cur, S = Math.min(h * 0.33, w * 0.28) / m.maxR, cx = w / 2, cy = h * 0.46;
+  const showArrows = $('#tgArrows').checked, showQ = $('#tgCharge').checked;
+  const proj = p => { const q = rot(p), k = 7 / (7 - q[2]); return {x: cx + q[0] * S * k, y: cy - q[1] * S * k, z: q[2], k}; };
+  const P = m.atoms.map(a => proj(a[1]));
+  const rad = i => Math.min(LOOK[m.atoms[i][0]][1] * S * P[i].k * 0.95, h * 0.17);
+  const items = [];
+
+  m.vecs.forEach((b, bi) => {
+    const A = P[b.i], B = P[b.j];
+    items.push({z: (A.z + B.z) / 2, f: () => {
+      const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
+      const rA = rad(b.i), rB = rad(b.j), room = len - rA - rB;
+      const sx = A.x + ux * (rA - 2), sy = A.y + uy * (rA - 2), ex = B.x - ux * (rB - 2), ey = B.y - uy * (rB - 2);
+      if (room > 6) {
+        ctx.strokeStyle = col.ink2; ctx.globalAlpha = 0.75; ctx.lineWidth = 2.5 * (A.k + B.k) / 2; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke(); ctx.globalAlpha = 1;
+      }
+    }});
+  });
+
+  m.atoms.forEach((a, i) => items.push({z: P[i].z, f: () => {
+    const p = P[i], r = rad(i), q = m.q[i];
+    if (showQ && Math.abs(q) >= 0.25) halo(ctx, p.x, p.y, r, q > 0 ? col.neg : col.pos, Math.min(0.6, Math.abs(q) * 0.28));
+    disc(ctx, p.x, p.y, r, LOOK[a[0]][0], a[0]);
+    if (showQ && Math.abs(q) >= 0.25) {
+      ctx.fillStyle = q > 0 ? col.neg : col.pos; ctx.font = '800 22px Big Shoulders Display, Arial Narrow, sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText(q > 0 ? 'δ−' : 'δ+', p.x + r * 0.9, p.y - r * 0.85);
+    }
+  }}));
+
+  m.lp.forEach(u => {
+    const p = proj(mul(u, 0.62));
+    items.push({z: p.z, f: () => {
+      const r = 0.3 * S * p.k;
+      ctx.save(); ctx.globalAlpha = 0.28; ctx.fillStyle = col.accent; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill(); ctx.restore();
+      ctx.strokeStyle = col.accent; ctx.lineWidth = 1.2; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = col.ink; ctx.beginPath(); ctx.arc(p.x - r * 0.28, p.y, 2.4, 0, 7); ctx.arc(p.x + r * 0.28, p.y, 2.4, 0, 7); ctx.fill();
+    }});
+  });
+
+  items.sort((a, b) => a.z - b.z).forEach(it => it.f());
+
+  // dipole arrows go on top of the atoms in a final pass, so they stay visible at every angle
+  if (showArrows) m.vecs.forEach(b => {
+    if (b.d <= 0) return;
+    const A = P[b.i], B = P[b.j], lo = b.win === b.j ? A : B, hi = b.win === b.j ? B : A;
+    const dx = hi.x - lo.x, dy = hi.y - lo.y, len = Math.hypot(dx, dy), wid = 2.2 + 1.3 * b.d;
+    if (len < 30) { // bond points (almost) along the line of sight: end-on symbol
+      const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2, toward = hi.z > lo.z;
+      ctx.fillStyle = col.stage; ctx.strokeStyle = col.ink; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(mx, my, 10, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = col.ink;
+      if (toward) { ctx.beginPath(); ctx.arc(mx, my, 3, 0, 7); ctx.fill(); }
+      else { ctx.beginPath(); ctx.moveTo(mx - 5, my - 5); ctx.lineTo(mx + 5, my + 5); ctx.moveTo(mx + 5, my - 5); ctx.lineTo(mx - 5, my + 5); ctx.stroke(); }
+      return;
+    }
+    const tx = lo.x + dx * 0.2, ty = lo.y + dy * 0.2, hx = lo.x + dx * 0.8, hy = lo.y + dy * 0.8;
+    ctx.strokeStyle = ctx.fillStyle = col.stage; arrow(ctx, tx, ty, hx, hy, wid + 4, 16);
+    ctx.strokeStyle = ctx.fillStyle = col.ink; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(tx - 4, ty); ctx.lineTo(tx + 4, ty); ctx.moveTo(tx, ty - 4); ctx.lineTo(tx, ty + 4); ctx.stroke();
+    arrow(ctx, tx, ty, hx, hy, wid, 11);
+  });
+
+  // net dipole
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left'; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.fillStyle = col.ink2;
+  if (!revealed) { ctx.fillText('Predict first: polar or non-polar?', 14, 24); return; }
+  const o = P[0];
+  if (m.polar) {
+    const q = rot(m.net), ex = o.x + q[0] * S * 0.5, ey = o.y - q[1] * S * 0.5;
+    ctx.save(); ctx.globalAlpha = 0.88; ctx.strokeStyle = ctx.fillStyle = col.net; arrow(ctx, o.x, o.y, ex, ey, 8, 22); ctx.restore();
+    ctx.fillStyle = col.net; ctx.font = '800 20px Big Shoulders Display, Arial Narrow, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('NET', ex + (ex >= o.x ? 22 : -22), ey - 8);
+    ctx.textAlign = 'left'; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.fillText('net dipole ≠ 0 (relative size ' + m.netMag.toFixed(2) + ')', 14, 24);
+  } else {
+    const pr = 20 + 5 * Math.sin(t * 3);
+    ctx.strokeStyle = col.net; ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.arc(o.x, o.y, pr + rad(0) * 0.5, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = col.net; ctx.fillText(m.hasPolarBond ? 'net dipole = 0: the pulls cancel' : 'net dipole = 0: no polar bonds', 14, 24);
+  }
+}
+
+/* draw vector sum (3D, perspective, depth-shaded) */
+function drawVec(t) {
+  const {ctx, w, h} = V; ctx.clearRect(0, 0, w, h);
+  const mo = cur, n = mo.vecs.length;
+  ctx.textBaseline = 'alphabetic'; ctx.font = '500 13px IBM Plex Mono, monospace'; ctx.textAlign = 'left'; ctx.fillStyle = col.ink2;
+  ctx.fillText('bond dipoles, head to tail', 14, 24);
+  ctx.textAlign = 'right'; ctx.fillText('drag to rotate', w - 14, 24);
+  if (!revealed) { ctx.textAlign = 'center'; ctx.fillText('Make a prediction to reveal the vector sum.', w / 2, h / 2); return; }
+  if (mo.vecs.every(b => b.d === 0)) { ctx.textAlign = 'center'; ctx.fillText('Every bond dipole is zero, so there is nothing to add.', w / 2, h / 2); return; }
+  const dur = 0.9, hold = 3.6, T = reduce ? n * dur + 5 : ((performance.now() / 1000 - vecT0) % (n * dur + hold));
+  const prog = Math.min(n, T / dur), done = clamp((T - n * dur) / 0.6, 0, 1);
+  const R = mo.pathR, Su = 0.3 * Math.min(w, h) / R, F = 3.2 * R + 2, qc = rot(mo.cen), cx = w / 2, cy = h / 2 + 8;
+  const pr = p => { const q = rot(p), rx = q[0] - qc[0], ry = q[1] - qc[1], rz = q[2] - qc[2], k = F / (F - rz); return {x: cx + rx * Su * k, y: cy - ry * Su * k, z: rz / R, k}; };
+  const pts = mo.path.map(pr);
+
+  // arrows far to near, so nearer ones overlap farther ones
+  const order = mo.vecs.map((_, k) => k).sort((a, b) => (pts[a].z + pts[a + 1].z) - (pts[b].z + pts[b + 1].z));
+  order.forEach(k => {
+    const f = clamp(prog - k, 0, 1); if (f <= 0 || mo.vecs[k].d === 0) return;
+    const a = pts[k], b = pts[k + 1], ex = a.x + (b.x - a.x) * f, ey = a.y + (b.y - a.y) * f;
+    const near = clamp(((a.z + b.z) / 2 + 1) / 2, 0, 1), kk = (a.k + b.k) / 2;
+    ctx.strokeStyle = ctx.fillStyle = col.ink; ctx.globalAlpha = 0.4 + 0.6 * near;
+    if (Math.hypot(ex - a.x, ey - a.y) > 6) arrow(ctx, a.x, a.y, ex, ey, (2.2 + 2 * near) * kk, 9 + 5 * near);
+    if (f >= 1) {
+      const bx = (a.x + b.x) / 2 - (b.y - a.y) * 0.12, by = (a.y + b.y) / 2 + (b.x - a.x) * 0.12;
+      ctx.globalAlpha = 1; ctx.fillStyle = col.surface; ctx.beginPath(); ctx.arc(bx, by, 9, 0, 7); ctx.fill();
+      ctx.strokeStyle = col.ink; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = col.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '500 11px IBM Plex Mono, monospace';
+      ctx.fillText(String(k + 1), bx, by + 1); ctx.textBaseline = 'alphabetic';
+    }
+  });
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = col.ink; ctx.beginPath(); ctx.arc(pts[0].x, pts[0].y, 5.5, 0, 7); ctx.fill();
+  ctx.fillStyle = col.ink2; ctx.textAlign = 'center'; ctx.font = '500 12px IBM Plex Mono, monospace';
+  ctx.fillText('start', pts[0].x, pts[0].y - 12);
+
+  if (done > 0) {
+    const e = pts[n];
+    ctx.save(); ctx.globalAlpha = done;
+    if (mo.polar) {
+      ctx.strokeStyle = ctx.fillStyle = col.net; ctx.globalAlpha = done * 0.9; arrow(ctx, pts[0].x, pts[0].y, e.x, e.y, 7, 20);
+      ctx.globalAlpha = done; ctx.textAlign = 'center'; ctx.font = '800 20px Big Shoulders Display, Arial Narrow, sans-serif';
+      ctx.fillText('NET DIPOLE', (pts[0].x + e.x) / 2 + 4, (pts[0].y + e.y) / 2 - 14);
+    } else {
+      const pr2 = 14 + 4 * Math.sin(t * 3);
+      ctx.strokeStyle = col.net; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(pts[0].x, pts[0].y, pr2, 0, 7); ctx.stroke();
+      ctx.fillStyle = col.net; ctx.textAlign = 'center'; ctx.font = '800 20px Big Shoulders Display, Arial Narrow, sans-serif';
+      ctx.fillText('BACK AT THE START: NET = 0', w / 2, h - 18);
+    }
+    ctx.restore();
+  }
+
+  // axes gizmo (bottom left) so the 3D orientation is readable
+  const gx = 36, gy = h - 40;
+  [['x', [1, 0, 0]], ['y', [0, 1, 0]], ['z', [0, 0, 1]]].forEach(([nm, u]) => {
+    const q = rot(u), x2 = gx + q[0] * 22, y2 = gy - q[1] * 22;
+    ctx.strokeStyle = col.ink2; ctx.fillStyle = col.ink2; ctx.globalAlpha = 0.5 + 0.5 * ((q[2] + 1) / 2); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(x2, y2); ctx.stroke();
+    ctx.font = '500 11px IBM Plex Mono, monospace'; ctx.textAlign = 'center'; ctx.fillText(nm, x2 + (x2 - gx) * 0.3, y2 + (y2 - gy) * 0.3 + 4);
+  });
+  ctx.globalAlpha = 1;
+}
+/* ---------- Part 3: charged-rod test (five liquids, all liquid at room temperature) ---------- */
+// canvas text cannot show HTML <sub>, so turn the digits inside <sub> into Unicode subscripts
+const SUBD = '₀₁₂₃₄₅₆₇₈₉';
+const plain = f => f.replace(/<sub>(\d+)<\/sub>/g, (_, d) => [...d].map(c => SUBD[+c]).join('')).replace(/<\/?sub>/g, '');
+const rrect = (c, x, y, w, h, r) => c.roundRect ? c.roundRect(x, y, w, h, r) : c.rect(x, y, w, h);
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const len3 = a => Math.hypot(a[0], a[1], a[2]);
+const mv = (R, v) => [dot(R[0], v), dot(R[1], v), dot(R[2], v)];
+const mm3 = (A, B) => A.map(r => [0, 1, 2].map(j => r[0] * B[0][j] + r[1] * B[1][j] + r[2] * B[2][j]));
+function rodr(ax, a) {
+  const [x, y, z] = ax, c = Math.cos(a), s = Math.sin(a), t = 1 - c;
+  return [[t*x*x + c, t*x*y - s*z, t*x*z + s*y], [t*x*y + s*z, t*y*y + c, t*y*z - s*x], [t*x*z - s*y, t*y*z + s*x, t*z*z + c]];
+}
+const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) * 1.15;
+const randAxis = () => nrm([gauss(), gauss(), gauss()]);
+
+function buildPropanone() {
+  const atoms = [['C', [0, 0, 0]], ['O', [0, 1.05, 0]]], bonds = [[0, 1, 2]];
+  [-1, 1].forEach(sg => {
+    const cm = [sg * 1.19, -0.73, 0], ci = atoms.length;
+    atoms.push(['C', cm]); bonds.push([0, ci, 1]);
+    const u = nrm([-cm[0], -cm[1], 0]), e1 = [0, 0, 1], e2 = cross(u, e1), c = Math.cos(deg(109.5)), s = Math.sin(deg(109.5));
+    [0, 120, 240].forEach(ph => {
+      const d = [0, 1, 2].map(k => c * u[k] + s * (Math.cos(deg(ph)) * e1[k] + Math.sin(deg(ph)) * e2[k]));
+      atoms.push(['H', [cm[0] + d[0] * 0.95, cm[1] + d[1] * 0.95, cm[2] + d[2] * 0.95]]); bonds.push([ci, atoms.length - 1, 1]);
+    });
+  });
+  return {atoms, bonds};
+}
+const EXPS = [
+  {id:'CS2', f:'CS<sub>2</sub>', name:'Carbon disulfide', shape:'Linear, 180°',
+   atoms:[['C', [0, 0, 0]], ['S', [1.35, 0, 0]], ['S', [-1.35, 0, 0]]], bonds:[[0, 1, 2], [0, 2, 2]],
+   why:'The C–S bonds have a very small ΔEN (0.1), and the molecule is linear and symmetrical, so even a small pull would be cancelled, as in BeCl₂ in Part 2. There is no permanent dipole for the rod to grab.'},
+  {id:'CHCl3', f:'CHCl<sub>3</sub>', name:'Trichloromethane (chloroform)', shape:'Tetrahedral, but not symmetrical',
+   atoms:[['C', [0, 0, 0]], ['H', [0, 0.95, 0]], ...[90, 210, 330].map(p => ['Cl', [1.45 * Math.sin(deg(109.5)) * Math.cos(deg(p)), 1.45 * Math.cos(deg(109.5)), 1.45 * Math.sin(deg(109.5)) * Math.sin(deg(p))]])],
+   bonds:[[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1]],
+   why:'The shape is tetrahedral, but the four bonds are not identical. The three C–Cl pulls and the C–H pull all lean away from the H atom, so they cannot cancel. The Cl face is δ− and the H side is δ+.'},
+  {id:'CCl4', f:'CCl<sub>4</sub>', name:'Tetrachloromethane', shape:'Tetrahedral, 109.5°',
+   atoms:[['C', [0, 0, 0]], ...TET.map(v => ['Cl', mul(v, 1.45)])], bonds:[1, 2, 3, 4].map(i => [0, i, 1]),
+   why:'Four identical polar C–Cl bonds point to the corners of a tetrahedron and cancel exactly (Part 2). The bonds are polar but the molecule has no permanent dipole, so the rod has nothing to turn.'},
+  {id:'H2O', f:'H<sub>2</sub>O', name:'Water', shape:'V-shaped (bent), 104.5°',
+   atoms:[['O', [0, 0, 0]], ['H', [0.79, -0.61, 0]], ['H', [-0.79, -0.61, 0]]], bonds:[[0, 1, 1], [0, 2, 1]],
+   why:'Both O–H bond dipoles point toward O, and the V shape means they reinforce. Oxygen is the δ− end and the two hydrogens make up the δ+ end.'},
+  {id:'C3H6O', f:'CH<sub>3</sub>COCH<sub>3</sub>', name:'Propanone (acetone)', shape:'Trigonal planar at the C=O carbon; tetrahedral at each CH₃',
+   ...buildPropanone(),
+   why:'The C=O bond is strongly polar (ΔEN 1.0) with O at the δ− end. Both CH₃ groups sit on the opposite side of that carbon, so nothing cancels it. The molecule has a permanent dipole.'}
+];
+EXPS.forEach(e => {
+  e.atoms = e.atoms.map(a => ({s: a[0], p: a[1]}));
+  const c = e.atoms.reduce((s, a) => [s[0] + a.p[0], s[1] + a.p[1], s[2] + a.p[2]], [0, 0, 0]).map(x => x / e.atoms.length);
+  e.atoms.forEach(a => { a.p = sub3(a.p, c); });
+  e.q = e.atoms.map(() => 0); let net = [0, 0, 0];
+  e.bonds.forEach(([i, j]) => {
+    const d = r1(EN[e.atoms[j].s] - EN[e.atoms[i].s]), u = nrm(sub3(e.atoms[j].p, e.atoms[i].p));
+    if (d > 0) { e.q[j] += d; e.q[i] -= d; } else if (d < 0) { e.q[i] += -d; e.q[j] -= -d; }
+    net = [net[0] + u[0] * d, net[1] + u[1] * d, net[2] + u[2] * d];
+  });
+  e.netMag = len3(net); e.polar = e.netMag > 0.05; e.dm = e.polar ? nrm(net) : [0, 1, 0];
+  e.hasPolarBond = e.bonds.some(([i, j]) => classify(EN[e.atoms[i].s] - EN[e.atoms[j].s]).key !== 'non');
+  e.ext = Math.max(...e.atoms.map(a => len3(a.p) + LOOK[a.s][1]));
+});
+
+const rod = {id:'H2O', mode:'neg', d:0, pull:0};
+const RC = setupCanvas($('#rodCanvas')), ZC = setupCanvas($('#zoomCanvas'));
+rod.mols = Array.from({length: 6}, () => ({R: rodr(randAxis(), Math.random() * 6.28), w: mul(randAxis(), 1.4 + Math.random())}));
+const curE = () => EXPS.find(x => x.id === rod.id);
+
+$('#rodPicker').innerHTML = '<span class="gname">Pick a liquid</span>' +
+  EXPS.map(e => `<button class="chip" type="button" data-id="${e.id}" aria-pressed="false" title="${e.name}">${e.f}</button>`).join('');
+$('#rodPicker').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { rod.id = b.dataset.id; rodInfo(); } });
+$('#rodModes').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { rod.mode = b.dataset.mode; rodInfo(); } });
+$('#flipBtn').addEventListener('click', () => { rod.mode = rod.mode === 'neg' ? 'pos' : 'neg'; rodInfo(); });
+
+function rodInfo() {
+  const e = curE(), on = rod.mode !== 'off', neg = rod.mode === 'neg';
+  document.querySelectorAll('#rodPicker .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === rod.id)));
+  document.querySelectorAll('#rodModes .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === rod.mode)));
+  $('#rName').innerHTML = `<span class="f">${e.f}</span> · ${e.name}`;
+  const pill = $('#rState'); pill.textContent = e.polar ? 'Polar molecule' : 'Non-polar molecule'; pill.className = 'pill ' + (e.polar ? 'v-yes' : 'v-no');
+  $('#rShape').innerHTML = e.shape;
+  $('#rOut').textContent = !on ? 'The rod is off, so the stream falls straight down. Switch it on to test.'
+    : (e.polar ? 'The stream bends toward the rod.' : 'The stream is not deflected, whichever charge the rod carries.');
+  const tail = e.polar
+    ? (on ? ` The rod is ${neg ? 'negative, so the δ+ ends turn to face it' : 'positive, so the δ− ends turn to face it'}. The nearer end is attracted more strongly than the farther end is repelled, so the liquid is pulled toward the rod.` : ' With a rod on, the molecules would turn so the end of opposite charge faces it.')
+    : (e.hasPolarBond ? ' Polar bonds alone are not enough.' : '');
+  $('#rWhy').textContent = e.why + tail;
+  $('#zoomCap').textContent = !on ? 'Rod off: every molecule tumbles in a random direction.'
+    : (e.polar ? `${neg ? 'δ+' : 'δ−'} ends turn toward the ${neg ? 'negative' : 'positive'} rod and the molecules drift toward it. Reverse the charge and they turn around.`
+      : 'No preferred direction: the molecules keep tumbling, so there is no net pull toward the rod.');
+}
+
+/* orientation of one molecule: random tumbling, plus a torque toward the rod for polar ones */
+function stepMol(mm, e, dt, on) {
+  const aligned = e.polar && on, tv = rod.mode === 'neg' ? [-1, 0, 0] : [1, 0, 0];
+  if (reduce) {
+    if (aligned) { const u = mv(mm.R, e.dm), cr = cross(u, tv), s = len3(cr); if (s > 1e-5) mm.R = mm3(rodr(mul(cr, 1 / s), Math.atan2(s, dot(u, tv))), mm.R); }
+    return;
+  }
+  const sg = aligned ? 1.2 : 2.6, st = Math.sqrt(dt);
+  mm.w = mm.w.map(v => v - v * 1.2 * dt + sg * st * gauss());
+  const sp = len3(mm.w) * dt; if (sp > 1e-6) mm.R = mm3(rodr(nrm(mm.w), sp), mm.R);
+  if (aligned) {
+    const u = mv(mm.R, e.dm), cr = cross(u, tv), s = len3(cr), th = Math.atan2(s, dot(u, tv));
+    mm.R = mm3(rodr(s > 1e-5 ? mul(cr, 1 / s) : [0, 0, 1], th * Math.min(1, dt * 3.5)), mm.R);
+  }
+}
+
+/* one 3D ball-and-stick molecule, drawn at (cx, cy) with orientation R */
+function drawExpMol(ctx, e, R, cx, cy, S, showQ) {
+  const P = e.atoms.map(a => { const q = mv(R, a.p), k = 7 / (7 - q[2]); return {x: cx + q[0] * S * k, y: cy - q[1] * S * k, z: q[2], k}; });
+  const rad = i => LOOK[e.atoms[i].s][1] * S * P[i].k * 0.95, items = [];
+  e.bonds.forEach(([i, j, o]) => items.push({z: (P[i].z + P[j].z) / 2, f: () => {
+    const A = P[i], B = P[j], dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy), rA = rad(i), rB = rad(j);
+    if (L - rA - rB < 3) return;
+    const ux = dx / L, uy = dy / L, x1 = A.x + ux * (rA - 2), y1 = A.y + uy * (rA - 2), x2 = B.x - ux * (rB - 2), y2 = B.y - uy * (rB - 2);
+    const lw = Math.max(2.2, 0.1 * S * (A.k + B.k) / 2), off = o === 2 ? lw * 0.95 : 0;
+    ctx.strokeStyle = col.ink2; ctx.globalAlpha = 0.9; ctx.lineCap = 'round';
+    (o === 2 ? [-1, 1] : [0]).forEach(sd => {
+      ctx.lineWidth = o === 2 ? lw * 0.75 : lw;
+      ctx.beginPath(); ctx.moveTo(x1 - uy * off * sd, y1 + ux * off * sd); ctx.lineTo(x2 - uy * off * sd, y2 + ux * off * sd); ctx.stroke();
+    });
+    ctx.globalAlpha = 1;
+  }}));
+  e.atoms.forEach((a, i) => items.push({z: P[i].z, f: () => {
+    const q = e.q[i], r = rad(i);
+    if (showQ && Math.abs(q) >= 0.25) halo(ctx, P[i].x, P[i].y, r, q > 0 ? col.neg : col.pos, Math.min(0.6, Math.abs(q) * 0.28));
+    disc(ctx, P[i].x, P[i].y, r, LOOK[a.s][0], r > 9 ? a.s : '');
+  }}));
+  items.sort((a, b) => a.z - b.z).forEach(it => it.f());
+
+  if (showQ && e.polar) { // dipole arrow through the molecule and a δ label at each end
+    const q = mv(R, e.dm), Lh = e.ext * S * 0.55;
+    const ax = cx - q[0] * Lh, ay = cy + q[1] * Lh, bx = cx + q[0] * Lh, by = cy - q[1] * Lh;
+    ctx.save(); ctx.globalAlpha = 0.92; ctx.strokeStyle = ctx.fillStyle = col.net; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(ax - 4, ay); ctx.lineTo(ax + 4, ay); ctx.moveTo(ax, ay - 4); ctx.lineTo(ax, ay + 4); ctx.stroke();
+    if (Math.hypot(bx - ax, by - ay) > 14) arrow(ctx, ax, ay, bx, by, 3, 10);
+    ctx.restore();
+    let vx = q[0], vy = -q[1]; const vl = Math.hypot(vx, vy); if (vl < 0.3) { vx = 0; vy = -1; } else { vx /= vl; vy /= vl; }
+    const ro = e.ext * S + 12;
+    ctx.font = '800 19px Big Shoulders Display, Arial Narrow, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = col.neg; ctx.fillText('δ−', cx + vx * ro, cy + vy * ro);
+    ctx.fillStyle = col.pos; ctx.fillText('δ+', cx - vx * ro, cy - vy * ro);
+    ctx.textBaseline = 'alphabetic';
+  }
+}
+
+/* the stream, the funnel and the rod */
+function drawRod(t, dt) {
+  const {ctx, w, h} = RC; ctx.clearRect(0, 0, w, h);
+  const e = curE(), on = rod.mode !== 'off', rc = rod.mode === 'neg' ? col.neg : col.pos;
+  const sx = w * 0.4, AMP = Math.min(80, w * 0.16), topY = h * 0.06, cHt = h * 0.2, nozY = topY + cHt, yEnd = h * 0.86, rodY = h * 0.66;
+  const cw2 = Math.min(150, w * 0.28) / 2, bend = e.polar && on;
+  rod.d += ((bend ? AMP : 0) - rod.d) * Math.min(1, dt * 3.5);
+  ctx.textBaseline = 'alphabetic';
+
+  const path = () => {
+    ctx.beginPath(); ctx.moveTo(sx - cw2, topY); ctx.lineTo(sx + cw2, topY); ctx.lineTo(sx + cw2, topY + cHt * 0.55);
+    ctx.lineTo(sx + 7, nozY); ctx.lineTo(sx - 7, nozY); ctx.lineTo(sx - cw2, topY + cHt * 0.55); ctx.closePath();
+  };
+  ctx.lineWidth = 2; ctx.strokeStyle = col.ink2; ctx.fillStyle = col.surface; path(); ctx.fill();
+  ctx.save(); path(); ctx.clip(); ctx.globalAlpha = 0.5; ctx.fillStyle = col.accent; ctx.fillRect(sx - cw2, topY + cHt * 0.12, cw2 * 2, cHt); ctx.restore();
+  ctx.lineWidth = 2; ctx.strokeStyle = col.ink2; path(); ctx.stroke();
+  ctx.fillStyle = col.ink2; ctx.font = '500 12px IBM Plex Mono, monospace'; ctx.textAlign = 'left';
+  ctx.fillText(plain(e.f) + ' (liquid)', sx + cw2 + 10, topY + 14);
+
+  ctx.strokeStyle = col.line; ctx.lineWidth = 1.5; ctx.setLineDash([4, 6]);
+  ctx.beginPath(); ctx.moveTo(sx, nozY + 4); ctx.lineTo(sx, yEnd); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = col.ink2; ctx.font = '500 11px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+  ctx.fillText('straight down', sx - 6, yEnd - 8);
+  ctx.strokeStyle = col.ink2; ctx.lineWidth = 2; ctx.fillStyle = col.surface;
+  ctx.beginPath(); ctx.rect(sx - 70, yEnd, AMP + 140, 16); ctx.fill(); ctx.stroke();
+
+  const N = 36, pts = [];
+  for (let i = 0; i <= N; i++) { const u = i / N; pts.push([sx + rod.d * u * u, nozY + (yEnd - nozY) * u]); }
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.strokeStyle = col.accent; ctx.globalAlpha = 0.9; ctx.lineWidth = 5;
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke();
+  ctx.strokeStyle = '#FFFFFF'; ctx.globalAlpha = 0.45; ctx.lineWidth = 1.6; ctx.setLineDash([6, 12]); ctx.lineDashOffset = reduce ? 0 : -t * 70;
+  ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke();
+  ctx.setLineDash([]); ctx.globalAlpha = 1;
+  const ex = pts[N][0], rip = reduce ? 0.5 : (t * 1.4) % 1;
+  ctx.strokeStyle = col.accent; ctx.globalAlpha = 1 - rip; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.ellipse(ex, yEnd - 1, 6 + rip * 22, 2 + rip * 4, 0, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
+
+  // small "attracted" arrows beside the bending stream
+  if (rod.d > 3) {
+    ctx.strokeStyle = ctx.fillStyle = col.ink; ctx.globalAlpha = Math.min(1, rod.d / AMP) * 0.8;
+    [0.55, 0.7, 0.85].forEach(u => { const x = sx + rod.d * u * u + 12, y = nozY + (yEnd - nozY) * u; arrow(ctx, x, y, x + 20, y, 2, 8); });
+    ctx.globalAlpha = 1;
+  }
+
+  // rod
+  const tipX = sx + AMP + 30;
+  ctx.fillStyle = col.ink2; ctx.globalAlpha = 0.35; ctx.beginPath(); rrect(ctx, tipX, rodY - 10, w - tipX + 20, 20, 10); ctx.fill(); ctx.globalAlpha = 1;
+  ctx.strokeStyle = col.ink2; ctx.lineWidth = 2; ctx.beginPath(); rrect(ctx, tipX, rodY - 10, w - tipX + 20, 20, 10); ctx.stroke();
+  if (on) {
+    halo(ctx, tipX + 8, rodY, 14, rc, 0.5);
+    ctx.fillStyle = rc; ctx.font = '800 20px Atkinson Hyperlegible, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let x = tipX + 18; x < w - 8; x += 28) ctx.fillText(rod.mode === 'neg' ? '−' : '+', x, rodY + 1);
+    ctx.textBaseline = 'alphabetic';
+  }
+  ctx.fillStyle = col.ink2; ctx.font = '500 12px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+  ctx.fillText(!on ? 'rod (uncharged)' : (rod.mode === 'neg' ? 'negatively charged rod' : 'positively charged rod'), w - 12, rodY - 20);
+}
+
+/* zoom: 3D molecules with the rod on the right */
+function drawZoom(t, dt) {
+  const {ctx, w, h} = ZC; ctx.clearRect(0, 0, w, h);
+  const e = curE(), on = rod.mode !== 'off', rc = rod.mode === 'neg' ? col.neg : col.pos, showQ = $('#tgRodQ').checked;
+  ctx.textBaseline = 'alphabetic'; ctx.font = '500 12px IBM Plex Mono, monospace'; ctx.fillStyle = col.ink2; ctx.textAlign = 'left';
+  ctx.fillText('zoom: molecules in the stream', 14, 20);
+
+  const barW = 34, bx = w - barW - 10, by = 30, bh = h - 40;
+  ctx.fillStyle = col.ink2; ctx.globalAlpha = 0.3; ctx.beginPath(); rrect(ctx, bx, by, barW, bh, 14); ctx.fill(); ctx.globalAlpha = 1;
+  ctx.strokeStyle = col.ink2; ctx.lineWidth = 2; ctx.beginPath(); rrect(ctx, bx, by, barW, bh, 14); ctx.stroke();
+  if (on) {
+    halo(ctx, bx + barW / 2, by + bh / 2, bh * 0.28, rc, 0.28);
+    ctx.fillStyle = rc; ctx.font = '800 22px Atkinson Hyperlegible, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (let y = by + 20; y < by + bh - 8; y += 28) ctx.fillText(rod.mode === 'neg' ? '−' : '+', bx + barW / 2, y);
+    ctx.textBaseline = 'alphabetic';
+  }
+  ctx.fillStyle = col.ink2; ctx.font = '500 12px IBM Plex Mono, monospace'; ctx.textAlign = 'right';
+  ctx.fillText(!on ? 'rod off' : (rod.mode === 'neg' ? 'negative rod' : 'positive rod'), w - 10, 20);
+
+  const cols = w >= 560 ? 3 : 2, rows = 2, gx0 = 10, gw = bx - gx0 - 16, cw = gw / cols, ch = (h - 36) / rows;
+  const S = Math.min(cw, ch) * 0.4 / e.ext;
+  rod.pull += ((e.polar && on ? 1 : 0) - rod.pull) * Math.min(1, dt * 3);
+  for (let i = 0; i < cols * rows; i++) {
+    const mm = rod.mols[i]; stepMol(mm, e, dt, on);
+    const cx = gx0 + ((i % cols) + 0.5) * cw + rod.pull * 7, cy = 32 + (Math.floor(i / cols) + 0.5) * ch;
+    drawExpMol(ctx, e, mm.R, cx, cy, S, showQ);
+  }
+}
+
+rodInfo();
+/* ---------- Part 4: quiz ---------- */
+const QUIZ = [
+  {q:'Which of these molecules has polar bonds but is a non-polar molecule?',
+   o:['HBr','CCl₄','PCl₃','SCl₂'], a:1,
+   e:'CCl₄ has four polar C–Cl bonds, but they point to the corners of a tetrahedron and cancel. HBr, PCl₃ and SCl₂ all have a net dipole.'},
+  {q:'SiCl₄ is tetrahedral. Si has an electronegativity of 1.9 and Cl has 3.2. Is the molecule polar?',
+   o:['Polar, because the Si–Cl bonds are polar','Non-polar, because the four polar bonds cancel','Non-polar, because the Si–Cl bonds are non-polar','Polar, because Si is larger than Cl'], a:1,
+   e:'ΔEN is 1.3, so each Si–Cl bond is polar. Four identical pulls in a tetrahedral shape cancel, so the molecule is non-polar.'},
+  {q:'Replace one Cl in CCl₄ with H to make CHCl₃. Why does the molecule become polar?',
+   o:['H is much smaller than Cl','The four bond pulls are no longer identical, so they cannot cancel','C–H bonds are ionic','The molecule stops being tetrahedral'], a:1,
+   e:'The shape is still tetrahedral, but one bond is now different. The three C–Cl pulls and the C–H pull all lean away from the H atom, so the four no longer balance and a net dipole remains.'},
+  {q:'A thin stream of a polar liquid bends toward a negatively charged rod. What happens if you use a positively charged rod instead?',
+   o:['It bends away from the rod','It bends toward the rod again','It does not move','It bends only if the liquid is cold'], a:1,
+   e:'The molecules turn so that the end with the opposite charge faces the rod. That end is nearer, so attraction wins. A polar liquid is pulled toward either sign of charge.'},
+  {q:'Which pair of atoms gives the most one-sided tug of war?',
+   o:['C and H','Cl and Cl','O and H','Na and Cl'], a:3,
+   e:'Na (0.9) and Cl (3.2) have ΔEN = 2.3, well above 1.8, so the electron pair ends up almost entirely on Cl. That is close to ionic.'}
+];
+let score = 0, answered = 0;
+$('#quiz').innerHTML = QUIZ.map((it, qi) =>
+  `<div class="q-item" data-qi="${qi}"><p class="qt">${qi + 1}. ${it.q}</p><div class="opts">` +
+  it.o.map((o, oi) => `<button class="opt" type="button" data-oi="${oi}">${o}</button>`).join('') +
+  `</div><p class="fb" hidden></p></div>`).join('');
+$('#quiz').addEventListener('click', e => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  const item = b.closest('.q-item'), it = QUIZ[+item.dataset.qi], oi = +b.dataset.oi, ok = oi === it.a;
+  item.querySelectorAll('.opt').forEach((x, i) => { x.disabled = true; if (i === it.a) x.classList.add('right'); });
+  if (!ok) b.classList.add('wrong');
+  const fb = item.querySelector('.fb'); fb.hidden = false; fb.className = 'fb ' + (ok ? 'ok' : 'no');
+  fb.textContent = (ok ? 'Correct. ' : 'Not quite. ') + it.e;
+  answered++; if (ok) score++;
+  $('#score').textContent = 'Score: ' + score + ' / ' + QUIZ.length + (answered === QUIZ.length ? ' · done' : '');
+});
+
+/* ---------- main loop ---------- */
+let last = performance.now() / 1000, fc = 0;
+function frame(ms) {
+  const t = ms / 1000, dt = Math.min(0.05, Math.max(0.001, t - last)); last = t;
+  if (++fc % 30 === 0) readCols();
+  // one failing draw must never stop the animation loop
+  try {
+    if (vis.lab && L.w > 20) drawLab(t, dt);
+    if (vis.mol && M.w > 20) drawMol(t, dt);
+    if (vis.vec && V.w > 20) drawVec(t);
+    if (vis.rod && RC.w > 20) drawRod(t, dt);
+    if (vis.rod && ZC.w > 20) drawZoom(t, dt);
+  } catch (err) { console.error(err); }
+  requestAnimationFrame(frame);
+}
+if (reduce) $('#tgSpin').checked = false;
+const syncPause = () => { $('#pauseBtn').textContent = $('#tgSpin').checked ? 'Pause rotation' : 'Resume rotation'; };
+$('#pauseBtn').addEventListener('click', () => { const c = $('#tgSpin'); c.checked = !c.checked; syncPause(); });
+$('#tgSpin').addEventListener('change', syncPause); syncPause();
+selectMol('BeCl2');
+requestAnimationFrame(frame);
+
+/* ---------- tabs ---------- */
+const TABS = {bond:'lab', molecule:'mol', experiment:'rod', quiz:'check'};
+const TAB_KEYS = Object.keys(TABS);
+function showTab(name, opts) {
+  if (!TABS[name]) name = 'bond';
+  opts = opts || {};
+  tab = name;
+  TAB_KEYS.forEach(k => {
+    const on = k === name, btn = document.getElementById('tab-' + k);
+    btn.setAttribute('aria-selected', String(on)); btn.tabIndex = on ? 0 : -1;
+    document.getElementById(TABS[k]).hidden = !on;
+  });
+  vis.lab = name === 'bond'; vis.mol = vis.vec = name === 'molecule'; vis.rod = name === 'experiment';
+  if (name === 'molecule') vecT0 = performance.now() / 1000;
+  if (name === 'bond') { lab.s = 0.5; lab.v = 0; }
+  if (opts.focus) document.getElementById('tab-' + name).focus();
+  try { if (opts.hash !== false) history.replaceState(null, '', '#' + name); } catch (e) {}
+  if (opts.scroll) {
+    const bar = document.getElementById('tablist').getBoundingClientRect().top + window.scrollY;
+    if (window.scrollY > bar - 12) window.scrollTo(0, Math.max(0, bar - 12));
+  }
+}
+$('#tablist').addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) showTab(b.dataset.tab, {scroll:true}); });
+$('#tablist').addEventListener('keydown', e => {
+  const i = TAB_KEYS.indexOf(tab);
+  const to = {ArrowRight: (i + 1) % 4, ArrowLeft: (i + 3) % 4, Home: 0, End: 3}[e.key];
+  if (to === undefined) return;
+  e.preventDefault(); showTab(TAB_KEYS[to], {focus:true, scroll:false});
+});
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if (b) showTab(b.dataset.go, {scroll:true}); });
+addEventListener('hashchange', () => { const h = location.hash.slice(1); if (TABS[h] && h !== tab) showTab(h, {hash:false}); });
+{ const h = location.hash.slice(1); showTab(TABS[h] ? h : 'bond', {hash:false}); }
+</script>
+
+</body></html>
