@@ -221,7 +221,7 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
 </header>
 <nav class="tabs" role="tablist" aria-label="Question types">
   <button role="tab" id="tb1" aria-controls="p1" aria-selected="true">1 · Introduction<small id="pg1"></small></button>
-  <button role="tab" id="tb2" aria-controls="p2" aria-selected="false">2 · Decomposition<small id="pg2"></small></button>
+  <button role="tab" id="tb2" aria-controls="p2" aria-selected="false">2 · Mass change on heating<small id="pg2"></small></button>
   <button role="tab" id="tb3" aria-controls="p3" aria-selected="false">3 · Experimental set-up<small id="pg3"></small></button>
   <button role="tab" id="tb4" aria-controls="p4" aria-selected="false">4 · Combustion analysis<small id="pg4"></small></button>
 </nav>
@@ -364,7 +364,10 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
 <rect x="676" y="180" width="140" height="86" rx="8" class="note"/>
 <text x="686" y="204" text-anchor="start" class="b">Where atoms go</text><text x="686" y="228" text-anchor="start" class="">all C  →  CO₂</text><text x="686" y="250" text-anchor="start" class="">all H  →  H₂O</text>
 </svg></div><figcaption>The tops of the U-tubes are sealed, so the gas must go down through the granules and back up (dashed path). Water is trapped first, then carbon dioxide. Each U-tube is weighed before and after the burn.</figcaption></figure>
-   <p>The mass gained by each absorber equals the mass of that product. Use it like this:</p>
+   <p>The mass gained by each U-tube equals the mass of that product. Some questions give you the weighings instead of the product masses, so subtract first:</p>
+   <span class="eq">mass of H₂O = U-tube ① after − U-tube ① before</span>
+   <span class="eq">mass of CO₂ = U-tube ② after − U-tube ② before</span>
+   <p>Then use the products to find the elements:</p>
    <span class="eq">mass of C = 12.0 ÷ 44.0 × mass of CO₂</span>
    <span class="eq">mass of H = 2.0 ÷ 18.0 × mass of H₂O</span>
    <span class="eq">mass of O = mass of sample − mass of C − mass of H</span>
@@ -372,7 +375,7 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
   <div class="box"><h3>Check for oxygen</h3>
    <p>If C + H already adds up to the sample mass, there is <b>no oxygen</b>. The compound is a hydrocarbon and your table only needs C and H. Never take oxygen from the CO₂ or H₂O, because some of that oxygen came from the air.</p></div>
  </div>
- <div class="qhead"><h2>Worked demo</h2></div><div id="demos4"></div>
+ <div class="qhead"><h2>Worked demos</h2></div><div id="demos4"></div>
  <div class="qhead"><h2>Practice</h2><span class="prog" id="prog4"></span></div><div id="prac4"></div>
 </section>
 <footer>Answers are checked by the page, in any order of elements (for example “O2S” is read as SO₂). For hydrates, type just the number <i>n</i>.</footer>
@@ -513,41 +516,50 @@ const Q=[
  think:{q:'How can you be sure the reduction is complete?',a:'Heat again in hydrogen, cool, and weigh again. When two readings are the same (constant mass), no more oxygen is being removed.'}},
 
 /* ---------- TAB 4 : combustion analysis ---------- */
-{id:'t4d1',tab:4,demo:true,kind:'combust',label:'Demo · compound Z',
+{id:'t4d1',tab:4,demo:true,kind:'combust',label:'Demo A · CO₂ and H₂O masses given',
  text:'Compound <i>Z</i> containing only C, H and O burnt completely in air to form carbon dioxide and water as the only products. Complete combustion of 1.86 g of <i>Z</i> gives 2.64 g of carbon dioxide and 1.62 g of water. Determine the empirical formula of <i>Z</i>.',
  sample:1.86,co2:2.64,h2o:1.62,answer:'CH3O',
  think:{q:'In the apparatus, why is the water absorber placed before the carbon dioxide absorber?',a:'The carbon dioxide absorber (for example soda lime or NaOH) would also soak up water vapour. If it came first, the mass gain for CO₂ would be too big and the water mass too small.'}},
+{id:'t4d2',tab:4,demo:true,kind:'combust',label:'Demo B · U-tube readings',
+ text:'Compound <i>V</i> contains only C, H and O. 1.20 g of <i>V</i> is burnt completely in excess oxygen. The gases pass through a water absorber (U-tube 1) and then a carbon dioxide absorber (U-tube 2), which are weighed before and after. Determine the empirical formula of <i>V</i>.',
+ sample:1.2,co2:2.64,h2o:1.44,answer:'C3H8O',
+ tubes:{wb:46.25,wa:47.69,cb:52.8,ca:55.44}},
 {id:'t4p1',tab:4,kind:'combust',label:'Practice 1',
  text:'1.40 g of a hydrocarbon burns completely to give 4.40 g of carbon dioxide and 1.80 g of water. Determine the empirical formula.',
  sample:1.40,co2:4.40,h2o:1.80,answer:'CH2'},
-{id:'t4p2',tab:4,kind:'combust',label:'Practice 2',
- text:'2.30 g of an organic compound containing C, H and O burns completely to give 4.40 g of carbon dioxide and 2.70 g of water. Determine the empirical formula.',
- sample:2.30,co2:4.40,h2o:2.70,answer:'C2H6O',
+{id:'t4p2',tab:4,kind:'combust',label:'Practice 2 · U-tube readings',
+ text:'2.30 g of an organic compound containing C, H and O is burnt completely in excess oxygen. The gases pass first through a U-tube of anhydrous calcium chloride, then through a U-tube of soda lime. Determine the empirical formula from the readings below.',
+ sample:2.3,co2:4.4,h2o:2.7,answer:'C2H6O',
+ tubes:{wb:45.2,wa:47.9,cb:52.85,ca:57.25},
  think:{q:'Why is excess oxygen passed through the apparatus?',a:'It makes sure the compound burns completely. With too little oxygen, carbon monoxide or soot forms and the mass of CO₂ is too low.'}},
 {id:'t4p3',tab:4,kind:'combust',label:'Practice 3',
  text:'0.92 g of a compound containing C, H and O is burnt completely. 1.32 g of carbon dioxide and 0.72 g of water are produced. Determine the empirical formula.',
  sample:0.92,co2:1.32,h2o:0.72,answer:'C3H8O3'},
-{id:'t4p4',tab:4,kind:'combust',label:'Practice 4',
- text:'1.16 g of a hydrocarbon gives 3.52 g of carbon dioxide and 1.80 g of water on complete combustion. Determine the empirical formula.',
- sample:1.16,co2:3.52,h2o:1.80,answer:'C2H5'},
+{id:'t4p4',tab:4,kind:'combust',label:'Practice 4 · U-tube readings',
+ text:'1.16 g of a hydrocarbon is burnt completely in a combustion train. The two U-tube absorbers were weighed before and after the burn. Determine the empirical formula.',
+ sample:1.16,co2:3.52,h2o:1.8,answer:'C2H5',
+ tubes:{wb:47.35,wa:49.15,cb:50.1,ca:53.62}},
 {id:'t4p5',tab:4,kind:'combust',label:'Practice 5',
  text:'Complete combustion of 0.60 g of compound <i>W</i> (C, H and O only) gives 0.88 g of carbon dioxide and 0.36 g of water. Determine the empirical formula of <i>W</i>.',
  sample:0.60,co2:0.88,h2o:0.36,answer:'CH2O'},
-{id:'t4p6',tab:4,kind:'combust',label:'Practice 6',
- text:'0.78 g of a hydrocarbon burns completely to give 2.64 g of carbon dioxide and 0.54 g of water. Determine the empirical formula.',
- sample:0.78,co2:2.64,h2o:0.54,answer:'CH'},
+{id:'t4p6',tab:4,kind:'combust',label:'Practice 6 · U-tube readings',
+ text:'0.78 g of a hydrocarbon is burnt completely. The water absorber is placed before the carbon dioxide absorber. Determine the empirical formula from the readings.',
+ sample:0.78,co2:2.64,h2o:0.54,answer:'CH',
+ tubes:{wb:44.8,wa:45.34,cb:49.65,ca:52.29}},
 {id:'t4p7',tab:4,kind:'combust',label:'Practice 7',
  text:'0.58 g of propanone (C, H and O only) burns completely to give 1.32 g of carbon dioxide and 0.54 g of water. Determine the empirical formula.',
  sample:0.58,co2:1.32,h2o:0.54,answer:'C3H6O'},
-{id:'t4p8',tab:4,kind:'combust',label:'Practice 8',
- text:'0.86 g of a hydrocarbon is burnt completely. 2.64 g of carbon dioxide and 1.26 g of water are produced. Determine the empirical formula.',
- sample:0.86,co2:2.64,h2o:1.26,answer:'C3H7'},
+{id:'t4p8',tab:4,kind:'combust',label:'Practice 8 · U-tube readings',
+ text:'0.86 g of a hydrocarbon is burnt completely in excess oxygen and the products are absorbed in two U-tubes. Determine the empirical formula.',
+ sample:0.86,co2:2.64,h2o:1.26,answer:'C3H7',
+ tubes:{wb:46.1,wa:47.36,cb:51.3,ca:53.94}},
 {id:'t4p9',tab:4,kind:'combust',label:'Practice 9',
  text:'Complete combustion of 0.88 g of an ester containing C, H and O gives 1.76 g of carbon dioxide and 0.72 g of water. Determine the empirical formula.',
  sample:0.88,co2:1.76,h2o:0.72,answer:'C2H4O'},
-{id:'t4p10',tab:4,kind:'combust',label:'Practice 10',
- text:'0.54 g of a hydrocarbon burns completely to give 1.76 g of carbon dioxide and 0.54 g of water. Determine the empirical formula.',
- sample:0.54,co2:1.76,h2o:0.54,answer:'C2H3'}
+{id:'t4p10',tab:4,kind:'combust',label:'Practice 10 · U-tube readings',
+ text:'0.54 g of a hydrocarbon is burnt completely in a combustion train. Use the U-tube readings to determine its empirical formula.',
+ sample:0.54,co2:1.76,h2o:0.54,answer:'C2H3',
+ tubes:{wb:45.9,wa:46.44,cb:50.55,ca:52.31}}
 ];
 
 const sub=f=>f.replace(/(\d+)/g,'<sub>$1</sub>');
@@ -646,20 +658,27 @@ function build(q){
     const mC=r2(12.0/mrC*q.co2), mH=r2(2.0/mrW*q.h2o), mO=r2(q.sample-mC-mH);
     const hasO=mO>0.004;
     parts=[P('C',12.0,mC,2),P('H',1.0,mH,2)]; if(hasO) parts.push(P('O',16.0,mO,2));
+    const tb=q.tubes, ti=(n,t)=>tb?t:'Step '+n+' · '+t;
+    if(tb){
+      S.push({title:'Mass of H₂O from U-tube 1',text:'The water absorber gains exactly the mass of water produced: <b>after − before</b>.',
+        lines:[{label:'mass of H<sub>2</sub>O',keys:[tb.wa.toFixed(2),'−',tb.wb.toFixed(2),'='],res:q.h2o.toFixed(2)+' g'}]});
+      S.push({title:'Mass of CO₂ from U-tube 2',text:'The carbon dioxide absorber gains exactly the mass of CO<sub>2</sub> produced: <b>after − before</b>.',
+        lines:[{label:'mass of CO<sub>2</sub>',keys:[tb.ca.toFixed(2),'−',tb.cb.toFixed(2),'='],res:q.co2.toFixed(2)+' g'}]});
+    }
     S.push({title:'Work out Mr of CO₂ and H₂O',text:'You need these to know how much of each product is carbon or hydrogen.',
       lines:[{label:'Mr of CO<sub>2</sub>',calc:'12.0 + (2 × 16.0) = '+mrC.toFixed(1)},{label:'Mr of H<sub>2</sub>O',calc:'(2 × 1.0) + 16.0 = '+mrW.toFixed(1)}]});
-    S.push({title:'Step 1 · Mass of C in the CO₂',text:'All the carbon in CO<sub>2</sub> came from the compound. In '+mrC.toFixed(1)+' g of CO<sub>2</sub>, '+(12.0).toFixed(1)+' g is carbon.',
+    S.push({title:ti(1,'Mass of C in the CO₂'),text:'All the carbon in CO<sub>2</sub> came from the compound. In '+mrC.toFixed(1)+' g of CO<sub>2</sub>, '+(12.0).toFixed(1)+' g is carbon.',
       lines:[{label:'mass of C',keys:['12.0','÷',mrC.toFixed(1),'×',q.co2.toFixed(2),'='],res:mC.toFixed(2)+' g'}],fill:[['mass',0,mC.toFixed(2),'12.0 ÷ '+mrC.toFixed(1)+' × '+q.co2.toFixed(2)]]});
-    S.push({title:'Step 2 · Mass of H in the H₂O',text:'All the hydrogen in H<sub>2</sub>O came from the compound. In '+mrW.toFixed(1)+' g of H<sub>2</sub>O, 2 × 1.0 = 2.0 g is hydrogen.',
+    S.push({title:ti(2,'Mass of H in the H₂O'),text:'All the hydrogen in H<sub>2</sub>O came from the compound. In '+mrW.toFixed(1)+' g of H<sub>2</sub>O, 2 × 1.0 = 2.0 g is hydrogen.',
       lines:[{label:'mass of H',keys:['2.0','÷',mrW.toFixed(1),'×',q.h2o.toFixed(2),'='],res:mH.toFixed(2)+' g'}],fill:[['mass',1,mH.toFixed(2),'2.0 ÷ '+mrW.toFixed(1)+' × '+q.h2o.toFixed(2)]]});
-    if(hasO) S.push({title:'Step 3 · Mass of O in the compound',text:'Oxygen is the missing piece: <b>sample − C − H</b>. (The O in CO<sub>2</sub> and H<sub>2</sub>O partly came from the air, so you cannot use them.)',
+    if(hasO) S.push({title:ti(3,'Mass of O in the compound'),text:'Oxygen is the missing piece: <b>sample − C − H</b>. (The O in CO<sub>2</sub> and H<sub>2</sub>O partly came from the air, so you cannot use them.)',
       lines:[{label:'mass of O',keys:[q.sample.toFixed(2),'−',mC.toFixed(2),'−',mH.toFixed(2),'='],res:mO.toFixed(2)+' g'}],fill:[['mass',2,mO.toFixed(2),q.sample.toFixed(2)+' − '+mC.toFixed(2)+' − '+mH.toFixed(2)]]});
-    else S.push({title:'Step 3 · Is there any oxygen?',text:'Check <b>sample − C − H</b>. If it is 0, the compound has no oxygen: it is a hydrocarbon, so the table only has C and H.',
+    else S.push({title:ti(3,'Is there any oxygen?'),text:'Check <b>sample − C − H</b>. If it is 0, the compound has no oxygen: it is a hydrocarbon, so the table only has C and H.',
       lines:[{label:'mass of O',keys:[q.sample.toFixed(2),'−',mC.toFixed(2),'−',mH.toFixed(2),'='],res:'0.00 g → no O'}]});
   }
   const t=tail(S,parts,fin);
   const rows=[{key:'ram',label:ramLabel,pre:ramPre?parts.map(p=>p.ram.toFixed(1)):null},
-              {key:'mass',label:'Mass (g)'},{key:'mol',label:'No. of mole (mol)'},{key:'rat',label:'Mole ratio (÷ smallest)'}];
+              {key:'mass',label:'Mass (g)'},{key:'mol',label:'No. of mole (mol)'},{key:'rat',label:'Mole ratio (÷ smallest mole)'}];
   if(t.hasWhole) rows.push({key:'whole',label:'Whole-number ratio (× '+t.m+')'});
   return {cols:parts.map(p=>p.html),rows,steps:S,plain:t.plain,html:t.html,m:t.m,w:t.w,parts};
 }
@@ -693,6 +712,10 @@ function ramHtml(q,b){
   return '<div class="ram"><b>RAM given:</b> '+u.map(s=>'<span class="c">'+s+' = '+RAM[s].toFixed(1)+'</span>').join('')+'</div>';
 }
 function givenHtml(q){
+  if(q.tubes){const t=q.tubes;
+    return '<div class="tbl-wrap"><table class="mini given"><tr><th>Measurement</th><th>Mass (g)</th></tr>'+
+     [['U-tube 1 (water absorber) before burning',t.wb],['U-tube 1 (water absorber) after burning',t.wa],['U-tube 2 (CO₂ absorber) before burning',t.cb],['U-tube 2 (CO₂ absorber) after burning',t.ca]]
+      .map(r=>'<tr><td>'+r[0]+'</td><td class="v">'+r[1].toFixed(2)+'</td></tr>').join('')+'</table></div>';}
   if(q.kind!=='setup') return '';
   return '<div class="tbl-wrap"><table class="mini given"><tr><th>Measurement</th><th>Mass (g)</th></tr>'+
    q.weighs.map(w=>'<tr><td>'+w[1]+'</td><td class="v">'+w[2]+'</td></tr>').join('')+'</table></div>';

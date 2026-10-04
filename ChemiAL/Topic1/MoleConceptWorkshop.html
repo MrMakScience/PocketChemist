@@ -225,12 +225,12 @@ footer.foot { margin-top: 36px; color: var(--muted); font-size: .88rem; }
 .cheer { display: inline-block; vertical-align: middle; margin-right: 8px; } .cheer .mascot { animation: pop .6s cubic-bezier(.3, 1.6, .5, 1) both; }
 @keyframes pop { from { transform: scale(0) rotate(-20deg); } to { transform: none; } }
 
-.mascot .eye { transform-box: fill-box; transform-origin: center; animation: blink 4.6s infinite; }
-@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.08); } }
-.mascot .bubble { animation: rise 2.4s ease-in infinite; }
-@keyframes rise { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .95; } 100% { transform: translateY(-17px); opacity: 0; } }
-.mascot .wave { transform-origin: 44px 148px; animation: wave 2.4s ease-in-out infinite; }
-@keyframes wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-12deg); } }
+.mascot .eye { transform-box: fill-box; transform-origin: center; animation: mole-blink 4.6s infinite; }
+@keyframes mole-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.08); } }
+.mascot .bubble { animation: mole-bubble 2.4s ease-in infinite; }
+@keyframes mole-bubble { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .95; } 100% { transform: translateY(-17px); opacity: 0; } }
+.mascot .wave { transform-origin: 44px 148px; animation: mole-wave 2.4s ease-in-out infinite; }
+@keyframes mole-wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-12deg); } }
 </style>
 <div class="wrap">
   <header class="top">
