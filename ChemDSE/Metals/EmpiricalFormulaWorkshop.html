@@ -1,0 +1,958 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Empirical Formula Workshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>/* Layout: lab-notebook ledger. Sticky tab bar, one tab at a time, question cards with a working table + calculator-key steps. */
+:root{
+  --paper:#EDF2F1; --card:#FBFDFC; --ink:#142629; --muted:#546A6D; --line:#C9D6D5; --grid:#DCE6E5;
+  --accent:#1B4FD6; --accent-ink:#FFFFFF; --accent-soft:#E1E9FB;
+  --hi:#FFE08A; --hi-ink:#4A3600;
+  --key:#FFFFFF; --key-edge:#B4C4C3; --key-ink:#142629;
+  --good:#12805C; --good-soft:#D9F1E8; --bad:#B3321E; --bad-soft:#F9E0DA;
+  --font-display:'Bricolage Grotesque',system-ui,sans-serif;
+  --font-body:'Atkinson Hyperlegible',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0E1A1C; --card:#15262A; --ink:#E4EFEE; --muted:#93AAAD; --line:#2B4247; --grid:#1B2F33;
+  --accent:#7D9DFF; --accent-ink:#0B1630; --accent-soft:#1C2B55;
+  --hi:#6B5410; --hi-ink:#FFE9A8;
+  --key:#1F353A; --key-edge:#0A1214; --key-ink:#E4EFEE;
+  --good:#52D3A4; --good-soft:#12382C; --bad:#FF8F7A; --bad-soft:#40201A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1A1C; --card:#15262A; --ink:#E4EFEE; --muted:#93AAAD; --line:#2B4247; --grid:#1B2F33;
+  --accent:#7D9DFF; --accent-ink:#0B1630; --accent-soft:#1C2B55;
+  --hi:#6B5410; --hi-ink:#FFE9A8;
+  --key:#1F353A; --key-edge:#0A1214; --key-ink:#E4EFEE;
+  --good:#52D3A4; --good-soft:#12382C; --bad:#FF8F7A; --bad-soft:#40201A; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:17px/1.55 var(--font-body);padding-inline:16px;padding-block:0 56px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+.wrap{max-width:880px;margin-inline:auto}
+sub{font-size:.72em;line-height:0}
+h1,h2,h3{font-family:var(--font-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0 0 .7em}
+.mono{font-family:var(--font-mono)}
+
+header.top{padding-block:28px 14px}
+header.top .kicker{font:600 12px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+header.top h1{font-size:clamp(30px,6vw,46px);font-weight:800;margin-top:6px}
+header.top p{max-width:60ch;color:var(--muted);margin-top:8px}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--ink);
+  display:flex;gap:6px;overflow-x:auto;padding-block:8px 0;margin-inline:-16px;padding-inline:16px}
+nav.tabs button{flex:0 0 auto;font:700 14px var(--font-display);background:transparent;color:var(--muted);border:2px solid transparent;border-bottom:0;
+  border-radius:8px 8px 0 0;padding:9px 14px 10px;cursor:pointer;text-align:left;line-height:1.2}
+nav.tabs button small{display:block;font:500 11px var(--font-mono);margin-top:3px;letter-spacing:.02em}
+nav.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);border-color:var(--ink);margin-bottom:-2px;padding-bottom:12px}
+nav.tabs button:focus-visible,.btn:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+section.panel{padding-block:24px}
+section.panel[hidden]{display:none}
+.intro{display:grid;gap:16px}
+.box{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:18px 20px;min-width:0}
+.box h3{font-size:20px;margin-bottom:8px}
+.box.key{border-color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:10px 0 0;padding:0;list-style:none}
+.flow li{flex:1 1 150px;min-width:0;background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:15px}
+.flow li b{display:block;font:700 15px var(--font-display);margin-bottom:2px}
+.eq{font:600 15px var(--font-mono);background:var(--paper);border:1.5px dashed var(--line);border-radius:6px;padding:8px 12px;display:block;overflow-x:auto;margin:8px 0}
+.simp{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.simp button{font:600 17px var(--font-mono);background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:10px 14px;cursor:pointer;min-width:120px;text-align:center}
+.simp button .to{display:block;font-size:13px;color:var(--muted);min-height:20px}
+.simp button.on{border-color:var(--accent)}
+.simp button.on .from{text-decoration:line-through;color:var(--muted)}
+.simp button.on .to{color:var(--accent);font-weight:700;animation:pop .35s ease-out}
+.tbl-wrap{overflow-x:auto}
+table.mini{border-collapse:collapse;font-size:15px;width:100%}
+table.mini th,table.mini td{border:1.5px solid var(--line);padding:6px 10px;text-align:left}
+table.mini th{background:var(--paper);font-family:var(--font-display)}
+svg.fig{width:100%;height:auto;max-width:720px;display:block;margin-inline:auto}
+svg.fig text{font-family:var(--font-body);fill:var(--ink)}
+svg.fig .ln{stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+svg.fig .soft{fill:var(--accent-soft);stroke:var(--ink);stroke-width:2}
+svg.fig .warm{fill:var(--hi);stroke:var(--ink);stroke-width:2}
+
+.qhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:30px 0 12px;flex-wrap:wrap}
+.qhead h2{font-size:24px}
+.qhead .prog{font:600 13px var(--font-mono);color:var(--muted)}
+
+.q{background:var(--card);border:1.5px solid var(--ink);border-radius:10px;margin-bottom:18px;min-width:0;overflow:hidden}
+.q.demo{box-shadow:5px 5px 0 var(--accent);border-color:var(--ink)}
+.q>.bar{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1.5px solid var(--ink);background:var(--paper);flex-wrap:wrap}
+.q .badge{font:700 11px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:3px 8px;border-radius:4px}
+.q.demo .badge{background:var(--accent);color:var(--accent-ink)}
+.q .lbl{font:700 15px var(--font-display)}
+.q .tick{margin-left:auto;font:700 13px var(--font-mono);color:var(--good);display:none}
+.q.done .tick{display:block}
+.q .body{padding:16px 18px 18px;display:grid;gap:14px;min-width:0}
+.q .stmt{margin:0;font-size:18px}
+.ram{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;color:var(--muted)}
+.ram span.c{font:600 14px var(--font-mono);color:var(--ink);background:var(--hi);color:var(--hi-ink);border-radius:5px;padding:2px 8px}
+.given th,.given td{font-size:15px}
+.given td.v{font-family:var(--font-mono);text-align:right;white-space:nowrap}
+
+.work{overflow-x:auto}
+table.work-t{border-collapse:collapse;width:100%;min-width:340px;font-size:16px}
+table.work-t th,table.work-t td{border:1.5px solid var(--ink);padding:8px 10px;height:46px}
+table.work-t th{font:700 16px var(--font-display);background:var(--paper);text-align:center}
+table.work-t th.rl,table.work-t td.rl{text-align:left;font-weight:600;background:var(--paper);width:34%;font-size:15px}
+table.work-t td.cell{font-family:var(--font-mono);text-align:center;font-size:17px;font-weight:600}
+table.work-t td.cell:empty::after{content:'';display:block;height:2px;width:34px;margin:0 auto;border-top:2px dashed var(--line)}
+table.work-t td.pre{color:var(--muted)}
+table.work-t td.pop{animation:cellpop .6s ease-out;background:var(--hi);color:var(--hi-ink)}
+table.work-t td.hi{outline:3px solid var(--accent);outline-offset:-3px}
+@keyframes cellpop{0%{transform:scale(.7);opacity:0}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+
+.helpbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font:700 15px var(--font-display);border:2px solid var(--ink);background:var(--card);color:var(--ink);border-radius:8px;padding:9px 14px;cursor:pointer;min-height:44px}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.45;cursor:default}
+.steps{display:grid;gap:10px}
+.step{border-left:5px solid var(--line);padding:4px 0 4px 14px;min-width:0}
+.step.cur{border-left-color:var(--accent)}
+.step.old{opacity:.62}
+.step h4{margin:0 0 4px;font:700 17px var(--font-display)}
+.step .n{font:700 12px var(--font-mono);color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+.step p{margin:0 0 6px;font-size:16px}
+.line{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:6px 0}
+.line .what{flex:1 1 100%;font-size:14px;color:var(--muted)}
+.calc{font:600 15px var(--font-mono);background:var(--paper);border:1.5px dashed var(--line);border-radius:6px;padding:6px 10px}
+.k{font:600 16px var(--font-mono);background:var(--key);color:var(--key-ink);border:1.5px solid var(--key-edge);border-bottom-width:4px;border-radius:7px;padding:2px 10px;min-width:38px;text-align:center}
+.k.op{background:var(--accent-soft);color:var(--ink)}
+.res{font:700 17px var(--font-mono);background:var(--good-soft);color:var(--good);border-radius:6px;padding:3px 10px}
+.live .k,.live .calc,.live .res,.live .what{opacity:0;animation:pop .35s ease-out forwards;animation-delay:calc(var(--d) * 1s)}
+.final{font:700 22px var(--font-display);background:var(--accent-soft);border-radius:8px;padding:10px 14px;margin-top:6px;display:inline-block}
+.live .final{animation:pop .5s ease-out .2s both}
+
+.answer{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-top:1.5px dashed var(--line);padding-top:14px}
+.answer label{font:700 15px var(--font-display)}
+.answer input{font:600 18px var(--font-mono);color:var(--ink);background:var(--paper);border:2px solid var(--ink);border-radius:8px;padding:8px 12px;width:min(210px,100%);min-height:44px}
+.fb{flex:1 1 100%;font-weight:700;font-size:16px;min-height:1.4em}
+.fb.ok{color:var(--good)} .fb.no{color:var(--bad)}
+details.think{border:1.5px solid var(--line);border-radius:8px;padding:8px 14px;background:var(--paper)}
+details.think summary{cursor:pointer;font-weight:700}
+details.think p{margin:8px 0 0}
+.mark{display:none}
+footer{padding-block:30px;color:var(--muted);font-size:14px}
+@media (max-width:520px){body{font-size:16px}.q .body{padding:14px}.qhead h2{font-size:21px}table.work-t th,table.work-t td{padding:6px}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important}}
+
+table.work-t{min-width:420px}
+table.work-t td.cell{font-size:16px;line-height:1.3;height:auto}
+table.work-t td.cell .cx{display:block;font-size:13px;font-weight:500;color:var(--muted);overflow-wrap:anywhere}
+table.work-t td.cell .rs2{display:block;font-size:18px;font-weight:700}
+table.work-t td.pop .cx{color:var(--hi-ink)}
+.steps .step{border-left-color:var(--accent)}
+.figgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+figure{margin:0 0 12px;min-width:0}
+figcaption{font-size:14px;color:var(--muted);margin-top:4px}
+.figscroll{overflow-x:auto;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);padding:6px}
+.figscroll svg.fig{min-width:420px;max-width:none}
+svg.fig text{font-size:15px}
+svg.fig text.sm{font-size:13px;fill:var(--muted)}
+svg.fig text.b{font-weight:700}
+svg.fig text.wh{fill:var(--accent-ink)}
+svg.fig .glass{fill:var(--card);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+svg.fig .lead{stroke:var(--muted);stroke-width:1.3;fill:none}
+svg.fig .gas{stroke:var(--accent);stroke-width:2.5;fill:none}
+svg.fig .ahead{fill:var(--accent)}
+svg.fig .flame{fill:var(--hi);stroke:var(--accent);stroke-width:2}
+svg.fig .metal{fill:var(--muted);stroke:var(--ink);stroke-width:1.5}
+svg.fig .oxide{fill:var(--ink);opacity:.85}
+svg.fig .prod{fill:var(--card);stroke:var(--ink);stroke-width:1.5}
+svg.fig .liq{fill:var(--accent-soft)}
+svg.fig .dot{fill:var(--muted)}
+svg.fig .stop{fill:var(--muted);stroke:var(--ink);stroke-width:1.5}
+svg.fig .furn{fill:var(--hi);opacity:.45;stroke:var(--ink);stroke-width:1.5}
+svg.fig .badge{fill:var(--accent)}
+svg.fig .note{fill:var(--card);stroke:var(--ink);stroke-width:1.5}
+svg.fig .atm{fill:var(--muted);stroke:var(--ink);stroke-width:1.5}
+svg.fig .ato{fill:var(--bad);stroke:var(--ink);stroke-width:1.5}
+svg.fig .atw{fill:var(--accent);stroke:var(--ink);stroke-width:1.2}
+svg.fig .asalt{fill:var(--hi);stroke:var(--ink);stroke-width:1.5}
+svg.fig .ghost{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 3;opacity:.7}
+svg.fig .pipeo{fill:none;stroke:var(--ink);stroke-linecap:butt;stroke-linejoin:round}
+svg.fig .pipei{fill:none;stroke:var(--card);stroke-linecap:butt;stroke-linejoin:round}
+svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
+
+.bags{display:flex;gap:14px;justify-content:space-around;align-items:flex-end;margin:12px 0}
+.bag{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1 1 0;min-width:0}
+.stack{position:relative;width:100%;max-width:88px;height:130px;border-bottom:3px solid var(--ink)}
+.mbar{position:absolute;left:14%;right:14%;bottom:0;height:var(--h);border-radius:4px 4px 0 0;transition:height .9s cubic-bezier(.3,.8,.3,1),opacity .5s}
+.mbar span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font:700 14px var(--font-mono);white-space:nowrap;padding-bottom:3px;color:var(--ink)}
+.dots{position:absolute;left:8%;right:8%;bottom:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;justify-items:center;opacity:0;transition:opacity .6s .3s}
+.dots i{width:20px;height:20px;border-radius:50%;background:var(--dc);border:2px solid var(--ink);transform:scale(.2);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+[data-v="count"] .dots{opacity:1}
+[data-v="count"] .dots i{transform:scale(1)}
+[data-v="count"] .mbar{height:0;opacity:.2}
+.sym{font:800 20px var(--font-display)}
+.c0{--dc:#4A90D9;background:var(--dc)} .c1{--dc:#8A94A0;background:var(--dc)} .c2{--dc:#E0533D;background:var(--dc)} .c3{--dc:#E3B81F;background:var(--dc)}
+.dots.c0,.dots.c1,.dots.c2,.dots.c3{background:none}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:8px;overflow:hidden}
+.seg button{font:700 15px var(--font-display);background:var(--card);color:var(--ink);border:0;padding:9px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.cap{margin:10px 0 0;min-height:3.2em}
+.fxrows{display:grid;gap:10px;margin:10px 0}
+.rw{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-width:0}
+.rw .sym{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:17px;border:2px solid var(--ink);color:#142629}
+.chip{font:600 14px var(--font-mono);background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:4px 9px;animation:pop .4s ease-out}
+.chip.m{background:var(--accent-soft)} .chip.g{background:var(--good-soft);color:var(--good)}
+.tok{display:flex;flex-wrap:wrap;gap:6px;flex:1 1 100%;padding-left:2px}
+.grp{display:flex;gap:4px;padding:4px 6px;border:2px solid transparent;border-radius:999px;transition:border-color .5s,margin .5s}
+.grp.sep{border-color:var(--ink);margin-right:8px}
+.tok i{width:18px;height:18px;border-radius:50%;border:2px solid var(--ink);background:var(--dc);transform:scale(0);opacity:0;transition:transform .45s cubic-bezier(.3,1.6,.5,1),opacity .3s}
+.tok i.on{transform:scale(1);opacity:1}
+.mol{display:flex;align-items:center;gap:14px;color:var(--ink);animation:pop .5s ease-out}
+.mol[hidden]{display:none}
+.c3f{fill:#E3B81F;stroke:currentColor;stroke-width:3} .c2f{fill:#E0533D;stroke:currentColor;stroke-width:3}
+@media (prefers-reduced-motion:reduce){.bar,.dots,.dots i,.tok i,.grp{transition:none!important}}
+
+
+.tier{margin:26px 0 8px;background:var(--card);border:1.5px solid var(--ink);border-radius:14px;padding:18px;box-shadow:5px 5px 0 var(--accent)}
+.thead{display:flex;gap:16px;align-items:flex-start}
+.tbadge{flex:0 0 auto;width:68px;height:80px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tbadge span{font:700 11px var(--font-mono);letter-spacing:.14em}
+.tbadge b{font:800 36px/1 var(--font-display)}
+.thead h3{font-size:24px}
+.thead p{margin:6px 0 0;color:var(--muted);font-size:16px}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:16px 2px 12px}
+.pill{flex:0 0 auto;font:700 15px var(--font-display);background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;min-height:44px;white-space:nowrap}
+.pill.wk{border-color:var(--accent)}
+.pill[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pill .ck{display:none;color:var(--good)}
+.pill.done .ck{display:inline}
+.pill.done[aria-selected="true"] .ck{color:var(--accent-ink)}
+.pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.stage .q{margin:0;box-shadow:none}
+.stage .q.demo{box-shadow:none}
+.stage .q[hidden]{display:none}
+@media (max-width:520px){.tier{padding:14px}.tbadge{width:54px;height:64px}.tbadge b{font-size:28px}.thead{gap:12px}.thead h3{font-size:20px}.thead p{font-size:15px}}
+
+.tier{scroll-margin-top:84px}
+.pickhint{margin-top:16px;padding:8px 12px;background:var(--hi);color:var(--hi-ink);border-radius:8px;font-size:15px}
+.pickhint+.pills{padding-top:10px}
+.nextbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;border-top:1.5px dashed var(--line);padding-top:14px;color:var(--muted);font-size:15px}
+.nextbar .btn{margin-left:auto}
+</style>
+<div class="wrap">
+<header class="top">
+  <div class="kicker">DSE Chemistry · Mole Calculation</div>
+  <h1>Empirical Formula Workshop</h1>
+  <p>Four question types, each with a worked demo and practice questions. Every answer uses the same table. Relative atomic masses are always given, so keep the periodic table closed.</p>
+</header>
+<nav class="tabs" role="tablist" aria-label="Question types">
+  <button role="tab" id="tb1" aria-controls="p1" aria-selected="true">1 · Introduction<small id="pg1"></small></button>
+  <button role="tab" id="tb2" aria-controls="p2" aria-selected="false">2 · Mass change on heating<small id="pg2"></small></button>
+  <button role="tab" id="tb3" aria-controls="p3" aria-selected="false">3 · Experimental set-up<small id="pg3"></small></button>
+  <button role="tab" id="tb4" aria-controls="p4" aria-selected="false">4 · Combustion analysis<small id="pg4"></small></button>
+</nav>
+
+<!-- ============ TAB 1 ============ -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="tb1">
+ <div class="intro">
+  <div class="box key">
+   <h3>Why is it called “empirical”?</h3>
+   <p><b>Empirical</b> means <b>found by experiment</b>. Nobody can count atoms in a sample, so we weigh the elements instead. The masses give us moles, and the moles give the <b>simplest whole-number ratio of atoms</b>. That ratio is the empirical formula.</p>
+   <p>An experiment only tells us the ratio. Several different molecules can share one empirical formula. Tap a molecule to simplify it:</p>
+   <div class="simp" id="simp"></div>
+  </div>
+  <div class="box" id="fxA"></div>
+  <div class="box" id="fxB"></div>
+  <div class="box">
+   <h3>The table method</h3>
+   <p>Every question in this workshop is solved with the same table. Only the first step changes.</p>
+   <ol class="flow">
+    <li><b>1 · Mass</b>Get the mass (g) of each element.</li>
+    <li><b>2 · Moles</b>mass ÷ RAM</li>
+    <li><b>3 · Ratio</b>Divide the larger moles by the <u>smallest</u> moles.</li>
+    <li><b>4 · Whole numbers</b>Multiply if any value ends in .5, .33, .67, .25 or .75.</li>
+   </ol>
+   <span class="eq">If the question gives % → pretend the sample is 100 g → % becomes g.</span>
+  </div>
+  <div class="box">
+   <h3>Stuck with a decimal? Use this</h3>
+   <div class="tbl-wrap"><table class="mini"><tr><th>Your ratio looks like</th><th>Multiply every value by</th></tr>
+    <tr><td>1.00 · 2.00 · 3.00 (or within 0.1, like 4.95)</td><td>1 (nothing to do)</td></tr>
+    <tr><td>1.50 · 2.50</td><td>2</td></tr>
+    <tr><td>1.33 · 1.67 · 2.33</td><td>3</td></tr>
+    <tr><td>1.25 · 1.75</td><td>4</td></tr></table></div>
+   <p style="margin-top:10px">Never round 1.5 to 2 or 1.33 to 1. Those are signals to multiply.</p>
+  </div>
+  <div class="box">
+   <h3>How to use each question</h3>
+   <p><b>Choose a question</b> with the round buttons at the top of each tier (Worked example, Practice 1, 2, 3…). The big blue button at the bottom of each question takes you to the next one.<br><b>Worked examples</b> play step by step on their own. Press pause or step through them yourself.<br><b>Practice:</b> try it on paper first. Press <b>Need help?</b> to reveal one step at a time. The keys show exactly what to press on your calculator. Then type your answer and check it.</p>
+  </div>
+ </div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog1"></span></div><div id="qs1"></div>
+</section>
+
+<!-- ============ TAB 2 ============ -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="tb2" hidden>
+ <div class="intro">
+  <div class="box key">
+   <h3>Heat it, weigh it, subtract</h3>
+   <p>The question gives you <b>two masses</b>. One piece is missing, and you find it by <b>subtracting</b>. Then use the same table.</p>
+   <div class="cols2">
+    <div><b>Metal burns to form an oxide</b>
+     <span class="eq">mass of O = mass of oxide − mass of metal</span>
+     <p>Table columns: <b>metal</b> and <b>O</b>. Divide by RAM.</p></div>
+    <div><b>Hydrated crystals are heated</b>
+     <span class="eq">mass of H₂O = mass of crystals − mass of dry solid</span>
+     <p>Table columns: <b>dry salt</b> and <b>H₂O</b>. Divide by <b>Mr</b>. The water value in the ratio row is <i>n</i>.</p></div>
+   </div>
+  </div>
+  <div class="box"><h3>See it with particles</h3>
+   <p>Each picture shows the same sample on a balance <b>before</b> and <b>after</b> heating. The only thing that changes is the missing piece you find by subtraction.</p>
+   <div class="figgrid"><figure><div class="figscroll"><svg class="fig" viewBox="0 0 560 330" role="img" aria-label="Left balance: five metal atoms. Right balance: the same five metal atoms each joined to an oxygen atom, so the reading is higher. The extra mass is the oxygen."><defs><marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs><text x="120" y="36" text-anchor="middle" class="b">Before: metal</text><text x="440" y="36" text-anchor="middle" class="b">After: metal oxide</text><circle cx="68" cy="156" r="14" class="atm"/><circle cx="120" cy="156" r="14" class="atm"/><circle cx="172" cy="156" r="14" class="atm"/><circle cx="94" cy="128" r="14" class="atm"/><circle cx="146" cy="128" r="14" class="atm"/><circle cx="368" cy="156" r="14" class="atm"/><circle cx="391" cy="156" r="9" class="ato"/><circle cx="420" cy="156" r="14" class="atm"/><circle cx="443" cy="156" r="9" class="ato"/><circle cx="472" cy="156" r="14" class="atm"/><circle cx="495" cy="156" r="9" class="ato"/><circle cx="394" cy="128" r="14" class="atm"/><circle cx="417" cy="128" r="9" class="ato"/><circle cx="446" cy="128" r="14" class="atm"/><circle cx="469" cy="128" r="9" class="ato"/><path class="ln" d="M28 172 H212"/><rect class="glass" x="54" y="180" width="132" height="34" rx="6" style="fill:var(--accent-soft)"/><text x="120" y="202" text-anchor="middle" class="b">mass of metal</text><path class="ln" d="M328 172 H512"/><rect class="glass" x="354" y="180" width="132" height="34" rx="6" style="fill:var(--accent-soft)"/><text x="420" y="202" text-anchor="middle" class="b">mass of oxide</text><path class="gas" d="M214 128 H312" marker-end="url(#ah5)"/><text x="263" y="112" text-anchor="middle" class="b">burn in O₂</text><text x="420" y="76" text-anchor="middle" class="sm">oxygen atoms joined on</text><path class="lead" d="M436 82 L458 126"/><rect x="40" y="238" width="480" height="36" rx="8" class="note"/><text x="280" y="262" text-anchor="middle" class="b">mass of O = mass of oxide − mass of metal</text><circle cx="70" cy="306" r="14" class="atm"/><text x="90" y="311" text-anchor="start" class="sm">metal atom</text><circle cx="260" cy="306" r="9" class="ato"/><text x="280" y="311" text-anchor="start" class="sm">oxygen atom</text></svg></div><figcaption>The mass goes <b>up</b>: oxygen joins the metal.</figcaption></figure><figure><div class="figscroll"><svg class="fig" viewBox="0 0 560 330" role="img" aria-label="Left balance: salt units each holding two water molecules. Right balance: the same salt units after heating with the water gone, so the reading is lower. The lost mass is the water."><defs><marker id="ah6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs><text x="120" y="36" text-anchor="middle" class="b">Before: hydrated crystals</text><text x="440" y="36" text-anchor="middle" class="b">After: dry solid</text><rect x="18" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="57" cy="147" r="8" class="atw"/><circle cx="57" cy="165" r="8" class="atw"/><rect x="74" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="113" cy="147" r="8" class="atw"/><circle cx="113" cy="165" r="8" class="atw"/><rect x="130" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="169" cy="147" r="8" class="atw"/><circle cx="169" cy="165" r="8" class="atw"/><rect x="46" y="108" width="28" height="28" rx="4" class="asalt"/><circle cx="85" cy="113" r="8" class="atw"/><circle cx="85" cy="131" r="8" class="atw"/><rect x="102" y="108" width="28" height="28" rx="4" class="asalt"/><circle cx="141" cy="113" r="8" class="atw"/><circle cx="141" cy="131" r="8" class="atw"/><rect x="322" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="361" cy="147" r="8" class="ghost"/><circle cx="361" cy="165" r="8" class="ghost"/><rect x="378" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="417" cy="147" r="8" class="ghost"/><circle cx="417" cy="165" r="8" class="ghost"/><rect x="434" y="142" width="28" height="28" rx="4" class="asalt"/><circle cx="473" cy="147" r="8" class="ghost"/><circle cx="473" cy="165" r="8" class="ghost"/><rect x="350" y="108" width="28" height="28" rx="4" class="asalt"/><circle cx="389" cy="113" r="8" class="ghost"/><circle cx="389" cy="131" r="8" class="ghost"/><rect x="406" y="108" width="28" height="28" rx="4" class="asalt"/><circle cx="445" cy="113" r="8" class="ghost"/><circle cx="445" cy="131" r="8" class="ghost"/><path class="ln" d="M28 172 H212"/><rect class="glass" x="54" y="180" width="132" height="34" rx="6" style="fill:var(--accent-soft)"/><text x="120" y="202" text-anchor="middle" class="b">mass of crystals</text><path class="ln" d="M328 172 H512"/><rect class="glass" x="354" y="180" width="132" height="34" rx="6" style="fill:var(--accent-soft)"/><text x="420" y="202" text-anchor="middle" class="b">mass of dry solid</text><path class="gas" d="M214 128 H312" marker-end="url(#ah6)"/><text x="263" y="112" text-anchor="middle" class="b">heat strongly</text><circle cx="236" cy="84" r="7" class="atw"/><circle cx="262" cy="70" r="7" class="atw"/><circle cx="288" cy="84" r="7" class="atw"/><text x="262" y="52" text-anchor="middle" class="sm">H₂O vapour escapes</text><rect x="40" y="238" width="480" height="36" rx="8" class="note"/><text x="280" y="262" text-anchor="middle" class="b">mass of H₂O = mass of crystals − mass of dry solid</text><rect x="61" y="297" width="18" height="18" rx="3" class="asalt"/><text x="90" y="311" text-anchor="start" class="sm">salt unit</text><circle cx="260" cy="306" r="8" class="atw"/><text x="280" y="311" text-anchor="start" class="sm">water molecule</text></svg></div><figcaption>The mass goes <b>down</b>: water leaves the crystals. Dashed circles show where it was.</figcaption></figure></div></div>
+  <div class="box"><h3>Watch out</h3>
+   <p>Mr means “add up the RAMs” for the whole formula. For H₂O: (2 × 1.0) + 16.0 = <b>18.0</b>. The Mr of the dry salt is worked out for you step by step.</p>
+   <p>“Heat to constant mass” means heating, cooling and weighing again until the mass stops changing, so the reaction is complete.</p></div>
+ </div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog2"></span></div><div id="qs2"></div>
+</section>
+
+<!-- ============ TAB 3 ============ -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="tb3" hidden>
+ <div class="intro">
+  <div class="box key">
+   <h3>Weigh, heat, weigh again</h3>
+   <div class="figgrid"><figure><div class="figscroll"><svg class="fig" viewBox="0 0 560 330" role="img" aria-label="Crucible with a slightly raised lid sitting on a pipe-clay triangle on a tripod, heated from below by a Bunsen burner, with metal powder inside"><defs><marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs>
+<path class="ln" d="M200 200 H360 M200 200 L170 312 M360 200 L390 312"/>
+<polygon class="glass" points="222,200 338,200 280,172" style="fill:none;stroke-width:3"/>
+<polygon class="glass" points="246,124 314,124 306,178 254,178"/>
+<ellipse cx="280" cy="172" rx="20" ry="5" class="metal"/>
+<g transform="translate(24,-16) rotate(-14 280 116)"><polygon class="glass" points="240,112 320,112 314,122 246,122"/><rect class="glass" x="272" y="104" width="16" height="8" rx="2"/></g>
+<path class="flame" d="M280 258 C258 240 266 214 280 204 C294 214 302 240 280 258 Z"/>
+<rect class="glass" x="272" y="258" width="16" height="38" rx="3" style="fill:var(--muted)"/>
+<ellipse class="glass" cx="280" cy="304" rx="34" ry="8" style="fill:var(--muted)"/>
+<path class="gas" d="M372 84 Q338 88 324 110" marker-end="url(#ah1)"/><text x="376" y="80" text-anchor="start" class="">air (O₂) gets in</text>
+<text x="20" y="92" text-anchor="start" class="">lid</text><path class="lead" d="M52 88 L246 106"/>
+<text x="20" y="150" text-anchor="start" class="">crucible</text><path class="lead" d="M96 146 L250 150"/>
+<text x="20" y="196" text-anchor="start" class="">pipe-clay triangle</text><path class="lead" d="M156 192 L230 198"/>
+<text x="20" y="262" text-anchor="start" class="">tripod</text><path class="lead" d="M68 258 L186 258"/>
+<text x="404" y="176" text-anchor="start" class="">metal powder</text><path class="lead" d="M400 172 L304 172"/>
+<text x="404" y="236" text-anchor="start" class="">hot flame</text><path class="lead" d="M400 232 L296 232"/>
+<text x="404" y="292" text-anchor="start" class="">Bunsen burner</text><path class="lead" d="M400 288 L302 290"/>
+</svg></div><figcaption>Metal heated in a crucible. It gains oxygen, so the mass goes up.</figcaption></figure><figure><div class="figscroll"><svg class="fig" viewBox="0 0 560 330" role="img" aria-label="Horizontal hard-glass tube with a boat of metal oxide heated by a Bunsen burner; dry hydrogen enters on the left and the leftover hydrogen is burnt at a jet on the right"><defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs>
+<rect class="glass" x="40" y="138" width="84" height="14" rx="3"/>
+<rect class="glass" x="120" y="116" width="320" height="58" rx="16"/>
+<rect class="glass" x="436" y="138" width="60" height="14" rx="3"/>
+<rect class="glass" x="482" y="92" width="14" height="60" rx="3"/>
+<path class="flame" d="M489 90 C474 76 480 58 489 48 C498 58 504 76 489 90 Z"/>
+<polygon class="glass" points="230,172 330,172 322,154 238,154"/>
+<path class="oxide" d="M244 154 Q280 128 316 154 Z"/>
+<path class="flame" d="M280 238 C258 220 266 198 280 188 C294 198 302 220 280 238 Z"/>
+<rect class="glass" x="272" y="238" width="16" height="42" rx="3" style="fill:var(--muted)"/>
+<ellipse class="glass" cx="280" cy="288" rx="34" ry="8" style="fill:var(--muted)"/>
+<path class="gas" d="M20 145 H46" marker-end="url(#ah2)"/><text x="20" y="118" text-anchor="start" class="">dry H₂ in</text>
+<path class="gas" d="M446 145 H474" marker-end="url(#ah2)"/><text x="300" y="104" text-anchor="start" class="">H₂O vapour + spare H₂ →</text>
+<text x="372" y="36" text-anchor="start" class="">leftover H₂ is burnt</text><path class="lead" d="M500 40 L498 46"/>
+<text x="20" y="222" text-anchor="start" class="">hard-glass tube</text><path class="lead" d="M120 212 L168 176"/>
+<text x="20" y="268" text-anchor="start" class="">boat of metal oxide</text><path class="lead" d="M168 258 L240 166"/>
+<text x="380" y="290" text-anchor="start" class="">Bunsen burner</text><path class="lead" d="M376 286 L304 284"/>
+</svg></div><figcaption>Metal oxide heated in hydrogen. It loses oxygen, so the mass goes down.</figcaption></figure></div>
+   <div class="tbl-wrap"><table class="mini">
+    <tr><th>Experiment</th><th>Mass of the metal</th><th>Mass of the non-metal (O, S, N)</th></tr>
+    <tr><td>Metal <b>gains</b> oxygen (heated in air)</td><td>(crucible + metal) − empty crucible</td><td>(crucible + product) − (crucible + metal)</td></tr>
+    <tr><td>Oxide <b>loses</b> oxygen (heated in hydrogen)</td><td>(tube + metal after heating) − empty tube</td><td>(tube + oxide before heating) − (tube + metal after heating)</td></tr></table></div>
+   <p style="margin-top:10px">Every question lists its weighings in a table, in the order they were taken. Find the two weighings named in the brackets and subtract. The step-by-step help shows the exact numbers to subtract.</p>
+  </div>
+ </div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog3"></span></div><div id="qs3"></div>
+</section>
+
+<!-- ============ TAB 4 ============ -->
+<section class="panel" id="p4" role="tabpanel" aria-labelledby="tb4" hidden>
+ <div class="intro">
+  <div class="box key">
+   <h3>Burn it and catch the products</h3>
+   <figure><div class="figscroll"><svg class="fig" viewBox="0 0 820 350" role="img" aria-label="Combustion train: oxygen enters a heated tube holding the sample. The gases then enter the side arm of a sealed U-tube of water absorber, are forced down through the granules and up the other limb, then through a second sealed U-tube of carbon dioxide absorber. The mass gain of each U-tube is the mass of that product."><defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahead"/></marker></defs><rect class="glass" x="40" y="104" width="64" height="14" rx="3"/>
+<rect class="glass" x="100" y="86" width="210" height="50" rx="14"/>
+<rect x="150" y="78" width="110" height="66" rx="6" class="furn"/>
+<polygon class="glass" points="170,134 230,134 224,122 176,122"/>
+<ellipse cx="200" cy="121" rx="22" ry="6" class="prod"/>
+<path class="flame" d="M205 200 C186 184 192 164 205 154 C218 164 224 184 205 200 Z"/>
+<rect class="glass" x="197" y="200" width="16" height="30" rx="3" style="fill:var(--muted)"/><path d="M306 111 H360" class="pipeo" style="stroke-width:19"/><path d="M306 111 H360" class="pipei" style="stroke-width:14"/><path d="M360 66 V220 A35 35 0 0 0 430 220 V66" class="pipeo" style="stroke-width:29"/><path d="M360 66 V220 A35 35 0 0 0 430 220 V66" class="pipei" style="stroke-width:24"/><path d="M360 160 V220 A35 35 0 0 0 430 220 V160" class="pipefill" style="stroke-width:24"/><circle cx="355" cy="166" r="3" class="dot"/><circle cx="365" cy="172" r="3" class="dot"/><circle cx="425" cy="172" r="3" class="dot"/><circle cx="435" cy="166" r="3" class="dot"/><circle cx="355" cy="178" r="3" class="dot"/><circle cx="365" cy="184" r="3" class="dot"/><circle cx="425" cy="184" r="3" class="dot"/><circle cx="435" cy="178" r="3" class="dot"/><circle cx="355" cy="190" r="3" class="dot"/><circle cx="365" cy="196" r="3" class="dot"/><circle cx="425" cy="196" r="3" class="dot"/><circle cx="435" cy="190" r="3" class="dot"/><circle cx="355" cy="202" r="3" class="dot"/><circle cx="365" cy="208" r="3" class="dot"/><circle cx="425" cy="208" r="3" class="dot"/><circle cx="435" cy="202" r="3" class="dot"/><circle cx="355" cy="214" r="3" class="dot"/><circle cx="365" cy="220" r="3" class="dot"/><circle cx="425" cy="220" r="3" class="dot"/><circle cx="435" cy="214" r="3" class="dot"/><circle cx="366" cy="228" r="3" class="dot"/><circle cx="356" cy="230" r="3" class="dot"/><circle cx="372" cy="239" r="3" class="dot"/><circle cx="364" cy="245" r="3" class="dot"/><circle cx="381" cy="247" r="3" class="dot"/><circle cx="377" cy="256" r="3" class="dot"/><circle cx="393" cy="250" r="3" class="dot"/><circle cx="393" cy="260" r="3" class="dot"/><circle cx="406" cy="248" r="3" class="dot"/><circle cx="409" cy="257" r="3" class="dot"/><circle cx="416" cy="241" r="3" class="dot"/><circle cx="423" cy="248" r="3" class="dot"/><circle cx="423" cy="231" r="3" class="dot"/><circle cx="432" cy="234" r="3" class="dot"/><polygon points="345,68 375,68 371,52 349,52" class="stop"/><polygon points="415,68 445,68 441,52 419,52" class="stop"/><path d="M326 111 H360 V220 A35 35 0 0 0 430 220 V111 H464" class="gas" style="stroke-dasharray:6 5"/><path d="M360 126 V140" class="gas" marker-end="url(#ah4)"/><path d="M430 140 V126" class="gas" marker-end="url(#ah4)"/><path d="M430 111 H560" class="pipeo" style="stroke-width:19"/><path d="M430 111 H560" class="pipei" style="stroke-width:14"/><path d="M560 66 V220 A35 35 0 0 0 630 220 V66" class="pipeo" style="stroke-width:29"/><path d="M560 66 V220 A35 35 0 0 0 630 220 V66" class="pipei" style="stroke-width:24"/><path d="M560 160 V220 A35 35 0 0 0 630 220 V160" class="pipefill" style="stroke-width:24"/><circle cx="555" cy="166" r="3" class="dot"/><circle cx="565" cy="172" r="3" class="dot"/><circle cx="625" cy="172" r="3" class="dot"/><circle cx="635" cy="166" r="3" class="dot"/><circle cx="555" cy="178" r="3" class="dot"/><circle cx="565" cy="184" r="3" class="dot"/><circle cx="625" cy="184" r="3" class="dot"/><circle cx="635" cy="178" r="3" class="dot"/><circle cx="555" cy="190" r="3" class="dot"/><circle cx="565" cy="196" r="3" class="dot"/><circle cx="625" cy="196" r="3" class="dot"/><circle cx="635" cy="190" r="3" class="dot"/><circle cx="555" cy="202" r="3" class="dot"/><circle cx="565" cy="208" r="3" class="dot"/><circle cx="625" cy="208" r="3" class="dot"/><circle cx="635" cy="202" r="3" class="dot"/><circle cx="555" cy="214" r="3" class="dot"/><circle cx="565" cy="220" r="3" class="dot"/><circle cx="625" cy="220" r="3" class="dot"/><circle cx="635" cy="214" r="3" class="dot"/><circle cx="566" cy="228" r="3" class="dot"/><circle cx="556" cy="230" r="3" class="dot"/><circle cx="572" cy="239" r="3" class="dot"/><circle cx="564" cy="245" r="3" class="dot"/><circle cx="581" cy="247" r="3" class="dot"/><circle cx="577" cy="256" r="3" class="dot"/><circle cx="593" cy="250" r="3" class="dot"/><circle cx="593" cy="260" r="3" class="dot"/><circle cx="606" cy="248" r="3" class="dot"/><circle cx="609" cy="257" r="3" class="dot"/><circle cx="616" cy="241" r="3" class="dot"/><circle cx="623" cy="248" r="3" class="dot"/><circle cx="623" cy="231" r="3" class="dot"/><circle cx="632" cy="234" r="3" class="dot"/><polygon points="545,68 575,68 571,52 549,52" class="stop"/><polygon points="615,68 645,68 641,52 619,52" class="stop"/><path d="M526 111 H560 V220 A35 35 0 0 0 630 220 V111 H664" class="gas" style="stroke-dasharray:6 5"/><path d="M560 126 V140" class="gas" marker-end="url(#ah4)"/><path d="M630 140 V126" class="gas" marker-end="url(#ah4)"/><path d="M630 111 H730" class="pipeo" style="stroke-width:19"/><path d="M630 111 H730" class="pipei" style="stroke-width:14"/><path class="gas" d="M16 111 H48" marker-end="url(#ah4)"/><text x="16" y="76" text-anchor="start" class="">O₂ in (excess)</text>
+<path class="gas" d="M318 92 H346" marker-end="url(#ah4)"/><text x="332" y="66" text-anchor="end" class="sm">CO₂ + H₂O + O₂</text>
+<path class="gas" d="M444 92 H540" marker-end="url(#ah4)"/><text x="492" y="76" text-anchor="middle" class="sm">CO₂ + O₂</text>
+<path class="gas" d="M660 92 H724" marker-end="url(#ah4)"/><text x="662" y="66" text-anchor="start" class="sm">O₂ leaves</text>
+<text x="200" y="252" text-anchor="middle" class="b">heated tube</text><text x="200" y="272" text-anchor="middle" class="sm">sample burns completely</text>
+<text x="395" y="296" text-anchor="middle" class="b">① water absorber</text><text x="395" y="316" text-anchor="middle" class="sm">U-tube of anhydrous CaCl₂</text><text x="395" y="336" text-anchor="middle" class="sm">gain in mass = mass of H₂O</text>
+<text x="595" y="296" text-anchor="middle" class="b">② CO₂ absorber</text><text x="595" y="316" text-anchor="middle" class="sm">U-tube of soda lime / NaOH</text><text x="595" y="336" text-anchor="middle" class="sm">gain in mass = mass of CO₂</text>
+<rect x="676" y="180" width="140" height="86" rx="8" class="note"/>
+<text x="686" y="204" text-anchor="start" class="b">Where atoms go</text><text x="686" y="228" text-anchor="start" class="">all C  →  CO₂</text><text x="686" y="250" text-anchor="start" class="">all H  →  H₂O</text>
+</svg></div><figcaption>The tops of the U-tubes are sealed, so the gas must go down through the granules and back up (dashed path). Water is trapped first, then carbon dioxide. Each U-tube is weighed before and after the burn.</figcaption></figure>
+   <p>The mass gained by each U-tube equals the mass of that product. Some questions give you the weighings instead of the product masses, so subtract first:</p>
+   <span class="eq">mass of H₂O = U-tube ① after − U-tube ① before</span>
+   <span class="eq">mass of CO₂ = U-tube ② after − U-tube ② before</span>
+   <p>Then use the products to find the elements:</p>
+   <span class="eq">mass of C = 12.0 ÷ 44.0 × mass of CO₂</span>
+   <span class="eq">mass of H = 2.0 ÷ 18.0 × mass of H₂O</span>
+   <span class="eq">mass of O = mass of sample − mass of C − mass of H</span>
+  </div>
+  <div class="box"><h3>Check for oxygen</h3>
+   <p>If C + H already adds up to the sample mass, there is <b>no oxygen</b>. The compound is a hydrocarbon and your table only needs C and H. Never take oxygen from the CO₂ or H₂O, because some of that oxygen came from the air.</p></div>
+ </div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog4"></span></div><div id="qs4"></div>
+</section>
+<footer>Answers are checked by the page, in any order of elements (for example “O2S” is read as SO₂). For hydrates, type just the number <i>n</i>.</footer>
+</div>
+<script>const RAM={H:1.0,C:12.0,N:14.0,O:16.0,Na:23.0,Mg:24.3,Al:27.0,P:31.0,S:32.1,Cl:35.5,Ca:40.1,Fe:55.8,Co:58.9,Cu:63.5,Zn:65.4,Y:52.0,Sn:118.7,Pb:207.2,Mn:54.9,V:50.9,Ni:58.7};
+const Q=[
+/* ---------- TAB 1 : masses or % given ---------- */
+{id:'t1d1',tab:1,demo:true,kind:'mass',label:'Demo',
+ text:'A sample of a compound contains 40.07 g of sulphur and 59.93 g of oxygen. Determine the empirical formula of the compound.',
+ parts:[['S',40.07],['O',59.93]],answer:'SO3'},
+{id:'t1d2',tab:1,demo:true,kind:'percent',label:'Demo',
+ text:'A compound contains 40.0% carbon, 6.7% hydrogen and 53.3% oxygen by mass. Determine its empirical formula.',
+ parts:[['C',40.0],['H',6.7],['O',53.3]],answer:'CH2O'},
+{id:'t1p1',tab:1,kind:'mass',label:'Practice 1',
+ text:'A sample of a compound contains 4.01 g of calcium and 7.10 g of chlorine. Determine the empirical formula.',
+ parts:[['Ca',4.01],['Cl',7.10]],answer:'CaCl2'},
+{id:'t1p2',tab:1,kind:'mass',label:'Practice 2',
+ text:'An iron oxide contains 5.58 g of iron and 2.40 g of oxygen. Determine its empirical formula.',
+ parts:[['Fe',5.58],['O',2.40]],answer:'Fe2O3'},
+{id:'t1p3',tab:1,kind:'mass',label:'Practice 3',
+ text:'A compound contains 7.29 g of magnesium and 2.80 g of nitrogen only. Determine its empirical formula.',
+ parts:[['Mg',7.29],['N',2.80]],answer:'Mg3N2'},
+{id:'t1p4',tab:1,kind:'percent',label:'Practice 4',
+ text:'Compound <i>X</i> contains by mass 54.5% C, 9.1% H and 36.4% of O. Determine the empirical formula of <i>X</i>.',
+ parts:[['C',54.5],['H',9.1],['O',36.4]],answer:'C2H4O'},
+{id:'t1p5',tab:1,kind:'percent',label:'Practice 5',
+ text:'A compound contains 29.1% sodium, 40.5% sulphur and 30.4% oxygen by mass. Determine its empirical formula.',
+ parts:[['Na',29.1],['S',40.5],['O',30.4]],answer:'Na2S2O3'},
+{id:'t1p6',tab:1,kind:'percent',label:'Practice 6',
+ text:'A hydrocarbon contains 85.7% carbon and 14.3% hydrogen by mass. Determine its empirical formula.',
+ parts:[['C',85.7],['H',14.3]],answer:'CH2'},
+{id:'t1p7',tab:1,kind:'mass',label:'Practice 7',
+ text:'A white solid contains 4.01 g of calcium, 1.20 g of carbon and 4.80 g of oxygen. Determine its empirical formula.',
+ parts:[['Ca',4.01],['C',1.20],['O',4.80]],answer:'CaCO3'},
+{id:'t1p8',tab:1,kind:'mass',label:'Practice 8',
+ text:'A blue crystal, after all its water has been removed, contains 6.35 g of copper, 3.21 g of sulphur and 6.40 g of oxygen. Determine the empirical formula of this dry compound.',
+ parts:[['Cu',6.35],['S',3.21],['O',6.40]],answer:'CuSO4'},
+{id:'t1p9',tab:1,kind:'percent',label:'Practice 9',
+ text:'A fertiliser contains 35.0% nitrogen, 5.0% hydrogen and 60.0% oxygen by mass. Determine its empirical formula.',
+ parts:[['N',35.0],['H',5.0],['O',60.0]],answer:'N2H4O3'},
+{id:'t1p10',tab:1,kind:'percent',label:'Practice 10',
+ text:'An oxide of phosphorus contains 43.7% phosphorus and 56.3% oxygen by mass. Determine its empirical formula.',
+ parts:[['P',43.7],['O',56.3]],answer:'P2O5'},
+
+/* ---------- TAB 2 : decomposition / heating ---------- */
+{id:'t2d1',tab:2,demo:true,kind:'oxide',label:'Demo',
+ text:'4.01 g of calcium burns in excess oxygen. The mass of calcium oxide formed is 5.61 g. Determine the empirical formula of the oxide.',
+ metal:'Ca',metalMass:4.01,oxideMass:5.61,answer:'CaO'},
+{id:'t2d2',tab:2,demo:true,kind:'hydrate',label:'Demo',
+ text:'9.44 g of hydrated copper(II) sulphate ([[CuSO4·nH2O]]) was heated strongly in a crucible. After heating for 30 minutes, 6.06 g of solid was left. Determine the number of water of crystallisation, <i>n</i>.',
+ salt:'CuSO4',saltParts:[['Cu',1],['S',1],['O',4]],hyd:9.44,dry:6.06,answer:'5'},
+{id:'t2p1',tab:2,kind:'oxide',label:'Practice 1',
+ text:'The relative atomic mass of metal <i>Y</i> is 52.0. When 20.52 g of <i>Y</i> burns in excess oxygen, the mass of metal oxide obtained is 29.99 g. Determine the empirical formula of the oxide.',
+ metal:'Y',metalMass:20.52,oxideMass:29.99,answer:'Y2O3'},
+{id:'t2p2',tab:2,kind:'oxide',label:'Practice 2',
+ text:'62.16 g of lead is heated in air until it is completely converted into 68.56 g of a lead oxide. Determine the empirical formula of the oxide.',
+ metal:'Pb',metalMass:62.16,oxideMass:68.56,answer:'Pb3O4'},
+{id:'t2p3',tab:2,kind:'oxide',label:'Practice 3',
+ text:'11.87 g of tin burns completely in oxygen to give 15.07 g of tin oxide. Determine the empirical formula of the oxide.',
+ metal:'Sn',metalMass:11.87,oxideMass:15.07,answer:'SnO2'},
+{id:'t2p4',tab:2,kind:'hydrate',label:'Practice 4',
+ text:'12.32 g of hydrated magnesium sulphate ([[MgSO4·nH2O]]) was heated until a constant mass of 6.02 g of anhydrous magnesium sulphate remained. Determine <i>n</i>.',
+ salt:'MgSO4',saltParts:[['Mg',1],['S',1],['O',4]],hyd:12.32,dry:6.02,answer:'7'},
+{id:'t2p5',tab:2,kind:'hydrate',label:'Practice 5',
+ text:'11.90 g of hydrated cobalt(II) chloride ([[CoCl2·nH2O]]) loses all its water on heating and leaves 6.50 g of anhydrous solid. Determine <i>n</i>.',
+ salt:'CoCl2',saltParts:[['Co',1],['Cl',2]],hyd:11.90,dry:6.50,answer:'6'},
+{id:'t2p6',tab:2,kind:'hydrate',label:'Practice 6',
+ text:'5.72 g of washing soda crystals ([[Na2CO3·nH2O]]) were heated to constant mass. The anhydrous sodium carbonate left weighed 2.12 g. Determine <i>n</i>.',
+ salt:'Na2CO3',saltParts:[['Na',2],['C',1],['O',3]],hyd:5.72,dry:2.12,answer:'10'},
+{id:'t2p7',tab:2,kind:'oxide',label:'Practice 7',
+ text:'10.98 g of manganese is heated in oxygen until it is completely converted into 15.78 g of a manganese oxide. Determine the empirical formula of the oxide.',
+ metal:'Mn',metalMass:10.98,oxideMass:15.78,answer:'Mn2O3'},
+{id:'t2p8',tab:2,kind:'oxide',label:'Practice 8',
+ text:'10.18 g of vanadium burns in excess oxygen to form 18.18 g of vanadium oxide. Determine the empirical formula of the oxide.',
+ metal:'V',metalMass:10.18,oxideMass:18.18,answer:'V2O5'},
+{id:'t2p9',tab:2,kind:'hydrate',label:'Practice 9',
+ text:'5.56 g of hydrated iron(II) sulphate ([[FeSO4·nH2O]]) is heated until all the water is removed. 3.04 g of anhydrous iron(II) sulphate remains. Determine <i>n</i>.',
+ salt:'FeSO4',saltParts:[['Fe',1],['S',1],['O',4]],hyd:5.56,dry:3.04,answer:'7'},
+{id:'t2p10',tab:2,kind:'hydrate',label:'Practice 10',
+ text:'8.61 g of gypsum ([[CaSO4·nH2O]]) is heated strongly to constant mass. The anhydrous calcium sulphate weighs 6.81 g. Determine <i>n</i>.',
+ salt:'CaSO4',saltParts:[['Ca',1],['S',1],['O',4]],hyd:8.61,dry:6.81,answer:'2'},
+
+/* ---------- TAB 3 : experimental set-up (several subtractions) ---------- */
+{id:'t3d1',tab:3,demo:true,kind:'setup',dir:'gain',label:'Demo · zinc heated in a crucible',
+ text:'Some zinc powder is heated in a crucible. The data collected in the experiment are listed in the table. Determine the empirical formula of the zinc compound formed.',
+ weighs:[['a','Crucible','23.8'],['b','Crucible and zinc powder before heating','28.8'],['c','Crucible and the residue after heating','30.0']],
+ parts:[['Zn','b','a','Zn = (crucible + zinc) − crucible'],['O','c','b','O = (crucible + residue) − (crucible + zinc)']],answer:'ZnO',
+ think:{q:'Explain why the lid needs to be opened and closed frequently.',a:'Opening the lid lets air (oxygen) in, so all the zinc can react. Closing it stops white zinc oxide powder escaping as smoke. If any escaped, the mass gained would be too small and the oxygen mass would be wrong.'}},
+{id:'t3d2',tab:3,demo:true,kind:'setup',dir:'loss',label:'Demo · tin(IV) oxide reduced in hydrogen',
+ text:'Dry hydrogen was passed over heated tin oxide in a tube until the white solid had all turned into shiny tin. The tube was cooled while hydrogen was still flowing, then weighed. Determine the empirical formula of the tin oxide.',
+ weighs:[['a','Empty tube','30.00'],['b','Tube + tin oxide before heating','37.54'],['c','Tube + tin after heating','35.94']],
+ parts:[['Sn','c','a','Sn = (tube + tin) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + tin)']],answer:'SnO2',
+ think:{q:'Why is the tube heated strongly, not gently?',a:'Hydrogen only removes the oxygen from the oxide at a high temperature. With gentle heating some oxide would be left, so the oxygen lost would look too small.'}},
+{id:'t3p1',tab:3,kind:'setup',dir:'gain',label:'Practice 1 · magnesium ribbon',
+ text:'A piece of magnesium ribbon was heated strongly in a crucible with a lid until it had all reacted.',
+ weighs:[['a','Crucible + lid','20.15'],['b','Crucible + lid + magnesium','22.58'],['c','Crucible + lid + product','24.18']],
+ parts:[['Mg','b','a','Mg = (crucible + Mg) − crucible'],['O','c','b','O = (crucible + product) − (crucible + Mg)']],answer:'MgO',
+ think:{q:'Why should the product be heated, cooled and weighed again until the mass stops changing?',a:'A constant mass shows the reaction is complete. If the mass is still rising, some magnesium has not yet reacted with oxygen.'}},
+{id:'t3p2',tab:3,kind:'setup',dir:'gain',label:'Practice 2 · aluminium powder',
+ text:'Aluminium powder was heated in a crucible in air. The results are shown below.',
+ weighs:[['a','Crucible','19.50'],['b','Crucible + aluminium powder','22.20'],['c','Crucible + aluminium oxide','24.60']],
+ parts:[['Al','b','a','Al = (crucible + Al) − crucible'],['O','c','b','O = (crucible + oxide) − (crucible + Al)']],answer:'Al2O3',
+ think:{q:'Why is a powder used instead of a lump of aluminium?',a:'Powder has a much larger surface area, so it reacts faster and more completely with oxygen.'}},
+{id:'t3p3',tab:3,kind:'setup',dir:'loss',label:'Practice 3 · copper(II) oxide + hydrogen',
+ text:'Dry hydrogen was passed over heated copper(II) oxide in a combustion tube until all the black solid had turned to brown copper. The tube was cooled while hydrogen was still flowing.',
+ weighs:[['a','Empty tube','31.20'],['b','Tube + oxide before heating','39.15'],['c','Tube + copper after heating','37.55']],
+ parts:[['Cu','c','a','Cu = (tube + copper) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + copper)']],answer:'CuO',
+ think:{q:'Why is hydrogen kept flowing while the tube cools?',a:'Hot copper would react with air and turn back into oxide. That would make the mass of oxygen removed look too small.'}},
+{id:'t3p4',tab:3,kind:'setup',dir:'loss',label:'Practice 4 · lead oxide + hydrogen',
+ text:'A sample of lead oxide was heated in a stream of hydrogen until it became shiny lead metal.',
+ weighs:[['a','Empty tube','30.40'],['b','Tube + lead oxide before heating','52.72'],['c','Tube + lead after heating','51.12']],
+ parts:[['Pb','c','a','Pb = (tube + lead) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + lead)']],answer:'PbO',
+ think:{q:'Why is the hydrogen leaving the tube burnt?',a:'Hydrogen is flammable and explosive when mixed with air. Burning it off safely turns it into water.'}},
+{id:'t3p5',tab:3,kind:'setup',dir:'gain',label:'Practice 5 · copper + sulphur',
+ text:'Copper powder was heated with excess sulphur in a crucible. Heating continued until the excess sulphur had burnt away, leaving a black solid.',
+ weighs:[['a','Crucible','22.10'],['b','Crucible + copper','28.45'],['c','Crucible + black solid','30.05']],
+ parts:[['Cu','b','a','Cu = (crucible + Cu) − crucible'],['S','c','b','S = (crucible + solid) − (crucible + Cu)']],answer:'Cu2S',
+ think:{q:'Why is excess sulphur used, and why must it be burnt away at the end?',a:'Excess sulphur makes sure all the copper reacts. The leftover sulphur must be driven off, otherwise it adds to the mass and the sulphur mass in the compound is too high.'}},
+{id:'t3p6',tab:3,kind:'setup',dir:'loss',label:'Practice 6 · iron oxide + hydrogen',
+ text:'An iron oxide was reduced to iron by heating it in a stream of hydrogen.',
+ weighs:[['a','Empty tube','32.15'],['b','Tube + iron oxide before heating','55.29'],['c','Tube + iron after heating','48.89']],
+ parts:[['Fe','c','a','Fe = (tube + iron) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + iron)']],answer:'Fe3O4',
+ think:{q:'Why must the tube be cool before it is weighed?',a:'A hot tube warms the air around it, and the rising air makes the balance reading unsteady and too low. Cooling in hydrogen also stops the iron re-oxidising.'}},
+{id:'t3p7',tab:3,kind:'setup',dir:'gain',label:'Practice 7 · calcium + nitrogen',
+ text:'Calcium was heated strongly in a stream of dry nitrogen gas until it had all reacted.',
+ weighs:[['a','Crucible','22.60'],['b','Crucible + calcium','34.63'],['c','Crucible + product','37.43']],
+ parts:[['Ca','b','a','Ca = (crucible + Ca) − crucible'],['N','c','b','N = (crucible + product) − (crucible + Ca)']],answer:'Ca3N2',
+ think:{q:'Why must air be kept out of this experiment?',a:'In air, calcium would also form calcium oxide. The extra mass gained would not all be nitrogen, so the mass of N and the formula would be wrong.'}},
+{id:'t3p8',tab:3,kind:'setup',dir:'gain',label:'Practice 8 · magnesium + sulphur',
+ text:'Magnesium ribbon was heated with excess sulphur in a crucible. The excess sulphur was burnt off and the crucible was cooled before weighing.',
+ weighs:[['a','Crucible','21.80'],['b','Crucible + magnesium','24.23'],['c','Crucible + product','27.44']],
+ parts:[['Mg','b','a','Mg = (crucible + Mg) − crucible'],['S','c','b','S = (crucible + product) − (crucible + Mg)']],answer:'MgS',
+ think:{q:'Why is this experiment done in a fume cupboard?',a:'The excess sulphur burns to form sulphur dioxide, which is a toxic gas.'}},
+{id:'t3p9',tab:3,kind:'setup',dir:'loss',label:'Practice 9 · nickel(II) oxide + hydrogen',
+ text:'Nickel oxide was heated in a stream of hydrogen until it had all changed to nickel metal.',
+ weighs:[['a','Empty tube','28.50'],['b','Tube + nickel oxide before heating','35.97'],['c','Tube + nickel after heating','34.37']],
+ parts:[['Ni','c','a','Ni = (tube + nickel) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + nickel)']],answer:'NiO',
+ think:{q:'Why must all the oxide be reduced before the final weighing?',a:'Any oxide left over still holds oxygen, so the mass of oxygen removed would look too small. Heat in hydrogen, cool and reweigh until the mass is constant.'}},
+{id:'t3p10',tab:3,kind:'setup',dir:'loss',label:'Practice 10 · copper(I) oxide + hydrogen',
+ text:'A red-brown copper oxide was heated in a stream of hydrogen until it had all become pink-brown copper metal.',
+ weighs:[['a','Empty tube','29.80'],['b','Tube + copper oxide before heating','44.10'],['c','Tube + copper after heating','42.50']],
+ parts:[['Cu','c','a','Cu = (tube + copper) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + copper)']],answer:'Cu2O',
+ think:{q:'How can you be sure the reduction is complete?',a:'Heat again in hydrogen, cool, and weigh again. When two readings are the same (constant mass), no more oxygen is being removed.'}},
+
+/* ---------- TAB 4 : combustion analysis ---------- */
+{id:'t4d1',tab:4,demo:true,kind:'combust',label:'Demo · compound Z',
+ text:'Compound <i>Z</i> containing only C, H and O burnt completely in air to form carbon dioxide and water as the only products. Complete combustion of 1.86 g of <i>Z</i> gives 2.64 g of carbon dioxide and 1.62 g of water. Determine the empirical formula of <i>Z</i>.',
+ sample:1.86,co2:2.64,h2o:1.62,answer:'CH3O',
+ think:{q:'In the apparatus, why is the water absorber placed before the carbon dioxide absorber?',a:'The carbon dioxide absorber (for example soda lime or NaOH) would also soak up water vapour. If it came first, the mass gain for CO₂ would be too big and the water mass too small.'}},
+{id:'t4d2',tab:4,demo:true,kind:'combust',label:'Demo · compound V',
+ text:'Compound <i>V</i> contains only C, H and O. 1.20 g of <i>V</i> is burnt completely in excess oxygen. The gases pass through a water absorber (U-tube 1) and then a carbon dioxide absorber (U-tube 2), which are weighed before and after. Determine the empirical formula of <i>V</i>.',
+ sample:1.2,co2:2.64,h2o:1.44,answer:'C3H8O',
+ tubes:{wb:46.25,wa:47.69,cb:52.8,ca:55.44}},
+{id:'t4p1',tab:4,kind:'combust',label:'Practice 1',
+ text:'1.40 g of a hydrocarbon burns completely to give 4.40 g of carbon dioxide and 1.80 g of water. Determine the empirical formula.',
+ sample:1.40,co2:4.40,h2o:1.80,answer:'CH2'},
+{id:'t4p2',tab:4,kind:'combust',label:'Practice 2 · U-tube readings',
+ text:'2.30 g of an organic compound containing C, H and O is burnt completely in excess oxygen. The gases pass first through a U-tube of anhydrous calcium chloride, then through a U-tube of soda lime. Determine the empirical formula from the readings below.',
+ sample:2.3,co2:4.4,h2o:2.7,answer:'C2H6O',
+ tubes:{wb:45.2,wa:47.9,cb:52.85,ca:57.25},
+ think:{q:'Why is excess oxygen passed through the apparatus?',a:'It makes sure the compound burns completely. With too little oxygen, carbon monoxide or soot forms and the mass of CO₂ is too low.'}},
+{id:'t4p3',tab:4,kind:'combust',label:'Practice 3',
+ text:'0.92 g of a compound containing C, H and O is burnt completely. 1.32 g of carbon dioxide and 0.72 g of water are produced. Determine the empirical formula.',
+ sample:0.92,co2:1.32,h2o:0.72,answer:'C3H8O3'},
+{id:'t4p4',tab:4,kind:'combust',label:'Practice 4 · U-tube readings',
+ text:'1.16 g of a hydrocarbon is burnt completely in a combustion train. The two U-tube absorbers were weighed before and after the burn. Determine the empirical formula.',
+ sample:1.16,co2:3.52,h2o:1.8,answer:'C2H5',
+ tubes:{wb:47.35,wa:49.15,cb:50.1,ca:53.62}},
+{id:'t4p5',tab:4,kind:'combust',label:'Practice 5',
+ text:'Complete combustion of 0.60 g of compound <i>W</i> (C, H and O only) gives 0.88 g of carbon dioxide and 0.36 g of water. Determine the empirical formula of <i>W</i>.',
+ sample:0.60,co2:0.88,h2o:0.36,answer:'CH2O'},
+{id:'t4p6',tab:4,kind:'combust',label:'Practice 6 · U-tube readings',
+ text:'0.78 g of a hydrocarbon is burnt completely. The water absorber is placed before the carbon dioxide absorber. Determine the empirical formula from the readings.',
+ sample:0.78,co2:2.64,h2o:0.54,answer:'CH',
+ tubes:{wb:44.8,wa:45.34,cb:49.65,ca:52.29}},
+{id:'t4p7',tab:4,kind:'combust',label:'Practice 7',
+ text:'0.58 g of propanone (C, H and O only) burns completely to give 1.32 g of carbon dioxide and 0.54 g of water. Determine the empirical formula.',
+ sample:0.58,co2:1.32,h2o:0.54,answer:'C3H6O'},
+{id:'t4p8',tab:4,kind:'combust',label:'Practice 8 · U-tube readings',
+ text:'0.86 g of a hydrocarbon is burnt completely in excess oxygen and the products are absorbed in two U-tubes. Determine the empirical formula.',
+ sample:0.86,co2:2.64,h2o:1.26,answer:'C3H7',
+ tubes:{wb:46.1,wa:47.36,cb:51.3,ca:53.94}},
+{id:'t4p9',tab:4,kind:'combust',label:'Practice 9',
+ text:'Complete combustion of 0.88 g of an ester containing C, H and O gives 1.76 g of carbon dioxide and 0.72 g of water. Determine the empirical formula.',
+ sample:0.88,co2:1.76,h2o:0.72,answer:'C2H4O'},
+{id:'t4p10',tab:4,kind:'combust',label:'Practice 10 · U-tube readings',
+ text:'0.54 g of a hydrocarbon is burnt completely in a combustion train. Use the U-tube readings to determine its empirical formula.',
+ sample:0.54,co2:1.76,h2o:0.54,answer:'C2H3',
+ tubes:{wb:45.9,wa:46.44,cb:50.55,ca:52.31}}
+];
+
+const sub=f=>f.replace(/(\d+)/g,'<sub>$1</sub>');
+const rich=t=>t.replace(/\[\[(.+?)\]\]/g,(m,f)=>sub(f));
+const fmt=x=>String(Number(x.toPrecision(4)));
+const r1=x=>Math.round(x*10)/10, r2=x=>Math.round(x*100)/100;
+const dpOf=s=>(String(s).split('.')[1]||'').length;
+const rd=(x,dp)=>Math.round(x*Math.pow(10,dp))/Math.pow(10,dp);
+
+function ramList(q){
+  let s=[];
+  if(q.parts&&q.kind!=='setup') s=q.parts.map(p=>p[0]);
+  if(q.kind==='oxide') s=[q.metal,'O'];
+  if(q.kind==='hydrate') s=q.saltParts.map(p=>p[0]).concat(['H','O']);
+  if(q.kind==='setup') s=q.parts.map(p=>p[0]);
+  if(q.kind==='combust') s=['C','H','O'];
+  return s.filter((v,i)=>s.indexOf(v)===i);
+}
+
+function tail(S,parts,fin){
+  parts.forEach(p=>p.mol=p.mass/p.ram);
+  S.push({title:'Turn each mass into moles',
+    text:'<b>moles = mass ÷ RAM</b>. Type it into the calculator exactly as shown.',
+    lines:parts.map(p=>({label:'moles of '+p.html,keys:[p.mass.toFixed(p.dp),'÷',p.ram.toFixed(1),'='],res:fmt(p.mol)+' mol'})),
+    fill:parts.map((p,i)=>['mol',i,fmt(p.mol),p.mass.toFixed(p.dp)+' ÷ '+p.ram.toFixed(1)])});
+  const min=Math.min(...parts.map(p=>p.mol)), mi=parts.findIndex(p=>p.mol===min);
+  parts.forEach(p=>p.r=p.mol/min);
+  const nearInt=parts.some(p=>p.r!==1&&Math.abs(p.r-Math.round(p.r))>0.004&&Math.abs(p.r-Math.round(p.r))<0.12);
+  S.push({title:'Divide by the smallest number of moles',
+    text:'The smallest is <b>'+parts[mi].html+' ('+fmt(min)+' mol)</b>. Divide the larger moles by it; the smallest one always becomes 1.'+(nearInt?' A value within 0.1 of a whole number (like 4.95) is rounded to that whole number.':''),
+    lines:parts.map(p=>({label:'ratio of '+p.html,keys:[fmt(p.mol),'÷',fmt(min),'='],res:p.r.toFixed(2)})),
+    fill:parts.map((p,i)=>['rat',i,p.r.toFixed(2),fmt(p.mol)+' ÷ '+fmt(min)]),hi:[['rat',mi]]});
+  let m=1;
+  for(;m<6;m++){ if(parts.every(p=>Math.abs(p.r*m-Math.round(p.r*m))<0.12)) break; }
+  const w=parts.map(p=>Math.round(p.r*m));
+  if(m>1){
+    const why=m===2?'a <b>.5</b> ending means multiply by 2':m===3?'a <b>.33 or .67</b> ending means multiply by 3':'a <b>.25 or .75</b> ending means multiply by 4';
+    S.push({title:'Make them whole numbers (× '+m+')',
+      text:'The ratio is not all whole numbers: '+why+'. Multiply <b>every</b> value in the row, not just one.',
+      lines:parts.map((p,i)=>({label:'whole number for '+p.html,keys:[p.r.toFixed(2),'×',String(m),'='],res:String(w[i])})),
+      fill:parts.map((p,i)=>['whole',i,String(w[i]),p.r.toFixed(2)+' × '+m])});
+  }
+  const f=fin(parts,w,m);
+  S.push({title:'Write the answer',text:f.text,final:f.html});
+  return {m,w,html:f.html,plain:f.plain,hasWhole:m>1};
+}
+
+function build(q){
+  const S=[]; let parts=[], ramLabel='RAM', ramPre=true, fin;
+  const P=(s,ram,mass,dp,html)=>({sym:s,html:html||s,ram,mass,dp});
+  const elemFin=(parts,w)=>{const f=parts.map((p,i)=>p.sym+(w[i]>1?w[i]:'')).join('');
+    return {plain:f,html:sub(f),text:'Use the whole-number ratio as the small numbers (subscripts) after each symbol. A "1" is not written.'};};
+  fin=elemFin;
+
+  if(q.kind==='mass'||q.kind==='percent'){
+    const pc=q.kind==='percent', dp=pc?1:2;
+    parts=q.parts.map(([s,m])=>P(s,RAM[s],m,dp));
+    S.push(pc?{title:'Pretend you have 100 g',text:'"54.5%" means 54.5 g in every 100 g. So just change each <b>%</b> into <b>g</b> and write it in the Mass row.',fill:parts.map((p,i)=>['mass',i,p.mass.toFixed(dp)])}
+             :{title:'Put the masses in the table',text:'Copy each mass into the <b>Mass</b> row. The RAM row is already filled in for you.',fill:parts.map((p,i)=>['mass',i,p.mass.toFixed(dp)])});
+  }
+  if(q.kind==='oxide'){
+    const mO=r2(q.oxideMass-q.metalMass);
+    parts=[P(q.metal,RAM[q.metal],q.metalMass,2),P('O',16.0,mO,2)];
+    S.push({title:'Find the mass of oxygen by subtracting',text:'Metal oxide = metal + oxygen, so <b>mass of O = mass of oxide − mass of metal</b>.',
+      lines:[{label:'mass of O',keys:[q.oxideMass.toFixed(2),'−',q.metalMass.toFixed(2),'='],res:mO.toFixed(2)+' g'}],
+      fill:[['mass',0,q.metalMass.toFixed(2)],['mass',1,mO.toFixed(2),q.oxideMass.toFixed(2)+' − '+q.metalMass.toFixed(2)]]});
+  }
+  if(q.kind==='hydrate'){
+    const dryMr=r1(q.saltParts.reduce((a,[s,c])=>a+RAM[s]*c,0));
+    const water=r2(q.hyd-q.dry);
+    parts=[P(q.salt,dryMr,q.dry,2,sub(q.salt)),P('H2O',18.0,water,2,'H<sub>2</sub>O')];
+    ramLabel='Mr'; ramPre=false;
+    S.push({title:'Find the mass of water lost',text:'Heating drives the water out. <b>Mass of water = mass of crystals − mass of dry solid</b>.',
+      lines:[{label:'mass of H₂O',keys:[q.hyd.toFixed(2),'−',q.dry.toFixed(2),'='],res:water.toFixed(2)+' g'}],
+      fill:[['mass',0,q.dry.toFixed(2)],['mass',1,water.toFixed(2),q.hyd.toFixed(2)+' − '+q.dry.toFixed(2)]]});
+    const terms=q.saltParts.map(([s,c])=>c>1?'('+c+' × '+RAM[s].toFixed(1)+')':RAM[s].toFixed(1)).join(' + ');
+    S.push({title:'Work out the Mr of each substance',text:'Here we divide by <b>Mr</b> (add up the RAMs), because each column is a whole substance, not one element.',
+      lines:[{label:'Mr of '+sub(q.salt),calc:terms+' = '+dryMr.toFixed(1)},{label:'Mr of H<sub>2</sub>O',calc:'(2 × 1.0) + 16.0 = 18.0'}],
+      fill:[['ram',0,dryMr.toFixed(1),terms],['ram',1,'18.0','(2 × 1.0) + 16.0']]});
+    fin=(parts,w)=>{const n=w[1];return {plain:String(n),html:sub(q.salt)+' · <b>'+n+'</b>H<sub>2</sub>O &nbsp;(<i>n</i> = '+n+')',
+      text:'The ratio salt : water = 1 : <i>n</i>, so <i>n</i> is the number in the water column.'};};
+  }
+  if(q.kind==='setup'){
+    const dp=Math.max(...q.weighs.map(w=>dpOf(w[2])));
+    const val={}; q.weighs.forEach(w=>val[w[0]]=Number(w[2]));
+    const sv={}; q.weighs.forEach(w=>sv[w[0]]=w[2]);
+    parts=q.parts.map(([s,plus,minus])=>P(s,RAM[s],rd(val[plus]-val[minus],dp),dp));
+    q.parts.forEach(([s,plus,minus,ex],i)=>{
+      S.push({title:'Mass of '+s+' by subtraction',text:ex+'.',
+        lines:[{label:'mass of '+s,keys:[sv[plus],'−',sv[minus],'='],res:parts[i].mass.toFixed(dp)+' g'}],
+        fill:[['mass',i,parts[i].mass.toFixed(dp),sv[plus]+' − '+sv[minus]]]});
+    });
+  }
+  if(q.kind==='combust'){
+    const mrC=r1(12.0+2*16.0), mrW=r1(2*1.0+16.0);
+    const mC=r2(12.0/mrC*q.co2), mH=r2(2.0/mrW*q.h2o), mO=r2(q.sample-mC-mH);
+    const hasO=mO>0.004;
+    parts=[P('C',12.0,mC,2),P('H',1.0,mH,2)]; if(hasO) parts.push(P('O',16.0,mO,2));
+    const tb=q.tubes, ti=(n,t)=>tb?t:'Step '+n+' · '+t;
+    if(tb){
+      S.push({title:'Mass of H₂O from U-tube 1',text:'The water absorber gains exactly the mass of water produced: <b>after − before</b>.',
+        lines:[{label:'mass of H<sub>2</sub>O',keys:[tb.wa.toFixed(2),'−',tb.wb.toFixed(2),'='],res:q.h2o.toFixed(2)+' g'}]});
+      S.push({title:'Mass of CO₂ from U-tube 2',text:'The carbon dioxide absorber gains exactly the mass of CO<sub>2</sub> produced: <b>after − before</b>.',
+        lines:[{label:'mass of CO<sub>2</sub>',keys:[tb.ca.toFixed(2),'−',tb.cb.toFixed(2),'='],res:q.co2.toFixed(2)+' g'}]});
+    }
+    S.push({title:'Work out Mr of CO₂ and H₂O',text:'You need these to know how much of each product is carbon or hydrogen.',
+      lines:[{label:'Mr of CO<sub>2</sub>',calc:'12.0 + (2 × 16.0) = '+mrC.toFixed(1)},{label:'Mr of H<sub>2</sub>O',calc:'(2 × 1.0) + 16.0 = '+mrW.toFixed(1)}]});
+    S.push({title:ti(1,'Mass of C in the CO₂'),text:'All the carbon in CO<sub>2</sub> came from the compound. In '+mrC.toFixed(1)+' g of CO<sub>2</sub>, '+(12.0).toFixed(1)+' g is carbon.',
+      lines:[{label:'mass of C',keys:['12.0','÷',mrC.toFixed(1),'×',q.co2.toFixed(2),'='],res:mC.toFixed(2)+' g'}],fill:[['mass',0,mC.toFixed(2),'12.0 ÷ '+mrC.toFixed(1)+' × '+q.co2.toFixed(2)]]});
+    S.push({title:ti(2,'Mass of H in the H₂O'),text:'All the hydrogen in H<sub>2</sub>O came from the compound. In '+mrW.toFixed(1)+' g of H<sub>2</sub>O, 2 × 1.0 = 2.0 g is hydrogen.',
+      lines:[{label:'mass of H',keys:['2.0','÷',mrW.toFixed(1),'×',q.h2o.toFixed(2),'='],res:mH.toFixed(2)+' g'}],fill:[['mass',1,mH.toFixed(2),'2.0 ÷ '+mrW.toFixed(1)+' × '+q.h2o.toFixed(2)]]});
+    if(hasO) S.push({title:ti(3,'Mass of O in the compound'),text:'Oxygen is the missing piece: <b>sample − C − H</b>. (The O in CO<sub>2</sub> and H<sub>2</sub>O partly came from the air, so you cannot use them.)',
+      lines:[{label:'mass of O',keys:[q.sample.toFixed(2),'−',mC.toFixed(2),'−',mH.toFixed(2),'='],res:mO.toFixed(2)+' g'}],fill:[['mass',2,mO.toFixed(2),q.sample.toFixed(2)+' − '+mC.toFixed(2)+' − '+mH.toFixed(2)]]});
+    else S.push({title:ti(3,'Is there any oxygen?'),text:'Check <b>sample − C − H</b>. If it is 0, the compound has no oxygen: it is a hydrocarbon, so the table only has C and H.',
+      lines:[{label:'mass of O',keys:[q.sample.toFixed(2),'−',mC.toFixed(2),'−',mH.toFixed(2),'='],res:'0.00 g → no O'}]});
+  }
+  const t=tail(S,parts,fin);
+  const rows=[{key:'ram',label:ramLabel,pre:ramPre?parts.map(p=>p.ram.toFixed(1)):null},
+              {key:'mass',label:'Mass (g)'},{key:'mol',label:'No. of mole (mol)'},{key:'rat',label:'Mole ratio (÷ smallest mole)'}];
+  if(t.hasWhole) rows.push({key:'whole',label:'Whole-number ratio (× '+t.m+')'});
+  return {cols:parts.map(p=>p.html),rows,steps:S,plain:t.plain,html:t.html,m:t.m,w:t.w,parts};
+}
+
+function parseF(s){
+  s=String(s).replace(/[\s·.]/g,'').replace(/[₀-₉]/g,c=>String(c.charCodeAt(0)-8320));
+  const out={}; let ok=true;
+  s.replace(/([A-Z][a-z]?)(\d*)/g,(m,e,n)=>{out[e]=(out[e]||0)+(n===''?1:Number(n));return m;});
+  if(s.replace(/([A-Z][a-z]?)(\d*)/g,'')!=='') ok=false;
+  return ok?out:null;
+}
+function checkAnswer(q,input){
+  if(q.kind==='hydrate'){
+    const m=String(input).match(/(\d+)\s*h2o/i)||String(input).match(/^\s*(?:n\s*=\s*)?(\d+)\s*$/i);
+    return !!m&&m[1]===q.answer;
+  }
+  const a=parseF(input),b=parseF(q.answer); if(!a||!b) return false;
+  const ka=Object.keys(a),kb=Object.keys(b);
+  return ka.length===kb.length&&kb.every(k=>a[k]===b[k]);
+}
+
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+let done={}; try{done=JSON.parse(localStorage.getItem('ec-done')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('ec-done',JSON.stringify(done))}catch(e){}};
+const state={};   // id -> {i:-1, timer:null}
+
+function ramHtml(q,b){
+  const syms=q.kind==='hydrate'?ramList(q):b.parts.map(p=>p.sym.replace('H2O','H'));
+  const u=syms.filter((v,i)=>syms.indexOf(v)===i);
+  if(q.kind==='hydrate'&&u.indexOf('O')<0)u.push('O');
+  return '<div class="ram"><b>RAM given:</b> '+u.map(s=>'<span class="c">'+s+' = '+RAM[s].toFixed(1)+'</span>').join('')+'</div>';
+}
+function givenHtml(q){
+  if(q.tubes){const t=q.tubes;
+    return '<div class="tbl-wrap"><table class="mini given"><tr><th>Measurement</th><th>Mass (g)</th></tr>'+
+     [['U-tube 1 (water absorber) before burning',t.wb],['U-tube 1 (water absorber) after burning',t.wa],['U-tube 2 (CO₂ absorber) before burning',t.cb],['U-tube 2 (CO₂ absorber) after burning',t.ca]]
+      .map(r=>'<tr><td>'+r[0]+'</td><td class="v">'+r[1].toFixed(2)+'</td></tr>').join('')+'</table></div>';}
+  if(q.kind!=='setup') return '';
+  return '<div class="tbl-wrap"><table class="mini given"><tr><th>Measurement</th><th>Mass (g)</th></tr>'+
+   q.weighs.map(w=>'<tr><td>'+w[1]+'</td><td class="v">'+w[2]+'</td></tr>').join('')+'</table></div>';
+}
+function tableHtml(q,b){
+  let h='<div class="work" hidden><table class="work-t"><tr><th></th>'+b.cols.map(c=>'<th>'+c+'</th>').join('')+'</tr>';
+  b.rows.forEach(r=>{
+    h+='<tr data-row="'+r.key+'" hidden><td class="rl">'+r.label+'</td>';
+    b.cols.forEach((c,i)=>{ h+='<td class="cell'+(r.pre?' pre':'')+'" data-r="'+r.key+'" data-c="'+i+'">'+(r.pre?r.pre[i]:'')+'</td>'; });
+    h+='</tr>';
+  });
+  return h+'</table></div>';
+}
+function stepHtml(s,idx,total,live){
+  let h='<div class="step '+(live?'cur live':'old')+'"><span class="n">Step '+(idx+1)+' of '+total+'</span><h4>'+s.title+'</h4><p>'+s.text+'</p>';
+  let d=0.1;
+  (s.fill&&s.fill.length?[]:(s.lines||[])).forEach(l=>{
+    h+='<div class="line">'+(l.label?'<span class="what" style="--d:'+d.toFixed(2)+'">'+l.label+'</span>':'');
+    if(l.keys){ l.keys.forEach(k=>{ d+=0.2; const op=['÷','×','−','=','+'].indexOf(k)>=0; h+='<span class="k'+(op?' op':'')+'" style="--d:'+d.toFixed(2)+'">'+k+'</span>'; }); }
+    if(l.calc){ d+=0.2; h+='<span class="calc" style="--d:'+d.toFixed(2)+'">'+l.calc+'</span>'; }
+    if(l.res){ d+=0.3; h+='<span class="res" style="--d:'+d.toFixed(2)+'">'+l.res+'</span>'; }
+    h+='</div>';
+    d+=0.2;
+  });
+  if(s.final) h+='<div class="final">'+s.final+'</div>';
+  return h+'</div>';
+}
+
+function render(q){
+  const b=q._b=build(q), demo=!!q.demo, id=q.id;
+  state[id]={i:-1,timer:null};
+  const el=document.createElement('article'); el.className='q'+(demo?' demo':'')+(done[id]?' done':''); el.id='q-'+id;
+  const ansLabel=q.kind==='hydrate'?'<i>n</i> =':'Empirical formula:';
+  const ph=q.kind==='hydrate'?'e.g. 4':'e.g. C2H6O';
+  el.innerHTML=
+   '<div class="bar"><span class="badge">'+(demo?'Demo':'Practice')+'</span><span class="lbl">'+q.label+'</span><span class="tick">✓ done</span></div>'+
+   '<div class="body"><p class="stmt">'+rich(q.text)+'</p>'+ramHtml(q,b)+givenHtml(q)+tableHtml(q,b)+
+   '<div class="helpbar"></div><div class="steps" aria-live="polite"></div>'+
+   (demo?'':'<div class="answer"><label for="in-'+id+'">'+ansLabel+'</label><input id="in-'+id+'" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="'+ph+'"><button class="btn pri" data-act="check">Check</button><div class="fb" aria-live="polite"></div></div>')+
+   (q.think?'<details class="think"><summary>Think: '+rich(q.think.q)+'</summary><p>'+q.think.a+'</p></details>':'')+
+   '</div>';
+  el.addEventListener('click',e=>{const a=e.target.closest('[data-act]'); if(a) act(q,el,a.dataset.act);});
+  const inp=$('input',el); if(inp) inp.addEventListener('keydown',e=>{if(e.key==='Enter')act(q,el,'check');});
+  paintHelp(q,el);
+  return el;
+}
+function paintHelp(q,el){
+  const st=state[q.id], n=q._b.steps.length, bar=$('.helpbar',el), demo=q.demo;
+  let h='';
+  if(st.i<0){
+    h=demo?'<button class="btn pri" data-act="play">▶ Play demo</button><button class="btn" data-act="next">Step 1</button>'
+          :'<button class="btn" data-act="next">Need help? Show step 1</button>';
+  }else{
+    const last=st.i>=n-1;
+    if(demo) h+=st.timer?'<button class="btn pri" data-act="pause">⏸ Pause</button>':(last?'':'<button class="btn pri" data-act="play">▶ Play</button>');
+    h+='<button class="btn" data-act="next"'+(last?' disabled':'')+'>Next step ('+Math.min(st.i+2,n)+'/'+n+')</button>';
+    h+='<button class="btn" data-act="all"'+(last?' disabled':'')+'>Show all</button><button class="btn" data-act="reset">Reset</button>';
+  }
+  bar.innerHTML=h;
+}
+function paintSteps(q,el,animate){
+  const st=state[q.id], S=q._b.steps, box=$('.steps',el);
+  box.innerHTML=st.i<0?'':stepHtml(S[st.i],st.i,S.length,animate);
+  const filled={}; S.slice(0,st.i+1).forEach((s,k)=>(s.fill||[]).forEach(([r,c,v,calc])=>filled[r+'-'+c]={v,k,calc}));
+  $$('td.cell',el).forEach(td=>{
+    const key=td.dataset.r+'-'+td.dataset.c, f=filled[key]; td.classList.remove('pop','hi');
+    if(f){ const hh=f.calc?'<span class="cx">'+f.calc+'</span><span class="rs2">= '+f.v+'</span>':f.v; if(td.dataset.h!==hh){ td.innerHTML=hh; td.dataset.h=hh; } if(animate&&f.k===st.i){ void td.offsetWidth; td.classList.add('pop'); } }
+    else if(!td.classList.contains('pre')){ td.innerHTML=''; td.dataset.h=''; }
+  });
+  $('.work',el).hidden=st.i<0;
+  $$('tr[data-row]',el).forEach(tr=>{ const k=tr.dataset.row; tr.hidden=!(st.i>=0&&(Object.keys(filled).some(x=>x.indexOf(k+'-')===0)||($('td.pre',tr)))); });
+  const cur=S[st.i]; if(cur&&cur.hi) cur.hi.forEach(([r,c])=>{const t=$('td[data-r="'+r+'"][data-c="'+c+'"]',el); if(t) t.classList.add('hi');});
+  paintHelp(q,el);
+}
+function act(q,el,a){
+  const st=state[q.id], n=q._b.steps.length;
+  const stop=()=>{ if(st.timer){clearInterval(st.timer);st.timer=null;} };
+  if(a==='next'){ stop(); if(st.i<n-1){st.i++; paintSteps(q,el,true);} }
+  if(a==='all'){ stop(); st.i=n-1; paintSteps(q,el,false); }
+  if(a==='reset'){ stop(); st.i=-1; paintSteps(q,el,false); }
+  if(a==='pause'){ stop(); paintHelp(q,el); }
+  if(a==='play'){
+    stop(); if(st.i>=n-1) st.i=-1;
+    const tick=()=>{ if(st.i<n-1){st.i++; paintSteps(q,el,true);} if(st.i>=n-1) stop(), paintHelp(q,el); };
+    tick(); if(st.i<n-1) st.timer=setInterval(tick,4200); paintHelp(q,el);
+  }
+  if(a==='check'){
+    const v=$('input',el).value.trim(), fb=$('.fb',el);
+    if(!v){fb.className='fb no';fb.textContent='Type your answer first.';return;}
+    if(checkAnswer(q,v)){
+      fb.className='fb ok'; fb.innerHTML='Correct! The empirical formula is '+q._b.html+'.';
+      el.classList.add('done'); done[q.id]=1; save(); counts();
+    }else{
+      fb.className='fb no'; fb.textContent=q.kind==='hydrate'?'Not yet. Check the mass of water, then divide by Mr (18.0 for water). Use Need help? for the steps.':'Not yet. Check each step in the table, or press Need help? to go through it one step at a time.';
+    }
+  }
+}
+function counts(){
+  $$('.pill').forEach(p=>p.classList.toggle('done',!!done[p.dataset.id]));
+  [1,2,3,4].forEach(t=>{
+    const pr=Q.filter(q=>q.tab===t&&!q.demo), d=pr.filter(q=>done[q.id]).length;
+    $('#pg'+t).textContent=d+' / '+pr.length+' practice';
+    $('#prog'+t).textContent=d+' of '+pr.length+' done';
+  });
+}
+function init(){
+  const SEC={
+   1:[['Masses given','You are given the mass of each element. Copy the masses into the table, divide each by its RAM, then divide the larger moles by the smallest.',q=>q.kind==='mass'],
+      ['Percentages given','You are given percentages by mass. Pretend the sample weighs 100 g so every % becomes grams, then use the same table.',q=>q.kind==='percent']],
+   2:[['A metal burns to form an oxide','You are given the mass of the metal and the mass of the oxide. Mass of O = mass of oxide − mass of metal. Then use the table.',q=>q.kind==='oxide'],
+      ['Hydrated crystals are heated','You are given the mass of the crystals and the dry solid left. Mass of water = crystals − dry solid. Divide each by its Mr, and the water value is n.',q=>q.kind==='hydrate']],
+   3:[['Heated element gains mass','Weigh the container, the container with the element, and the container with the product. Two subtractions give the mass of each element.',q=>q.dir==='gain'],
+      ['Oxide reduced in hydrogen','The oxide loses oxygen, so the mass goes down. Subtract the weighings to find the metal left and the oxygen removed.',q=>q.dir==='loss']],
+   4:[['CO₂ and H₂O masses given','You are given the mass of CO₂ and H₂O formed. Work out the mass of C and H from them, then O by subtraction from the sample.',q=>q.kind==='combust'&&!q.tubes],
+      ['U-tube readings given','You are given the before and after readings of the two U-tubes. Subtract to find the mass of H₂O and CO₂ first, then carry on as before.',q=>q.kind==='combust'&&!!q.tubes]]};
+  Object.keys(SEC).forEach(t=>{
+    const host=$('#qs'+t); const tiers=[];
+    SEC[t].forEach(([title,desc,fn],ti)=>{
+      const qs=Q.filter(q=>q.tab==Number(t)&&fn(q));
+      const demos=qs.filter(q=>q.demo), pr=qs.filter(q=>!q.demo);
+      const order=demos.concat(pr);
+      const tier=document.createElement('div'); tier.className='tier';
+      tier.innerHTML='<div class="thead"><div class="tbadge"><span>TIER</span><b>'+(ti+1)+'</b></div><div><h3>'+title+'</h3><p>'+desc+'</p></div></div>'+
+        '<div class="pickhint">👇 <b>Tap a button to choose a question.</b> Start with the worked example, then try Practice 1.</div><div class="pills" role="tablist">'+order.map((q,i)=>{
+           const n=q.demo?(demos.length>1?'Worked example '+(demos.indexOf(q)+1):'Worked example'):'Practice '+(pr.indexOf(q)+1);
+           if(!q.demo) q.label=q.label.replace(/^Practice \d+/,'Practice '+(pr.indexOf(q)+1));
+           return '<button type="button" role="tab" class="pill'+(q.demo?' wk':'')+'" data-id="'+q.id+'" aria-selected="'+(i===0)+'">'+n+'<span class="ck"> ✓</span></button>';
+         }).join('')+'</div><div class="stage"></div>';
+      const stage=$('.stage',tier);
+      order.forEach((q,i)=>{ const el=render(q); el.hidden=i!==0; stage.appendChild(el); });
+      tier.addEventListener('click',ev=>{
+        const p=ev.target.closest('.pill'); if(!p) return;
+        $$('.pill',tier).forEach(x=>x.setAttribute('aria-selected',String(x===p)));
+        order.forEach(q=>{ const el=$('#q-'+q.id,tier); const on=q.id===p.dataset.id; if(!on&&state[q.id]&&state[q.id].timer){clearInterval(state[q.id].timer);state[q.id].timer=null;paintHelp(q,el);} el.hidden=!on; });
+      });
+      host.appendChild(tier); tiers.push({tier,order,title});
+    });
+    tiers.forEach((T,ti)=>{
+      T.order.forEach((q,i)=>{
+        const nb=document.createElement('div'); nb.className='nextbar';
+        const nx=T.order[i+1], pr=T.order.filter(x=>!x.demo);
+        let html='';
+        if(nx) html=(q.demo?'<span>Done watching? Now try one yourself.</span>':'')+'<button type="button" class="btn pri" data-go="'+nx.id+'">'+(q.demo?'Start Practice 1':'Next: Practice '+(pr.indexOf(nx)+1))+' →</button>';
+        else if(tiers[ti+1]) html='<span>Tier complete. Well done!</span><button type="button" class="btn pri" data-gotier="'+(ti+1)+'">Next: '+tiers[ti+1].title+' →</button>';
+        else if(Number(t)<4) html='<span>All questions in this topic done.</span><button type="button" class="btn pri" data-gotab="'+(Number(t)+1)+'">Next topic: '+$('#tb'+(Number(t)+1)).firstChild.textContent.replace(/^\d · /,'')+' →</button>';
+        else html='<span>That is every question. Great work!</span>';
+        nb.innerHTML=html; $('.body',$('#q-'+q.id,T.tier)).appendChild(nb);
+      });
+      T.tier.addEventListener('click',ev=>{
+        const g=ev.target.closest('[data-go],[data-gotier],[data-gotab]'); if(!g) return;
+        if(g.dataset.gotab){ $('#tb'+g.dataset.gotab).click(); return; }
+        const dest=g.dataset.gotier!==undefined?tiers[Number(g.dataset.gotier)]:T;
+        const id=g.dataset.go||dest.order[0].id;
+        $('.pill[data-id="'+id+'"]',dest.tier).click();
+        dest.tier.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  });
+  counts();
+  // intro: empirical vs molecular
+  const sm=[['H2O2','HO','÷ 2'],['C2H4','CH2','÷ 2'],['C6H6','CH','÷ 6'],['C6H12O6','CH2O','÷ 6']];
+  $('#simp').innerHTML=sm.map((m,i)=>'<button type="button" data-i="'+i+'" aria-pressed="false"><span class="from">'+sub(m[0])+'</span><span class="to">&nbsp;</span></button>').join('');
+  $('#simp').addEventListener('click',e=>{const b=e.target.closest('button'); if(!b) return; const m=sm[b.dataset.i], on=b.classList.toggle('on');
+    b.setAttribute('aria-pressed',on); $('.to',b).innerHTML=on?m[2]+' → '+sub(m[1]):'&nbsp;';});
+  // tabs
+  const tabs=$$('nav.tabs [role=tab]');
+  const show=n=>{ tabs.forEach((t,i)=>t.setAttribute('aria-selected',String(i===n-1))); $$('section.panel').forEach((p,i)=>p.hidden=i!==n-1);
+    try{history.replaceState(null,'','#tab'+n)}catch(e){} window.scrollTo({top:0}); };
+  tabs.forEach((t,i)=>t.addEventListener('click',()=>show(i+1)));
+  const m=(location.hash||'').match(/^#tab([1-4])$/); if(m) show(Number(m[1]));
+}
+
+function initFx(){
+  /* ---- A: same number of atoms, different masses ---- */
+  const A=$('#fxA'), bags=[['H',1.0],['C',12.0],['O',16.0],['S',32.1]];
+  A.innerHTML='<h3>Why do we divide by RAM?</h3><p>Atoms have different masses, so equal grams do <b>not</b> mean equal numbers of atoms. Each sample below is <b>1 mole</b> of atoms.</p>'+
+   '<div class="bags" id="bags" data-v="weigh">'+bags.map(([s,m],i)=>'<div class="bag"><div class="stack"><div class="mbar c'+i+'" style="--h:'+(m*3)+'px"><span>'+m.toFixed(1)+' g</span></div><div class="dots c'+i+'">'+'<i></i>'.repeat(6)+'</div></div><b class="sym">'+s+'</b></div>').join('')+'</div>'+
+   '<div class="seg" role="group" aria-label="View"><button type="button" data-v="weigh" aria-pressed="true">⚖ Weigh them</button><button type="button" data-v="count" aria-pressed="false">🔬 Count the atoms</button></div><p class="cap" id="capA"></p>';
+  const capA={weigh:'Weighed on a balance: 1.0 g, 12.0 g, 16.0 g and 32.1 g. Very different masses.',
+              count:'Counted: each sample has the <b>same number of atoms</b> (6.02 × 10²³). So <b>moles</b> compare atoms fairly: moles = mass ÷ RAM.'};
+  const setA=v=>{ $('#bags').dataset.v=v; $$('.seg button',A).forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.v===v))); $('#capA').innerHTML=capA[v]; };
+  A.querySelector('.seg').addEventListener('click',e=>{const x=e.target.closest('button'); if(x) setA(x.dataset.v);}); setA('weigh');
+
+  /* ---- B: grams -> moles -> ratio -> formula (SO3 question) ---- */
+  const B=$('#fxB');
+  const rows=[['S','c3','40.07 g','40.07 ÷ 32.1 = 1.248 mol','1.248 ÷ 1.248 = 1',1],['O','c2','59.93 g','59.93 ÷ 16.0 = 3.746 mol','3.746 ÷ 1.248 = 3',3]];
+  B.innerHTML='<h3>Watch grams turn into a formula</h3><p>The same numbers as Demo A below. Each dot is about a quarter of a mole.</p><div class="fxrows">'+
+   rows.map(r=>'<div class="rw"><b class="sym '+r[1]+'">'+r[0]+'</b><span class="chip" data-s="0">'+r[2]+'</span><span class="chip m" data-s="1">'+r[3]+'</span><span class="chip g" data-s="2">'+r[4]+'</span>'+
+     '<div class="tok">'+Array.from({length:r[5]},()=>'<span class="grp">'+('<i class="'+r[1]+'"></i>').repeat(5)+'</span>').join('')+'</div></div>').join('')+'</div>'+
+   '<div class="mol" data-s="3" hidden><svg viewBox="0 0 120 100" width="120" height="100" role="img" aria-label="One sulphur atom joined to three oxygen atoms"><g stroke="currentColor" stroke-width="3"><path d="M60 50 L60 16 M60 50 L30 68 M60 50 L90 68"/></g><circle cx="60" cy="50" r="17" class="c3f"/><circle cx="60" cy="16" r="11" class="c2f"/><circle cx="30" cy="68" r="11" class="c2f"/><circle cx="90" cy="68" r="11" class="c2f"/></svg><div class="final">SO<sub>3</sub></div></div>'+
+   '<p class="cap" id="capB"></p><div class="helpbar"><button class="btn pri" type="button" data-a="play">▶ Play</button><button class="btn" type="button" data-a="next">Next</button><button class="btn" type="button" data-a="reset">Reset</button></div>';
+  const caps=['Start with the masses you weighed. But a gram of sulphur and a gram of oxygen contain different numbers of atoms.',
+    'Divide each mass by its RAM to get moles. Now the dots really are comparable: sulphur has 5, oxygen has 15.',
+    'Divide by the smallest number of moles (1.248). Sulphur is 1 lot of dots, oxygen is 3 lots.',
+    'So 1 sulphur atom goes with 3 oxygen atoms. The empirical formula is SO<sub>3</sub>.'];
+  let st=0,tm=null;
+  const set=n=>{ st=n; B.dataset.stage=n; $$('[data-s]',B).forEach(e=>e.hidden=n<Number(e.dataset.s)); $('#capB').innerHTML=caps[n];
+    $$('.tok i',B).forEach((d,i)=>{d.classList.toggle('on',n>=1); d.style.transitionDelay=(i*60)+'ms';});
+    $$('.grp',B).forEach(g=>g.classList.toggle('sep',n>=2)); };
+  const stop=()=>{if(tm){clearInterval(tm);tm=null;} $('[data-a=play]',B).textContent='▶ Play';};
+  B.addEventListener('click',e=>{const x=e.target.closest('[data-a]'); if(!x) return; const a=x.dataset.a;
+    if(a==='next'){stop(); set(Math.min(st+1,3));}
+    if(a==='reset'){stop(); set(0);}
+    if(a==='play'){ if(tm){stop();return;} set(0); x.textContent='⏸ Pause'; tm=setInterval(()=>{ if(st<3) set(st+1); if(st>=3) stop(); },2600); }});
+  set(0);
+}
+
+initFx();
+init();
+</script>
+
+</body></html>

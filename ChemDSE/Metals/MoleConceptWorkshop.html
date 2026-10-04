@@ -1,0 +1,1374 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mole Concept Workbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: lab-notebook page on faint graph paper. A sticky tab rail, then per tab a "Learn" block of
+   interactive explainers followed by practice stations (demo + 5 questions each) with step-by-step hints. */
+:root {
+  --bg: #EDF2F5; --surface: #FFFFFF; --ink: #12222D; --muted: #53667A; --line: #C9D6DE;
+  --accent: #0A7C86; --accent-soft: #D7EEF0; --on-accent: #FFFFFF;
+  --warm: #9A4B00; --warm-soft: #FBE9D2;
+  --good: #17703F; --good-soft: #D9F0E4; --bad: #B3261E; --bad-soft: #FBE2DF;
+  --hl: #FFE7A3; --grid: rgba(10, 124, 134, .08);
+  --e1: #0A7C86; --e2: #C2410C; --e3: #6D4BC2; --e4: #8A6500; --e5: #2F6FDE;
+  --f-display: 'Bricolage Grotesque', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --f-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C171F; --surface: #13232E; --ink: #E3EDF2; --muted: #93A9B8; --line: #29414F;
+    --accent: #4CC3CE; --accent-soft: #123A41; --on-accent: #07242A;
+    --warm: #F2A65A; --warm-soft: #3A2A14;
+    --good: #5BD08E; --good-soft: #12382A; --bad: #FF8F86; --bad-soft: #432220;
+    --hl: #5A4510; --grid: rgba(76, 195, 206, .07);
+    --e1: #4CC3CE; --e2: #FF9A62; --e3: #B49CFF; --e4: #E8C547; --e5: #7DA8FF; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C171F; --surface: #13232E; --ink: #E3EDF2; --muted: #93A9B8; --line: #29414F;
+  --accent: #4CC3CE; --accent-soft: #123A41; --on-accent: #07242A;
+  --warm: #F2A65A; --warm-soft: #3A2A14;
+  --good: #5BD08E; --good-soft: #12382A; --bad: #FF8F86; --bad-soft: #432220;
+  --hl: #5A4510; --grid: rgba(76, 195, 206, .07);
+  --e1: #4CC3CE; --e2: #FF9A62; --e3: #B49CFF; --e4: #E8C547; --e5: #7DA8FF; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px; padding-inline: 16px; padding-block: 0 56px; overflow-x: hidden;
+}
+.wrap { max-width: 980px; margin-inline: auto; }
+sup, sub { line-height: 0; font-size: .72em; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.12; text-wrap: balance; margin: 0; }
+p { margin: 0; max-width: 65ch; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+.top { padding-block: 28px 18px; display: grid; gap: 8px; }
+.eyebrow { font: 600 .78rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.top h1 { font-size: clamp(2rem, 6vw, 3.1rem); font-weight: 800; letter-spacing: -.02em; }
+.top p { color: var(--muted); }
+.avo { font-family: var(--f-mono); font-weight: 600; color: var(--ink); background: var(--hl); padding: 0 .35em; border-radius: 3px; white-space: nowrap; }
+
+/* tab rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 2px solid var(--ink); margin-inline: -16px; padding-inline: 16px; }
+.rail-in { max-width: 980px; margin-inline: auto; display: flex; gap: 6px; overflow-x: auto; padding-top: 8px; scrollbar-width: none; }
+.tab { flex: 1 0 auto; min-width: 0; text-align: left; border: 2px solid var(--line); border-bottom: 0; background: var(--surface); padding: 8px 14px 9px; border-radius: 8px 8px 0 0; display: grid; gap: 2px; }
+.tab b { font: 700 .98rem/1.15 var(--f-display); }
+.tab small { font: 500 .74rem/1.2 var(--f-mono); color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tab[aria-selected="true"] small { color: var(--bg); opacity: .8; }
+.panel[hidden] { display: none !important; }
+
+/* cards */
+.sec { padding-top: 30px; display: grid; gap: 14px; }
+.sec > h2 { font-size: 1.55rem; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.sec > h2 small { font: 600 .8rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 2px solid var(--ink); border-radius: 10px; padding: 18px; display: grid; gap: 12px; min-width: 0; box-shadow: 4px 4px 0 var(--line); }
+.card h3 { font-size: 1.2rem; }
+.card .lede { color: var(--muted); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 14px; }
+.callout { background: var(--accent-soft); border-left: 5px solid var(--accent); border-radius: 0 8px 8px 0; padding: 10px 14px; }
+.tip { background: var(--warm-soft); border-left: 5px solid var(--warm); border-radius: 0 8px 8px 0; padding: 10px 14px; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 2px solid var(--ink); background: var(--surface); border-radius: 8px; padding: 7px 14px; font-weight: 600; min-height: 40px; }
+.btn:hover { background: var(--accent-soft); }
+.btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.chipbtn { border: 2px solid var(--line); background: var(--surface); padding: 5px 11px; border-radius: 99px; font-weight: 600; font-size: .92rem; min-height: 36px; }
+.chipbtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+input[type=range] { width: 100%; accent-color: var(--accent); min-height: 30px; }
+select, input.txt { font: inherit; color: var(--ink); background: var(--surface); border: 2px solid var(--ink); border-radius: 8px; padding: 7px 10px; min-height: 40px; max-width: 100%; }
+
+/* why-mole stage */
+.stage { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; }
+.read { border: 2px solid var(--line); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.read small { display: block; font: 600 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.read output { display: block; font: 700 1.5rem/1.25 var(--f-mono); overflow-wrap: anywhere; }
+.verdict { font-weight: 600; min-height: 1.6em; }
+.verdict.ok { color: var(--good); } .verdict.no { color: var(--bad); }
+.track { position: relative; height: 96px; }
+.track .line { position: absolute; left: 0; right: 0; top: 46px; height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.track .fill { height: 100%; width: 0; background: var(--accent); }
+.track .mark { position: absolute; top: 0; transform: translateX(-50%); font: 600 .68rem/1.2 var(--f-mono); text-align: center; color: var(--muted); width: 84px; }
+.track .mark::after { content: ''; display: block; width: 2px; height: 14px; background: var(--ink); margin: 2px auto 0; }
+.track .mark.low { top: 62px; } .track .mark.low::after { display: none; }
+.ladder { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+.rung { border: 2px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.rung b { font: 700 1.05rem var(--f-display); display: block; }
+.rung span { font: 500 .85rem var(--f-mono); color: var(--muted); }
+.rung.big { border-color: var(--accent); background: var(--accent-soft); }
+
+/* bridge svg */
+.svgbox { overflow-x: auto; }
+.svgbox svg { display: block; width: 100%; height: auto; min-width: 320px; max-width: 760px; margin-inline: auto; }
+.svgbox text { fill: var(--ink); font-family: var(--f-body); }
+.box-r { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
+.arrow { stroke: var(--accent); stroke-width: 3; fill: none; stroke-dasharray: 9 7; animation: flow 1.2s linear infinite; }
+.arrow.rev { animation-direction: reverse; stroke: var(--e2); }
+@keyframes flow { to { stroke-dashoffset: -32; } }
+
+/* data tables */
+table.st { border-collapse: collapse; width: 100%; font-size: .95rem; }
+.tblwrap { overflow-x: auto; max-width: 100%; }
+table.st th { text-align: left; font: 600 .72rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--ink); padding: 4px 8px; white-space: nowrap; }
+table.st td { padding: 6px 8px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+table.st tr { animation: rise .45s calc(var(--i, 0) * .14s) both; }
+table.st tr.hl td { background: var(--hl); }
+.ptable td:last-child { font-family: var(--f-mono); font-weight: 600; }
+
+/* element bar */
+.ebar { display: flex; height: 46px; border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.ebar > div { display: grid; place-items: center; color: var(--surface); font: 700 .85rem var(--f-mono); width: 0; transition: width 1s cubic-bezier(.2, .8, .2, 1); overflow: hidden; white-space: nowrap; }
+
+/* stations */
+.station { background: var(--surface); border: 2px solid var(--ink); border-radius: 10px; box-shadow: 4px 4px 0 var(--line); min-width: 0; overflow: hidden; }
+.st-head { padding: 14px 16px 10px; display: grid; gap: 4px; border-bottom: 2px solid var(--ink); }
+.st-head h3 { font-size: 1.18rem; }
+.st-head p { color: var(--muted); font-size: .93rem; }
+.tier { justify-self: start; font: 700 .7rem var(--f-mono); letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; border: 1.5px solid currentColor; color: var(--accent); }
+.tier.t2 { color: var(--e4); } .tier.t3 { color: var(--e2); }
+.pills { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.pill { min-width: 44px; min-height: 40px; padding: 4px 12px; border: 2px solid var(--ink); background: var(--surface); border-radius: 8px; font: 700 .95rem var(--f-mono); position: relative; }
+.pill[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+.pill.demo { border-style: dashed; }
+.pill.done::after { content: '✓'; position: absolute; top: -8px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: var(--good); color: var(--surface); font-size: .7rem; display: grid; place-items: center; }
+.qbody { padding: 16px; display: grid; gap: 14px; }
+.qtext { font-size: 1.12rem; max-width: 70ch; }
+.qtag { font: 700 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.given { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.given > span:first-child { font: 700 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--warm); }
+.chip { font: 600 .88rem var(--f-mono); background: var(--warm-soft); color: var(--warm); border: 1.5px solid var(--warm); padding: 2px 9px; border-radius: 6px; }
+.answers { display: grid; gap: 10px; }
+.arow { display: grid; gap: 4px; }
+.arow label { font-weight: 500; }
+.ains { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ains input { font: 600 1.05rem var(--f-mono); width: min(100%, 15rem); border: 2px solid var(--ink); border-radius: 8px; padding: 7px 10px; background: var(--surface); color: var(--ink); min-height: 42px; }
+.ains input.ok { border-color: var(--good); background: var(--good-soft); }
+.ains input.no { border-color: var(--bad); background: var(--bad-soft); }
+.unit { font: 600 .95rem var(--f-mono); color: var(--muted); }
+.fmtnote { font-size: .85rem; color: var(--muted); }
+.choices { display: grid; gap: 8px; }
+.choice { display: flex; gap: 12px; align-items: center; text-align: left; border: 2px solid var(--ink); background: var(--surface); border-radius: 8px; padding: 8px 12px; min-height: 48px; }
+.choice:hover:not([disabled]) { background: var(--accent-soft); }
+.choice .lt { font: 700 1rem var(--f-mono); width: 1.8rem; height: 1.8rem; border-radius: 50%; border: 2px solid currentColor; display: grid; place-items: center; flex: none; }
+.choice.ok { background: var(--good-soft); border-color: var(--good); }
+.choice.no { background: var(--bad-soft); border-color: var(--bad); }
+.choice[disabled] { cursor: default; }
+.msg { font-weight: 600; min-height: 1.5em; }
+.msg.ok { color: var(--good); } .msg.no { color: var(--bad); } .msg.info { color: var(--ink); }
+.ans-reveal { background: var(--good-soft); border: 2px solid var(--good); border-radius: 8px; padding: 10px 14px; animation: rise .4s both; }
+.ans-reveal small { display: block; font: 700 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--good); }
+.ans-reveal div { font: 700 1.15rem var(--f-mono); overflow-wrap: anywhere; }
+
+/* steps */
+.steps { display: grid; gap: 10px; counter-reset: s; }
+.step { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 4px 12px; animation: rise .5s both; }
+.step .n { width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; font: 700 .9rem var(--f-mono); }
+.step .say { padding-top: 3px; }
+.step .calc, .step .tblwrap { grid-column: 2; }
+.calc { font: 500 1.02rem/1.9 var(--f-mono); background: var(--bg); border: 1.5px solid var(--line); border-radius: 8px; padding: 6px 12px; overflow-x: auto; }
+.res { font-weight: 700; padding: 0 .2em; border-radius: 3px; background: linear-gradient(var(--hl), var(--hl)) no-repeat left center / 0% 100%; animation: sweep .8s .4s both; }
+.step:last-child .calc { border-color: var(--accent); }
+.frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-style: italic; line-height: 1.2; margin-inline: .2em; }
+.frac > span:first-child { border-bottom: 1.6px solid currentColor; padding-inline: .25em; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes sweep { to { background-size: 100% 100%; } }
+.flash { animation: flash .6s; }
+@keyframes flash { from { background: var(--hl); } to { background: transparent; } }
+
+.progress { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--good); width: 0; transition: width .5s; }
+.refbox summary { cursor: pointer; font-weight: 600; }
+.refbox .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+footer.foot { margin-top: 36px; color: var(--muted); font-size: .88rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition-duration: .001s !important; }
+  .res { background-size: 100% 100%; }
+}
+@media (max-width: 520px) {
+  .card { padding: 14px; } .qbody { padding: 14px; }
+  .tab { padding: 7px 10px 8px; } .tab b { font-size: .88rem; }
+}
+.still, .still * { animation: none !important; }
+.still .res, .still.res { background-size: 100% 100%; }
+
+/* illustrations */
+.hero { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.hero-m { flex: none; width: clamp(96px, 22vw, 170px); } .hero-m svg { width: 100%; height: auto; display: block; }
+.mascot.bob { animation: bob 3.2s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-5px) rotate(-2deg); } }
+.balbox { max-width: 480px; width: 100%; margin-inline: auto; } .balbox svg { display: block; width: 100%; height: auto; }
+.bt { font: 600 11px var(--f-mono); fill: var(--muted); letter-spacing: .06em; } .bt2 { font: 600 10px var(--f-mono); fill: var(--muted); } .bt3 { font: 500 10px var(--f-mono); fill: var(--muted); }
+.b-glass { fill: var(--accent-soft); fill-opacity: .5; stroke: var(--ink); stroke-width: 2; }
+.b-line { stroke: var(--ink); stroke-width: 1.5; opacity: .35; }
+.b-pan { fill: var(--ink); } .b-base { fill: var(--line); stroke: var(--ink); stroke-width: 2; }
+.b-lcd { fill: var(--ink); stroke: var(--ink); stroke-width: 2; }
+.b-read { fill: var(--bg); font: 700 20px var(--f-mono); } .b-read.na { opacity: .85; animation: blink 1.8s ease-in-out infinite; }
+.dot { fill: var(--accent); stroke: var(--surface); stroke-width: .7; opacity: 0; transition: opacity .3s; } .dot.on { opacity: 1; }
+.b-lcd.ping { animation: pingd .9s; }
+@keyframes blink { 50% { opacity: .35; } }
+@keyframes pingd { 40% { stroke: var(--accent); stroke-width: 9; } }
+.ico { height: 56px; margin-bottom: 6px; } .ico svg { height: 100%; width: auto; display: block; }
+.molbox { display: grid; justify-items: center; gap: 2px; } .molbox svg { width: min(100%, 300px); height: auto; }
+.bond { stroke: var(--ink); stroke-width: 3.2; stroke-linecap: round; }
+.atx { font: 700 12px var(--f-mono); fill: #16212b; }
+.pcflex { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+.waffle { margin: 0; width: 150px; flex: none; } .waffle svg { width: 100%; height: auto; display: block; } .waffle figcaption { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+.pcflex .tblwrap { flex: 1 1 300px; min-width: 0; }
+.cheer { display: inline-block; vertical-align: middle; margin-right: 8px; } .cheer .mascot { animation: pop .6s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes pop { from { transform: scale(0) rotate(-20deg); } to { transform: none; } }
+
+.mascot .eye { transform-box: fill-box; transform-origin: center; animation: mole-blink 4.6s infinite; }
+@keyframes mole-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.08); } }
+.mascot .bubble { animation: mole-bubble 2.4s ease-in infinite; }
+@keyframes mole-bubble { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: .95; } 100% { transform: translateY(-17px); opacity: 0; } }
+.mascot .wave { transform-origin: 44px 148px; animation: mole-wave 2.4s ease-in-out infinite; }
+@keyframes mole-wave { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-12deg); } }
+</style>
+<div class="wrap">
+  <header class="top">
+    <div class="hero"><div class="hero-t"><div class="eyebrow">DSE Chemistry · Mole Calculation</div>
+    <h1>Mole Concept Workbook</h1></div><div class="hero-m" id="mascotHero" aria-hidden="true"></div></div>
+    <p>Learn each idea with a short animation, watch one worked example, then try five questions of the same type. Every question lists the RAM you need, so there is no need to open a periodic table. Stuck? Press the hint button to reveal one step at a time.</p>
+    <details class="refbox">
+      <summary>All RAM values used in this workbook</summary>
+      <div class="chips" id="ramAll"></div>
+    </details>
+  </header>
+</div>
+
+<nav class="rail" aria-label="Topics"><div class="rail-in" role="tablist">
+  <button class="tab" role="tab" id="tab1" aria-controls="p1" aria-selected="true"><b>Tab 1 · Mole concept</b><small id="prog1">0 / 30 done</small></button>
+  <button class="tab" role="tab" id="tab2" aria-controls="p2" aria-selected="false"><b>Tab 2 · Mass, mole &amp; particles</b><small id="prog2">0 / 35 done</small></button>
+  <button class="tab" role="tab" id="tab3" aria-controls="p3" aria-selected="false"><b>Tab 3 · Percentage by mass</b><small id="prog3">0 / 15 done</small></button>
+</div></nav>
+
+<div class="wrap"><main>
+
+<!-- ================= TAB 1 ================= -->
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="tab1">
+  <div class="sec">
+    <h2>Learn <small>Why we count in moles</small></h2>
+
+    <div class="card">
+      <h3>Why do we need the mole?</h3>
+      <p class="lede">One carbon-12 atom has a mass of only <span class="avo">1.99 × 10<sup>−23</sup> g</span>. No balance can weigh that, and nobody can count atoms one by one. So chemists count atoms in one giant bundle and weigh the bundle. Drag the slider to add carbon-12 atoms.</p>
+      <div class="stage">
+        <div class="read"><small>Number of C-12 atoms</small><output id="outN" for="atomSlider">1</output></div>
+        <div class="read"><small>True mass of those atoms</small><output id="outM" for="atomSlider">1.99 × 10<sup>−23</sup> g</output></div>
+      </div>
+      <div class="balbox" id="balBox"></div><p class="fmtnote" id="pileNote" style="text-align:center"></p>
+      <div class="track" aria-hidden="true"><div style="position:relative;margin-inline:46px">
+        <div class="line"><div class="fill" id="trkFill"></div></div>
+        <div class="mark low" style="left:0">1 atom</div>
+        <div class="mark" id="balMark" style="left:82.8%">balance limit<br>0.001 g</div>
+        <div class="mark low" style="left:100%">1 mole<br>12.0 g</div>
+      </div></div>
+      <label class="ctrl" for="atomSlider" style="display:block"><span class="eyebrow">Atoms added (log scale: each tick is a power of 10)</span>
+        <input type="range" id="atomSlider" min="0" max="1000" value="0"></label>
+      <div class="ctrl"><button class="btn primary" id="countUp" type="button">▶ Count up</button><button class="btn" id="countReset" type="button">Reset</button></div>
+      <div class="verdict" id="verdict" aria-live="polite"></div>
+      <div class="ladder">
+        <div class="rung"><div class="ico" data-ico="eggs"></div><b>1 dozen</b><span>= 12 eggs</span></div>
+        <div class="rung"><div class="ico" data-ico="paper"></div><b>1 ream</b><span>= 500 sheets of paper</span></div>
+        <div class="rung big"><div class="ico" data-ico="mole"></div><b>1 mole</b><span>= 6.02 × 10<sup>23</sup> particles</span></div>
+      </div>
+      <div class="callout"><b>Key link:</b> 1 mole of carbon atoms weighs 12.0 g. 1 mole of oxygen atoms weighs 16.0 g. The mass of one mole in grams is the same number as the RAM. You will use this in Tab 2.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>The Avogadro constant, L</h3>
+        <p><b>L = 6.02 × 10<sup>23</sup> mol<sup>−1</sup></b> is the number of particles in 1 mole. It is the number of atoms in exactly 12 g of carbon-12.</p>
+        <p>The particles can be atoms, molecules, ions, formula units or electrons. Always say which one you are counting.</p>
+        <div class="svgbox"><svg viewBox="0 0 720 190" role="img" aria-label="Number of particles N divided by L gives moles n. Moles n multiplied by L gives N.">
+          <defs><marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--accent)"/></marker>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--e2)"/></marker></defs>
+          <rect class="box-r" x="8" y="45" width="230" height="100" rx="10"/>
+          <text x="123" y="88" text-anchor="middle" font-size="19" font-weight="700">Number of particles</text>
+          <text x="123" y="118" text-anchor="middle" font-size="22" font-style="italic">N</text>
+          <rect class="box-r" x="482" y="45" width="230" height="100" rx="10"/>
+          <text x="597" y="88" text-anchor="middle" font-size="19" font-weight="700">Moles</text>
+          <text x="597" y="118" text-anchor="middle" font-size="22" font-style="italic">n</text>
+          <line class="arrow" x1="248" y1="76" x2="470" y2="76" marker-end="url(#ah1)"/>
+          <text x="359" y="60" text-anchor="middle" font-size="18" font-weight="700">÷ L</text>
+          <line class="arrow rev" x1="472" y1="116" x2="250" y2="116" marker-end="url(#ah2)"/>
+          <text x="359" y="150" text-anchor="middle" font-size="18" font-weight="700">× L</text>
+          <text x="359" y="178" text-anchor="middle" font-size="14">L = 6.02 × 10²³ per mole</text>
+        </svg></div>
+        <div class="callout">n = N ÷ L &nbsp;&nbsp;|&nbsp;&nbsp; N = n × L</div>
+      </div>
+
+      <div class="card">
+        <h3>What is inside <i>n</i> mol?</h3>
+        <p class="lede">Pick a substance and change the moles. Notice that moles of molecules and moles of atoms are different counts.</p>
+        <div class="ctrl"><select id="exSub" aria-label="Substance"></select></div>
+        <label for="exN" class="ctrl" style="display:block"><span class="eyebrow">Moles of substance: <b id="exNv">1.0</b> mol</span>
+          <input type="range" id="exN" min="0.1" max="5" step="0.1" value="1"></label>
+        <div class="molbox"><div id="exFig"></div><p class="fmtnote" id="exCap"></p></div>
+        <div class="tblwrap" id="exOut"></div>
+      </div>
+    </div>
+
+    <h2 style="padding-top:12px">Practice <small>Tier 1 and Tier 2</small></h2>
+    <div class="stations" id="st1" style="display:grid;gap:18px"></div>
+  </div>
+</section>
+
+<!-- ================= TAB 2 ================= -->
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="tab2" hidden>
+  <div class="sec">
+    <h2>Learn <small>Molar mass connects grams to moles</small></h2>
+
+    <div class="card">
+      <h3>Three names, one number</h3>
+      <div class="ladder">
+        <div class="rung"><b>RAM</b><span>one type of atom · H = 1.0, O = 16.0</span></div>
+        <div class="rung"><b>Formula mass</b><span>add the RAMs · H<sub>2</sub>O = 2 × 1.0 + 16.0 = 18.0</span></div>
+        <div class="rung big"><b>Molar mass, M</b><span>same number + unit · 18.0 g mol<sup>−1</sup></span></div>
+      </div>
+      <p class="lede">Choose a compound and watch its molar mass being built. Each row is: number of atoms × RAM.</p>
+      <div class="ctrl"><select id="mmSel" aria-label="Compound"></select><button class="btn" id="mmReplay" type="button">↻ Replay</button></div>
+      <div class="balbox" id="mmBal"></div><div class="callout" id="mmCap" aria-live="polite"></div>
+      <div class="tblwrap" id="mmOut"></div>
+    </div>
+
+    <div class="card">
+      <h3>The mole map</h3>
+      <p class="lede">Moles sit in the middle. Mass and number of particles are both one step away. Pick a substance, type a mass, and follow the arrows.</p>
+      <div class="ctrl">
+        <select id="mapSel" aria-label="Substance"></select>
+        <label class="ctrl" for="mapMass"><span>Mass</span><input class="txt" id="mapMass" type="number" step="any" min="0" value="36" style="width:7.5rem"><span>g</span></label>
+      </div>
+      <div class="svgbox"><svg viewBox="0 0 720 250" role="img" aria-label="Mass divided by M gives moles; moles multiplied by L gives number of particles.">
+        <defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--accent)"/></marker>
+        <marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" style="fill:var(--e2)"/></marker></defs>
+        <rect class="box-r" x="6" y="40" width="200" height="96" rx="10"/><text x="106" y="30" text-anchor="middle" font-size="15" font-weight="700">Mass, m</text>
+        <text id="mpMass" x="106" y="95" text-anchor="middle" font-size="21" font-weight="700"></text>
+        <rect class="box-r" x="260" y="40" width="200" height="96" rx="10" style="fill:var(--accent-soft)"/><text x="360" y="30" text-anchor="middle" font-size="15" font-weight="700">Moles, n</text>
+        <text id="mpMol" x="360" y="95" text-anchor="middle" font-size="21" font-weight="700"></text>
+        <rect class="box-r" x="514" y="40" width="200" height="96" rx="10"/><text x="614" y="30" text-anchor="middle" font-size="15" font-weight="700">Number, N</text>
+        <text id="mpNum" x="614" y="95" text-anchor="middle" font-size="19" font-weight="700"></text>
+        <line class="arrow" x1="212" y1="70" x2="254" y2="70" marker-end="url(#ah3)"/><line class="arrow" x1="466" y1="70" x2="508" y2="70" marker-end="url(#ah3)"/>
+        <line class="arrow rev" x1="254" y1="112" x2="212" y2="112" marker-end="url(#ah4)"/><line class="arrow rev" x1="508" y1="112" x2="466" y2="112" marker-end="url(#ah4)"/>
+        <text id="mpDiv1" x="106" y="172" text-anchor="middle" font-size="15"></text>
+        <text id="mpMul1" x="106" y="196" text-anchor="middle" font-size="15"></text>
+        <text x="360" y="172" text-anchor="middle" font-size="15">top arrows: ÷ M then × L</text>
+        <text x="360" y="196" text-anchor="middle" font-size="15">bottom arrows: ÷ L then × M</text>
+        <text id="mpAtoms" x="614" y="172" text-anchor="middle" font-size="15"></text>
+        <text id="mpFormula" x="360" y="232" text-anchor="middle" font-size="15" font-style="italic">n = m ÷ M · m = n × M · N = n × L</text>
+      </svg></div>
+    </div>
+
+    <div class="card">
+      <h3>Calculator checklist for the weak spots</h3>
+      <div class="grid2">
+        <div class="tip"><b>1. Write the formula first.</b> n = m ÷ M, or m = n × M. Then put numbers in with units.</div>
+        <div class="tip"><b>2. Use the brackets.</b> For a formula like Mg(NO<sub>3</sub>)<sub>2</sub> the 2 outside multiplies everything inside.</div>
+        <div class="tip"><b>3. Powers of 10.</b> Type 3.01 <b>EXP</b> 24 (or ×10<sup>x</sup>), not 3.01 × 10 ^ 24 by hand. Put the bottom line in brackets.</div>
+        <div class="tip"><b>4. Round only at the end.</b> Keep the full calculator value in the middle, then give 3 significant figures.</div>
+        <div class="tip"><b>5. Check backwards.</b> If n = m ÷ M, then M × n should give m again.</div>
+        <div class="tip"><b>6. Same number of molecules?</b> That means the same number of moles. Find moles first.</div>
+      </div>
+    </div>
+
+    <h2 style="padding-top:12px">Practice <small>Tier 1, 2 and 3</small></h2>
+    <div class="stations" id="st2" style="display:grid;gap:18px"></div>
+  </div>
+</section>
+
+<!-- ================= TAB 3 ================= -->
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="tab3" hidden>
+  <div class="sec">
+    <h2>Learn <small>What share of the mass is each element?</small></h2>
+    <div class="card">
+      <h3>Percentage by mass</h3>
+      <div class="callout">% of an element = (atoms of the element × RAM) ÷ molar mass of the compound × 100%</div>
+      <div class="ctrl"><select id="pcSel" aria-label="Compound"></select><button class="btn" id="pcReplay" type="button">↻ Replay</button></div>
+      <div class="ebar" id="pcBar" role="img" aria-label="Stacked bar of the percentage by mass of each element"></div>
+      <div class="pcflex"><figure class="waffle"><div id="pcWaffle"></div><figcaption>A 100 g sample. 1 square = 1 g.</figcaption></figure><div class="tblwrap" id="pcOut"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="card"><h3>Pure compound</h3><p>Use the formula above. Add up all the RAMs for M, then take the part you want.</p></div>
+      <div class="card"><h3>Impure sample</h3><p>Pretend the sample is 100 g. A 60% share means 60 g. Find the grams of the element, then the percentage is that number.</p></div>
+      <div class="card"><h3>Unknown RAM</h3><p>Call the unknown RAM <i>x</i>. Write M using <i>x</i>, put it in the percentage equation, and solve step by step.</p></div>
+    </div>
+    <h2 style="padding-top:12px">Practice <small>Tier 1, 2 and 3</small></h2>
+    <div class="stations" id="st3" style="display:grid;gap:18px"></div>
+  </div>
+</section>
+
+</main>
+<footer class="foot">Answers within 1.5% are accepted, so small rounding differences are fine. Type numbers like 0.125, 6.02e23 or 6.02x10^23. Progress is saved in this browser only.</footer>
+</div>
+<script>
+/* ===== Mole Concept Workbook: question data (part 1: helpers + Tab 1 first types) ===== */
+const L = 6.02e23;
+const RAM = {H:1.0,C:12.0,N:14.0,O:16.0,Na:23.0,Mg:24.3,Al:27.0,P:31.0,S:32.1,Cl:35.5,K:39.1,Ca:40.1,Fe:55.8,Zn:65.4,Br:79.9,V:50.9,Cu:63.5};
+const LCHIP = 'L = 6.02 × 10<sup>23</sup> mol<sup>−1</sup>';
+
+/* ---- number formatting (the 1e-12 nudge makes 1.505 round to 1.51 like a student would) ---- */
+const rnd = (x, sf) => Number((x * (1 + 1e-12)).toPrecision(sf));
+const p = x => String(rnd(x, 6));          // exact products
+const q = x => String(rnd(x, 4));          // divisions, 4 s.f.
+function sci(x, sf = 3) {
+  let e = Math.floor(Math.log10(x)), m = x / Math.pow(10, e);
+  let s = (m * (1 + 1e-12)).toPrecision(sf);
+  if (parseFloat(s) >= 10) { e += 1; s = (m / 10 * (1 + 1e-12)).toPrecision(sf); }
+  return s + ' × 10<sup>' + e + '</sup>';
+}
+function fmt(x, sf = 3) {
+  if (x === 0) return '0';
+  const a = Math.abs(x);
+  if (a >= 1e5 || a < 1e-3) return sci(x, sf);
+  const s = (x * (1 + 1e-12)).toPrecision(sf);
+  return s.includes('e') ? String(Number(s)) : s;
+}
+const b = s => `<b class="res">${s}</b>`;
+const fm = s => s.replace(/(\d+)/g, '<sub>$1</sub>');
+const fr = (a, d) => `<span class="frac"><span>${a}</span><span>${d}</span></span>`;
+const sp = (name, f) => `${name} (${fm(f)})`;
+
+/* ---- formulas ---- */
+function parseF(s) {
+  const stack = [{}]; let i = 0;
+  const num = () => { let t = ''; while (/\d/.test(s[i] || '')) { t += s[i]; i++; } return t ? +t : 1; };
+  while (i < s.length) {
+    const c = s[i];
+    if (c === '(') { stack.push({}); i++; }
+    else if (c === ')') {
+      i++; const k = num(); const top = stack.pop(); const cur = stack[stack.length - 1];
+      for (const e in top) cur[e] = (cur[e] || 0) + top[e] * k;
+    } else {
+      let el = c; i++;
+      while (/[a-z]/.test(s[i] || '')) { el += s[i]; i++; }
+      const k = num(); const cur = stack[stack.length - 1]; cur[el] = (cur[el] || 0) + k;
+    }
+  }
+  return stack[0];
+}
+const r1 = x => Math.round(x * 10) / 10;
+const molar = f => { const c = parseF(f); return r1(Object.keys(c).reduce((t, e) => t + c[e] * RAM[e], 0)); };
+const natoms = f => Object.values(parseF(f)).reduce((a, c) => a + c, 0);
+const elsOf = f => Object.keys(parseF(f));
+const ramChips = els => [...new Set(els)].map(e => `${e} = ${RAM[e].toFixed(1)}`);
+const ramOf = (...fs) => ramChips(fs.flatMap(elsOf));
+
+function tbl(head, rows, cls = '') {
+  return `<table class="st ${cls}"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>` +
+    rows.map((r, i) => `<tr style="--i:${i}"${r.hl ? ' class="hl"' : ''}>${r.c.map(c => `<td>${c}</td>`).join('')}</tr>`).join('') + '</tbody></table>';
+}
+function mmTable(f) {
+  const c = parseF(f), M = molar(f);
+  const rows = Object.keys(c).map(e => ({ c: [e, c[e], RAM[e].toFixed(1), r1(c[e] * RAM[e]).toFixed(1)] }));
+  rows.push({ c: ['<b>Molar mass</b>', '', '', b(M.toFixed(1) + ' g mol<sup>−1</sup>')], hl: true });
+  return tbl(['Element', 'Atoms', 'RAM', 'Atoms × RAM'], rows, 'mm');
+}
+function mmStep(f, label) {
+  const c = parseF(f), M = molar(f);
+  const expr = Object.keys(c).map(e => (c[e] > 1 ? c[e] + ' × ' : '') + RAM[e].toFixed(1)).join(' + ');
+  return {
+    say: `Find the molar mass of ${fm(f)}: list every atom, multiply by its RAM, then add.` + (f.includes('(') ? ' Brackets: multiply every atom inside by the number outside.' : ''),
+    calc: `${label || 'M'} = ${expr} = ${b(M.toFixed(1) + ' g mol<sup>−1</sup>')}`, tbl: mmTable(f)
+  };
+}
+
+/* ---- ionic compounds: ions per formula unit ---- */
+const ION = {
+  Al2O3: ['aluminium oxide', [[2, 'Al<sup>3+</sup>', 'aluminium ions'], [3, 'O<sup>2−</sup>', 'oxide ions']]],
+  MgCl2: ['magnesium chloride', [[1, 'Mg<sup>2+</sup>', 'magnesium ions'], [2, 'Cl<sup>−</sup>', 'chloride ions']]],
+  Na2O: ['sodium oxide', [[2, 'Na<sup>+</sup>', 'sodium ions'], [1, 'O<sup>2−</sup>', 'oxide ions']]],
+  'Ca(NO3)2': ['calcium nitrate', [[1, 'Ca<sup>2+</sup>', 'calcium ions'], [2, 'NO<sub>3</sub><sup>−</sup>', 'nitrate ions']]],
+  'Al2(SO4)3': ['aluminium sulfate', [[2, 'Al<sup>3+</sup>', 'aluminium ions'], [3, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]],
+  Na3PO4: ['sodium phosphate', [[3, 'Na<sup>+</sup>', 'sodium ions'], [1, 'PO<sub>4</sub><sup>3−</sup>', 'phosphate ions']]],
+  'Mg(NO3)2': ['magnesium nitrate', [[1, 'Mg<sup>2+</sup>', 'magnesium ions'], [2, 'NO<sub>3</sub><sup>−</sup>', 'nitrate ions']]],
+  NaCl: ['sodium chloride', [[1, 'Na<sup>+</sup>', 'sodium ions'], [1, 'Cl<sup>−</sup>', 'chloride ions']]],
+  KCl: ['potassium chloride', [[1, 'K<sup>+</sup>', 'potassium ions'], [1, 'Cl<sup>−</sup>', 'chloride ions']]],
+  CaCl2: ['calcium chloride', [[1, 'Ca<sup>2+</sup>', 'calcium ions'], [2, 'Cl<sup>−</sup>', 'chloride ions']]],
+  ZnCl2: ['zinc chloride', [[1, 'Zn<sup>2+</sup>', 'zinc ions'], [2, 'Cl<sup>−</sup>', 'chloride ions']]],
+  K2SO4: ['potassium sulfate', [[2, 'K<sup>+</sup>', 'potassium ions'], [1, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]],
+  Na2SO4: ['sodium sulfate', [[2, 'Na<sup>+</sup>', 'sodium ions'], [1, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]],
+  MgSO4: ['magnesium sulfate', [[1, 'Mg<sup>2+</sup>', 'magnesium ions'], [1, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]],
+  Na2CO3: ['sodium carbonate', [[2, 'Na<sup>+</sup>', 'sodium ions'], [1, 'CO<sub>3</sub><sup>2−</sup>', 'carbonate ions']]],
+  CaCO3: ['calcium carbonate', [[1, 'Ca<sup>2+</sup>', 'calcium ions'], [1, 'CO<sub>3</sub><sup>2−</sup>', 'carbonate ions']]],
+  Fe2O3: ['iron(III) oxide', [[2, 'Fe<sup>3+</sup>', 'iron(III) ions'], [3, 'O<sup>2−</sup>', 'oxide ions']]],
+  MgO: ['magnesium oxide', [[1, 'Mg<sup>2+</sup>', 'magnesium ions'], [1, 'O<sup>2−</sup>', 'oxide ions']]],
+  CaO: ['calcium oxide', [[1, 'Ca<sup>2+</sup>', 'calcium ions'], [1, 'O<sup>2−</sup>', 'oxide ions']]],
+  NaOH: ['sodium hydroxide', [[1, 'Na<sup>+</sup>', 'sodium ions'], [1, 'OH<sup>−</sup>', 'hydroxide ions']]],
+  KOH: ['potassium hydroxide', [[1, 'K<sup>+</sup>', 'potassium ions'], [1, 'OH<sup>−</sup>', 'hydroxide ions']]],
+  '(NH4)2SO4': ['ammonium sulfate', [[2, 'NH<sub>4</sub><sup>+</sup>', 'ammonium ions'], [1, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]]
+};
+const ionName = f => ION[f][0];
+const ionsPer = f => ION[f][1].reduce((a, i) => a + i[0], 0);
+const ionBreak = f => ION[f][1].map(i => `${i[0] > 1 ? i[0] + ' ' : ''}${i[1]}`).join(' + ');
+const ionSum = f => ION[f][1].map(i => i[0]).join(' + ');
+
+/* ---- reusable step builders ---- */
+function nFromNSteps(mant, exp, unit) {
+  const n = parseFloat(mant) * Math.pow(10, exp) / L;
+  const steps = [
+    { say: 'The Avogadro constant L links the number of particles (N) to moles (n).', calc: 'n = N ÷ L' },
+    { say: 'Substitute the numbers.', calc: `n = (${mant} × 10<sup>${exp}</sup>) ÷ (6.02 × 10<sup>23</sup>)` },
+    { say: 'Press it into the calculator (use the EXP key for the powers of 10). Round to 3 significant figures.', calc: `n = ${b(fmt(n) + ' ' + (unit || 'mol'))}` }
+  ];
+  return { steps, n };
+}
+function mulLSteps(nv, what) {
+  const N = nv * L;
+  const steps = [
+    { say: `The number of ${what} is the moles times the Avogadro constant.`, calc: 'N = n × L' },
+    { say: 'Substitute the numbers.', calc: `N = ${p(nv)} × 6.02 × 10<sup>23</sup>` },
+    { say: 'Press it into the calculator (use the EXP key for the power of 10). Round to 3 significant figures.', calc: `N = ${b(`${sci(N)} ${what}`)}` }
+  ];
+  return { steps, N };
+}
+const mc = (o) => o;   // marker for multiple-choice question objects
+
+const ST = [];
+
+/* ===== TAB 1 · TIER 1 · number of molecules → moles ===== */
+(function () {
+  const mk = (name, f, mant, exp, kind) => {
+    const r = nFromNSteps(mant, exp), steps = r.steps;
+    return { kind, text: `Calculate the number of moles of ${sp(name, f)} in ${mant} × 10<sup>${exp}</sup> molecules.`, given: [LCHIP], parts: [{ ans: r.n, unit: 'mol' }], steps, answerHtml: `${fmt(r.n)} mol` };
+  };
+  ST.push({
+    key: 'n-from-N', tab: 1, tier: 1, title: 'Number of molecules → moles', blurb: 'Divide the number of particles by L.',
+    qs: [mk('water', 'H2O', '3.01', 23, 'demo'), mk('carbon dioxide', 'CO2', '1.204', 24), mk('ammonia', 'NH3', '9.03', 22), mk('oxygen', 'O2', '1.505', 24), mk('methane', 'CH4', '2.408', 23), mk('nitrogen', 'N2', '8.0', 22)]
+  });
+})();
+
+/* ===== TAB 1 · TIER 1 · moles → number of molecules ===== */
+(function () {
+  const mk = (name, f, ns, kind) => {
+    const n = parseFloat(ns), r = mulLSteps(n, 'molecules');
+    return { kind, text: `How many molecules are there in ${ns} mol of ${sp(name, f)}?`, given: [LCHIP], parts: [{ ans: r.N, unit: 'molecules' }], steps: r.steps, answerHtml: `${sci(r.N)} molecules` };
+  };
+  ST.push({
+    key: 'N-from-n', tab: 1, tier: 1, title: 'Moles → number of molecules', blurb: 'Multiply the moles by L, then tidy up the power of 10.',
+    qs: [mk('sulfuric acid', 'H2SO4', '0.250', 'demo'), mk('water', 'H2O', '0.500'), mk('carbon dioxide', 'CO2', '2.00'), mk('ammonia', 'NH3', '0.0300'), mk('oxygen', 'O2', '1.50'), mk('glucose', 'C6H12O6', '12.0')]
+  });
+})();
+
+/* ===== TAB 1 · TIER 2 · number of ions in an ionic compound ===== */
+(function () {
+  const mk = (f, ns, kind) => {
+    const n = parseFloat(ns), k = ionsPer(f), tot = n * k, r = mulLSteps(tot, 'ions');
+    const steps = [
+      { say: 'Write the formula, then split it into its ions. A group such as SO₄²⁻ or NO₃⁻ counts as 1 ion.', calc: `${fm(f)} → ${ionBreak(f)}` },
+      { say: 'Count the ions in ONE formula unit.', calc: `${ionSum(f)} = ${b(k + ' ions')}` },
+      { say: 'Moles of ions = moles of compound × ions per formula unit.', calc: `${ns} × ${k} = ${b(p(tot) + ' mol of ions')}` }
+    ].concat(r.steps);
+    return { kind, text: `Calculate the number of ions in ${ns} mol of ${ionName(f)}.`, given: [LCHIP], parts: [{ ans: r.N, unit: 'ions' }], steps, answerHtml: `${sci(r.N)} ions` };
+  };
+  ST.push({
+    key: 'ions-count', tab: 1, tier: 2, title: 'Number of ions in an ionic compound', blurb: 'Count ions per formula unit first, then use L.',
+    qs: [mk('Al2O3', '2.6', 'demo'), mk('MgCl2', '1.5'), mk('Na2O', '0.40'), mk('Ca(NO3)2', '0.30'), mk('Al2(SO4)3', '0.20'), mk('Na3PO4', '0.80')]
+  });
+})();
+/* ===== part 2: Tab 1 tier 2 (atoms, least ions, unknowns) ===== */
+ION.AlCl3 = ['aluminium chloride', [[1, 'Al<sup>3+</sup>', 'aluminium ions'], [3, 'Cl<sup>−</sup>', 'chloride ions']]];
+const LET = 'ABCD';
+const atomBreak = f => Object.entries(parseF(f)).map(([e, k]) => `${k} ${e}`).join(' + ');
+const atomSum = f => Object.values(parseF(f)).join(' + ');
+
+/* ===== moles of atoms in a number of molecules / reverse ===== */
+(function () {
+  const fwd = (name, f, mant, exp, kind) => {
+    const r = nFromNSteps(mant, exp, 'mol of molecules'), k = natoms(f), tot = r.n * k;
+    const steps = r.steps.concat([
+      { say: `Now count the atoms in ONE molecule of ${fm(f)}.`, calc: `${atomBreak(f)} → ${atomSum(f)} = ${b(k + ' atoms')}` },
+      { say: 'Moles of atoms = moles of molecules × atoms per molecule.', calc: `${p(r.n)} × ${k} = ${b(fmt(tot) + ' mol of atoms')}` }
+    ]);
+    return { kind, text: `Calculate the number of moles of atoms in ${mant} × 10<sup>${exp}</sup> molecules of ${sp(name, f)}.`, given: [LCHIP], parts: [{ ans: tot, unit: 'mol' }], steps, answerHtml: `${fmt(tot)} mol of atoms` };
+  };
+  const rev = (name, f, as, kind) => {
+    const a = parseFloat(as), k = natoms(f), nm = a / k, r = mulLSteps(nm, 'molecules');
+    const steps = [
+      { say: `Count the atoms in ONE molecule of ${fm(f)}.`, calc: `${atomBreak(f)} → ${atomSum(f)} = ${b(k + ' atoms')}` },
+      { say: 'Moles of molecules = moles of atoms ÷ atoms per molecule.', calc: `${as} ÷ ${k} = ${b(q(nm) + ' mol of molecules')}` },
+      { say: 'Check by multiplying back.', calc: `${k} × ${q(nm)} = ${p(k * rnd(nm, 4))} ✓` }
+    ].concat(r.steps);
+    return { kind, text: `How many molecules of ${sp(name, f)} contain ${as} mol of atoms?`, given: [LCHIP], parts: [{ ans: r.N, unit: 'molecules' }], steps, answerHtml: `${sci(r.N)} molecules` };
+  };
+  ST.push({
+    key: 'atoms-mol', tab: 1, tier: 2, title: 'Moles of atoms ⇄ number of molecules', blurb: 'Go via moles of molecules, then multiply or divide by atoms per molecule.',
+    qs: [fwd('ammonia', 'NH3', '3.01', 24, 'demo'), fwd('methane', 'CH4', '1.204', 24), fwd('sulfuric acid', 'H2SO4', '9.03', 23),
+      rev('carbon dioxide', 'CO2', '4.5'), rev('ethanol', 'C2H5OH', '2.70'), fwd('glucose', 'C6H12O6', '1.505', 23)]
+  });
+})();
+
+/* ===== which contains the least / most ions ===== */
+(function () {
+  const mk = (opts, mode, kind) => {
+    const rows = opts.map(o => { const k = ionsPer(o.f); return { f: o.f, n: o.n, k, tot: o.n * k }; });
+    const vals = rows.map(r => r.tot), target = mode === 'least' ? Math.min(...vals) : Math.max(...vals);
+    const ci = vals.findIndex(v => Math.abs(v - target) < 1e-9);
+    const steps = [
+      { say: 'The question is about IONS, not moles of compound. Total moles of ions = moles × ions per formula unit.', calc: 'moles of ions = n × (ions per formula unit)' },
+      { say: 'Count the ions in ONE formula unit of each substance.', tbl: tbl(['', 'Substance', 'Splits into', 'Ions per unit'], rows.map((r, i) => ({ c: [LET[i], fm(r.f), ionBreak(r.f), b(r.k)] }))) },
+      { say: 'Multiply by the moles given.', tbl: tbl(['', 'Moles × ions per unit', 'Moles of ions'], rows.map((r, i) => ({ c: [LET[i], `${r.n} × ${r.k}`, b(p(r.tot))], hl: i === ci }))) },
+      { say: `Pick the ${mode} value.`, calc: b(`${mode === 'least' ? 'Smallest' : 'Largest'} = ${p(rows[ci].tot)} mol → ${LET[ci]}`) }
+    ];
+    return { kind, text: `Which of the following substances contains the ${mode} number of ions?`, given: [], choices: rows.map(r => `${r.n} mol of ${fm(r.f)}`), correct: ci, steps, answerHtml: `${LET[ci]}. ${rows[ci].n} mol of ${fm(rows[ci].f)}` };
+  };
+  ST.push({
+    key: 'ions-compare', tab: 1, tier: 2, title: 'Least (or most) number of ions', blurb: 'Make a table: ions per unit × moles.',
+    qs: [mk([{ f: 'Na2O', n: 0.7 }, { f: 'CaO', n: 0.9 }, { f: 'Al2O3', n: 0.5 }, { f: 'MgCl2', n: 0.8 }], 'least', 'demo'),
+      mk([{ f: 'Na2O', n: 0.6 }, { f: 'Fe2O3', n: 0.5 }, { f: 'CaCl2', n: 0.8 }, { f: 'NaCl', n: 1.1 }], 'least'),
+      mk([{ f: 'Al2O3', n: 0.30 }, { f: 'Mg(NO3)2', n: 0.40 }, { f: 'NaCl', n: 0.70 }, { f: 'Na3PO4', n: 0.45 }], 'most'),
+      mk([{ f: 'Al2(SO4)3', n: 0.25 }, { f: 'MgO', n: 0.50 }, { f: 'Na2SO4', n: 0.40 }, { f: 'AlCl3', n: 0.35 }], 'least'),
+      mk([{ f: 'KCl', n: 1.0 }, { f: 'CaCl2', n: 0.6 }, { f: 'Na3PO4', n: 0.5 }, { f: 'Fe2O3', n: 0.4 }], 'least'),
+      mk([{ f: 'ZnCl2', n: 0.8 }, { f: '(NH4)2SO4', n: 0.5 }, { f: 'Al2O3', n: 0.6 }, { f: 'CaCO3', n: 1.4 }], 'most')]
+  });
+})();
+
+/* ===== questions with unknowns (different letters and coefficients every time) ===== */
+(function () {
+  const LG = 'L = Avogadro constant';
+  const mk = (kind, text, choices, correct, steps, given) => ({ kind, text, given: given || [LG], choices, correct, steps, answerHtml: `${LET[correct]}. ${choices[correct]}` });
+  ST.push({
+    key: 'unknowns', tab: 1, tier: 2, title: 'Questions with unknowns', blurb: 'Letters and coefficients such as 3x or 4k behave like numbers. Decide what is being asked first: moles or a number?',
+    qs: [
+      mk('demo', `How many moles of butene (C<sub>4</sub>H<sub>8</sub>) contain <i>y</i> hydrogen atoms? (L = Avogadro constant)`,
+        [fr('y', 'L'), fr('L', 'y'), fr('y', '8L'), fr('8y', 'L')], 2, [
+          { say: 'Moles = number of particles ÷ L. First find the moles of H ATOMS.', calc: `mol of H atoms = ${fr('y', 'L')}` },
+          { say: 'One C₄H₈ molecule has 8 H atoms, so 1 mol of C₄H₈ holds 8 mol of H atoms.', calc: 'mol of H atoms = 8 × mol of C₄H₈' },
+          { say: 'Rearrange to get moles of C₄H₈: divide by 8.', calc: `mol of C₄H₈ = ${fr('y', 'L')} ÷ 8 = ${b(fr('y', '8L'))}` },
+          { say: 'Sense check: more H atoms means more moles, so the unknown is on top. L and 8 are on the bottom.', calc: b('C') }]),
+      mk('', `A sample of propane (C<sub>3</sub>H<sub>8</sub>) contains <i>4k</i> hydrogen atoms. How many moles of propane are in the sample? (L = Avogadro constant)`,
+        [fr('k', '8L'), fr('4k', 'L'), fr('k', '2L'), fr('2k', 'L')], 2, [
+          { say: 'Moles of H atoms = number of H atoms ÷ L. The coefficient 4 stays with k.', calc: `mol of H atoms = ${fr('4k', 'L')}` },
+          { say: 'One C₃H₈ molecule has 8 H atoms.', calc: 'mol of H atoms = 8 × mol of C₃H₈' },
+          { say: 'Divide by 8.', calc: `mol of C₃H₈ = ${fr('4k', 'L')} ÷ 8 = ${fr('4k', '8L')}` },
+          { say: 'Cancel the common factor 4 on the top and bottom (4 ÷ 4 = 1, 8 ÷ 4 = 2).', calc: `${fr('4k', '8L')} = ${b(fr('k', '2L'))}` }]),
+      mk('', `<i>3x</i> mol of sulfuric acid (H<sub>2</sub>SO<sub>4</sub>) contains how many oxygen atoms? (L = Avogadro constant)`,
+        ['3xL', '12xL', '21xL', fr('12x', 'L')], 1, [
+          { say: 'The question asks for a NUMBER of atoms. Number = moles × L, so go from moles to molecules first.', calc: `number of molecules = 3x × L = 3xL` },
+          { say: 'One H₂SO₄ molecule has 4 O atoms (the H and S do not count).', calc: 'O atoms = 4 × molecules' },
+          { say: 'Multiply the numbers together and keep the letters.', calc: `4 × 3xL = ${b('12xL')}` },
+          { say: 'Trap: 21xL would count ALL 7 atoms. Dividing by L would give moles, not a number.', calc: b('B') }]),
+      mk('', `A sample of magnesium chloride, MgCl<sub>2</sub>, contains <i>6m</i> chloride ions. How many formula units of MgCl<sub>2</sub> are in the sample?`,
+        ['6m', '3m', fr('m', '3'), '12m'], 1, [
+          { say: 'This asks for a NUMBER of formula units, not moles. So L is not needed.', calc: 'count Cl⁻ ions → count formula units' },
+          { say: 'Each MgCl₂ formula unit gives 2 chloride ions.', calc: 'Cl⁻ ions = 2 × formula units' },
+          { say: 'Divide the chloride ions by 2.', calc: `formula units = 6m ÷ 2 = ${b('3m')}` }],
+        []),
+      mk('', `How many moles of ammonia (NH<sub>3</sub>) contain <i>6a</i> atoms in total? (L = Avogadro constant)`,
+        [fr('3a', '4L'), fr('6a', 'L'), fr('2L', '3a'), fr('3a', '2L')], 3, [
+          { say: 'Moles of atoms = number of atoms ÷ L.', calc: `mol of atoms = ${fr('6a', 'L')}` },
+          { say: 'One NH₃ molecule has 1 N + 3 H = 4 atoms.', calc: '1 + 3 = 4 atoms per molecule' },
+          { say: 'Moles of NH₃ = moles of atoms ÷ 4.', calc: `${fr('6a', 'L')} ÷ 4 = ${fr('6a', '4L')}` },
+          { say: 'Simplify by dividing top and bottom by 2.', calc: `${fr('6a', '4L')} = ${b(fr('3a', '2L'))}` }]),
+      mk('', `A gas jar contains <i>2q</i> molecules of oxygen, O<sub>2</sub>. How many moles of oxygen ATOMS does it contain? (L = Avogadro constant)`,
+        [fr('q', 'L'), fr('q', '2L'), fr('4q', 'L'), '4qL'], 2, [
+          { say: 'First count the atoms. Each O₂ molecule has 2 O atoms.', calc: `atoms = 2 × 2q = ${b('4q')}` },
+          { say: 'Now change a number into moles: divide by L.', calc: `mol of atoms = ${fr('4q', 'L')}` },
+          { say: 'Trap: 4qL would be a number (you multiplied by L), but the question asks for moles.', calc: b('C') }])
+    ]
+  });
+})();
+/* ===== part 3: Tab 2 · mass, mole, number of particles ===== */
+ION.MgBr2 = ['magnesium bromide', [[1, 'Mg<sup>2+</sup>', 'magnesium ions'], [2, 'Br<sup>−</sup>', 'bromide ions']]];
+ION.CaSO4 = ['calcium sulfate', [[1, 'Ca<sup>2+</sup>', 'calcium ions'], [1, 'SO<sub>4</sub><sup>2−</sup>', 'sulfate ions']]];
+
+/* ---- mass → moles ---- */
+(function () {
+  const mk = (name, f, ms, kind) => {
+    const m = parseFloat(ms), M = molar(f), n = m / M;
+    const steps = [
+      { say: 'To change a mass into moles, divide by the molar mass.', calc: 'n = m ÷ M' },
+      mmStep(f),
+      { say: 'Substitute the mass and the molar mass.', calc: `n = ${ms} ÷ ${M.toFixed(1)}` },
+      { say: 'Divide. Ask yourself: how many lots of the molar mass fit into the mass?', calc: `${ms} ÷ ${M.toFixed(1)} = ${b(fmt(n) + ' mol')}` },
+      { say: 'Check by multiplying back. You should get the mass you started with.', calc: `${M.toFixed(1)} × ${fmt(n)} = ${q(M * rnd(n, 3))} ≈ ${ms} ✓` }
+    ];
+    return { kind, text: `Determine the number of moles of ${name} in ${ms} g of ${name}${kind === 'demo' ? ' gas' : ''}.`, given: ramOf(f), parts: [{ ans: n, unit: 'mol' }], steps, answerHtml: `${fmt(n)} mol` };
+  };
+  ST.push({
+    key: 'mass-to-mol', tab: 2, tier: 1, title: 'Mass → moles', blurb: 'n = m ÷ M. Build M from the RAM table first.',
+    qs: [mk('nitrogen dioxide', 'NO2', '92.0', 'demo'), mk('water', 'H2O', '36.0'), mk('methane', 'CH4', '8.00'), mk('sulfuric acid', 'H2SO4', '49.0'), mk('nitrogen gas', 'N2', '5.60'), mk('carbon dioxide', 'CO2', '11.0')]
+  });
+})();
+
+/* ---- moles → mass ---- */
+(function () {
+  const mk = (name, f, ns, kind) => {
+    const n = parseFloat(ns), M = molar(f), m = n * M;
+    const steps = [
+      { say: 'To change moles into a mass, multiply by the molar mass.', calc: 'm = n × M' },
+      mmStep(f),
+      { say: 'Substitute the moles and the molar mass.', calc: `m = ${ns} × ${M.toFixed(1)}` },
+      { say: 'Multiply. Use your calculator and write down every digit.', calc: `${ns} × ${M.toFixed(1)} = ${b(p(m) + ' g')}` },
+      { say: 'Round to 3 significant figures (the data have 3 s.f.).', calc: b(fmt(m) + ' g') }
+    ];
+    return { kind, text: `Calculate the mass of ${ns} mol ${sp(name, f)}.`, given: ramOf(f), parts: [{ ans: m, unit: 'g' }], steps, answerHtml: `${fmt(m)} g` };
+  };
+  ST.push({
+    key: 'mol-to-mass', tab: 2, tier: 1, title: 'Moles → mass', blurb: 'm = n × M. Mind the brackets in formulas.',
+    qs: [mk('magnesium phosphate', 'Mg3(PO4)2', '0.50', 'demo'), mk('calcium carbonate', 'CaCO3', '2.00'), mk('sodium hydroxide', 'NaOH', '0.250'), mk('aluminium sulfate', 'Al2(SO4)3', '1.50'), mk('glucose', 'C6H12O6', '0.100'), mk('magnesium nitrate', 'Mg(NO3)2', '3.00')]
+  });
+})();
+
+/* ---- mass of an ionic compound → moles, formula units, ions ---- */
+(function () {
+  const nameOf = f => ionName(f);
+  const demo = (() => {
+    const f = 'Mg(NO3)2', ms = '59.32', m = 59.32, M = molar(f), n = m / M, fu = mulLSteps(n, 'formula units'), N = n * L, nit = 2 * N;
+    return {
+      kind: 'demo',
+      text: `A beaker contains 59.32 g of magnesium nitrate. Calculate:`,
+      given: ramOf(f).concat([LCHIP]),
+      parts: [
+        { label: '(a) The formula mass of magnesium nitrate', ans: M, unit: '' },
+        { label: '(b) The molar mass of magnesium nitrate', ans: M, unit: 'g mol⁻¹' },
+        { label: '(c) The number of moles of magnesium nitrate in the beaker', ans: n, unit: 'mol' },
+        { label: '(d) The number of formula units of magnesium nitrate in the beaker', ans: N, unit: 'units' },
+        { label: '(e) The number of nitrate ions in the beaker', ans: nit, unit: 'ions' }],
+      steps: [
+        Object.assign(mmStep(f, '(a) Formula mass'), { say: '(a) Formula mass: add up the RAMs of every atom in the formula Mg(NO₃)₂. It has no unit.' }),
+        { say: '(b) Molar mass has the same number as the formula mass. Only the unit is added: g mol⁻¹.', calc: `(b) Molar mass = ${b(M.toFixed(1) + ' g mol<sup>−1</sup>')}` },
+        { say: '(c) Moles = mass ÷ molar mass.', calc: `n = 59.32 ÷ ${M.toFixed(1)} = ${b(fmt(n) + ' mol')}` },
+        { say: '(d) Number of formula units = moles × L. Use the calculator and round to 3 significant figures.', calc: `N = ${fmt(n)} × 6.02 × 10<sup>23</sup> = ${b(sci(N) + ' formula units')}` },
+        { say: '(e) Each Mg(NO₃)₂ gives 2 nitrate ions (one Mg²⁺ and two NO₃⁻), so double the number of formula units.', calc: `2 × ${sci(N)} = ${b(sci(nit) + ' nitrate ions')}` }],
+      answerHtml: `(a) ${M.toFixed(1)} · (b) ${M.toFixed(1)} g mol<sup>−1</sup> · (c) ${fmt(n)} mol · (d) ${sci(N)} · (e) ${sci(nit)}`
+    };
+  })();
+  const mk = (f, ms, tgt, as) => {
+    const m = parseFloat(ms), M = molar(f), n = m / M, ions = ION[f][1];
+    const k = tgt === 'tot' ? ionsPer(f) : ions[tgt][0];
+    const lab = tgt === 'tot' ? 'ions' : ions[tgt][2];
+    const mol = n * k;
+    const steps = [
+      Object.assign(mmStep(f, 'Formula mass'), { say: 'First the molar mass: list every atom, multiply by its RAM, then add.' }),
+      { say: 'Next the moles of the compound: moles = mass ÷ molar mass.', calc: `n = ${ms} ÷ ${M.toFixed(1)} = ${b(fmt(n) + ' mol')}` },
+      { say: tgt === 'tot' ? `Now count all the ions in one formula unit: ${ionBreak(f)}.` : `Now count the ${lab} in one formula unit: ${ionBreak(f)}.`, calc: `${tgt === 'tot' ? ionSum(f) + ' = ' : ''}${b(k + ' per formula unit')}` },
+      { say: 'Moles of ions = moles of compound × number per formula unit.', calc: `${p(rnd(n, 4))} × ${k} = ${b(fmt(mol) + ' mol of ' + lab)}` }
+    ];
+    let ansC = mol, ansHtml = `${fmt(mol)} mol`;
+    if (as === 'num') { const r = mulLSteps(mol, lab); steps.push(...r.steps); ansC = r.N; ansHtml = `${sci(r.N)} ions`; }
+    const what = as === 'num' ? (tgt === 'tot' ? 'the number of ions' : `the number of ${lab}`) : (tgt === 'tot' ? 'the total number of moles of ions' : `the number of moles of ${lab}`);
+    return {
+      kind: '', text: `Calculate ${what} in ${ms} g of ${nameOf(f)} (${fm(f)}).`, given: ramOf(f).concat(as === 'num' ? [LCHIP] : []),
+      parts: [{ ans: ansC, unit: as === 'num' ? 'ions' : 'mol' }],
+      steps, answerHtml: ansHtml
+    };
+  };
+  ST.push({
+    key: 'ionic-mass', tab: 2, tier: 2, title: 'Moles of ions in a mass of ionic compound', blurb: 'Mass → moles of compound → moles (or number) of ions.',
+    qs: [demo, mk('NaCl', '11.7', 'tot', 'mol'), mk('CaCl2', '22.22', 1, 'mol'), mk('Al2O3', '10.2', 'tot', 'mol'), mk('K2SO4', '17.43', 0, 'mol'), mk('Na2CO3', '5.30', 0, 'num')]
+  });
+})();
+
+/* ---- same number of molecules / moles of atoms in a mass ---- */
+(function () {
+  const same = (f1, n1, f2, n2, m1s, kind) => {
+    const m1 = parseFloat(m1s), M1 = molar(f1), M2 = molar(f2), n = m1 / M1, m2 = n * M2;
+    const steps = [
+      { say: 'Same number of molecules means the same number of moles. So find the moles of the first substance.', calc: 'n(first) = n(second)' },
+      mmStep(f1, `M(${fm(f1)})`),
+      { say: `Moles of ${n1} = mass ÷ molar mass. Keep the full calculator value to avoid rounding errors.`, calc: `n = ${m1s} ÷ ${M1.toFixed(1)} = ${b(q(n) + (Math.abs(n - rnd(n, 4)) > 1e-9 ? '…' : '') + ' mol')}` },
+      mmStep(f2, `M(${fm(f2)})`),
+      { say: `Same moles of ${n2}. Mass = moles × molar mass.`, calc: `m = ${q(n)} × ${M2.toFixed(1)} = ${b(p(m2) + ' g')}` },
+      { say: 'Round to 3 significant figures.', calc: b(fmt(m2) + ' g') }
+    ];
+    return { kind, text: `Calculate the mass of ${n2}, ${fm(f2)}, which contains the same number of molecules as there are in ${m1s} g of ${n1}.`, given: ramOf(f1, f2), parts: [{ ans: m2, unit: 'g' }], steps, answerHtml: `${fmt(m2)} g` };
+  };
+  const atoms = (name, f, ms) => {
+    const m = parseFloat(ms), M = molar(f), n = m / M, k = natoms(f), tot = n * k;
+    const steps = [
+      mmStep(f),
+      { say: 'Moles of molecules = mass ÷ molar mass.', calc: `n = ${ms} ÷ ${M.toFixed(1)} = ${b(fmt(n) + ' mol')}` },
+      { say: `Count the atoms in ONE molecule of ${fm(f)}.`, calc: `${atomBreak(f)} → ${atomSum(f)} = ${b(k + ' atoms')}` },
+      { say: 'Moles of atoms = moles of molecules × atoms per molecule.', calc: `${p(rnd(n, 4))} × ${k} = ${b(fmt(tot) + ' mol')}` }
+    ];
+    return { kind: '', text: `Calculate the number of moles of atoms in ${ms} g of ${sp(name, f)}.`, given: ramOf(f), parts: [{ ans: tot, unit: 'mol' }], steps, answerHtml: `${fmt(tot)} mol of atoms` };
+  };
+  ST.push({
+    key: 'same-molecules', tab: 2, tier: 2, title: 'Molecules and atoms in a given mass', blurb: 'Mass → moles is always the first move. Then compare or count atoms.',
+    qs: [same('H2O', 'water', 'Br2', 'bromine', '40.0', 'demo'), same('H2O', 'water', 'Cl2', 'chlorine', '36.0'), same('CO2', 'carbon dioxide', 'O2', 'oxygen', '22.0'),
+      same('CH4', 'methane', 'N2', 'nitrogen', '3.20'), atoms('ammonia', 'NH3', '8.5'), atoms('propane', 'C3H8', '4.4')]
+  });
+})();
+
+/* ---- which has the same number of ions ---- */
+(function () {
+  const lab = o => o.label || ionName(o.f);
+  const mk = (tf, tm, opts, correct, kind, labels) => {
+    const tM = molar(tf), tn = parseFloat(tm) / tM, tk = ionsPer(tf), ttot = tn * tk;
+    const rows = opts.map(o => { const M = molar(o.f), n = parseFloat(o.m) / M, k = o.mol ? 0 : ionsPer(o.f); return { o, M, n, k, tot: n * k }; });
+    const ci = rows.findIndex(r => Math.abs(r.tot - ttot) / ttot < 0.01);
+    const els = [tf].concat(opts.map(o => o.f)).flatMap(elsOf);
+    const steps = [
+      { say: 'Same number of ions means the same moles of ions. Work out the moles of ions in the target sample first.', calc: 'moles of ions = n × ions per formula unit' },
+      mmStep(tf, `M(${fm(tf)})`),
+      { say: `Moles of ${ionName(tf)} first, then multiply by ${tk} ions per formula unit.`, calc: `n = ${tm} ÷ ${tM.toFixed(1)} = ${fmt(tn)} mol<br>ions: ${fmt(tn)} × ${tk} = ${b(fmt(ttot) + ' mol')}` },
+      { say: 'Molar mass of each option (add the RAMs).', calc: rows.map((r, i) => `${LET[i]}: M(${fm(r.o.f)}) = ${Object.entries(parseF(r.o.f)).map(([e, c]) => (c > 1 ? c + ' × ' : '') + RAM[e].toFixed(1)).join(' + ')} = ${r.M.toFixed(1)}`).join('<br>') },
+      {
+        say: 'Now moles of each option, and its moles of ions. A molecule such as HCl has NO ions in it.', tbl: tbl(['', 'Substance', 'n = m ÷ M', 'Ions / unit', 'Moles of ions'],
+          rows.map((r, i) => ({ c: [LET[i], `${r.o.m} g ${fm(r.o.f)}`, `${r.o.m} ÷ ${r.M.toFixed(1)} = ${fmt(r.n)}`, r.o.mol ? '0 (molecular)' : r.k, b(fmt(r.tot))], hl: i === ci })))
+      },
+      { say: `Find the option that matches ${fmt(ttot)} mol of ions.`, calc: b(`${LET[ci]} = ${fmt(rows[ci].tot)} mol`) }
+    ];
+    return { kind, text: `Which of the following substances contains the same number of ions as ${tm} g of ${ionName(tf)}?`, given: ramChips(els), choices: opts.map(o => `${o.m} g of ${labels ? o.label : (o.mol ? o.name : ionName(o.f))}`), correct: ci, steps, answerHtml: `${LET[ci]}. ${opts[ci].m} g of ${opts[ci].label || ionName(opts[ci].f)}` };
+  };
+  ST.push({
+    key: 'same-ions', tab: 2, tier: 3, title: 'Which has the same number of ions?', blurb: 'Compare moles of ions, never masses.',
+    qs: [
+      mk('NaCl', '2.340', [{ f: 'KCl', m: '2.984', label: 'potassium chloride' }, { f: 'ZnCl2', m: '3.125', label: 'zinc chloride' }, { f: 'CaSO4', m: '3.598', label: 'calcium sulphate' }, { f: 'MgBr2', m: '5.529', label: 'magnesium bromide' }], 0, 'demo', true),
+      mk('NaCl', '5.85', [{ f: 'CaCl2', m: '5.56' }, { f: 'KCl', m: '7.46' }, { f: 'Al2O3', m: '10.2' }, { f: 'MgSO4', m: '6.02' }], 1, ''),
+      mk('NaOH', '4.00', [{ f: 'HCl', m: '3.65', mol: true, name: 'hydrogen chloride' }, { f: 'CaCl2', m: '5.56' }, { f: 'KOH', m: '5.61' }, { f: 'Na2O', m: '6.20' }], 2, ''),
+      mk('Na2SO4', '7.11', [{ f: 'CaCl2', m: '5.56' }, { f: 'CaO', m: '5.61' }, { f: 'MgSO4', m: '6.02' }, { f: 'NaCl', m: '5.85' }], 0, ''),
+      mk('MgCl2', '9.53', [{ f: 'NaCl', m: '5.85' }, { f: 'Al2O3', m: '10.2' }, { f: 'CaO', m: '5.61' }, { f: 'Na2O', m: '6.20' }], 3, ''),
+      mk('ZnCl2', '13.64', [{ f: 'NaCl', m: '5.85' }, { f: 'K2SO4', m: '17.43' }, { f: 'CaCO3', m: '10.0' }, { f: 'HCl', m: '3.65', mol: true, name: 'hydrogen chloride' }], 1, '')
+    ]
+  });
+})();
+
+/* ---- unknown settings: scale one amount to another (coefficients on the unknown) ---- */
+(function () {
+  const MN = 'Use the mass number as the molar mass in g mol⁻¹.';
+  const mk = (kind, text, given, choices, correct, steps) => ({ kind, text, given, choices, correct, steps, answerHtml: `${LET[correct]}. ${choices[correct]}` });
+  ST.push({
+    key: 'unknown-set', tab: 2, tier: 3, title: 'Unknown settings with coefficients', blurb: 'Turn the given fact into "1 mol = ___ atoms", then scale. Watch the coefficient on the unknown (2n, 3k, 6a).',
+    qs: [
+      mk('demo', `Vanadium can form two oxides, VO<sub>2</sub> and V<sub>2</sub>O<sub>5</sub>. If 1 mol of VO<sub>2</sub> contains <i>n</i> atoms, 2 mol of V<sub>2</sub>O<sub>5</sub> contains:`, ramChips(['O', 'V']),
+        ['2n atoms', fr('7', '3') + 'n atoms', fr('14', '3') + 'n atoms', '7n atoms'], 2, [
+          { say: 'Count the atoms in 1 mol of VO₂: 1 V + 2 O = 3 mol of atoms. So the given fact is:', calc: `3 mol of atoms = n atoms` },
+          { say: 'Divide both sides by 3 to get the atoms in ONE mole of atoms.', calc: `1 mol of atoms = ${b(fr('n', '3'))} atoms` },
+          { say: 'Count the atoms in 2 mol of V₂O₅. One V₂O₅ has 2 V + 5 O = 7 atoms.', calc: `2 × 7 = ${b('14 mol of atoms')}` },
+          { say: 'Multiply: 14 mol of atoms × (n/3 atoms per mol).', calc: `14 × ${fr('n', '3')} = ${b(fr('14n', '3'))}` }]),
+      mk('', `If 2 g of <sup>32</sup><sub>16</sub>S contains <i>3y</i> atoms, how many atoms does 6 g of <sup>12</sup><sub>6</sub>C contain? Express your answer in terms of <i>y</i>.`, [MN],
+        ['12y', '24y', '36y', '48y'], 1, [
+          { say: 'The mass number is the molar mass: S-32 is 32 g mol⁻¹. Moles in 2 g of sulfur:', calc: `n = 2 ÷ 32 = ${b(fr('1', '16') + ' mol')}` },
+          { say: 'So 1/16 mol of atoms is 3y atoms. Multiply both sides by 16.', calc: `1 mol of atoms = 16 × 3y = ${b('48y')} atoms` },
+          { say: 'Moles in 6 g of C-12 (12 g mol⁻¹):', calc: `n = 6 ÷ 12 = ${b('0.5 mol')}` },
+          { say: 'Atoms = 0.5 × 48y.', calc: `0.5 × 48y = ${b('24y')}` }]),
+      mk('', `If 1 mol of CH<sub>4</sub> contains <i>2n</i> atoms, then 3 mol of C<sub>2</sub>H<sub>6</sub> contains:`, [],
+        [fr('24n', '5'), '48n', fr('48n', '5'), fr('16n', '5')], 2, [
+          { say: '1 CH₄ = 1 C + 4 H = 5 atoms, so 1 mol of CH₄ is 5 mol of atoms.', calc: `5 mol of atoms = 2n atoms` },
+          { say: 'Divide both sides by 5.', calc: `1 mol of atoms = ${b(fr('2n', '5'))} atoms` },
+          { say: '1 C₂H₆ = 2 C + 6 H = 8 atoms. For 3 mol:', calc: `3 × 8 = ${b('24 mol of atoms')}` },
+          { say: 'Multiply.', calc: `24 × ${fr('2n', '5')} = ${b(fr('48n', '5'))}` }]),
+      mk('', `If 0.5 mol of H<sub>2</sub>O contains <i>3k</i> atoms, then 2 mol of NH<sub>3</sub> contains:`, [],
+        ['8k', '16k', '12k', '24k'], 1, [
+          { say: '1 H₂O = 2 H + 1 O = 3 atoms. For 0.5 mol:', calc: `0.5 × 3 = ${b('1.5 mol of atoms')} = 3k atoms` },
+          { say: 'Divide both sides by 1.5.', calc: `1 mol of atoms = 3k ÷ 1.5 = ${b('2k')} atoms` },
+          { say: '1 NH₃ = 1 N + 3 H = 4 atoms. For 2 mol:', calc: `2 × 4 = ${b('8 mol of atoms')}` },
+          { say: 'Multiply.', calc: `8 × 2k = ${b('16k')}` }]),
+      mk('', `If 4 mol of CO<sub>2</sub> contains <i>6a</i> atoms, how many atoms are there in 1 mol of ethanol, C<sub>2</sub>H<sub>5</sub>OH?`, [],
+        ['9a', '18a', fr('3a', '2'), fr('9a', '2')], 3, [
+          { say: '1 CO₂ = 1 C + 2 O = 3 atoms. For 4 mol:', calc: `4 × 3 = ${b('12 mol of atoms')} = 6a atoms` },
+          { say: 'Divide both sides by 12.', calc: `1 mol of atoms = ${fr('6a', '12')} = ${b(fr('a', '2'))} atoms` },
+          { say: '1 C₂H₅OH = 2 C + 5 H + 1 O + 1 H = 9 atoms. So 1 mol is 9 mol of atoms.', calc: `9 mol of atoms` },
+          { say: 'Multiply.', calc: `9 × ${fr('a', '2')} = ${b(fr('9a', '2'))}` }]),
+      mk('', `If 0.2 mol of Al<sub>2</sub>O<sub>3</sub> contains <i>2x</i> ions, how many ions are there in 3 mol of MgCl<sub>2</sub>?`, [],
+        ['6x', '9x', '18x', '27x'], 2, [
+          { say: '1 Al₂O₃ = 2 Al³⁺ + 3 O²⁻ = 5 ions. For 0.2 mol:', calc: `0.2 × 5 = ${b('1 mol of ions')} = 2x ions` },
+          { say: 'So one mole of ions is 2x ions.', calc: `1 mol of ions = ${b('2x')} ions` },
+          { say: '1 MgCl₂ = 1 Mg²⁺ + 2 Cl⁻ = 3 ions. For 3 mol:', calc: `3 × 3 = ${b('9 mol of ions')}` },
+          { say: 'Multiply.', calc: `9 × 2x = ${b('18x')}` }]),
+      mk('', `If 3 g of <sup>12</sup><sub>6</sub>C contains <i>5m</i> atoms, how many atoms does 8 g of <sup>16</sup><sub>8</sub>O contain? Express your answer in terms of <i>m</i>.`, [MN],
+        ['10m', '5m', '40m', '20m'], 0, [
+          { say: 'The mass number is the molar mass: C-12 is 12 g mol⁻¹. Moles in 3 g:', calc: `n = 3 ÷ 12 = ${b('0.25 mol')}` },
+          { say: 'So 0.25 mol of atoms is 5m atoms. Divide both sides by 0.25 (the same as × 4).', calc: `1 mol of atoms = 5m ÷ 0.25 = ${b('20m')} atoms` },
+          { say: 'Moles in 8 g of O-16 (16 g mol⁻¹):', calc: `n = 8 ÷ 16 = ${b('0.5 mol')}` },
+          { say: 'Atoms = 0.5 × 20m.', calc: `0.5 × 20m = ${b('10m')}` }]),
+      mk('', `If 5 mol of NH<sub>3</sub> contains <i>10p</i> atoms, how many atoms are there in 2 mol of CH<sub>4</sub>?`, [],
+        ['2p', fr('5p', '2'), '10p', '5p'], 3, [
+          { say: '1 NH₃ = 4 atoms. For 5 mol:', calc: `5 × 4 = ${b('20 mol of atoms')} = 10p atoms` },
+          { say: 'Divide both sides by 20.', calc: `1 mol of atoms = ${fr('10p', '20')} = ${b(fr('p', '2'))} atoms` },
+          { say: '1 CH₄ = 5 atoms. For 2 mol:', calc: `2 × 5 = ${b('10 mol of atoms')}` },
+          { say: 'Multiply.', calc: `10 × ${fr('p', '2')} = ${b('5p')}` }]),
+      mk('', `If 1 mol of NaCl contains <i>4z</i> ions, how many ions are there in 0.5 mol of Al<sub>2</sub>(SO<sub>4</sub>)<sub>3</sub>?`, [],
+        [fr('5z', '2'), '5z', '10z', fr('5z', '4')], 1, [
+          { say: '1 NaCl = Na⁺ + Cl⁻ = 2 ions, so 1 mol of NaCl is 2 mol of ions.', calc: `2 mol of ions = 4z ions` },
+          { say: 'Divide both sides by 2.', calc: `1 mol of ions = ${b('2z')} ions` },
+          { say: '1 Al₂(SO₄)₃ = 2 Al³⁺ + 3 SO₄²⁻ = 5 ions. For 0.5 mol:', calc: `0.5 × 5 = ${b('2.5 mol of ions')}` },
+          { say: 'Multiply.', calc: `2.5 × 2z = ${b('5z')}` }]),
+      mk('', `If 0.5 mol of C<sub>2</sub>H<sub>6</sub> contains <i>3q</i> hydrogen atoms, how many hydrogen atoms are there in 2 mol of C<sub>3</sub>H<sub>8</sub>?`, [],
+        ['16q', '8q', '32q', '24q'], 0, [
+          { say: 'Count the H atoms only. 1 C₂H₆ has 6 H, so 0.5 mol has 3 mol of H atoms.', calc: `0.5 × 6 = ${b('3 mol of H atoms')} = 3q H atoms` },
+          { say: 'Divide both sides by 3.', calc: `1 mol of H atoms = ${b('q')} atoms` },
+          { say: '1 C₃H₈ has 8 H, so 2 mol has 16 mol of H atoms.', calc: `2 × 8 = ${b('16 mol of H atoms')}` },
+          { say: 'Multiply.', calc: `16 × q = ${b('16q')}` }]),
+      mk('', `If 1.2 g of <sup>12</sup><sub>6</sub>C contains <i>2w</i> atoms, how many atoms does 0.5 mol of H<sub>2</sub>O contain? Express your answer in terms of <i>w</i>.`, [MN],
+        ['10w', '15w', '30w', '60w'], 2, [
+          { say: 'The mass number is the molar mass: C-12 is 12 g mol⁻¹. Moles in 1.2 g:', calc: `n = 1.2 ÷ 12 = ${b('0.1 mol')}` },
+          { say: 'So 0.1 mol of atoms is 2w atoms. Divide both sides by 0.1 (the same as × 10).', calc: `1 mol of atoms = 2w ÷ 0.1 = ${b('20w')} atoms` },
+          { say: '1 H₂O = 3 atoms. For 0.5 mol:', calc: `0.5 × 3 = ${b('1.5 mol of atoms')}` },
+          { say: 'Multiply.', calc: `1.5 × 20w = ${b('30w')}` }])
+    ]
+  });
+})();
+/* ===== part 4: Tab 3 · percentage by mass ===== */
+const ELN = { N: 'nitrogen', Mg: 'magnesium', Ca: 'calcium', Fe: 'iron', Al: 'aluminium', O: 'oxygen', Cl: 'chlorine', S: 'sulfur' };
+
+/* ---- direct % by mass ---- */
+(function () {
+  const mk = (name, f, el, kind) => {
+    const c = parseF(f), M = molar(f), k = c[el], mass = r1(k * RAM[el]), frac = mass / M, pc = frac * 100;
+    const steps = [
+      { say: 'Percentage by mass = (mass of the element in one formula ÷ molar mass of the compound) × 100%.', calc: `% of ${el} = ${fr('atoms of ' + el + ' × RAM', 'molar mass')} × 100%` },
+      mmStep(f),
+      { say: `Mass of ${el} in one formula unit: number of ${el} atoms × RAM.`, calc: `${k} × ${RAM[el].toFixed(1)} = ${b(mass.toFixed(1))}` },
+      { say: 'Divide by the molar mass of the whole compound.', calc: `${mass.toFixed(1)} ÷ ${M.toFixed(1)} = ${b(q(frac))}` },
+      { say: 'Multiply by 100 to turn the fraction into a percentage. Round to 3 significant figures.', calc: `${q(frac)} × 100 = ${b(fmt(pc) + '%')}` }
+    ];
+    return { kind, text: `Calculate the percentage by mass of ${ELN[el]} in ${sp(name, f)}.`, given: ramOf(f), parts: [{ ans: pc, unit: '%' }], steps, answerHtml: `${fmt(pc)}%` };
+  };
+  ST.push({
+    key: 'pct-direct', tab: 3, tier: 1, title: 'Percentage by mass of an element', blurb: 'Mass of the element in the formula ÷ molar mass × 100%.',
+    qs: [mk('ammonium nitrate', 'NH4NO3', 'N', 'demo'), mk('magnesium oxide', 'MgO', 'Mg'), mk('calcium carbonate', 'CaCO3', 'Ca'), mk('ammonium sulfate', '(NH4)2SO4', 'N'), mk('iron(III) oxide', 'Fe2O3', 'Fe'), mk('aluminium sulfate', 'Al2(SO4)3', 'Al')]
+  });
+})();
+
+/* ---- % of an element in an impure sample ---- */
+(function () {
+  const mk = (pcs, f, el, compName, sample, kind, mcq) => {
+    const P = parseFloat(pcs), c = parseF(f), M = molar(f), k = c[el], mass = r1(k * RAM[el]), frac = mass / M, g = P * frac;
+    const steps = [
+      { say: 'Imagine a 100 g sample. Then the percentages turn into grams, which is easier to follow.', calc: `${pcs}% of 100 g = ${b(pcs + ' g')} of ${fm(f)}` },
+      mmStep(f),
+      { say: `What fraction of ${fm(f)} is ${ELN[el]}?`, calc: `${k} × ${RAM[el].toFixed(1)} ÷ ${M.toFixed(1)} = ${mass.toFixed(1)} ÷ ${M.toFixed(1)} = ${b(q(frac))}` },
+      { say: `Mass of ${ELN[el]} in the 100 g sample. The rest of the sample has none.`, calc: `${pcs} × ${q(frac)} = ${b(q(g) + ' g')}` },
+      { say: 'The sample is 100 g, so grams and percent are the same number.', calc: `${q(g)} g out of 100 g = ${b(fmt(g) + '%')}` }
+    ];
+    const text = `${kind === 'demo' ? 'An' : 'A'} ${sample} sample contained ${pcs}% ${sp(compName, f)} by mass. The rest of the substances in the ${sample === 'ore' ? 'ore' : 'sample'} did not contain ${ELN[el]}. What was the percentage by mass of ${ELN[el]} in the sample?`;
+    const o = { kind, text, given: ramOf(f), steps, answerHtml: `${fmt(g)}%` };
+    if (mcq) { o.choices = mcq.choices; o.correct = mcq.correct; o.answerHtml = `${LET[mcq.correct]}. ${mcq.choices[mcq.correct]}`; }
+    else o.parts = [{ ans: g, unit: '%' }];
+    return o;
+  };
+  ST.push({
+    key: 'pct-impure', tab: 3, tier: 2, title: 'Percentage in an impure sample', blurb: 'Use a 100 g sample. Then it is a fraction of a fraction.',
+    qs: [mk('60', 'Al2O3', 'Al', 'aluminium oxide', 'ore', 'demo', { choices: ['24.0%', '31.8%', '52.9%', '60.0%'], correct: 1 }),
+      mk('80.0', 'CaCO3', 'Ca', 'calcium carbonate', 'rock'), mk('90.0', '(NH4)2SO4', 'N', 'ammonium sulfate', 'fertiliser'), mk('70.0', 'Fe2O3', 'Fe', 'iron(III) oxide', 'iron ore'),
+      mk('75.0', 'MgO', 'Mg', 'magnesium oxide', 'mineral'), mk('50.0', 'NH4NO3', 'N', 'ammonium nitrate', 'fertiliser')]
+  });
+})();
+
+/* ---- unknown RAM from a percentage ---- */
+(function () {
+  // nX atoms of X, known atoms (string like 'O' or 'S O4') as list of [el, count], el = element the % refers to
+  const mk = (cfg, kind, mcq) => {
+    const { formula, text, nX, known, el, P } = cfg;
+    const kn = known.reduce((t, [e, c]) => t + c * RAM[e], 0), w = known.find(a => a[0] === el)[1] * RAM[el];
+    const M = w / (P / 100), x = (M - kn) / nX, chk = w / (nX * rnd(x, 3) + kn) * 100;
+    const knExpr = known.map(([e, c]) => (c > 1 ? c + ' × ' : '') + RAM[e].toFixed(1)).join(' + ');
+    const xs = nX > 1 ? nX + 'x' : 'x';
+    const steps = [
+      { say: 'Let the relative atomic mass of X be x. Write the molar mass of the compound using x.', calc: `M = ${xs} + ${knExpr}` + (known.length > 1 || known[0][1] > 1 ? ` = ${xs} + ${b(r1(kn).toFixed(1))}` : '') },
+      { say: `${ELN[el].charAt(0).toUpperCase() + ELN[el].slice(1)} makes up ${P}% of the mass. Write that as a fraction of M and set it equal.`, calc: `${fr(w.toFixed(1), xs + ' + ' + r1(kn).toFixed(1))} × 100% = ${P}%` },
+      { say: `Change ${P}% to a decimal (÷ 100), then rearrange: M = ${w.toFixed(1)} ÷ decimal.`, calc: `M = ${w.toFixed(1)} ÷ ${p(P / 100)} = ${b(q(M))}` },
+      { say: 'Subtract the mass of the atoms you already know.', calc: `${xs} = ${q(M)} − ${r1(kn).toFixed(1)} = ${b(q(M - kn))}` },
+      { say: nX > 1 ? `Divide by ${nX} to get x.` : 'That is x.', calc: nX > 1 ? `x = ${q(M - kn)} ÷ ${nX} = ${b(fmt(x))}` : `x = ${b(fmt(x))}` },
+      { say: 'Check: put x back and see if you get the percentage you started with.', calc: `${w.toFixed(1)} ÷ (${nX > 1 ? nX + ' × ' : ''}${fmt(x)} + ${r1(kn).toFixed(1)}) × 100% = ${fmt(chk, String(P).replace('.', '').length)}% ✓` }
+    ];
+    const o = { kind, text, given: ramChips(known.map(a => a[0])), steps, answerHtml: fmt(x) };
+    if (mcq) { o.choices = mcq.choices; o.correct = mcq.correct; o.answerHtml = `${LET[mcq.correct]}. ${mcq.choices[mcq.correct]}`; }
+    else o.parts = [{ ans: x, unit: '' }];
+    o._x = x;
+    return o;
+  };
+  const X2O = (P, kind, mcq) => mk({ formula: 'X2O', text: `An element X forms an oxide X<sub>2</sub>O which contains ${P}% of oxygen by mass. What is the relative atomic mass of X?`, nX: 2, known: [['O', 1]], el: 'O', P }, kind, mcq);
+  ST.push({
+    key: 'pct-unknown', tab: 3, tier: 3, title: 'Unknown relative atomic mass', blurb: 'Let the RAM be x. Write the % as an equation, then solve.',
+    qs: [X2O(11.2, 'demo', { choices: ['14.0', '23.0', '63.4', '108.0'], correct: 2 }),
+      mk({ text: 'An oxide XO contains 39.7% of oxygen by mass. What is the relative atomic mass of X?', nX: 1, known: [['O', 1]], el: 'O', P: 39.7 }),
+      mk({ text: 'An oxide X<sub>2</sub>O<sub>3</sub> contains 47.1% of oxygen by mass. What is the relative atomic mass of X?', nX: 2, known: [['O', 3]], el: 'O', P: 47.1 }),
+      mk({ text: 'A chloride XCl<sub>2</sub> contains 63.9% of chlorine by mass. What is the relative atomic mass of X?', nX: 1, known: [['Cl', 2]], el: 'Cl', P: 63.9 }),
+      X2O(25.8),
+      mk({ text: 'A sulfate X<sub>2</sub>SO<sub>4</sub> contains 18.42% of sulfur by mass. What is the relative atomic mass of X?', nX: 2, known: [['S', 1], ['O', 4]], el: 'S', P: 18.42 })]
+  });
+})();
+
+if (typeof module !== 'undefined') module.exports = { ST, fmt, sci, L, RAM, molar, parseF };
+/* ===== illustrations: mascot, balance, molecules, icons, waffle chart ===== */
+const U_SUB = { 0: '₀', 1: '₁', 2: '₂', 3: '₃', 4: '₄', 5: '₅', 6: '₆', 7: '₇', 8: '₈', 9: '₉' };
+const U_SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', '+': '⁺', '−': '⁻', '-': '⁻' };
+const uni = h => h.replace(/<sub>(\d+)<\/sub>/g, (m, d) => [...d].map(c => U_SUB[c]).join('')).replace(/<sup>([^<]+)<\/sup>/g, (m, s) => [...s].map(c => U_SUP[c] || c).join(''));
+
+/* original mascot: a cuddly mole scientist with goggles on its forehead and a bubbling flask */
+function mascotSVG(size, cls) {
+  const L2 = '#2A2739';
+  return `<svg class="mascot ${cls || ''}" width="${size}" height="${Math.round(size * 1.1)}" viewBox="0 0 200 220" aria-hidden="true">
+  <defs>
+    <radialGradient id="mgFur" cx="38%" cy="26%" r="90%"><stop offset="0" stop-color="#A29EBB"/><stop offset=".5" stop-color="#686480"/><stop offset="1" stop-color="#35324A"/></radialGradient>
+    <radialGradient id="mgBelly" cx="50%" cy="30%" r="75%"><stop offset="0" stop-color="#D5D1E2"/><stop offset="1" stop-color="#8E8AA4"/></radialGradient>
+    <radialGradient id="mgPink" cx="38%" cy="28%" r="85%"><stop offset="0" stop-color="#FFD6DD"/><stop offset="1" stop-color="#EB7B96"/></radialGradient>
+    <linearGradient id="mgPaw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFDDE0"/><stop offset="1" stop-color="#F095AA"/></linearGradient>
+    <linearGradient id="mgLens" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0FDFF"/><stop offset="1" stop-color="#79D0E6"/></linearGradient>
+    <linearGradient id="mgLiquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86E8C8"/><stop offset="1" stop-color="#2DAA93"/></linearGradient>
+  </defs>
+  <ellipse cx="100" cy="211" rx="64" ry="8" fill="#000" opacity=".22"/>
+  <ellipse cx="54" cy="40" rx="14" ry="15" fill="url(#mgFur)" stroke="${L2}" stroke-width="2.5"/><ellipse cx="55" cy="42" rx="7.5" ry="8.5" fill="#F4A0B2"/>
+  <ellipse cx="146" cy="40" rx="14" ry="15" fill="url(#mgFur)" stroke="${L2}" stroke-width="2.5"/><ellipse cx="145" cy="42" rx="7.5" ry="8.5" fill="#F4A0B2"/>
+  <path d="M100 84 C48 84 30 138 38 176 C43 200 70 210 100 210 C130 210 157 200 162 176 C170 138 152 84 100 84Z" fill="url(#mgFur)" stroke="${L2}" stroke-width="2.5"/>
+  <ellipse cx="100" cy="168" rx="31" ry="35" fill="url(#mgBelly)" opacity=".92"/>
+  <path d="M52 150 C48 164 52 180 60 190" fill="none" stroke="#C7C3DA" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+  <ellipse cx="78" cy="206" rx="16" ry="8" fill="url(#mgPaw)" stroke="#C25A78" stroke-width="2"/><ellipse cx="122" cy="206" rx="16" ry="8" fill="url(#mgPaw)" stroke="#C25A78" stroke-width="2"/>
+  <path d="M100 22 C50 22 30 64 38 98 C46 124 74 136 100 136 C126 136 154 124 162 98 C170 64 150 22 100 22Z" fill="url(#mgFur)" stroke="${L2}" stroke-width="2.5"/>
+  <ellipse cx="76" cy="40" rx="20" ry="9" fill="#fff" opacity=".13" transform="rotate(-22 76 40)"/>
+  <path d="M66 30 q4 -6 9 -2 M96 25 q5 -5 10 0 M126 32 q4 -5 9 -1 M48 70 q-1 -6 4 -8 M152 70 q1 -6 -4 -8" stroke="#BDB9D2" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
+  <ellipse cx="100" cy="108" rx="38" ry="25" fill="#BAB6CE" opacity=".55"/>
+  <ellipse cx="56" cy="106" rx="10" ry="6.5" fill="#FF8FA8" opacity=".5"/><ellipse cx="144" cy="106" rx="10" ry="6.5" fill="#FF8FA8" opacity=".5"/>
+  <path d="M100 84 C90 85 83 97 85 109 C86 120 94 129 100 129 C106 129 114 120 115 109 C117 97 110 85 100 84Z" fill="url(#mgPink)" stroke="#C25A78" stroke-width="1.8"/>
+  <path d="M100 118 L100 128" stroke="#C25A78" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>
+  <ellipse cx="94" cy="94" rx="6" ry="3.6" fill="#fff" opacity=".65"/>
+  <ellipse cx="95.5" cy="110" rx="2.2" ry="3" fill="#8B2E4A"/><ellipse cx="104.5" cy="110" rx="2.2" ry="3" fill="#8B2E4A"/>
+  <path d="M92 133 Q100 140 108 133" fill="none" stroke="${L2}" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M82 117 L46 111 M82 122 L44 126 M118 117 L154 111 M118 122 L156 126" stroke="#E4E0F0" stroke-width="1.7" stroke-linecap="round"/>
+  <g class="eye"><ellipse cx="74" cy="76" rx="7.5" ry="9" fill="#1B1926"/><circle cx="76.8" cy="72.6" r="3" fill="#fff"/><circle cx="71.6" cy="79" r="1.4" fill="#fff"/></g>
+  <g class="eye"><ellipse cx="126" cy="76" rx="7.5" ry="9" fill="#1B1926"/><circle cx="128.8" cy="72.6" r="3" fill="#fff"/><circle cx="123.6" cy="79" r="1.4" fill="#fff"/></g>
+  <path d="M38 58 C62 44 138 44 162 58" fill="none" stroke="${L2}" stroke-width="9" stroke-linecap="round"/>
+  <rect x="92" y="45" width="16" height="8" rx="3.5" fill="#F2A33B" stroke="${L2}" stroke-width="2"/>
+  <circle cx="78" cy="50" r="15.5" fill="#F2A33B" stroke="${L2}" stroke-width="2.5"/><circle cx="78" cy="50" r="10.5" fill="url(#mgLens)" stroke="${L2}" stroke-width="1.6"/><path d="M72 46 q4 -5 9 -3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <circle cx="122" cy="50" r="15.5" fill="#F2A33B" stroke="${L2}" stroke-width="2.5"/><circle cx="122" cy="50" r="10.5" fill="url(#mgLens)" stroke="${L2}" stroke-width="1.6"/><path d="M116 46 q4 -5 9 -3" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <path d="M164 118 L178 118 L178 138 L193 175 C195 182 191 187 185 187 L157 187 C151 187 147 182 149 175 L164 138Z" fill="#DDF4FF" fill-opacity=".55" stroke="${L2}" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M156.5 158 L185.5 158 L193 175 C195 182 191 187 185 187 L157 187 C151 187 147 182 149 175Z" fill="url(#mgLiquid)"/>
+  <rect x="161" y="114" width="20" height="7" rx="2.5" fill="#EAE6F3" stroke="${L2}" stroke-width="2.2"/>
+  <circle class="bubble" style="animation-delay:0s" cx="163" cy="176" r="3" fill="#fff" opacity="0"/><circle class="bubble" style="animation-delay:.8s" cx="173" cy="172" r="2.2" fill="#fff" opacity="0"/><circle class="bubble" style="animation-delay:1.6s" cx="181" cy="177" r="2.6" fill="#fff" opacity="0"/>
+  <g transform="translate(150 164) rotate(14) scale(-1 1)"><ellipse rx="22" ry="15.5" fill="url(#mgPaw)" stroke="#C25A78" stroke-width="2"/><ellipse cx="-22" cy="-7" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/><ellipse cx="-25" cy="0" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/><ellipse cx="-22" cy="7.5" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/></g>
+  <g class="wave"><g transform="translate(44 148) rotate(-38)"><ellipse rx="22" ry="15.5" fill="url(#mgPaw)" stroke="#C25A78" stroke-width="2"/><ellipse cx="-22" cy="-7" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/><ellipse cx="-25" cy="0" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/><ellipse cx="-22" cy="7.5" rx="5.5" ry="3" fill="#FFF4E6" stroke="#B99A82" stroke-width="1.1"/></g></g>
+  </svg>`;
+}
+
+/* lab balance: dots on the pan, an LCD that shows N/A until the reading is large enough */
+function balanceSVG() {
+  const pts = [], rows = [16, 14, 12, 10, 8, 6, 4, 2];
+  rows.forEach((n, r) => { for (let k = 0; k < n; k++) { const x = (k - (n - 1) / 2) * 7.4; pts.push({ x, y: -r * 6.6 - 4, d: Math.hypot(x, r * 9) }); } });
+  pts.sort((a, b) => a.d - b.d);
+  const dots = pts.map((p, i) => `<circle class="dot" data-i="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.2"/>`).join('');
+  return `<svg viewBox="0 0 420 246" role="img" aria-label="A laboratory balance with atoms piled on the pan">
+  <text x="210" y="16" text-anchor="middle" class="bt">Analytical balance · reads to 0.001 g</text>
+  <rect x="60" y="26" width="300" height="150" rx="10" class="b-glass"/><line x1="60" y1="64" x2="360" y2="64" class="b-line"/><rect x="334" y="40" width="8" height="34" rx="3" class="b-pan"/>
+  <rect x="140" y="150" width="140" height="8" rx="4" class="b-pan"/><rect x="205" y="158" width="10" height="20" class="b-pan"/>
+  <g transform="translate(210,150)">${dots}</g>
+  <rect x="40" y="176" width="340" height="52" rx="12" class="b-base"/>
+  <text x="62" y="200" class="bt2">Balance reading</text><text x="62" y="217" class="bt3 bcap"></text>
+  <rect class="b-lcd" x="226" y="186" width="138" height="32" rx="5"/><text class="b-read na" x="356" y="209" text-anchor="end">N/A</text>
+  <rect x="64" y="228" width="36" height="8" rx="3" class="b-pan"/><rect x="320" y="228" width="36" height="8" rx="3" class="b-pan"/>
+  </svg>`;
+}
+function setBalance(root, o) {
+  const n = $$('.dot', root), rd = $('.b-read', root), lcd = $('.b-lcd', root), was = rd.classList.contains('na');
+  const full = Math.floor(o.dots), part = o.dots - full;   // dots can be fractional: a partly filled dot is drawn smaller
+  n.forEach((d, i) => { d.classList.toggle('on', i < full || (i === full && part > 0.01)); d.setAttribute('r', i === full && part > 0 ? (3.2 * Math.sqrt(part)).toFixed(2) : '3.2'); });
+  rd.textContent = o.text; rd.classList.toggle('na', !!o.na);
+  $('.bcap', root).textContent = o.cap || '';
+  if (((was && !o.na) || o.ping) && !reduceMotion()) { lcd.classList.remove('ping'); void lcd.getBoundingClientRect(); lcd.classList.add('ping'); }
+}
+
+/* ball-and-stick molecules and ion groups */
+const CPK = { H: '#F4F4F4', C: '#B8BEC6', N: '#86A8FF', O: '#FF8F7A' };
+const MOLS = {
+  H2O: { a: [['O', 120, 44], ['H', 80, 84], ['H', 160, 84]], b: [[0, 1, 1], [0, 2, 1]] },
+  NH3: { a: [['N', 120, 40], ['H', 76, 82], ['H', 120, 90], ['H', 164, 82]], b: [[0, 1, 1], [0, 2, 1], [0, 3, 1]] },
+  CO2: { a: [['O', 56, 58], ['C', 120, 58], ['O', 184, 58]], b: [[0, 1, 2], [1, 2, 2]] },
+  C2H5OH: { a: [['C', 86, 62], ['C', 132, 62], ['O', 178, 62], ['H', 58, 36], ['H', 58, 88], ['H', 86, 98], ['H', 132, 24], ['H', 132, 100], ['H', 204, 86]], b: [[0, 1, 1], [1, 2, 1], [0, 3, 1], [0, 4, 1], [0, 5, 1], [1, 6, 1], [1, 7, 1], [2, 8, 1]] }
+};
+function moleculeSVG(f) {
+  const W = 240, H = 116;
+  if (MOLS[f]) {
+    const m = MOLS[f];
+    const bonds = m.b.map(([i, j, o]) => {
+      const [, x1, y1] = m.a[i], [, x2, y2] = m.a[j], dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy), nx = -dy / len * 3.2, ny = dx / len * 3.2;
+      return o === 2 ? `<line x1="${x1 + nx}" y1="${y1 + ny}" x2="${x2 + nx}" y2="${y2 + ny}" class="bond"/><line x1="${x1 - nx}" y1="${y1 - ny}" x2="${x2 - nx}" y2="${y2 - ny}" class="bond"/>` : `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="bond"/>`;
+    }).join('');
+    const atoms = m.a.map(([e, x, y]) => { const r = e === 'H' ? 10 : 15; return `<circle cx="${x}" cy="${y}" r="${r}" fill="${CPK[e]}" stroke="var(--ink)" stroke-width="2"/><text x="${x}" y="${y + 4.5}" text-anchor="middle" class="atx">${e}</text>`; }).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ball and stick model of one molecule of ${f}">${bonds}${atoms}</svg>`;
+  }
+  const ions = ION[f][1], list = [];
+  ions.forEach((i, k) => { for (let c = 0; c < i[0]; c++) list.push({ t: uni(i[1]), cat: k === 0 }); });
+  const step = 50, x0 = W / 2 - (list.length - 1) * step / 2;
+  const circles = list.map((o, i) => `<circle cx="${x0 + i * step}" cy="58" r="21" fill="${o.cat ? '#C3A6FF' : '#FFB59E'}" stroke="var(--ink)" stroke-width="2"/><text x="${x0 + i * step}" y="62" text-anchor="middle" class="atx">${o.t}</text>`).join('');
+  return `<svg viewBox="0 0 ${Math.max(W, list.length * step + 40)} ${H}" role="img" aria-label="Ions in one formula unit of ${f}">${circles}</svg>`;
+}
+
+/* small icons for the "counting units" ladder */
+function iconSVG(kind) {
+  if (kind === 'eggs') {
+    let s = '<rect x="4" y="6" width="88" height="52" rx="8" fill="var(--line)" stroke="var(--ink)" stroke-width="2"/>';
+    for (let r = 0; r < 2; r++) for (let c = 0; c < 6; c++) s += `<ellipse cx="${16 + c * 13.2}" cy="${22 + r * 24}" rx="5.2" ry="7" fill="#F6E7C8" stroke="var(--ink)" stroke-width="1.6"/>`;
+    return `<svg viewBox="0 0 96 64" aria-hidden="true">${s}</svg>`;
+  }
+  if (kind === 'paper') {
+    let s = '';
+    for (let i = 0; i < 6; i++) s += `<rect x="${12 + i * 3}" y="${42 - i * 5}" width="60" height="14" rx="2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.8"/>`;
+    return `<svg viewBox="0 0 96 64" aria-hidden="true">${s}<line x1="30" y1="19" x2="60" y2="19" stroke="var(--muted)" stroke-width="2"/></svg>`;
+  }
+  let s = '', seed = 7; const rnd01 = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const cols = ['var(--e1)', 'var(--e2)', 'var(--e3)', 'var(--e5)'];
+  for (let i = 0; i < 90; i++) { const a = rnd01() * 6.283, r = Math.sqrt(rnd01()); s += `<circle cx="${48 + Math.cos(a) * r * 42}" cy="${32 + Math.sin(a) * r * 25}" r="2.4" fill="${cols[i % 4]}"/>`; }
+  return `<svg viewBox="0 0 96 64" aria-hidden="true">${s}</svg>`;
+}
+
+/* 10 x 10 waffle: a 100 g sample, one square per gram */
+function waffleSVG(pcs) {
+  const raw = pcs.map(p => Math.floor(p)), rem = pcs.map((p, i) => [p - raw[i], i]).sort((a, b) => b[0] - a[0]);
+  let left = 100 - raw.reduce((a, c) => a + c, 0), k = 0; while (left > 0) { raw[rem[k % rem.length][1]]++; left--; k++; }
+  const cells = []; raw.forEach((n, i) => { for (let j = 0; j < n; j++) cells.push(i); });
+  const rects = cells.map((e, i) => `<rect x="${(i % 10) * 12}" y="${Math.floor(i / 10) * 12}" width="10.5" height="10.5" rx="2" fill="var(--e${e % 5 + 1})"/>`).join('');
+  return `<svg viewBox="0 0 120 120" role="img" aria-label="Waffle chart: 100 squares for a 100 g sample">${rects}</svg>`;
+}
+/* ===== explainer widgets (Learn blocks) ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduceMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SUPD = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', '-': '⁻' };
+const sciU = (x, sf = 3) => sci(x, sf).replace(/<sup>(-?\d+)<\/sup>/, (m, e) => [...e].map(c => SUPD[c]).join(''));
+
+/* RAM list used in this workbook (shown in the header drop-down) */
+(function () {
+  const used = new Set();
+  ST.forEach(s => s.qs.forEach(q => (q.given || []).forEach(g => { const m = g.match(/^([A-Z][a-z]?) = \d/); if (m) used.add(m[1]); })));
+  $('#ramAll').innerHTML = Object.entries(RAM).filter(([e]) => used.has(e)).sort((a, b) => a[1] - b[1]).map(([e, v]) => `<span class="chip">${e} = ${v.toFixed(1)}</span>`).join('');
+})();
+
+/* ---- Tab 1: why do we need the mole ---- */
+(function () {
+  const sl = $('#atomSlider'), outN = $('#outN'), outM = $('#outM'), fill = $('#trkFill'), ver = $('#verdict');
+  const LOGL = Math.log10(L), bal = $('#balBox'); bal.innerHTML = balanceSVG();
+  function upd() {
+    const v = +sl.value, N = Math.pow(10, v / 1000 * LOGL), m = 12.0 * N / L;
+    outN.innerHTML = N < 1000 ? String(Math.round(N)) : sci(N);
+    outM.innerHTML = v >= 1000 ? '12.0 g' : (m < 1e-3 ? sci(m) + ' g' : fmt(m) + ' g');
+    fill.style.width = (v / 10) + '%';
+    const reading = m >= 1e-3;
+    setBalance(bal, { dots: 72 * N / L, na: !reading, text: reading ? (v >= 1000 ? '12.000 g' : m.toFixed(3) + ' g') : 'N/A', cap: reading ? '' : 'too light to read' });
+    const share = N / L * 100, shareTxt = v >= 1000 ? '100%' : (share < 0.01 ? sci(share, 2) + '%' : fmt(share, 2) + '%');
+    $('#pileNote').innerHTML = `Drawn to scale: 72 dots = 1 mole, so 1 dot = 8.36 × 10<sup>21</sup> atoms. The pile is now <b>${shareTxt}</b> of one mole.` + (share < 0.5 ? ' Too small to see.' : '');
+    if (v >= 1000) { ver.className = 'verdict ok'; ver.innerHTML = 'That is exactly 1 mole: 6.02 × 10<sup>23</sup> atoms weigh 12.0 g. Now we can weigh it, and the number of grams equals the RAM of carbon.'; }
+    else if (m < 1e-3) { ver.className = 'verdict no'; ver.textContent = 'The balance shows N/A. This pile is far too light for it to detect (it needs about 0.001 g).'; }
+    else { ver.className = 'verdict ok'; ver.innerHTML = `The balance can finally give a reading, but the pile is still only ${shareTxt} of one mole. We are not at a convenient bundle yet.`; }
+  }
+  sl.addEventListener('input', upd); upd();
+  let raf = 0;
+  $('#countUp').onclick = () => {
+    cancelAnimationFrame(raf);
+    if (reduceMotion()) { sl.value = 1000; upd(); return; }
+    const from = +sl.value >= 1000 ? 0 : +sl.value, t0 = performance.now(), dur = 6500;
+    const tick = t => { const k = Math.min(1, (t - t0) / dur); sl.value = Math.round(from + (1000 - from) * k); upd(); if (k < 1) raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+  };
+  $('#countReset').onclick = () => { cancelAnimationFrame(raf); sl.value = 0; upd(); };
+})();
+
+/* ---- Tab 1: what is inside n mol ---- */
+(function () {
+  const sel = $('#exSub'), sl = $('#exN'), out = $('#exOut'), nv = $('#exNv');
+  const subs = [['H2O', 'water', 0], ['NH3', 'ammonia', 0], ['CO2', 'carbon dioxide', 0], ['C2H5OH', 'ethanol', 0], ['NaCl', 'sodium chloride', 1], ['Al2O3', 'aluminium oxide', 1], ['Mg(NO3)2', 'magnesium nitrate', 1]];
+  sel.innerHTML = subs.map(s => `<option value="${s[0]}">${s[1]} (${s[0]}) · ${s[2] ? 'ionic' : 'molecular'}</option>`).join('');
+  sel.value = 'NH3';
+  function draw(animate) {
+    const f = sel.value, n = +sl.value, ionic = !!ION[f]; nv.textContent = n.toFixed(1);
+    const rows = [];
+    const add = (what, mol) => rows.push({ c: [what, fmt(mol, 3) + ' mol', sci(mol * L)] });
+    if (!ionic) {
+      add(`Molecules of ${fm(f)}`, n);
+      Object.entries(parseF(f)).forEach(([e, c]) => add(`${e} atoms`, n * c));
+      rows.push({ c: ['<b>All atoms</b>', fmt(n * natoms(f), 3) + ' mol', b(sci(n * natoms(f) * L))], hl: true });
+    } else {
+      add(`Formula units of ${fm(f)}`, n);
+      ION[f][1].forEach(i => add(`${i[1]} ions`, n * i[0]));
+      rows.push({ c: ['<b>All ions</b>', fmt(n * ionsPer(f), 3) + ' mol', b(sci(n * ionsPer(f) * L))], hl: true });
+    }
+    out.innerHTML = tbl(['What is counted', 'Moles', 'Number'], rows, 'ptable' + (animate ? '' : ' still'));
+    $('#exFig').innerHTML = moleculeSVG(f); $('#exCap').textContent = ionic ? 'The ions in one formula unit' : 'One molecule (ball-and-stick model)';
+  }
+  sel.onchange = () => draw(true); sl.oninput = () => draw(false); draw(true);
+})();
+
+/* ---- Tab 2: molar mass builder + mole map ---- */
+(function () {
+  const sel = $('#mmSel'), out = $('#mmOut');
+  const list = ['H2O', 'CO2', 'NH3', 'CaCO3', 'Mg(NO3)2', 'Al2(SO4)3', 'C6H12O6'];
+  sel.innerHTML = list.map(f => `<option value="${f}">${f}</option>`).join(''); sel.value = 'Mg(NO3)2';
+  const bal2 = $('#mmBal'); bal2.innerHTML = balanceSVG();
+  const draw = () => {
+    const f = sel.value, M = molar(f); out.innerHTML = mmTable(f);
+    setBalance(bal2, { dots: 72, na: false, text: M.toFixed(1) + ' g', cap: 'molar mass', ping: true });
+    $('#mmCap').innerHTML = `<b>1 mol</b> of ${fm(f)} is 6.02 × 10<sup>23</sup> ${ION[f] ? 'formula units' : 'molecules'}. On the balance it weighs <b>${M.toFixed(1)} g</b>, which is its molar mass.`;
+  };
+  sel.onchange = draw; $('#mmReplay').onclick = draw; draw();
+
+  const ms = $('#mapSel'), mass = $('#mapMass');
+  const subs = [['H2O', 'water', 36], ['CO2', 'carbon dioxide', 44], ['NH3', 'ammonia', 8.5], ['NaCl', 'sodium chloride', 11.7], ['Mg(NO3)2', 'magnesium nitrate', 59.32], ['Al2(SO4)3', 'aluminium sulfate', 34.23]];
+  ms.innerHTML = subs.map(s => `<option value="${s[0]}">${s[1]} (${s[0]})</option>`).join('');
+  function map() {
+    const f = ms.value, m = parseFloat(mass.value), M = molar(f), ionic = !!ION[f];
+    if (!(m >= 0)) return;
+    const n = m / M, N = n * L, k = ionic ? ionsPer(f) : natoms(f);
+    $('#mpMass').textContent = fmt(m) + ' g';
+    $('#mpMol').textContent = fmt(n) + ' mol';
+    $('#mpNum').textContent = sciU(N);
+    $('#mpDiv1').textContent = `M = ${M.toFixed(1)} g mol⁻¹`;
+    $('#mpMul1').textContent = `${fmt(m)} ÷ ${M.toFixed(1)} = ${fmt(n)}`;
+    $('#mpAtoms').textContent = `${ionic ? 'formula units' : 'molecules'} · all ${ionic ? 'ions' : 'atoms'}: ${sciU(N * k, 2)}`;
+  }
+  ms.onchange = () => { mass.value = subs.find(s => s[0] === ms.value)[2]; map(); };
+  mass.oninput = map; ms.value = 'H2O'; mass.value = 36; map();
+})();
+
+/* ---- Tab 3: percentage by mass bar ---- */
+(function () {
+  const sel = $('#pcSel'), bar = $('#pcBar'), out = $('#pcOut');
+  const list = ['NH4NO3', 'Al2O3', 'CaCO3', 'Fe2O3', '(NH4)2SO4', 'Mg(NO3)2', 'H2O'];
+  sel.innerHTML = list.map(f => `<option value="${f}">${f}</option>`).join('');
+  function draw() {
+    const f = sel.value, c = parseF(f), M = molar(f), els = Object.keys(c);
+    const pcs = els.map(e => c[e] * RAM[e] / M * 100);
+    $('#pcWaffle').innerHTML = waffleSVG(pcs);
+    bar.innerHTML = els.map((e, i) => `<div style="background:var(--e${i % 5 + 1})" data-w="${pcs[i]}">${pcs[i] >= 9 ? e + ' ' + fmt(pcs[i]) + '%' : ''}</div>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => $$('div', bar).forEach(d => { d.style.width = d.dataset.w + '%'; })));
+    const rows = els.map((e, i) => ({ c: [`<span style="display:inline-block;width:.8em;height:.8em;background:var(--e${i % 5 + 1});border-radius:2px;margin-right:.4em"></span>${e}`, `${c[e]} × ${RAM[e].toFixed(1)} = ${r1(c[e] * RAM[e]).toFixed(1)}`, `${r1(c[e] * RAM[e]).toFixed(1)} ÷ ${M.toFixed(1)} × 100`, b(fmt(pcs[i]) + '%')] }));
+    rows.push({ c: ['<b>Whole compound</b>', `M = ${M.toFixed(1)}`, '', '100%'], hl: true });
+    out.innerHTML = tbl(['Element', 'Atoms × RAM', 'Fraction × 100', '% by mass'], rows, 'ptable');
+  }
+  sel.onchange = draw; $('#pcReplay').onclick = draw; draw();
+})();
+
+/* ---- illustrations ---- */
+$('#mascotHero').innerHTML = mascotSVG(170, 'bob');
+$$('.ico').forEach(e => { e.innerHTML = iconSVG(e.dataset.ico); });
+/* ===== practice stations: demo walkthrough, hints, answer checking, progress ===== */
+const DONE_KEY = 'mole-workbook-done-v1', TAB_KEY = 'mole-workbook-tab-v1';
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem(DONE_KEY) || '[]')); } catch (e) { /* storage unavailable */ }
+const saveDone = () => { try { localStorage.setItem(DONE_KEY, JSON.stringify([...done])); } catch (e) { /* ignore */ } };
+const state = {}, timers = {};
+
+function parseNum(raw) {
+  let s = String(raw).trim().toLowerCase().replace(/\s+/g, '').replace(/,/g, '').replace(/%$/, '');
+  s = s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+/g, m => '^' + [...m].map(c => '⁰¹²³⁴⁵⁶⁷⁸⁹⁻'.indexOf(c) === 10 ? '-' : '⁰¹²³⁴⁵⁶⁷⁸⁹⁻'.indexOf(c)).join(''));
+  s = s.replace(/×|\*/g, 'x').replace(/[−–]/g, '-');
+  let m = s.match(/^(-?\d*\.?\d+)x10\^?\(?(-?\d+)\)?$/);
+  if (m) return parseFloat(m[1]) * Math.pow(10, +m[2]);
+  if (/^-?\d*\.?\d+(e[+-]?\d+)?$/.test(s)) return parseFloat(s);
+  return NaN;
+}
+const near = (a, t) => t === 0 ? Math.abs(a) < 1e-9 : Math.abs(a - t) / Math.abs(t) <= 0.015;
+
+function stepHTML(s, n, still) {
+  return `<div class="step${still ? ' still' : ''}"><span class="n">${n}</span><div class="say">${s.say}</div>` +
+    (s.calc ? `<div class="calc">${s.calc}</div>` : '') + (s.tbl ? `<div class="tblwrap">${s.tbl}</div>` : '') + '</div>';
+}
+function stopPlay(id) { if (timers[id]) { clearInterval(timers[id]); delete timers[id]; } }
+
+function renderQ(root, st, i, onDone) {
+  const q = st.qs[i], id = st.key + ':' + i, demo = i === 0, mcq = !!q.choices, N = q.steps.length;
+  const S = state[id] || (state[id] = { shown: 0, solved: done.has(id), revealed: false, vals: [], wrong: [] });
+  const given = q.given && q.given.length ? `<div class="given"><span>Given</span>${q.given.map(g => `<span class="chip">${g}</span>`).join('')}</div>` : '';
+  let ans = '';
+  if (mcq) ans = `<div class="choices" role="group" aria-label="Answer choices">${q.choices.map((c, k) => `<button type="button" class="choice" data-k="${k}"${demo ? ' disabled' : ''}><span class="lt">${LET[k]}</span><span>${c}</span></button>`).join('')}</div>`;
+  else if (!demo) ans = `<div class="answers">${q.parts.map((p, k) => `<div class="arow"><label for="a-${id}-${k}">${p.label || 'Your answer'}</label><div class="ains"><input id="a-${id}-${k}" data-k="${k}" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="e.g. 0.125 or 6.02e23"><span class="unit">${p.unit || ''}</span></div></div>`).join('')}<div class="fmtnote">Type the number only. Powers of 10 can be typed as 6.02e23 or 6.02x10^23.</div></div>`;
+  else if (q.parts.length > 1) ans = `<div class="answers">${q.parts.map(p => `<div class="arow"><span>${p.label}</span></div>`).join('')}</div>`;
+  const btns = demo
+    ? `<button class="btn primary" data-a="next" type="button">Next step</button><button class="btn" data-a="play" type="button">▶ Play</button><button class="btn" data-a="all" type="button">Show all</button><button class="btn" data-a="restart" type="button">Restart</button>`
+    : (mcq ? '' : `<button class="btn primary" data-a="check" type="button">Check answer</button>`) + `<button class="btn${mcq ? ' primary' : ''}" data-a="hint" type="button"></button><button class="btn" data-a="all" type="button">Show full working</button><button class="btn" data-a="show" type="button">Show answer</button>`;
+  root.innerHTML = `<div class="qtag">${demo ? 'Worked example · watch each step' : 'Practice question ' + i + ' of ' + (st.qs.length - 1)}</div><p class="qtext">${q.text}</p>${given}${ans}<div class="ctrl">${btns}</div><div class="msg" aria-live="polite"></div><div class="rv"></div><div class="steps" aria-label="Step by step working"></div>`;
+
+  const stepsEl = $('.steps', root), msg = $('.msg', root), rv = $('.rv', root), hint = $('[data-a=hint]', root), nextB = $('[data-a=next]', root), playB = $('[data-a=play]', root);
+  let rendered = 0;
+  const setMsg = (t, c) => { msg.className = 'msg ' + (c || ''); msg.textContent = t; if (c === 'ok' && /^Correct/.test(t)) msg.insertAdjacentHTML('afterbegin', `<span class="cheer">${mascotSVG(44)}</span>`); };
+  function markChoices() {
+    if (!mcq) return;
+    $$('.choice', root).forEach(b => {
+      const k = +b.dataset.k;
+      b.classList.toggle('ok', (S.solved || S.revealed || (demo && S.shown >= N)) && k === q.correct);
+      b.classList.toggle('no', S.wrong.includes(k));
+      if (!demo) b.disabled = S.solved || S.wrong.includes(k);
+    });
+  }
+  function showAnswer() { S.revealed = true; rv.innerHTML = `<div class="ans-reveal"><small>Answer</small><div>${q.answerHtml}</div></div>`; markChoices(); }
+  function sync(initial) {
+    while (rendered < S.shown) { stepsEl.insertAdjacentHTML('beforeend', stepHTML(q.steps[rendered], rendered + 1, initial)); rendered++; }
+    while (rendered > S.shown) { stepsEl.lastElementChild.remove(); rendered--; }
+    if (hint) { hint.textContent = S.shown >= N ? 'All hints shown' : (S.shown === 0 ? 'Need help? Show step 1' : `Next hint (step ${S.shown + 1} of ${N})`); hint.disabled = S.shown >= N; }
+    if (nextB) nextB.disabled = S.shown >= N;
+    if (demo && S.shown >= N) { showAnswer(); stopPlay(id); if (playB) playB.textContent = '▶ Play'; }
+    if (!initial && S.shown > 0) stepsEl.lastElementChild.scrollIntoView({ block: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+  }
+  /* restore saved state */
+  $$('input', root).forEach(inp => { const k = +inp.dataset.k; if (S.vals[k] != null) inp.value = S.vals[k]; inp.addEventListener('input', () => { S.vals[k] = inp.value; inp.classList.remove('ok', 'no'); }); inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); }); });
+  if (S.solved) { setMsg('Solved ✓', 'ok'); $$('input', root).forEach(x => x.classList.add('ok')); }
+  if (S.revealed && !demo) showAnswer();
+  sync(true); markChoices();
+
+  function check() {
+    const inputs = $$('input', root), vals = inputs.map(x => parseNum(x.value));
+    if (vals.some(v => isNaN(v))) { setMsg('Type a number in every box first, for example 0.125 or 6.02e23.', 'info'); return; }
+    let all = true;
+    inputs.forEach((x, k) => { const ok = near(vals[k], q.parts[k].ans); x.classList.toggle('ok', ok); x.classList.toggle('no', !ok); if (!ok) all = false; });
+    if (all) { S.solved = true; done.add(id); saveDone(); setMsg('Correct! ✓ Well done.', 'ok'); onDone(); }
+    else setMsg(`Not quite. ${inputs.length > 1 ? 'Look at the red boxes. ' : ''}Check your working, or press the hint button for the next step.`, 'no');
+  }
+  root.onclick = e => {
+    const c = e.target.closest('.choice'); if (c && !demo) {
+      const k = +c.dataset.k;
+      if (k === q.correct) { S.solved = true; done.add(id); saveDone(); setMsg('Correct! ✓ Well done.', 'ok'); onDone(); }
+      else { S.wrong.push(k); setMsg('Not quite. Try another option, or press the hint button.', 'no'); }
+      markChoices(); return;
+    }
+    const a = e.target.closest('[data-a]'); if (!a) return;
+    const act = a.dataset.a;
+    if (act === 'check') check();
+    else if (act === 'hint' || act === 'next') { if (S.shown < N) { S.shown++; sync(false); } }
+    else if (act === 'all') { stopPlay(id); S.shown = N; sync(false); }
+    else if (act === 'show') { showAnswer(); setMsg('Answer shown. Open the working to see how it is built, then try the next question.', 'info'); }
+    else if (act === 'restart') { stopPlay(id); S.shown = 0; S.revealed = false; renderQ(root, st, i, onDone); }
+    else if (act === 'play') {
+      if (timers[id]) { stopPlay(id); playB.textContent = '▶ Play'; return; }
+      if (S.shown >= N) { S.shown = 0; rv.innerHTML = ''; markChoices(); sync(false); }
+      playB.textContent = '⏸ Pause';
+      if (S.shown === 0) { S.shown = 1; sync(false); }
+      timers[id] = setInterval(() => { if (S.shown >= N) { stopPlay(id); playB.textContent = '▶ Play'; return; } S.shown++; sync(false); }, 2800);
+    }
+  };
+}
+
+function updateProgress() {
+  [1, 2, 3].forEach(t => {
+    const total = ST.filter(s => s.tab === t).reduce((c, s) => c + s.qs.length - 1, 0);
+    const n = [...done].filter(id => { const s = ST.find(x => x.key === id.split(':')[0]); return s && s.tab === t; }).length;
+    $('#prog' + t).textContent = `${n} / ${total} done`;
+  });
+}
+function buildStation(st, host) {
+  const el = document.createElement('article'); el.className = 'station'; el.id = 's-' + st.key;
+  el.innerHTML = `<div class="st-head"><span class="tier t${st.tier}">Tier ${st.tier}</span><h3>${st.title}</h3><p>${st.blurb}</p></div><div class="pills" role="tablist" aria-label="Questions"></div><div class="qbody"></div>`;
+  const pills = $('.pills', el), body = $('.qbody', el);
+  let cur = 0;
+  const refresh = () => { $$('.pill', pills).forEach(p => p.classList.toggle('done', done.has(st.key + ':' + p.dataset.i))); updateProgress(); };
+  const select = i => {
+    stopPlay(st.key + ':' + cur); cur = i;
+    $$('.pill', pills).forEach(p => p.setAttribute('aria-selected', String(+p.dataset.i === i)));
+    renderQ(body, st, i, refresh);
+  };
+  st.qs.forEach((q, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pill' + (i === 0 ? ' demo' : ''); b.dataset.i = i;
+    b.setAttribute('role', 'tab'); b.setAttribute('aria-label', i === 0 ? 'Worked example' : 'Practice question ' + i); b.textContent = i === 0 ? 'Demo' : String(i);
+    b.onclick = () => select(i); pills.appendChild(b);
+  });
+  host.appendChild(el); select(0); refresh();
+}
+[1, 2, 3].forEach(t => ST.filter(s => s.tab === t).forEach(s => buildStation(s, $('#st' + t))));
+
+function showTab(n) {
+  [1, 2, 3].forEach(k => { $('#p' + k).hidden = k !== n; $('#tab' + k).setAttribute('aria-selected', String(k === n)); });
+  try { localStorage.setItem(TAB_KEY, String(n)); } catch (e) { /* ignore */ }
+}
+$$('.tab').forEach(t => { t.onclick = () => { showTab(+t.id.slice(3)); window.scrollTo({ top: 0 }); }; });
+try { const t = +localStorage.getItem(TAB_KEY); if (t >= 1 && t <= 3) showTab(t); } catch (e) { /* ignore */ }
+updateProgress();
+</script>
+
+</body></html>

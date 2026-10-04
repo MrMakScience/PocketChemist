@@ -1,0 +1,1479 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Reacting Mass Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column, sticky 3-tab bar, a card per question; warm panels mark every sandwich analogy */
+:root{
+  --bg:#F2F5F5; --surface:#FFFFFF; --ink:#13262B; --muted:#53696F; --line:#D3DCDE;
+  --accent:#0A6C74; --accent-ink:#FFFFFF; --accent-soft:#DDF0F0;
+  --warm:#FFF3D6; --warm-ink:#5E4200; --warm-line:#EBD08A;
+  --good:#136A3A; --good-soft:#DDF3E5; --bad:#B8362B; --bad-soft:#FBE3E0;
+  --pc:#7A3FD0; --lim:#C2410C; --lim-soft:#FDE6D8;
+  --key:#EAEFF0; --disp:#0F2A2E; --disp-ink:#9FF0DC;
+  --bread:#D9A45B; --cheese:#F2C12E; --ham:#E58A8A; --sand:#8C6A3F;
+  --crust:#EFE6D2; --crumb:#FFFFFF; --bread-line:#B9A77F; --cheese-dk:#D9A21B; --ham-dk:#D46B77;
+  --t1:#0A6C74; --t1s:#DCEFEF; --t1i:#FFFFFF; --t2:#4A4FC4; --t2s:#E5E6FA; --t2i:#FFFFFF; --ta:#B45309; --tas:#FCEBD2; --tai:#FFFFFF; --tb:#A8266A; --tbs:#F9E1EE; --tbi:#FFFFFF; --mixp:9%;
+  --shadow:0 1px 2px rgba(19,38,43,.06),0 4px 14px rgba(19,38,43,.05);
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1A1D; --surface:#15262A; --ink:#E4EFF0; --muted:#95ABB0; --line:#27393D;
+  --accent:#4CC3CC; --accent-ink:#05262A; --accent-soft:#123A3F;
+  --warm:#2B2310; --warm-ink:#F0D18A; --warm-line:#5A4616;
+  --good:#55C98A; --good-soft:#123A25; --bad:#FF8A7D; --bad-soft:#3E1B18;
+  --pc:#B99BFF; --lim:#FF9B66; --lim-soft:#3D2315;
+  --key:#223639; --disp:#061416; --disp-ink:#8CF2D8;
+  --bread:#C9954E; --cheese:#E5B52A; --ham:#D77C7C; --sand:#B08A55;
+  --crust:#DCD0B6; --crumb:#F8F3E6; --bread-line:#8F8266; --cheese-dk:#B98512; --ham-dk:#B85A66;
+  --t1:#4CC3CC; --t1s:#123A3F; --t1i:#05262A; --t2:#A5A9FF; --t2s:#232552; --t2i:#12133A; --ta:#F5A54A; --tas:#3A2810; --tai:#2A1700; --tb:#F08DBB; --tbs:#3E1A2E; --tbi:#3A0F24; --mixp:15%;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A1D; --surface:#15262A; --ink:#E4EFF0; --muted:#95ABB0; --line:#27393D;
+  --accent:#4CC3CC; --accent-ink:#05262A; --accent-soft:#123A3F;
+  --warm:#2B2310; --warm-ink:#F0D18A; --warm-line:#5A4616;
+  --good:#55C98A; --good-soft:#123A25; --bad:#FF8A7D; --bad-soft:#3E1B18;
+  --pc:#B99BFF; --lim:#FF9B66; --lim-soft:#3D2315;
+  --key:#223639; --disp:#061416; --disp-ink:#8CF2D8;
+  --bread:#C9954E; --cheese:#E5B52A; --ham:#D77C7C; --sand:#B08A55;
+  --crust:#DCD0B6; --crumb:#F8F3E6; --bread-line:#8F8266; --cheese-dk:#B98512; --ham-dk:#B85A66;
+  --t1:#4CC3CC; --t1s:#123A3F; --t1i:#05262A; --t2:#A5A9FF; --t2s:#232552; --t2i:#12133A; --ta:#F5A54A; --tas:#3A2810; --tai:#2A1700; --tb:#F08DBB; --tbs:#3E1A2E; --tbi:#3A0F24; --mixp:15%;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 14px rgba(0,0,0,.25);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body);margin:0}
+h1,h2,h3,h4,h5{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+p{margin:0}
+sub{font-size:.72em;line-height:0}
+.wrap{max-width:54rem;margin-inline:auto;padding-inline:16px;padding-block:22px 72px}
+.kicker{font:600 .75rem/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;margin-top:10px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:42rem;margin-top:10px}
+
+/* tabs */
+.tabbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);margin-top:18px;padding-block:8px;border-bottom:1px solid var(--line)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tabbtn{font:600 .95rem/1.2 var(--body);color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:10px;padding:10px 8px;cursor:pointer;display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;min-width:0}
+.tabbtn small{font:500 .75rem var(--mono)}
+.tabbtn[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tabbtn:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.tab{display:flex;flex-direction:column;gap:22px;padding-top:24px}
+.tab[hidden]{display:none}
+.tab>h2{font-size:clamp(1.6rem,4.5vw,2.1rem);font-weight:800}
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump button{font:500 .85rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:6px 12px;border-radius:99px;cursor:pointer}
+.sec{display:flex;flex-direction:column;gap:14px;scroll-margin-top:84px}
+.sec>h3{font-size:1.35rem;font-weight:800;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.pill{font:600 .7rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:5px 9px;border-radius:99px}
+.sec.tier1{--tc:var(--t1);--tc-soft:var(--t1s);--tc-ink:var(--t1i)}
+.sec.tier2{--tc:var(--t2);--tc-soft:var(--t2s);--tc-ink:var(--t2i)}
+.sec.typeA{--tc:var(--ta);--tc-soft:var(--tas);--tc-ink:var(--tai)}
+.sec.typeB{--tc:var(--tb);--tc-soft:var(--tbs);--tc-ink:var(--tbi)}
+.sec.tiered{--accent:var(--tc);--accent-soft:var(--tc-soft);--accent-ink:var(--tc-ink);background:color-mix(in srgb,var(--tc) var(--mixp),var(--bg));border:1.5px solid color-mix(in srgb,var(--tc) 35%,var(--bg));border-radius:18px;padding:16px;gap:16px}
+.tierbar{display:flex;gap:14px;align-items:stretch}
+.tbadge{flex:none;width:4.4rem;border-radius:14px;background:var(--tc);color:var(--tc-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px}
+.tbadge small{font:700 .62rem/1 var(--body);letter-spacing:.16em}
+.tbadge b{font:800 2.1rem/1.05 var(--display)}
+.tbody{display:flex;flex-direction:column;gap:6px;min-width:0;justify-content:center}
+.tbody h3{font-size:1.3rem;font-weight:800}
+.tbody .desc{font-size:.95rem}
+.jump button::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--dot,var(--muted));margin-right:7px}
+.jump button[data-tier="tier1"]{--dot:var(--t1)} .jump button[data-tier="tier2"]{--dot:var(--t2)} .jump button[data-tier="typeA"]{--dot:var(--ta)} .jump button[data-tier="typeB"]{--dot:var(--tb)}
+@media (max-width:520px){.tbadge{width:3.4rem}.tbadge b{font-size:1.7rem}.sec.tiered{padding:12px}}
+.sec .desc{color:var(--muted);max-width:44rem}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.analogy{background:var(--warm);border-color:var(--warm-line);color:var(--warm-ink);box-shadow:none}
+.analogy h3{font-size:1.15rem;color:var(--warm-ink)}
+.analogy .recipe,.recipe{font:600 1.05rem var(--display);}
+.trick{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.trick b.big{font:600 1.05rem var(--mono)}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:10px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.tool b{font:600 .95rem var(--mono)}
+.tool span{color:var(--muted);font-size:.85rem}
+ol.method{margin:0;padding-left:1.3rem;display:flex;flex-direction:column;gap:6px}
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:12px}
+.reasons .panel{gap:8px}
+.reasons ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:5px}
+.reasons h4{font-size:1.05rem}
+.under h4{color:var(--lim)} .over h4{color:var(--accent)}
+
+/* question cards */
+.qtabs{display:flex;flex-direction:column;gap:12px}
+.tabnext{display:flex;justify-content:center;padding:8px 0 24px}
+.tabnext .btn.go{background:var(--accent);color:var(--accent-ink);font-size:1rem;padding:12px 22px}
+.qhelp{margin:0;font-size:.95rem;line-height:1.4;padding:10px 14px;border-radius:10px;background:var(--warm);color:var(--warm-ink);border:1px solid var(--warm-line)}
+.qhelp b{color:var(--warm-ink)}
+.gonext{display:flex;justify-content:flex-end;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.gonext .btn.go{background:var(--surface);color:var(--accent);border:2px solid var(--accent)}
+.gonext.start{justify-content:center}
+.gonext.start .btn.go,.gonext.ready .btn.go{background:var(--accent);color:var(--accent-ink);font-size:1rem;padding:12px 22px}
+.qtablist{display:flex;gap:6px;overflow-x:auto;padding:3px 3px 6px;position:relative;scrollbar-width:none}
+.qtablist::-webkit-scrollbar{display:none}
+.qtab{font:600 .88rem var(--body);white-space:nowrap;padding:8px 14px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;flex:none}
+.qtab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.qtab.done::after{content:" ✓";font-weight:700}
+.qtab.done:not([aria-selected="true"]){border-color:var(--good);color:var(--good)}
+.qset{display:block}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.qcard.demo{background:var(--accent-soft);border-color:var(--accent)}
+.qcard.solved{border-color:var(--good)}
+.qhead{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.tag{font:600 .75rem/1 var(--body);letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:99px;background:var(--ink);color:var(--bg)}
+.demo .tag{background:var(--accent);color:var(--accent-ink)}
+.qtype{color:var(--muted);font-size:.85rem}
+.solvedmark{margin-left:auto;font:600 .8rem var(--body);color:var(--good)}
+.qtext{font-size:1.02rem}
+.eq{font:500 1.15rem var(--body);padding:10px 12px;background:var(--bg);border-radius:8px;overflow-x:auto;white-space:nowrap}
+.demo .eq{background:var(--surface)}
+.eq .co{color:var(--accent);margin-right:1px}
+.eq .arrow{margin-inline:6px;color:var(--muted)}
+.ram{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem;color:var(--muted)}
+.ram span.lab{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.7rem;margin-right:2px}
+.ram i{font:500 .82rem var(--mono);font-style:normal;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 8px}
+.demo .ram i{background:var(--surface)}
+.answers{display:flex;flex-direction:column;gap:12px}
+.fields{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.fld{display:flex;flex-direction:column;gap:4px;border:0;padding:0;margin:0;min-width:0}
+.fld>span,.fld>legend{font-size:.85rem;color:var(--muted);padding:0}
+.inp{display:flex;align-items:center;gap:8px}
+.inp input{width:8rem;font:500 1.05rem var(--mono);padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.inp em{font-style:normal;color:var(--muted);font-size:.9rem}
+.fld.ok input{border-color:var(--good);background:var(--good-soft)}
+.fld.bad input{border-color:var(--bad);background:var(--bad-soft)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.chipradio input{position:absolute;opacity:0;pointer-events:none}
+.chipradio{position:relative}
+.chipradio span{display:inline-block;padding:8px 14px;border:1.5px solid var(--line);border-radius:8px;cursor:pointer;background:var(--bg);font-weight:500}
+.chipradio input:checked+span{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.chipradio input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.fld.ok .chipradio input:checked+span{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.fld.bad .chipradio input:checked+span{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.st{font-size:.78em;color:var(--muted);margin-left:1px}
+.egridwrap{overflow-x:auto;background:var(--bg);border-radius:10px;padding:12px}
+.demo .egridwrap{background:var(--surface)}
+.pg .egridwrap{background:transparent;padding:0}
+.egrid{--cw:5.8rem;--ow:1.4rem;display:grid;width:max-content;min-width:100%;justify-content:center;gap:8px 4px;align-items:start}
+.esp{font:500 1.25rem/1.2 var(--body);text-align:center;white-space:nowrap;padding:4px 2px}
+.esp .co{color:var(--accent);margin-right:4px}
+.esp.isgiven{color:var(--accent)}
+.esp .co.one{color:var(--muted);opacity:.72;font-weight:500}
+.esp.isprod .co{color:var(--pc)}
+.esp.isprod .co.one{color:var(--pc);opacity:.72;font-weight:500}
+.eq .co.pr,.cc.pr{color:var(--pc)}
+.cc.pr.one{color:var(--pc);opacity:.72;font-weight:500}
+.eop{text-align:center;color:var(--muted);font-size:1.2rem;padding-top:4px}
+.egrid.fit{width:100%;min-width:0}
+.pg .esp{font:600 1.02rem/1.2 var(--body);white-space:normal;overflow-wrap:anywhere}
+.swipehint{display:none;font-size:.75rem;color:var(--muted);margin-top:-4px}
+.gcell{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:8px;border:1.5px dashed var(--line);min-height:3.5rem;justify-content:center;min-width:0}
+.gcell.none{border:0}
+.gcell .cap{font-size:.66rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;text-align:center;line-height:1.2}
+.gcell.given{background:var(--accent-soft);border:1.5px solid var(--accent);color:var(--accent)}
+.gcell.given .cap{color:var(--accent)}
+.gcell.given b{font:600 .98rem var(--mono);white-space:nowrap}
+.gcell .qm{font:600 1rem var(--mono);color:var(--accent);white-space:nowrap}
+.gcell.in .inp{flex-direction:column;gap:2px}
+.gcell.in .inp input{width:5.2rem;text-align:center;padding:7px 6px}
+.gcell.ok{border-color:var(--good);border-style:solid}
+.gcell.bad{border-color:var(--bad);border-style:solid}
+.gcell.ok input{border-color:var(--good);background:var(--good-soft)}
+.gcell.bad input{border-color:var(--bad);background:var(--bad-soft)}
+.gridform{display:flex;flex-direction:column;gap:12px}
+.pcell{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;text-align:center;font:500 .85rem var(--mono);color:var(--muted);padding:4px 2px;border-radius:8px}
+.pcell.gv{background:var(--accent-soft)}
+.pcell .ic{display:flex;flex-wrap:wrap;justify-content:center;gap:3px}
+.pcell .vis{display:flex;flex-direction:column;align-items:center;gap:10px}
+.pcell input[type=range]{width:100%;min-width:0}
+.pcell output{color:var(--ink);font-weight:600}
+.pcell .ico{width:30px;height:30px}
+.pcell.val{color:var(--ink)}
+.pcell.val b{font-size:1rem}
+.pcell.val small{font:400 .72rem var(--body);color:var(--muted)}
+.pcell.calc{color:var(--muted)}
+.pcell.calc b{color:var(--ink)}
+.pcell .badge{margin-top:2px}
+.cc{font-style:normal;font-weight:600;color:var(--accent)}
+.cc.one{color:var(--muted);opacity:.72;font-weight:500}
+.pcell.calc b.limv,.summary b.limv{color:var(--lim)}
+.pcell .mk{margin:2px 0}
+.eqstack{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--bg);border-radius:10px;overflow-x:auto}
+.demo .eqstack{background:var(--surface)}
+.eqline{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font:500 1.12rem var(--body);animation:rise .45s both;animation-delay:calc(var(--i)*.45s)}
+.eqline .term{white-space:nowrap}
+.eqline .term b{color:var(--accent);margin-right:3px}
+.eqline .term.hi b{color:var(--lim)}
+.eqline .term small{font:500 .72rem var(--mono);color:var(--muted);margin:0 4px 0 2px}
+.eqline .eop{color:var(--muted)}
+.opbadge{align-self:flex-start;font:600 .8rem var(--mono);background:var(--accent);color:var(--accent-ink);border-radius:99px;padding:3px 14px;animation:pop .4s both;animation-delay:calc(var(--i)*.45s)}
+.opbadge::before{content:"↓ "}
+.blk{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--muted);background:transparent;transition:background .4s,border-color .4s}
+.blk.lit{background:var(--accent);border-color:var(--accent)}
+.blk.lit.given{background:var(--lim);border-color:var(--lim)}
+.pcell .ic.blocks{gap:4px}
+.ustatus{background:var(--bg);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-height:5.2rem}
+.ustatus p{margin:0}
+.ulegend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted)}
+.ulegend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.mol{display:inline-block;width:20px;height:20px;border-radius:50%}
+.mol.a{background:var(--t2)} .mol.b{background:var(--lim)} .mol.c{background:var(--t1)}
+.mol.left{opacity:.3}
+.pgnote{font-size:.8rem;color:var(--muted)}
+@media (max-width:520px){.pcell .ic.blocks{max-width:4.6rem}.swipehint{display:block}.pg .egrid{--ow:.7rem}.pg .esp{font-size:.8rem}.pg .pcell{font-size:.72rem}.pg .pcell .ico{width:22px;height:22px}.pg .mol{width:16px;height:16px}.egrid{--cw:4.4rem;--ow:1rem}.esp{font-size:1.05rem}.pg .esp{font-size:.9rem}.pcell .ico{width:26px;height:26px}.gcell.in .inp input{width:4.4rem}}
+.mtbl{overflow-x:auto}
+.mtbl table{border-collapse:collapse;min-width:100%}
+.mtbl th{background:var(--bg);font-weight:600;padding:8px 10px;border:1px solid var(--line);text-align:center;white-space:nowrap}
+.mtbl td{padding:8px 10px;border:1px solid var(--line);text-align:center;vertical-align:middle}
+.mtbl td.rowlab{text-align:left;color:var(--muted);font-size:.85rem;min-width:7rem}
+.mtbl td.giv{font:600 1rem var(--mono);background:var(--accent-soft);color:var(--accent)}
+.mtbl .inp{justify-content:center}
+.mtbl .inp input{width:6.2rem}
+.mtbl td.ok input{border-color:var(--good);background:var(--good-soft)}
+.mtbl td.bad input{border-color:var(--bad);background:var(--bad-soft)}
+.demo .mtbl th{background:var(--surface)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:600 .92rem var(--body);padding:9px 16px;border-radius:8px;border:1.5px solid var(--accent);background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.fb{min-height:0;font-size:.95rem}
+.fb:not(:empty){padding:10px 12px;border-radius:8px}
+.fb.good{background:var(--good-soft);color:var(--good);animation:pop .45s both}
+.fb.warn{background:var(--bad-soft);color:var(--bad);animation:shake .35s}
+.fb.info{background:var(--bg);color:var(--muted)}
+.fb b{color:inherit}
+
+/* help panel + steps */
+.helppanel{border-top:2px solid var(--line);padding-top:10px}
+.stepctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.stepmeta{font:500 .8rem var(--mono);color:var(--muted);margin-left:auto}
+.step{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:12px 0;border-top:1px dashed var(--line);animation:rise .45s both}
+.step:first-child{border-top:0}
+.stepno{width:1.9rem;height:1.9rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:600 .9rem var(--mono);display:grid;place-items:center}
+.stepbody{display:flex;flex-direction:column;gap:8px;min-width:0}
+.stepbody h4{font-size:1.02rem}
+.mono-line{font:500 .92rem var(--mono);color:var(--ink);overflow-wrap:anywhere}
+.mini{display:flex;flex-direction:column;gap:4px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.demo .mini{background:var(--surface)}
+.mini h5{font-size:.95rem}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pk{padding:6px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--line);animation:pop .4s both}
+.pk.w{animation-delay:.25s;border-color:var(--accent)}
+.pk i{font-style:normal;color:var(--muted);font-size:.85rem;margin-left:4px}
+.keys{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0}
+.key{min-width:2.3rem;padding:5px 10px;border-radius:8px;background:var(--key);border:1px solid var(--line);box-shadow:0 2px 0 var(--line);font:500 .98rem var(--mono);text-align:center;animation:press .4s both;animation-delay:calc(var(--i)*.3s)}
+.key.op{color:var(--accent);font-weight:600}
+.key.eq{color:var(--muted)}
+.disp{padding:5px 12px;border-radius:8px;background:var(--disp);color:var(--disp-ink);font:600 1rem var(--mono);animation:pop .5s both;animation-delay:calc(var(--i)*.3s)}
+.disp small{font:500 .8rem var(--mono);opacity:.8}
+.keep,.warnline{font-size:.82rem;color:var(--muted)}
+.warnline{color:var(--lim)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fbox{padding:7px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);font:600 .95rem var(--mono);text-align:center;animation:pop .45s both;animation-delay:calc(var(--i)*.35s)}
+.demo .fbox{background:var(--surface)}
+.fbox small{display:block;font:400 .72rem var(--body);color:var(--muted)}
+.fbox.end{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.farrow{display:flex;flex-direction:column;align-items:center;animation:rise .4s both;animation-delay:calc(var(--i)*.35s)}
+.farrow span{font:600 .95rem var(--mono);color:var(--accent-ink);background:var(--accent);border-radius:99px;padding:2px 10px}
+.farrow small{font-size:.68rem;color:var(--muted)}
+.rsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;counter-reset:rs}
+.rsteps li{counter-increment:rs;position:relative;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.rsteps li::before{content:counter(rs);font:600 .72rem var(--mono);color:var(--muted)}
+.rsteps li:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);color:var(--accent);font-weight:700}
+.rsteps li.end{border-color:var(--accent);background:var(--accent-soft)}
+.rsteps b{font:600 .98rem var(--display);line-height:1.25}
+.rop{align-self:flex-start;font:600 .74rem/1.3 var(--mono);color:var(--accent-ink);background:var(--accent);border-radius:8px;padding:3px 8px}
+@media (max-width:720px){
+  .rsteps{grid-template-columns:minmax(0,1fr);gap:22px}
+  .rsteps li:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+}
+.tblwrap{overflow-x:auto}
+table.cmp{border-collapse:collapse;width:100%;font-size:.9rem}
+.cmp th{text-align:left;font-weight:600;color:var(--muted);font-size:.78rem;padding:4px 8px;border-bottom:1px solid var(--line)}
+.cmp td{padding:8px;border-bottom:1px solid var(--line);font-family:var(--mono);white-space:nowrap}
+.cmp tr{animation:rise .4s both;animation-delay:calc(var(--i)*.3s)}
+.cmp tr.lim{background:var(--lim-soft)}
+.cmp tr.exc{color:var(--muted)}
+.badge{font:600 .72rem var(--body);padding:3px 8px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.badge.lim{background:var(--lim);border-color:var(--lim);color:var(--bg)}
+.final{background:var(--good-soft);color:var(--good);border-radius:8px;padding:10px 12px;font-weight:600;animation:pop .5s both;animation-delay:.2s}
+.final .sp{color:inherit}
+.sp{font-weight:600}
+
+/* playgrounds */
+.pg{display:flex;flex-direction:column;gap:12px}
+.pg-ctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.pg-ctl label{font-size:.9rem}
+select{font:500 .95rem var(--body);padding:7px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=range]{accent-color:var(--accent);width:min(14rem,100%)}
+output{font:600 .95rem var(--mono)}
+.pg-row{display:grid;grid-template-columns:minmax(5.5rem,8rem) minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:8px 0;border-top:1px dashed var(--line)}
+.pg-row:first-of-type{border-top:0}
+.pg-name{font-weight:600}
+.pg-name small{display:block;font-weight:400;color:var(--muted);font-size:.75rem}
+.pg-calc{font:500 .85rem var(--mono);color:var(--muted);overflow-wrap:anywhere}
+.pg-calc b{color:inherit}
+.pg-vis{display:flex;flex-wrap:wrap;gap:3px;min-height:16px;align-items:center;margin-top:3px}
+.pg-val{font:600 .95rem var(--mono);text-align:right;white-space:nowrap}
+.pg-val small{font:400 .75rem var(--body);color:var(--muted)}
+.pg-row.given{background:var(--accent-soft);border-radius:8px;padding-inline:8px}
+.ico{display:inline-block;width:34px;height:34px;flex:none}
+.ico svg{display:block;width:100%;height:100%}
+.ico.big{width:30px;height:30px;vertical-align:middle;margin-right:6px}
+.ico.left{opacity:.3;filter:grayscale(.7)}
+.i-crust{fill:var(--crust);stroke:var(--bread-line);stroke-width:1;stroke-linejoin:round} .i-pore{fill:var(--bread-line)} .i-crumb{fill:var(--crumb)} .i-cheese{fill:var(--cheese)} .i-cheese-dk{fill:var(--cheese-dk)} .i-ham{fill:var(--ham)} .i-ham-dk{fill:var(--ham-dk)}
+.i-line{fill:none;stroke:var(--ham-dk);stroke-width:1.4;stroke-linecap:round}
+.i-hole{fill:var(--cheese-dk)}
+.pg-name{display:flex;flex-wrap:wrap;align-items:center}
+.pg-name small{flex-basis:100%}
+.lrow .pg-vis{gap:6px 16px;align-items:flex-start}
+.grp{display:flex;flex-direction:column;gap:3px;max-width:100%}
+.grp .ic{display:flex;flex-wrap:wrap;gap:3px}
+.grp .br{height:8px;border:2px solid var(--accent);border-top:0;border-radius:0 0 6px 6px}
+.grp .bl{font:600 .75rem var(--mono);text-align:center;color:var(--accent)}
+.grp.left .br{border-color:var(--muted);border-style:dashed;border-top:0}
+.grp.left .bl{color:var(--muted)}
+.legend{display:flex;gap:14px;font-size:.8rem;color:var(--muted)}
+.dot{width:20px;height:12px;border-radius:4px;display:inline-block}
+.c-bread{background:var(--bread)} .c-cheese{background:var(--cheese)} .c-ham{background:var(--ham)} .c-sand{background:var(--sand)}
+.c-a{background:var(--accent)} .c-b{background:var(--lim)} .c-c{background:var(--good)}
+.bar{height:12px;border-radius:6px;background:var(--line);width:100%;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:6px;background:var(--accent);transition:width .35s}
+.lrow.islim .bar>i{background:var(--lim)}
+.lrow{display:grid;grid-template-columns:minmax(5.5rem,8rem) minmax(0,1fr);gap:6px 12px;align-items:center;padding:10px 0;border-top:1px dashed var(--line)}
+.lrow:first-of-type{border-top:0}
+.lrow .lc{display:flex;flex-direction:column;gap:5px;min-width:0}
+.lrow .lt{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font:500 .85rem var(--mono)}
+.lrow .lt .badge{margin-left:auto}
+.lrow.islim .lt .badge{background:var(--lim);border-color:var(--lim);color:var(--bg)}
+.summary{background:var(--bg);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:.95rem}
+.analogy .summary{background:rgba(255,255,255,.45);color:var(--warm-ink)}
+:root[data-theme="dark"] .analogy .summary{background:rgba(0,0,0,.2)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .analogy .summary{background:rgba(0,0,0,.2)}}
+.meter{height:26px;border-radius:13px;background:var(--line);position:relative;overflow:visible}
+.meter>i{display:block;height:100%;border-radius:13px;background:var(--accent);transition:width .35s,background .35s;max-width:100%}
+.meter>i.over{background:var(--lim)}
+.meter .mk{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.meterlab{display:flex;justify-content:space-between;font:500 .75rem var(--mono);color:var(--muted)}
+.mstack{display:flex;height:100%;border-radius:13px;overflow:hidden;width:100%}
+.mstack i{display:block;height:100%;transition:width .35s}
+.mstack .s-made{background:var(--accent)}
+.mstack .s-extra{background:var(--lim)}
+.mlabrow{position:relative;height:1.3em;font:500 .75rem var(--mono);color:var(--muted)}
+.mlabrow span{position:absolute;top:0;white-space:nowrap}
+.mlabrow .at{transform:translateX(-50%);color:var(--ink)}
+.mlabrow .end{right:0}
+.legend2{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--muted)}
+.legend2 i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.reasons ul{list-style:none;padding-left:0}
+.reasons li{display:flex;gap:10px;align-items:flex-start}
+.ri{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.under .ri{color:var(--lim)} .over .ri{color:var(--accent)}
+.balsvg{width:100%;max-width:30rem;height:auto;align-self:center}
+.b-body{fill:var(--key);stroke:var(--line);stroke-width:1.5}
+.b-lcd{fill:var(--disp)}
+.b-num{fill:var(--disp-ink);font:600 20px var(--mono)}
+.b-pan{fill:var(--line);stroke:var(--muted);stroke-width:1}
+.b-mound{fill:var(--crumb);stroke:var(--bread-line);stroke-width:1.2;transition:d .3s}
+.g-tube{fill:var(--bg);stroke:var(--muted);stroke-width:1.5}
+.g-fill{fill:var(--accent)}
+.g-over{fill:var(--lim)}
+.g-line{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 3}
+.g-lab{fill:var(--ink);font:500 11px var(--mono)}
+.g-tick{fill:var(--muted);font:500 10px var(--mono)}
+.route{overflow-x:auto}
+
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.8)}70%{transform:scale(1.06)}100%{opacity:1;transform:none}}
+@keyframes press{0%{opacity:0;transform:translateY(-6px)}60%{transform:translateY(2px)}100%{opacity:1;transform:none}}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@media (pointer:coarse){
+  .btn,.qtab,.tabbtn,.jump button,select,.chipradio span{min-height:44px}
+  .btn,.qtab{display:inline-flex;align-items:center;justify-content:center}
+  input[type=range]{height:44px;touch-action:pan-y}
+  .chipradio span{display:inline-flex;align-items:center;min-width:44px;justify-content:center}
+}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:520px){
+  .tabbtn{font-size:.82rem;padding:8px 4px}
+  .pg-row{grid-template-columns:minmax(0,1fr) auto}
+  .pg-row .pg-name{grid-column:1}
+  .pg-row .pg-main{grid-column:1/-1;grid-row:2}
+  .lrow{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="kicker">DSE Chemistry · Mole Calculations</p>
+  <h1>Reacting Mass Lab</h1>
+  <p class="lede">Use an equation as a recipe. Move between moles and mass, find which reactant runs out first, then compare what you should get with what you actually get. Every question lists the RAM values you need and has a step-by-step help button.</p>
+</header>
+
+<div class="tabbar">
+  <div class="tabs" role="tablist" aria-label="Lesson tabs">
+    <button class="tabbtn" role="tab" id="tb1" aria-controls="tab1" aria-selected="true">Intro to reacting mass<small class="prog">0/20</small></button>
+    <button class="tabbtn" role="tab" id="tb2" aria-controls="tab2" aria-selected="false" tabindex="-1">Limit and excess<small class="prog">0/30</small></button>
+    <button class="tabbtn" role="tab" id="tb3" aria-controls="tab3" aria-selected="false" tabindex="-1">Percentage yield<small class="prog">0/30</small></button>
+  </div>
+</div>
+
+<!-- ================= TAB 1 ================= -->
+<section class="tab" id="tab1" role="tabpanel" aria-labelledby="tb1" data-tab="1">
+  <h2>Intro to reacting mass</h2>
+  <div class="jump"><button data-go="t1-intro">The recipe idea</button><button data-go="t1-tier1" data-tier="tier1">Tier 1 questions</button><button data-go="t1-tier2" data-tier="tier2">Tier 2 questions</button></div>
+
+  <div class="sec" id="t1-intro">
+    <div class="panel analogy">
+      <h3>Think of a sandwich</h3>
+      <p class="recipe">2 bread + 1 cheese + 1 ham → 1 cheese-ham sandwich</p>
+      <p>The recipe is a ratio. To make 2 sandwiches you need double of everything, so 4 bread, 2 cheese and 2 ham. You never need to weigh anything: you just scale the recipe. Pick what you know and the rest follows.</p>
+      <div class="pg" id="pg-sandwich"></div>
+    </div>
+    <div class="panel">
+      <h3>A chemical equation is a recipe in moles</h3>
+      <p class="recipe">2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O</p>
+      <p>Read the coefficients as moles: 2 mol of H<sub>2</sub> plus 1 mol of O<sub>2</sub> makes 2 mol of H<sub>2</sub>O. If 0.5 mol of O<sub>2</sub> reacts, the recipe is scaled by 0.5, so you need 1.0 mol of H<sub>2</sub> and you make 1.0 mol of H<sub>2</sub>O. Try other amounts below.</p>
+      <div class="pg" id="pg-chem"></div>
+    </div>
+    <div class="trick">
+      <b class="big">moles wanted = moles given ÷ coefficient given × coefficient wanted</b>
+      <p>Trick: divide the <b>whole equation</b> by the coefficient of the species you know, so that species becomes 1. Every other coefficient then reads “this much per 1”. Finally multiply the whole equation by the moles you really have, and every coefficient turns into moles.</p>
+    </div>
+    <div class="panel">
+      <h3>Rewrite the equation</h3>
+      <p class="recipe">4NH<sub>3</sub> + 5O<sub>2</sub> → 4NO + 6H<sub>2</sub>O</p>
+      <p>You know how much of one species you have. Press <b>Next step</b> to divide the whole equation so that species becomes 1, then multiply it back up to the moles you have. Change the given species to see it work for any of them.</p>
+      <div class="pg" id="pg-unit"></div>
+    </div>
+    <div class="tools">
+      <div class="tool"><b>moles = mass ÷ Mr</b><span>Use when you are given a mass in grams.</span></div>
+      <div class="tool"><b>mass = moles × Mr</b><span>Use at the end when the question asks for grams.</span></div>
+      <div class="tool"><b>Mr = add up the RAMs</b><span>Count every atom. For Al<sub>2</sub>O<sub>3</sub>: 2 × 27.0 + 3 × 16.0 = 102.0.</span></div>
+    </div>
+  </div>
+
+  <div class="sec tiered tier1" id="t1-tier1">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>1</b></div><div class="tbody"><h3>Moles of another species</h3><p class="desc">You are given the moles of one species. Use the equation ratio to fill in the moles of every other species that reacted or formed. Divide the whole equation by the given coefficient so that species becomes 1, then multiply the whole equation by the moles you have.</p></div></div>
+    <div data-set="mol2mol"></div>
+  </div>
+
+  <div class="sec tiered tier2" id="t1-tier2">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>2</b></div><div class="tbody"><h3>Mass of another species</h3><p class="desc">Same ratio idea, but both ends are masses. Follow the route: mass → moles → ratio → moles → mass. Each question below follows these four moves.</p></div></div>
+    <div class="panel route">
+      <ol class="rsteps">
+        <li><span class="rop">you are given</span><b>Mass of given species</b></li>
+        <li><span class="rop">÷ Mr</span><b>Moles of given species</b></li>
+        <li><span class="rop">÷ coefficient given, × coefficient wanted</span><b>Moles of wanted species</b></li>
+        <li class="end"><span class="rop">× Mr</span><b>Mass of wanted species</b></li>
+      </ol>
+    </div>
+    <div data-set="mass2mass"></div>
+  </div>
+<div class="tabnext"><button type="button" class="btn go" data-nexttab="2">Finished this tab? Go to Limit and excess →</button></div>
+</section>
+
+<!-- ================= TAB 2 ================= -->
+<section class="tab" id="tab2" role="tabpanel" aria-labelledby="tb2" data-tab="2" hidden>
+  <h2>Limit and excess</h2>
+  <div class="jump"><button data-go="t2-intro">The idea</button><button data-go="t2-tier1" data-tier="tier1">Tier 1: two reactants</button><button data-go="t2-tier2a" data-tier="tier2">Tier 2: three reactants</button><button data-go="t2-tier2b" data-tier="tier2">Tier 2: excess that reacts</button></div>
+
+  <div class="sec" id="t2-intro">
+    <div class="panel analogy">
+      <h3>Which ingredient runs out first?</h3>
+      <p class="recipe">2 bread + 1 cheese + 1 ham → 1 sandwich</p>
+      <p>You have 10 bread, 3 cheese and 8 ham. Bread and ham look plentiful, but the cheese is gone after 3 sandwiches. The cheese is the <b>limiting</b> ingredient. Bread and ham are <b>in excess</b>. Drag the sliders: adding more bread or ham changes nothing about how many sandwiches you can make, but adding one more cheese does.</p>
+      <div class="pg" id="lp-sandwich"></div>
+    </div>
+    <div class="panel">
+      <h3>The same idea with moles</h3>
+      <p class="recipe">2H<sub>2</sub> + O<sub>2</sub> → 2H<sub>2</sub>O</p>
+      <p>With 6 mol of H<sub>2</sub> and 2 mol of O<sub>2</sub>, the H<sub>2</sub> looks like plenty, but O<sub>2</sub> is used up first. The amount of the limiting reactant decides how much product forms.</p>
+      <div class="pg" id="lp-chem"></div>
+    </div>
+    <div class="trick">
+      <b class="big">Quick check: moles ÷ own coefficient. The smallest answer is limiting.</b>
+      <p>Why it works: dividing by the coefficient tells you how many full batches of the recipe each reactant can supply. To turn batches into moles of product you would multiply by the product’s coefficient, but that multiplies every reactant by the same number, so you can skip it when you only want to compare.</p>
+    </div>
+    <div class="panel">
+      <h3>Method</h3>
+      <ol class="method">
+        <li>Change each mass into moles (mass ÷ Mr).</li>
+        <li>Divide each number of moles by its own coefficient and compare.</li>
+        <li>The smallest result is the limiting reactant. The others are in excess.</li>
+        <li>Use only the limiting reactant when you work out the product, or how much excess reactant is used.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sec tiered tier1" id="t2-tier1">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>1</b></div><div class="tbody"><h3>Two reactants, find a product</h3><p class="desc">Decide which of the two reactants is limiting, then use it to find the mass of one product.</p></div></div>
+    <div data-set="limit2"></div>
+  </div>
+
+  <div class="sec tiered tier2" id="t2-tier2a">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>2a</b></div><div class="tbody"><h3>Three reactants</h3><p class="desc">Same quick check, one more row. Convert all three masses to moles, divide each by its own coefficient, and pick the smallest. Then use the limiting reactant to find the mass of a product.</p></div></div>
+    <div data-set="limit3"></div>
+  </div>
+
+  <div class="sec tiered tier2" id="t2-tier2b">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>2b</b></div><div class="tbody"><h3>Two reactants, how much excess reacts</h3><p class="desc">After finding the limiting reactant and a product, work out how much of the excess reactant is actually used up. Every ratio starts from the limiting reactant.</p></div></div>
+    <div data-set="limit2x"></div>
+  </div>
+<div class="tabnext"><button type="button" class="btn go" data-nexttab="3">Finished this tab? Go to Percentage yield →</button></div>
+</section>
+
+<!-- ================= TAB 3 ================= -->
+<section class="tab" id="tab3" role="tabpanel" aria-labelledby="tb3" data-tab="3" hidden>
+  <h2>Percentage yield</h2>
+  <div class="jump"><button data-go="t3-intro">The idea</button><button data-go="t3-why">Why not 100%?</button><button data-go="t3-a" data-tier="tier1">Tier 1a: find % yield</button><button data-go="t3-b" data-tier="tier1">Tier 1b: actual yield from %</button><button data-go="t3-c" data-tier="tier2">Tier 2: another product</button></div>
+
+  <div class="sec" id="t3-intro">
+    <div class="panel">
+      <h3>Theoretical versus actual</h3>
+      <p class="recipe">2Mg(s) + O<sub>2</sub>(g) → 2MgO(s)</p>
+      <p>Burn 4.8 g of magnesium in plenty of oxygen. The equation predicts the most MgO you could ever get: <b>8.0 g</b>. That is the <b>theoretical yield</b>. It is a calculation, nothing is weighed. In the lab you collect the MgO and weigh it on a balance. That is the <b>actual yield</b>. Drag the slider to change what the balance shows and watch the percentage yield change.</p>
+      <div class="pg" id="yp-bal"></div>
+    </div>
+    <div class="trick">
+      <b class="big">percentage yield = actual yield ÷ theoretical yield × 100</b>
+      <p>Theoretical yield is the mass of product the equation predicts from the <b>limiting</b> reactant. Actual yield is the mass you really collect in the lab.</p>
+    </div>
+    <div class="panel route">
+      <h3>Roadmap for every question</h3>
+      <ol class="rsteps">
+        <li><span class="rop">÷ Mr for each reactant</span><b>Moles of each reactant</b></li>
+        <li><span class="rop">÷ own coefficient, smallest wins</span><b>Limiting reactant</b></li>
+        <li><span class="rop">ratio from the limiting reactant</span><b>Moles of product</b></li>
+        <li class="end"><span class="rop">× Mr of product</span><b>Theoretical yield</b></li>
+      </ol>
+      <p>Then either work out percentage yield = actual ÷ theoretical × 100, or work out actual yield = percentage × theoretical. With two products, find the percentage yield from the product you are given, then use it on the other one.</p>
+    </div>
+  </div>
+
+  <div class="sec" id="t3-why">
+    <h3>Why is the yield not 100%?</h3>
+    <div class="reasons">
+      <div class="panel under">
+        <h4>Below 100%</h4>
+        <ul>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13m-3-3 3 3-3 3M20 16H7m3-3-3 3 3 3"/></svg><span>The reaction is reversible and does not go to completion.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h7c3 0 3-6 7-6h3m-3-3 3 3-3 3M10 12c3 0 3 6 7 6h3m-3-3 3 3-3 3"/></svg><span>Side reactions make other products instead.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></svg><span>Some product is lost when transferring, filtering, washing or evaporating.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12M7 3v16a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V3"/><circle cx="10" cy="18" r="1" fill="currentColor"/><circle cx="14" cy="17" r="1" fill="currentColor"/><circle cx="12" cy="19.5" r=".8" fill="currentColor"/></svg><span>Some reactant or product sticks to the apparatus.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6L4 19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2l-6-10V3M7 16h10"/></svg><span>The reactants were impure, so there was less of the real reactant than the mass suggests.</span></li>
+        </ul>
+      </div>
+      <div class="panel over">
+        <h4>Above 100%</h4>
+        <ul>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg><span>The product is not fully dry. Water or solvent adds to the mass.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3" fill="currentColor"/><circle cx="12" cy="16" r="3"/></svg><span>The product is impure. It still contains leftover reactant or a by-product.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M7 20h10M4 9h16M6 9l-3 6h6zM18 9l-3 6h6z"/></svg><span>Weighing errors, such as forgetting to zero the balance or weighing the container.</span></li>
+          <li><svg class="ri" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.5"/></svg><span>A calculation slip, such as using the excess reactant instead of the limiting one.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec tiered tier1" id="t3-a">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>1a</b></div><div class="tbody"><h3>Find the percentage yield</h3><p class="desc">Two reactant masses and the mass of product collected. Find the limiting reactant, work out the theoretical yield, then the percentage yield. Question 9 gives a surprise, so check your answer and think about why.</p></div></div>
+    <div data-set="yield1"></div>
+  </div>
+
+  <div class="sec tiered tier1" id="t3-b">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>1b</b></div><div class="tbody"><h3>Find the actual yield from the percentage yield</h3><p class="desc">This time you are given the percentage yield. Work out the theoretical yield first, then scale it down to the mass actually obtained.</p></div></div>
+    <div data-set="yield2"></div>
+  </div>
+
+  <div class="sec tiered tier2" id="t3-c">
+    <div class="tierbar"><div class="tbadge"><small>TIER</small><b>2</b></div><div class="tbody"><h3>Find the actual yield of another product</h3><p class="desc">The equation has two or more products. You are told the actual yield of one product, but not the percentage yield. Use the given product to find the percentage yield, then use that percentage to find the actual yield of the other product.</p></div></div>
+    <div data-set="yield3"></div>
+  </div>
+</section>
+</div>
+<script>
+'use strict';
+/* ---------- chemistry helpers ---------- */
+const RAM = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, Na: 23.0, Mg: 24.3, Al: 27.0, Si: 28.1, P: 31.0, S: 32.1, Cl: 35.5, K: 39.1, Ca: 40.1, Mn: 54.9, Fe: 55.8, Cu: 63.5, Zn: 65.4, As: 74.9, I: 126.9 };
+const SUBS = '₀₁₂₃₄₅₆₇₈₉';
+function uni(f) { return f.replace(/\d/g, d => SUBS[+d]); }
+function sub(f) { return f.replace(/([A-Za-z)])(\d+)/g, '$1<sub>$2</sub>'); }
+function F(f) { return '<b class="sp">' + sub(f) + '</b>'; }
+function trim(x, sf) { if (!isFinite(x)) return String(x); return String(Number(Number(x).toPrecision(sf))); }
+function isExact(x) { return Math.abs(x - Number(x.toPrecision(4))) < 1e-9 * Math.max(1, Math.abs(x)); }
+
+function parseFormula(f) {
+  const stack = [{}];
+  let i = 0;
+  const num = () => { let m = ''; while (/\d/.test(f[i] || '')) { m += f[i]; i++; } return m ? +m : 1; };
+  while (i < f.length) {
+    const ch = f[i];
+    if (ch === '(') { stack.push({}); i++; }
+    else if (ch === ')') {
+      i++; const k = num(); const top = stack.pop(); const base = stack[stack.length - 1];
+      for (const e in top) base[e] = (base[e] || 0) + top[e] * k;
+    } else {
+      let el = ch; i++;
+      while (/[a-z]/.test(f[i] || '')) { el += f[i]; i++; }
+      const k = num(); const top = stack[stack.length - 1];
+      top[el] = (top[el] || 0) + k;
+    }
+  }
+  return stack[0];
+}
+function Mr(f) { return Object.entries(parseFormula(f)).reduce((s, [e, n]) => s + n * RAM[e], 0); }
+function mrExplain(f) {
+  const ent = Object.entries(parseFormula(f));
+  const terms = ent.map(([e, n]) => n > 1 ? n + ' × ' + RAM[e].toFixed(1) : RAM[e].toFixed(1));
+  const val = Mr(f);
+  const text = 'Mr of ' + sub(f) + ' = ' + terms.join(' + ') + (terms.length > 1 || terms[0].includes('×') ? ' = ' + val.toFixed(1) : '');
+  return { text, val };
+}
+function parseEq(s) {
+  const [l, r] = s.split('->').map(x => x.trim());
+  const mk = side => side.split(' + ').map(t => {
+    const m = t.trim().match(/^(\d*)(.+)$/);
+    let f = m[2], st = '';
+    const s = f.match(/\((s|l|g|aq)\)$/);
+    if (s) { st = s[0]; f = f.slice(0, -st.length); }
+    return { f, st, c: m[1] ? +m[1] : 1 };
+  });
+  return { R: mk(l), P: mk(r) };
+}
+function eqHtml(e) {
+  const side = (a, pr) => a.map(t => (t.c > 1 ? '<b class="co' + (pr ? ' pr' : '') + '">' + t.c + '</b>' : '') + sub(t.f) + (t.st ? '<span class="st">' + t.st + '</span>' : '')).join(' + ');
+  return side(e.R) + ' <span class="arrow">→</span> ' + side(e.P, true);
+}
+function ramList(all) {
+  const out = [];
+  all.forEach(s => Object.keys(parseFormula(s.f)).forEach(el => { if (!out.find(x => x[0] === el)) out.push([el, RAM[el]]); }));
+  return out;
+}
+
+/* ---------- animated HTML pieces ---------- */
+const OPS = ['÷', '×', '−', '+'];
+function keys(parts, res, unit) {
+  const k = parts.map((p, i) => '<span class="key' + (OPS.includes(p) ? ' op' : '') + '" style="--i:' + i + '">' + (typeof p === 'number' ? trim(p, 4) : p) + '</span>').join('');
+  const n = parts.length;
+  return '<div class="keys">' + k + '<span class="key eq" style="--i:' + n + '">=</span><span class="disp" style="--i:' + (n + 1) + '">' + trim(res, 4) + (unit ? ' <small>' + unit + '</small>' : '') + '</span></div>' +
+    (isExact(res) ? '' : '<p class="keep">This is a long decimal. Keep every digit on your calculator for the next step, and round only at the very end.</p>');
+}
+function flow(nA, fA, cA, nB, fB, cB) {
+  return '<div class="flow">' +
+    '<div class="fbox" style="--i:0">' + trim(nA, 4) + ' mol<small>' + sub(fA) + '</small></div>' +
+    '<div class="farrow" style="--i:1"><span>÷ ' + cA + '</span><small>coefficient of ' + sub(fA) + '</small></div>' +
+    '<div class="fbox mid" style="--i:2">' + trim(nA / cA, 4) + ' mol<small>for 1 coefficient</small></div>' +
+    '<div class="farrow" style="--i:3"><span>× ' + cB + '</span><small>coefficient of ' + sub(fB) + '</small></div>' +
+    '<div class="fbox end" style="--i:4">' + trim(nB, 4) + ' mol<small>' + sub(fB) + '</small></div></div>';
+}
+
+
+function fracStr(x) {
+  for (let d = 1; d <= 12; d++) {
+    const n = x * d;
+    if (Math.abs(n - Math.round(n)) < 1e-9) {
+      const num = Math.round(n);
+      return [1, 2, 4, 5, 8, 10].includes(d) ? trim(x, 4) : num + '/' + d;
+    }
+  }
+  return trim(x, 4);
+}
+function eqLine(e, vals, hi, unit, idx) {
+  const all = [...e.R, ...e.P], nR = e.R.length;
+  return '<div class="eqline" style="--i:' + (idx || 0) + '">' + all.map((s, i) =>
+    (i ? '<span class="eop">' + (i === nR ? '→' : '+') + '</span>' : '') +
+    '<span class="term' + (s.f === hi ? ' hi' : '') + '"><b>' + vals[i] + '</b>' + (unit ? '<small>' + unit + '</small> ' : '') + sub(s.f) + (s.st ? '<span class="st">' + s.st + '</span>' : '') + '</span>').join('') + '</div>';
+}
+
+/* ---------- step builders ---------- */
+function stPick(A, B) {
+  return { t: 'Pick out the two species', h: '<p>Find them in the equation. The big numbers in front are the coefficients.</p><div class="pick"><span class="pk">Given: ' + F(A.f) + ' <i>coefficient ' + A.c + '</i></span><span class="pk w">Wanted: ' + F(B.f) + ' <i>coefficient ' + B.c + '</i></span></div>' };
+}
+function stMoles(s, m, title) {
+  const r = mrExplain(s.f); const n = m / r.val;
+  return { t: title || 'Mass of ' + sub(s.f) + ' to moles', h: '<p class="mono-line">' + r.text + '</p><p>moles = mass ÷ Mr</p>' + keys([m, '÷', r.val.toFixed(1)], n, 'mol'), v: n };
+}
+function stRatio(A, nA, B, title) {
+  const nB = nA / A.c * B.c;
+  return { t: title || 'Use the equation ratio', h: '<p>Divide by the coefficient of what you have, then multiply by the coefficient of what you want. This is the same as dividing the whole equation by ' + A.c + ' so that ' + sub(A.f) + ' becomes 1, and then scaling it up to the moles you have.</p>' + flow(nA, A.f, A.c, nB, B.f, B.c) + keys([nA, '÷', A.c, '×', B.c], nB, 'mol'), v: nB };
+}
+function stMass(s, n, title) {
+  const r = mrExplain(s.f); const m = n * r.val;
+  return { t: title || 'Moles of ' + sub(s.f) + ' to mass', h: '<p class="mono-line">' + r.text + '</p><p>mass = moles × Mr</p>' + keys([n, '×', r.val.toFixed(1)], m, 'g'), v: m };
+}
+function stMolesAll(rows) {
+  return { t: 'Moles of each reactant', h: '<p>moles = mass ÷ Mr, for every reactant.</p>' + rows.map(r => { const m = mrExplain(r.f); return '<div class="mini"><h5>' + F(r.f) + '</h5><p class="mono-line">' + m.text + '</p>' + keys([r.m, '÷', m.val.toFixed(1)], r.n, 'mol') + '</div>'; }).join('') };
+}
+function stCompare(rows, li) {
+  const body = rows.map((r, i) => '<tr class="' + (i === li ? 'lim' : 'exc') + '" style="--i:' + i + '"><td>' + F(r.f) + '</td><td>' + trim(r.n, 4) + ' mol</td><td>' + trim(r.n, 4) + ' ÷ ' + r.c + ' = <b>' + trim(r.q, 4) + '</b></td><td>' + (i === li ? '<span class="badge lim">limiting</span>' : '<span class="badge">excess</span>') + '</td></tr>').join('');
+  return { t: 'Divide each by its own coefficient', h: '<p>The reactant with the <b>smallest</b> answer runs out first. That one is the limiting reactant.</p><div class="tblwrap"><table class="cmp"><thead><tr><th>Reactant</th><th>Moles</th><th>÷ own coefficient</th><th></th></tr></thead><tbody>' + body + '</tbody></table></div>' };
+}
+function core(e, masses) {
+  const rows = e.R.map((s, i) => ({ f: s.f, c: s.c, m: masses[i], n: masses[i] / Mr(s.f) }));
+  rows.forEach(r => { r.q = r.n / r.c; });
+  const qmin = Math.min(...rows.map(r => r.q));
+  return { rows, li: rows.findIndex(r => r.q === qmin), qmin };
+}
+
+/* ---------- question builder ---------- */
+function build(spec) {
+  const e = parseEq(spec.eq);
+  const all = [...e.R, ...e.P];
+  const sp = f => { const s = all.find(x => x.f === f); if (!s) throw new Error('no species ' + f + ' in ' + spec.eq); return s; };
+  const isR = f => e.R.some(x => x.f === f);
+  const amtTxt = (f, a) => a.mol != null ? trim(a.mol, 4) + ' mol of ' + F(f) : trim(a.mass, 4) + ' g of ' + F(f);
+  const q = { k: spec.k, e, eqHtml: eqHtml(e), ram: ramList(all), fields: [], steps: [], note: '' };
+  const numF = (key, label, unit, ans) => q.fields.push({ key, type: 'num', label, unit, ans });
+  const chooseF = (key, label, options, ans) => q.fields.push({ key, type: 'choice', label, options, ans });
+  const reactOpts = e.R.map(r => r.f);
+  const gGiven = (cap, text) => ({ k: 'given', cap, text });
+  const gInput = (cap, key, unit) => ({ k: 'input', cap, key, unit });
+
+  if (spec.k === 'mol2mol') {
+    const A = sp(spec.given), nA = spec.amt;
+    const others = all.filter(s => s.f !== A.f);
+    const stTxt = s => sub(s.f) + (s.st ? '<span class="st">' + s.st + '</span>' : '');
+    q.text = 'If ' + trim(nA, 4) + ' mol of <b class="sp">' + stTxt(A) + '</b> ' + (isR(A.f) ? 'is reacted' : 'is formed') + ', find the number of moles of the other species reacted / formed. Fill in the box under each species.';
+    const row = {};
+    all.forEach((s, idx) => { row[s.f] = s.f === A.f ? gGiven('given', trim(nA, 4) + ' mol') : gInput('moles', 'n' + idx, 'mol'); });
+    q.grid = [row];
+    const cg = A.c, scaled = all.map(s => s.c / cg), moles = scaled.map(x => x * nA);
+    q.steps.push({ t: 'Pick out the species you are given', h: '<p>Find ' + F(A.f) + ' in the equation. Its coefficient is <b>' + cg + '</b>. Every other answer comes from this one species.</p><div class="pick"><span class="pk">Given: ' + F(A.f) + ' <i>' + trim(nA, 4) + ' mol, coefficient ' + cg + '</i></span></div>' });
+    q.steps.push({ t: 'Divide the whole equation by ' + cg, h: '<p>Divide <b>every</b> coefficient by ' + cg + ', the coefficient of ' + F(A.f) + '. This makes ' + F(A.f) + ' equal to 1, so the equation now reads “per 1 mol of ' + sub(A.f) + '”.</p><div class="eqstack">' + eqLine(e, all.map(s => s.c), A.f, '', 0) + '<div class="opbadge" style="--i:1">÷ ' + cg + ' on every number</div>' + eqLine(e, scaled.map(fracStr), A.f, '', 2) + '</div>' });
+    q.steps.push({ t: 'Multiply the whole equation by ' + trim(nA, 4), h: '<p>You really have ' + trim(nA, 4) + ' mol of ' + F(A.f) + ', not 1 mol. So multiply <b>every</b> number in the new equation by ' + trim(nA, 4) + '. The numbers are now moles.</p><div class="eqstack">' + eqLine(e, scaled.map(fracStr), A.f, '', 0) + '<div class="opbadge" style="--i:1">× ' + trim(nA, 4) + ' on every number</div>' + eqLine(e, moles.map(x => trim(x, 4)), A.f, 'mol', 2) + '</div><p>Read the moles of each species straight from this last line.</p>' });
+    others.forEach(s => q.fields.push({ key: 'n' + all.indexOf(s), type: 'num', label: F(s.f), unit: 'mol', ans: nA / cg * s.c }));
+    q.hint = 'Divide the whole equation by the coefficient of the given species so it becomes 1, then multiply the whole equation by the moles you have.';
+    return q;
+  }
+
+  if (spec.k === 'mass2mass') {
+    const A = sp(spec.given), B = sp(spec.find);
+    const verb = isR(A.f) ? 'reacts completely' : 'is formed';
+    const what = spec.k === 'mol2mol' ? 'moles' : 'mass';
+    const tail = isR(A.f) ? (isR(B.f) ? 'needed to react with it' : 'formed') : (isR(B.f) ? 'that reacted' : 'formed at the same time');
+    q.text = amtTxt(A.f, spec.amt) + ' ' + verb + '. Calculate the ' + what + ' of ' + F(B.f) + ' ' + tail + '.';
+    q.steps.push(stPick(A, B));
+    if (spec.k === 'mass2mass') q.grid = [{ [A.f]: gGiven('given', trim(spec.amt.mass, 4) + ' g'), [B.f]: gInput('mass', 'a', 'g') }];
+    if (spec.k === 'mol2mol') {
+      let nA = spec.amt.mol;
+      if (spec.amt.mass != null) { const s = stMoles(A, spec.amt.mass, 'Convert the mass of ' + sub(A.f) + ' to moles'); nA = s.v; q.steps.push(s); }
+      const r = stRatio(A, nA, B); q.steps.push(r);
+      numF('a', 'Moles of ' + F(B.f), 'mol', r.v);
+      q.hint = 'Moles wanted = moles given ÷ coefficient given × coefficient wanted. If you were given a mass, divide by Mr first.';
+    } else {
+      const s1 = stMoles(A, spec.amt.mass, 'Convert the mass of ' + sub(A.f) + ' to moles');
+      const s2 = stRatio(A, s1.v, B, 'Use the equation ratio to get moles of ' + sub(B.f));
+      const s3 = stMass(B, s2.v, 'Convert moles of ' + sub(B.f) + ' to mass');
+      q.steps.push(s1, s2, s3);
+      numF('a', 'Mass of ' + F(B.f), 'g', s3.v);
+      q.hint = 'Four moves: mass of given → moles (÷ Mr) → moles wanted (÷ coefficient given, × coefficient wanted) → mass wanted (× Mr).';
+    }
+    return q;
+  }
+
+  const masses = spec.masses;
+  const { rows, li, qmin } = core(e, masses);
+  const lim = rows[li];
+  const names = rows.map((r, i) => trim(masses[i], 4) + ' g of ' + F(r.f));
+  const stepsStart = () => { q.steps.push(stMolesAll(rows), stCompare(rows, li)); };
+  const massRow = () => { const r = {}; rows.forEach(x => { r[x.f] = gGiven('mass', trim(x.m, 4) + ' g'); }); return r; };
+
+  if (spec.k === 'limit3') {
+    const P3 = sp(spec.find), nP3 = lim.q * P3.c;
+    q.text = names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] + ' are mixed and react together. Decide which reactant is limiting and calculate the mass of ' + F(P3.f) + ' formed.';
+    { const r = massRow(); r[P3.f] = gInput('mass formed', 'a', 'g'); q.grid = [r]; }
+    stepsStart();
+    const others = rows.filter((_, i) => i !== li).map(r => F(r.f)).join(' and ');
+    q.steps.push({ t: 'State the limiting reactant', h: '<p>' + F(lim.f) + ' has the smallest value (' + trim(lim.q, 4) + '), so it is the <b>limiting reactant</b>.</p><p>' + others + ' are in excess. Ignore them from now on.</p>' });
+    const s4 = stRatio(lim, lim.n, P3, 'Moles of ' + sub(P3.f) + ' from the limiting reactant');
+    const s5 = stMass(P3, s4.v, 'Moles of ' + sub(P3.f) + ' to mass');
+    q.steps.push(s4, s5);
+    chooseF('lim', 'Limiting reactant', reactOpts, lim.f);
+    numF('a', 'Mass of ' + F(P3.f), 'g', s5.v);
+    q.hint = 'Convert every mass to moles, divide each by its own coefficient, and pick the smallest result. Then use ONLY the limiting reactant for the ratio to ' + sub(P3.f) + '.';
+    return q;
+  }
+
+  const P = sp(spec.find);
+  const nP = qmin * P.c, theory = nP * Mr(P.f);
+
+  if (spec.k === 'limit2') {
+    q.text = names[0] + ' reacts with ' + names[1] + '. Decide which reactant is limiting and calculate the mass of ' + F(P.f) + ' formed.';
+    { const r = massRow(); r[P.f] = gInput('mass formed', 'a', 'g'); q.grid = [r]; }
+    stepsStart();
+    const s3 = stRatio(lim, lim.n, P, 'Moles of ' + sub(P.f) + ' from the limiting reactant');
+    const s4 = stMass(P, s3.v, 'Moles of ' + sub(P.f) + ' to mass');
+    q.steps.push(s3, s4);
+    chooseF('lim', 'Limiting reactant', reactOpts, lim.f);
+    numF('a', 'Mass of ' + F(P.f), 'g', s4.v);
+    q.hint = 'Find moles of both reactants, divide each by its own coefficient, and the smaller result is limiting. Then use ONLY the limiting reactant for the ratio to ' + sub(P.f) + '.';
+    return q;
+  }
+
+  if (spec.k === 'limit2x') {
+    const X = rows[1 - li];
+    q.text = names[0] + ' is mixed with ' + names[1] + '. Find the limiting reactant, the mass of ' + F(P.f) + ' formed, and the mass of the excess reactant that reacts.';
+    { const r = massRow(); r[P.f] = gInput('mass formed', 'a', 'g'); q.grid = [r]; }
+    stepsStart();
+    const s3 = stRatio(lim, lim.n, P, 'Moles of ' + sub(P.f) + ' from the limiting reactant');
+    const s4 = stMass(P, s3.v, 'Moles of ' + sub(P.f) + ' to mass');
+    const s5 = stRatio(lim, lim.n, X, 'Moles of excess ' + sub(X.f) + ' that react');
+    const s6 = stMass(X, s5.v, 'Moles of ' + sub(X.f) + ' that react to mass');
+    const left = X.m - s6.v;
+    const s7 = { t: 'Extra: how much ' + sub(X.f) + ' is left over?', h: '<p>Left over = what you started with − what reacted.</p>' + keys([X.m, '−', s6.v], left, 'g') };
+    q.steps.push(s3, s4, s5, s6, s7);
+    chooseF('lim', 'Limiting reactant', reactOpts, lim.f);
+    numF('a', 'Mass of ' + F(P.f) + ' formed', 'g', s4.v);
+    numF('b', 'Mass of the excess reactant that reacts', 'g', s6.v);
+    q.hint = 'Everything is worked out from the LIMITING reactant. Use its moles with the ratio to get the product, and with a second ratio to get how much of the excess reactant is used up.';
+    return q;
+  }
+
+  if (spec.k === 'yield1' || spec.k === 'yield2') {
+    const head = names[0] + ' reacts with ' + names[1] + '. ';
+    stepsStart();
+    const s3 = stRatio(lim, lim.n, P, 'Theoretical moles of ' + sub(P.f));
+    const s4 = stMass(P, s3.v, 'Theoretical yield: moles to mass');
+    q.steps.push(s3, s4);
+    numF('t', 'Theoretical yield of ' + F(P.f), 'g', theory);
+    const gr1 = massRow(), gr2 = {};
+    if (spec.k === 'yield1') gr1[P.f] = gGiven('actual yield', trim(spec.actual, 4) + ' g');
+    gr2[P.f] = gInput('theoretical yield', 't', 'g');
+    q.grid = [gr1, gr2];
+    if (spec.k === 'yield1') {
+      const pct = spec.actual / theory * 100;
+      q.text = head + trim(spec.actual, 4) + ' g of ' + F(P.f) + ' is collected. Calculate the theoretical yield and the percentage yield.';
+      q.steps.push({ t: 'Percentage yield', h: '<p>percentage yield = actual yield ÷ theoretical yield × 100</p>' + keys([spec.actual, '÷', theory, '×', 100], pct, '%') + (pct > 100 ? '<p class="warnline">Over 100% is not possible for a pure, dry product. Look at the list of reasons above.</p>' : '') });
+      numF('p', 'Percentage yield', '%', pct);
+      if (pct > 100) q.note = 'A yield above 100% means the product was probably wet or impure. Check the “above 100%” reasons in this tab.';
+      q.hint = 'Theoretical yield comes from the limiting reactant only. Then divide the actual mass by the theoretical mass and multiply by 100.';
+    } else {
+      const act = spec.pct / 100 * theory;
+      q.text = head + 'The percentage yield is ' + trim(spec.pct, 4) + '%. Calculate the theoretical yield and the actual mass of ' + F(P.f) + ' obtained.';
+      q.steps.push({ t: 'Actual yield', h: '<p>actual yield = percentage yield × theoretical yield</p>' + keys([trim(spec.pct, 4) + '%', '×', theory], act, 'g') });
+      numF('p', 'Actual mass of ' + F(P.f), 'g', act);
+      q.grid.push({ [P.f]: gInput('actual yield', 'p', 'g') });
+      q.hint = 'Find the theoretical yield from the limiting reactant first. The actual yield is that mass multiplied by the percentage yield.';
+    }
+    return q;
+  }
+  if (spec.k === 'yield3') {
+    const K = sp(spec.known), nK = qmin * K.c, thK = nK * Mr(K.f), pct = spec.actual / thK * 100, thP = theory, act = pct / 100 * thP;
+    q.text = names[0] + ' reacts with ' + names[1] + '. ' + trim(spec.actual, 4) + ' g of ' + F(K.f) + ' is collected. Assuming the percentage yield is the same for every product, calculate the mass of ' + F(P.f) + ' actually obtained.';
+    stepsStart();
+    const sk3 = stRatio(lim, lim.n, K, 'Theoretical moles of ' + sub(K.f));
+    const sk4 = stMass(K, sk3.v, 'Theoretical yield of ' + sub(K.f) + ': moles to mass');
+    q.steps.push(sk3, sk4);
+    q.steps.push({ t: 'Percentage yield from ' + sub(K.f), h: '<p>You know the actual and theoretical yield of ' + F(K.f) + '. So you can find the percentage yield.</p><p>percentage yield = actual ÷ theoretical × 100</p>' + keys([spec.actual, '÷', thK, '×', 100], pct, '%') + '<p>This same percentage applies to ' + F(P.f) + ' too.</p>' });
+    const sp3 = stRatio(lim, lim.n, P, 'Theoretical moles of ' + sub(P.f));
+    const sp4 = stMass(P, sp3.v, 'Theoretical yield of ' + sub(P.f) + ': moles to mass');
+    q.steps.push(sp3, sp4);
+    q.steps.push({ t: 'Actual yield of ' + sub(P.f), h: '<p>actual yield = percentage yield × theoretical yield</p>' + keys([trim(pct, 4) + '%', '×', thP], act, 'g') });
+    const r1 = massRow(), r2 = {}, r3 = {};
+    r1[K.f] = gGiven('actual yield', trim(spec.actual, 4) + ' g');
+    r2[K.f] = gInput('theoretical yield', 't', 'g');
+    r2[P.f] = gInput('theoretical yield', 'u', 'g');
+    r3[P.f] = gInput('actual yield', 'a', 'g');
+    q.grid = [r1, r2, r3];
+    numF('t', 'Theoretical yield of ' + F(K.f), 'g', thK);
+    numF('p', 'Percentage yield', '%', pct);
+    numF('u', 'Theoretical yield of ' + F(P.f), 'g', thP);
+    numF('a', 'Actual mass of ' + F(P.f), 'g', act);
+    q.hint = 'Use the product you were given to find the percentage yield. The same percentage works for the other product: find its theoretical yield from the limiting reactant, then multiply by the percentage.';
+    return q;
+  }
+  throw new Error('unknown kind ' + spec.k);
+}
+
+/* ---------- question bank ---------- */
+const SETS = {
+  mol2mol: {
+    demo: { k: 'mol2mol', eq: '4NH3(g) + 5O2(g) -> 4NO(g) + 6H2O(g)', given: 'NH3', amt: 0.2 },
+    practice: [
+      { k: 'mol2mol', eq: 'C2H6O(l) + 3O2(g) -> 2CO2(g) + 3H2O(l)', given: 'O2', amt: 4.5 },
+      { k: 'mol2mol', eq: '2As(s) + 6NaOH(aq) -> 2Na3AsO3(aq) + 3H2(g)', given: 'H2', amt: 7 },
+      { k: 'mol2mol', eq: '4FeS(s) + 7O2(g) -> 2Fe2O3(s) + 4SO2(g)', given: 'Fe2O3', amt: 0.45 },
+      { k: 'mol2mol', eq: '3Cu(s) + 8HNO3(aq) -> 3Cu(NO3)2(aq) + 2NO(g) + 4H2O(l)', given: 'HNO3', amt: 1.6 },
+      { k: 'mol2mol', eq: 'C3H8(g) + 5O2(g) -> 3CO2(g) + 4H2O(l)', given: 'H2O', amt: 1.2 },
+      { k: 'mol2mol', eq: '4FeS2(s) + 11O2(g) -> 2Fe2O3(s) + 8SO2(g)', given: 'O2', amt: 2.2 },
+      { k: 'mol2mol', eq: '2C2H6(g) + 7O2(g) -> 4CO2(g) + 6H2O(l)', given: 'H2O', amt: 1.5 },
+      { k: 'mol2mol', eq: '8Al(s) + 3Fe3O4(s) -> 9Fe(s) + 4Al2O3(s)', given: 'Fe', amt: 0.45 },
+      { k: 'mol2mol', eq: '3CuO(s) + 2NH3(g) -> 3Cu(s) + N2(g) + 3H2O(l)', given: 'NH3', amt: 0.8 },
+      { k: 'mol2mol', eq: '2C4H10(g) + 13O2(g) -> 8CO2(g) + 10H2O(l)', given: 'O2', amt: 6.5 }
+    ]
+  },
+  mass2mass: {
+    demo: { k: 'mass2mass', eq: '4Al + 3O2 -> 2Al2O3', given: 'Al', amt: { mass: 5.4 }, find: 'Al2O3' },
+    practice: [
+      { k: 'mass2mass', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', given: 'FeS2', amt: { mass: 24 }, find: 'SO2' },
+      { k: 'mass2mass', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', given: 'Cu', amt: { mass: 38.1 }, find: 'HNO3' },
+      { k: 'mass2mass', eq: 'N2 + 3H2 -> 2NH3', given: 'NH3', amt: { mass: 10.2 }, find: 'H2' },
+      { k: 'mass2mass', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', given: 'C2H6', amt: { mass: 6 }, find: 'O2' },
+      { k: 'mass2mass', eq: '2Al + 3H2SO4 -> Al2(SO4)3 + 3H2', given: 'Al', amt: { mass: 2.7 }, find: 'Al2(SO4)3' },
+      { k: 'mass2mass', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', given: 'Al', amt: { mass: 10.8 }, find: 'Fe' },
+      { k: 'mass2mass', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', given: 'NH3', amt: { mass: 3.4 }, find: 'H2O' },
+      { k: 'mass2mass', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', given: 'C8H18', amt: { mass: 11.4 }, find: 'CO2' },
+      { k: 'mass2mass', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', given: 'Al4C3', amt: { mass: 14.4 }, find: 'CH4' },
+      { k: 'mass2mass', eq: 'C3H8 + 5O2 -> 3CO2 + 4H2O', given: 'CO2', amt: { mass: 13.2 }, find: 'O2' }
+    ]
+  },
+  limit2: {
+    demo: { k: 'limit2', eq: '2H2 + O2 -> 2H2O', masses: [4, 16], find: 'H2O' },
+    practice: [
+      { k: 'limit2', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', masses: [19.05, 25.2], find: 'NO' },
+      { k: 'limit2', eq: '4NH3 + 5O2 -> 4NO + 6H2O', masses: [6.8, 24], find: 'H2O' },
+      { k: 'limit2', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', masses: [6, 32], find: 'CO2' },
+      { k: 'limit2', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', masses: [24, 22.4], find: 'Fe2O3' },
+      { k: 'limit2', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', masses: [10.8, 23.14], find: 'Fe' },
+      { k: 'limit2', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', masses: [15.9, 3.4], find: 'Cu' },
+      { k: 'limit2', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', masses: [22.8, 160], find: 'H2O' },
+      { k: 'limit2', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', masses: [14.4, 16.2], find: 'CH4' },
+      { k: 'limit2', eq: 'C3H8 + 5O2 -> 3CO2 + 4H2O', masses: [4.4, 19.2], find: 'H2O' },
+      { k: 'limit2', eq: 'Fe2O3 + 3CO -> 2Fe + 3CO2', masses: [15.96, 14], find: 'Fe' }
+    ]
+  },
+  limit3: {
+    demo: { k: 'limit3', eq: '2SO2 + O2 + 2H2O -> 2H2SO4', masses: [12.82, 4.8, 7.2], find: 'H2SO4' },
+    practice: [
+      { k: 'limit3', eq: '4NO2 + O2 + 2H2O -> 4HNO3', masses: [18.4, 1.6, 9], find: 'HNO3' },
+      { k: 'limit3', eq: '2Al + 2NaOH + 6H2O -> 2NaAl(OH)4 + 3H2', masses: [8.1, 8, 27], find: 'H2' },
+      { k: 'limit3', eq: '4Fe + 3O2 + 6H2O -> 4Fe(OH)3', masses: [8.37, 9.6, 16.2], find: 'Fe(OH)3' },
+      { k: 'limit3', eq: '5SO2 + 2KMnO4 + 2H2O -> K2SO4 + 2MnSO4 + 2H2SO4', masses: [32.05, 39.5, 5.4], find: 'H2SO4' },
+      { k: 'limit3', eq: '2KMnO4 + 3Na2SO3 + H2O -> 2MnO2 + 3Na2SO4 + 2KOH', masses: [31.6, 63.05, 5.4], find: 'Na2SO4' },
+      { k: 'limit3', eq: 'Ca3(PO4)2 + 3SiO2 + 5C -> 3CaSiO3 + 2P + 5CO', masses: [31.03, 24.04, 7.2], find: 'CaSiO3' },
+      { k: 'limit3', eq: '2Cu + O2 + 4HCl -> 2CuCl2 + 2H2O', masses: [12.7, 4.8, 21.9], find: 'CuCl2' },
+      { k: 'limit3', eq: '2NH3 + CO2 + H2O -> (NH4)2CO3', masses: [6.8, 6.6, 5.4], find: '(NH4)2CO3' },
+      { k: 'limit3', eq: '5Cl2 + I2 + 6H2O -> 2HIO3 + 10HCl', masses: [49.7, 25.38, 14.4], find: 'HCl' },
+      { k: 'limit3', eq: '4P + 5O2 + 6H2O -> 4H3PO4', masses: [12.4, 19.2, 8.1], find: 'H3PO4' }
+    ]
+  },
+  limit2x: {
+    demo: { k: 'limit2x', eq: 'Mg + 2HCl -> MgCl2 + H2', masses: [7.29, 14.6], find: 'MgCl2' },
+    practice: [
+      { k: 'limit2x', eq: '4NH3 + 5O2 -> 4NO + 6H2O', masses: [6.8, 24], find: 'NO' },
+      { k: 'limit2x', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', masses: [9, 40], find: 'CO2' },
+      { k: 'limit2x', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', masses: [19.05, 63], find: 'NO' },
+      { k: 'limit2x', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', masses: [24, 32], find: 'Fe2O3' },
+      { k: 'limit2x', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', masses: [10.8, 69.42], find: 'Fe' },
+      { k: 'limit2x', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', masses: [22.8, 320], find: 'CO2' },
+      { k: 'limit2x', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', masses: [23.85, 8.5], find: 'Cu' },
+      { k: 'limit2x', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', masses: [28.8, 64.8], find: 'CH4' },
+      { k: 'limit2x', eq: 'C3H8 + 5O2 -> 3CO2 + 4H2O', masses: [8.8, 48], find: 'CO2' },
+      { k: 'limit2x', eq: '3Fe + 4H2O -> Fe3O4 + 4H2', masses: [16.74, 28.8], find: 'Fe3O4' }
+    ]
+  },
+  yield1: {
+    demo: { k: 'yield1', eq: '2Mg + O2 -> 2MgO', masses: [4.86, 6.4], find: 'MgO', actual: 6.05 },
+    practice: [
+      { k: 'yield1', eq: '4NH3 + 5O2 -> 4NO + 6H2O', masses: [6.8, 24], find: 'NO', actual: 9.6 },
+      { k: 'yield1', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', masses: [9, 40], find: 'CO2', actual: 21.12 },
+      { k: 'yield1', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', masses: [19.05, 63], find: 'NO', actual: 4.8 },
+      { k: 'yield1', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', masses: [24, 32], find: 'Fe2O3', actual: 14.36 },
+      { k: 'yield1', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', masses: [10.8, 69.42], find: 'Fe', actual: 22.6 },
+      { k: 'yield1', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', masses: [22.8, 160], find: 'H2O', actual: 24.3 },
+      { k: 'yield1', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', masses: [15.9, 8.5], find: 'Cu', actual: 10.16 },
+      { k: 'yield1', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', masses: [14.4, 16.2], find: 'CH4', actual: 2.7 },
+      { k: 'yield1', eq: 'Fe2O3 + 3CO -> 2Fe + 3CO2', masses: [15.96, 14], find: 'Fe', actual: 11.7 },
+      { k: 'yield1', eq: '3Fe + 4H2O -> Fe3O4 + 4H2', masses: [16.74, 28.8], find: 'Fe3O4', actual: 20.83 }
+    ]
+  },
+  yield2: {
+    demo: { k: 'yield2', eq: '2H2 + O2 -> 2H2O', masses: [6, 32], find: 'H2O', pct: 85 },
+    practice: [
+      { k: 'yield2', eq: '4NH3 + 5O2 -> 4NO + 6H2O', masses: [13.6, 24], find: 'NO', pct: 85 },
+      { k: 'yield2', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', masses: [9, 40], find: 'H2O', pct: 70 },
+      { k: 'yield2', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', masses: [38.1, 25.2], find: 'NO', pct: 80 },
+      { k: 'yield2', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', masses: [48, 44.8], find: 'SO2', pct: 75 },
+      { k: 'yield2', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', masses: [21.6, 46.28], find: 'Fe', pct: 85 },
+      { k: 'yield2', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', masses: [57, 160], find: 'CO2', pct: 50 },
+      { k: 'yield2', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', masses: [23.85, 6.8], find: 'H2O', pct: 90 },
+      { k: 'yield2', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', masses: [28.8, 32.4], find: 'CH4', pct: 80 },
+      { k: 'yield2', eq: 'Fe2O3 + 3CO -> 2Fe + 3CO2', masses: [31.92, 33.6], find: 'Fe', pct: 70 },
+      { k: 'yield2', eq: '3Fe + 4H2O -> Fe3O4 + 4H2', masses: [33.48, 21.6], find: 'Fe3O4', pct: 90 }
+    ]
+  },
+  yield3: {
+    demo: { k: 'yield3', eq: 'CaCO3 + 2HCl -> CaCl2 + H2O + CO2', masses: [20.02, 10.95], known: 'CaCl2', actual: 13.33, find: 'CO2' },
+    practice: [
+      { k: 'yield3', eq: '4NH3 + 5O2 -> 4NO + 6H2O', masses: [6.8, 24], known: 'NO', actual: 9.6, find: 'H2O' },
+      { k: 'yield3', eq: '2C2H6 + 7O2 -> 4CO2 + 6H2O', masses: [9, 48], known: 'CO2', actual: 19.8, find: 'H2O' },
+      { k: 'yield3', eq: '3Cu + 8HNO3 -> 3Cu(NO3)2 + 2NO + 4H2O', masses: [19.05, 25.2], known: 'Cu(NO3)2', actual: 25.31, find: 'NO' },
+      { k: 'yield3', eq: '4FeS2 + 11O2 -> 2Fe2O3 + 8SO2', masses: [24, 22.4], known: 'SO2', actual: 21.79, find: 'Fe2O3' },
+      { k: 'yield3', eq: '2C8H18 + 25O2 -> 16CO2 + 18H2O', masses: [22.8, 160], known: 'H2O', actual: 24.3, find: 'CO2' },
+      { k: 'yield3', eq: '3CuO + 2NH3 -> 3Cu + N2 + 3H2O', masses: [23.85, 6.8], known: 'Cu', actual: 15.24, find: 'N2' },
+      { k: 'yield3', eq: 'Al4C3 + 12H2O -> 4Al(OH)3 + 3CH4', masses: [14.4, 16.2], known: 'CH4', actual: 2.88, find: 'Al(OH)3' },
+      { k: 'yield3', eq: 'C3H8 + 5O2 -> 3CO2 + 4H2O', masses: [4.4, 19.2], known: 'H2O', actual: 5.04, find: 'CO2' },
+      { k: 'yield3', eq: '8Al + 3Fe3O4 -> 9Fe + 4Al2O3', masses: [10.8, 23.14], known: 'Fe', actual: 15.07, find: 'Al2O3' },
+      { k: 'yield3', eq: '2Al + 6HCl -> 2AlCl3 + 3H2', masses: [5.4, 32.85], known: 'H2', actual: 0.45, find: 'AlCl3' }
+    ]
+  }
+};
+
+if (typeof module !== 'undefined') module.exports = { build, SETS, Mr, parseFormula, trim, RAM };
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let uid = 0;
+  const prog = { 1: { d: 0, t: 0 }, 2: { d: 0, t: 0 }, 3: { d: 0, t: 0 } };
+  const LABEL = {
+    mol2mol: 'Tier 1 · moles of every other species',
+    mass2mass: 'Tier 2 · mass of another species',
+    limit2: 'Tier 1 · two reactants',
+    limit3: 'Tier 2 · three reactants',
+    limit2x: 'Tier 2 · excess that reacts',
+    yield1: 'Tier 1a · find the percentage yield',
+    yield2: 'Tier 1b · actual yield from the percentage yield',
+    yield3: 'Tier 2 · actual yield of another product'
+  };
+  const fmt = x => trim(x, 3);
+  const plain = h => h.replace(/<[^>]+>/g, '');
+  const ansText = f => f.type === 'num' ? fmt(f.ans) + ' ' + f.unit : sub(f.ans);
+
+
+  /* ---------- food icons (inline SVG, theme-aware via CSS classes) ---------- */
+  const ICONS = {
+    bread: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect class="i-crust" x="5" y="5" width="30" height="30" rx="4"/><rect class="i-crumb" x="8" y="8" width="24" height="24" rx="2.5"/><circle class="i-pore" cx="15" cy="15" r="1" opacity=".45"/><circle class="i-pore" cx="25" cy="13" r=".9" opacity=".45"/><circle class="i-pore" cx="21" cy="21" r="1.1" opacity=".45"/><circle class="i-pore" cx="14" cy="26" r=".9" opacity=".45"/><circle class="i-pore" cx="27" cy="27" r="1" opacity=".45"/></svg>',
+    cheese: '<svg viewBox="0 0 40 40" aria-hidden="true"><path class="i-cheese" d="M3 11 L37 6 L37 31 L3 31 Z"/><path class="i-cheese-dk" opacity=".35" d="M3 28 H37 V31 H3 Z"/><circle class="i-hole" cx="11" cy="18" r="2.6"/><circle class="i-hole" cx="26" cy="14" r="2"/><circle class="i-hole" cx="29" cy="24" r="2.8"/><circle class="i-hole" cx="17" cy="25" r="1.7"/></svg>',
+    ham: '<svg viewBox="0 0 40 40" aria-hidden="true"><path class="i-ham" d="M3 13 C9 6 14 18 20 11 C26 4 32 15 37 8 L37 29 C32 36 26 25 20 32 C14 39 9 28 3 35 Z"/><path class="i-line" d="M7 21 C13 17 17 25 23 19 C27 15 31 20 34 17"/><path class="i-line" d="M8 28 C13 25 17 30 22 26" opacity=".7"/></svg>',
+    sand: '<svg viewBox="0 0 40 40" aria-hidden="true"><rect class="i-crust" x="5" y="23" width="30" height="8" rx="2.5"/><rect class="i-crumb" x="7" y="24.5" width="26" height="5" rx="1.5"/><path class="i-ham" d="M4 19 C7 17 9 21 12 19 C15 17 17 21 20 19 C23 17 25 21 28 19 C31 17 33 21 36 19 V24 H4 Z"/><rect class="i-cheese" x="3" y="15.5" width="34" height="4" rx="1"/><rect class="i-crust" x="5" y="8" width="30" height="8" rx="2.5"/><rect class="i-crumb" x="7" y="9.5" width="26" height="5" rx="1.5"/></svg>'
+  };
+  const ico = (k, cls) => '<span class="ico' + (cls ? ' ' + cls : '') + '">' + ICONS[k] + '</span>';
+
+  /* ---------- question cards ---------- */
+  function fieldHtml(f, id) {
+    if (f.type === 'num') {
+      return '<label class="fld" data-key="' + f.key + '" for="' + id + '-' + f.key + '"><span>' + f.label + '</span><span class="inp"><input id="' + id + '-' + f.key + '" inputmode="decimal" autocomplete="off"><em>' + f.unit + '</em></span></label>';
+    }
+    return '<fieldset class="fld" data-key="' + f.key + '"><legend>' + f.label + '</legend><div class="opts">' +
+      f.options.map(o => '<label class="chipradio"><input type="radio" name="' + id + '-' + f.key + '" value="' + o + '"><span>' + sub(o) + '</span></label>').join('') + '</div></fieldset>';
+  }
+  const SPH = s => sub(s.f) + (s.st ? '<span class="st">' + s.st + '</span>' : '');
+  function cellHtml(c, id, demo, byKey) {
+    if (!c) return '<div class="gcell none"></div>';
+    if (c.k === 'given') return '<div class="gcell given"><span class="cap">' + c.cap + '</span><b>' + c.text + '</b></div>';
+    if (demo) return '<div class="gcell" data-key="' + c.key + '"><span class="cap">' + c.cap + '</span><b class="qm">?</b></div>';
+    return '<div class="gcell in" data-key="' + c.key + '"><span class="cap">' + c.cap + '</span><span class="inp"><input id="' + id + '-' + c.key + '" inputmode="decimal" autocomplete="off" aria-label="' + plain(byKey[c.key].label) + '"><em>' + c.unit + '</em></span></div>';
+  }
+  function gridHtml(q, id, demo) {
+    const sp = [...q.e.R, ...q.e.P], nR = q.e.R.length;
+    const byKey = {}; q.fields.forEach(f => { byKey[f.key] = f; });
+    const tpl = sp.map(() => 'minmax(var(--cw),max-content)').join(' var(--ow) ');
+    const op = (i, first) => i ? '<div class="eop">' + (first ? (i === nR ? '→' : '+') : '') + '</div>' : '';
+    let h = '<div class="egridwrap"><div class="egrid" style="grid-template-columns:' + tpl + '">';
+    sp.forEach((s, i) => { h += op(i, true) + '<div class="esp' + (i >= nR ? ' isprod' : '') + '">' + '<b class="co' + (s.c === 1 ? ' one' : '') + '">' + s.c + '</b>' + SPH(s) + '</div>'; });
+    q.grid.forEach(row => { sp.forEach((s, i) => { h += op(i, false) + cellHtml(row[s.f], id, demo, byKey); }); });
+    return h + '</div></div><p class="swipehint">Swipe sideways to see every species.</p>';
+  }
+
+  function makeCard(q, opt) {
+    const id = 'q' + (++uid);
+    const demo = !!opt.demo;
+    const card = document.createElement('article');
+    card.className = 'qcard' + (demo ? ' demo' : '');
+    const ram = '<div class="ram"><span class="lab">RAM</span>' + q.ram.map(r => '<i>' + r[0] + ' = ' + r[1].toFixed(1) + '</i>').join('') + '</div>';
+    const gridKeys = new Set();
+    q.grid.forEach(r => Object.values(r).forEach(c => { if (c.key) gridKeys.add(c.key); }));
+    const rest = q.fields.filter(f => !gridKeys.has(f.key));
+    let form = '';
+    if (!demo) {
+      form = '<form class="answers" novalidate>' + (rest.length ? '<div class="fields">' + rest.map(f => fieldHtml(f, id)).join('') + '</div>' : '') +
+        '<div class="btns"><button type="submit" class="btn">Check answer</button><button type="button" class="btn ghost help">Help me step by step</button></div></form><div class="fb" aria-live="polite"></div>';
+    }
+    const ctl = demo
+      ? '<button type="button" class="btn next">Next step</button><button type="button" class="btn ghost play">Play all</button><button type="button" class="btn ghost all">Show all</button><button type="button" class="btn ghost reset">Start again</button>'
+      : '<button type="button" class="btn next">Next step</button><button type="button" class="btn ghost all">Show all</button>';
+    const grid = gridHtml(q, id, demo);
+    /* answer boxes live in the grid, so the form wraps the whole interactive area for real cards */
+    const mid = demo ? grid + ram : '<form class="answers gridform" novalidate>' + grid + ram + (rest.length ? '<div class="fields">' + rest.map(f => fieldHtml(f, id)).join('') + '</div>' : '') +
+      '<div class="btns"><button type="submit" class="btn">Check answer</button><button type="button" class="btn ghost help">Help me step by step</button></div></form><div class="fb" aria-live="polite"></div>';
+    card.innerHTML =
+      '<div class="qhead"><span class="tag">' + (demo ? 'Worked example' : 'Practice ' + opt.n) + '</span><span class="qtype">' + LABEL[q.k] + '</span></div>' +
+      '<p class="qtext">' + q.text + '</p>' + mid +
+      '<div class="helppanel"' + (demo ? '' : ' hidden') + '><div class="steps"></div><div class="stepctl">' + ctl + '<span class="stepmeta"></span></div></div>';
+
+    const state = { solved: false };
+    const st = wireSteps(card, q, demo);
+    if (demo) { st.open(); }
+    else {
+      const helpBtn = $('.help', card), panel = $('.helppanel', card);
+      helpBtn.addEventListener('click', () => {
+        panel.hidden = !panel.hidden;
+        helpBtn.textContent = panel.hidden ? 'Help me step by step' : 'Hide help';
+        if (!panel.hidden) st.open();
+      });
+      wireCheck(card, q, opt.tab, state);
+    }
+    return card;
+  }
+
+  function wireSteps(card, q, demo) {
+    const panel = $('.helppanel', card), list = $('.steps', panel);
+    const next = $('.next', panel), all = $('.all', panel), meta = $('.stepmeta', panel);
+    const play = $('.play', panel), reset = $('.reset', panel);
+    const n = q.steps.length;
+    let idx = 0, timer = null;
+    function stopTimer() { if (timer) { clearInterval(timer); timer = null; } if (play) play.textContent = 'Play all'; }
+    function upd() {
+      meta.textContent = 'Step ' + idx + ' of ' + n;
+      next.disabled = idx >= n; all.disabled = idx >= n;
+      if (idx >= n) stopTimer();
+    }
+    function showOne(scroll) {
+      if (idx >= n) return;
+      const s = q.steps[idx];
+      const d = document.createElement('div');
+      d.className = 'step';
+      d.innerHTML = '<div class="stepno">' + (idx + 1) + '</div><div class="stepbody"><h4>' + s.t + '</h4>' + s.h + '</div>';
+      list.append(d); idx++;
+      let last = d;
+      if (idx === n) {
+        const f = document.createElement('div');
+        f.className = 'final';
+        f.innerHTML = 'Answer: ' + q.fields.map(x => x.label + ' = ' + ansText(x)).join(' · ');
+        list.append(f); last = f;
+        if (demo) q.fields.forEach(x => { const e = $('[data-key="' + x.key + '"] .qm', card); if (e) e.textContent = fmt(x.ans) + ' ' + x.unit; });
+      }
+      upd();
+      if (scroll) last.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    }
+    function doReset() {
+      list.innerHTML = ''; idx = 0;
+      if (demo) $$('.qm', card).forEach(e => { e.textContent = '?'; });
+      upd();
+    }
+    next.addEventListener('click', () => showOne(true));
+    all.addEventListener('click', () => { while (idx < n) showOne(false); });
+    if (play) play.addEventListener('click', () => {
+      if (timer) { stopTimer(); return; }
+      if (idx >= n) doReset();
+      play.textContent = 'Pause';
+      showOne(true);
+      timer = setInterval(() => showOne(true), 2800);
+    });
+    if (reset) reset.addEventListener('click', () => { stopTimer(); doReset(); showOne(false); });
+    upd();
+    return { open() { if (idx === 0) showOne(false); } };
+  }
+
+  function wireCheck(card, q, tab, state) {
+    const form = $('form', card), fb = $('.fb', card);
+    form.addEventListener('submit', ev => {
+      ev.preventDefault();
+      if (state.solved) return;
+      const vals = []; let blank = false;
+      q.fields.forEach(f => {
+        const w = $('[data-key="' + f.key + '"]', card);
+        let v = null;
+        if (f.type === 'num') {
+          const raw = $('input', w).value.trim().replace(',', '.').replace('%', '');
+          if (raw === '' || !isFinite(parseFloat(raw))) blank = true; else v = parseFloat(raw);
+        } else {
+          const c = $('input:checked', w);
+          if (!c) blank = true; else v = c.value;
+        }
+        vals.push([f, w, v]);
+      });
+      if (blank) { fb.className = 'fb info'; fb.textContent = 'Fill in every answer first.'; return; }
+      let wrong = 0;
+      vals.forEach(([f, w, v]) => {
+        const ok = f.type === 'num' ? Math.abs(v - f.ans) <= Math.max(0.015 * Math.abs(f.ans), 1e-9) : v === f.ans;
+        w.classList.toggle('ok', ok); w.classList.toggle('bad', !ok);
+        if (!ok) wrong++;
+      });
+      if (!wrong) {
+        state.solved = true;
+        card.classList.add('solved');
+        $$('input', form).forEach(i => { if (i.type === 'radio') i.disabled = true; else i.readOnly = true; });
+        $('.qhead', card).insertAdjacentHTML('beforeend', '<span class="solvedmark">Solved</span>');
+        fb.className = 'fb good';
+        fb.textContent = 'Correct. ' + (q.note || 'Nice work.');
+        prog[tab].d++; updateProg();
+        card.dispatchEvent(new CustomEvent('solved'));
+      } else {
+        fb.className = 'fb'; void fb.offsetWidth; fb.className = 'fb warn';
+        fb.innerHTML = '<b>' + wrong + ' of ' + vals.length + ' answer' + (vals.length > 1 ? 's are' : ' is') + ' not right yet.</b> ' + q.hint + ' You can press “Help me step by step” to see it worked out.';
+      }
+    });
+  }
+
+  function updateProg() {
+    [1, 2, 3].forEach(t => { const el = $('#tb' + t + ' .prog'); if (el) el.textContent = prog[t].d + '/' + prog[t].t; });
+  }
+
+  function mountSet(el) {
+    const tab = el.closest('.tab').dataset.tab;
+    const set = SETS[el.dataset.set];
+    el.classList.add('qset');
+    const cards = [makeCard(build(set.demo), { demo: true, tab })];
+    set.practice.forEach((sp, i) => { prog[tab].t++; cards.push(makeCard(build(sp), { n: i + 1, tab })); });
+    const wrap = document.createElement('div');
+    wrap.className = 'qtabs';
+    const list = document.createElement('div');
+    list.className = 'qtablist';
+    list.setAttribute('role', 'tablist');
+    const btns = cards.map((c, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'qtab';
+      b.setAttribute('role', 'tab');
+      b.textContent = i === 0 ? 'Worked example' : 'Practice ' + i;
+      c.addEventListener('solved', () => b.classList.add('done'));
+      list.append(b);
+      return b;
+    });
+    function pick(k, focus) {
+      cards.forEach((c, i) => { c.hidden = i !== k; });
+      btns.forEach((b, i) => { b.setAttribute('aria-selected', String(i === k)); b.tabIndex = i === k ? 0 : -1; });
+      if (focus) btns[k].focus({ preventScroll: true });
+      const b = btns[k];
+      list.scrollTo({ left: Math.max(0, b.offsetLeft - (list.clientWidth - b.offsetWidth) / 2), behavior: first ? 'auto' : 'smooth' });
+      first = false;
+    }
+    let first = true;
+    btns.forEach((b, i) => {
+      b.addEventListener('click', () => pick(i));
+      b.addEventListener('keydown', ev => {
+        if (ev.key === 'ArrowRight') { ev.preventDefault(); pick((i + 1) % btns.length, true); }
+        if (ev.key === 'ArrowLeft') { ev.preventDefault(); pick((i + btns.length - 1) % btns.length, true); }
+        if (ev.key === 'Home') { ev.preventDefault(); pick(0, true); }
+        if (ev.key === 'End') { ev.preventDefault(); pick(btns.length - 1, true); }
+      });
+    });
+    const help = document.createElement('p');
+    help.className = 'qhelp';
+    help.innerHTML = '<span aria-hidden="true">👇</span> <b>Tap a button to choose a question.</b> Start with the worked example, then try Practice 1.';
+    wrap.append(help, list, ...cards);
+    wrap.style.scrollMarginTop = '84px';
+    el.append(wrap);
+    pick(0);
+  }
+
+  /* ---------- playgrounds ---------- */
+  function pieceHtml(s, cls) { return s.ico ? ico(s.ico, cls) : '<span class="mol ' + s.mcls + (cls ? ' ' + cls : '') + '"></span>'; }
+  function piecesHtml(s, amount, used) {
+    const step = s.step || 1, total = Math.min(Math.round(amount / step), 40);
+    if (used == null) return '<div class="ic">' + Array.from({ length: total }, () => pieceHtml(s)).join('') + '</div>';
+    const u2 = Math.min(total, Math.round(used / step)), left = total - u2;
+    const lab = n => s.ico ? String(n) : trim(n * step, 3) + ' mol';
+    const grp = (n, cls, label) => '<div class="grp ' + cls + '"><div class="ic">' + Array.from({ length: n }, () => pieceHtml(s, cls === 'left' ? 'left' : '')).join('') + '</div><div class="br"></div><div class="bl">' + label + '</div></div>';
+    return (u2 > 0 ? grp(u2, 'used', 'used: ' + lab(u2)) : '') + (left > 0 ? grp(left, 'left', 'not used: ' + lab(left)) : '');
+  }
+  const gridTpl = n => Array.from({ length: n }, () => 'minmax(0,1fr)').join(' var(--ow) ');
+  const gridOp = (i, nR, first) => i ? '<div class="eop">' + (first ? (i === nR ? '→' : '+') : '') + '</div>' : '';
+  const nameCell = (s, cls) => '<div class="esp' + (cls ? ' ' + cls : '') + '">' + '<b class="co' + (s.c === 1 ? ' one' : '') + '">' + s.c + '</b>' + s.h + '</div>';
+
+  function ratioPg(root, cfg) {
+    const id = 'rp' + (++uid), nR = cfg.nR;
+    root.innerHTML = '<div class="pg-ctl"><label for="' + id + '-s">I know the amount of</label><select id="' + id + '-s">' +
+      cfg.sp.map((s, i) => '<option value="' + i + '"' + (i === cfg.gi ? ' selected' : '') + '>' + s.t + '</option>').join('') +
+      '</select><label for="' + id + '-r">Amount</label><input type="range" id="' + id + '-r" min="' + cfg.min + '" max="' + cfg.max + '" step="' + cfg.step + '" value="' + cfg.amt + '"><output id="' + id + '-o" for="' + id + '-r"></output></div><div class="pg-rows"></div>' +
+      (cfg.note ? '<p class="pgnote">' + cfg.note + '</p>' : '');
+    const sel = $('select', root), rng = $('input', root), out = $('output', root), rows = $('.pg-rows', root);
+    function render() {
+      const g = cfg.sp[+sel.value], a = +rng.value;
+      out.textContent = trim(a, 3) + ' ' + g.unit;
+      const vs = cfg.sp.map(s => a / g.c * s.c);
+      let h = '<div class="egridwrap"><div class="egrid fit" style="grid-template-columns:' + gridTpl(cfg.sp.length) + '">';
+      cfg.sp.forEach((s, i) => { h += gridOp(i, nR, true) + nameCell(s, (s === g ? 'isgiven ' : '') + (i >= nR ? 'isprod' : '')); });
+      cfg.sp.forEach((s, i) => { h += gridOp(i, nR, false) + '<div class="pcell' + (s === g ? ' gv' : '') + '">' + piecesHtml(s, vs[i]) + '</div>'; });
+      cfg.sp.forEach((s, i) => { h += gridOp(i, nR, false) + '<div class="pcell calc' + (s === g ? ' gv' : '') + '">' + (s === g ? 'given' : trim(a, 3) + ' ÷ ' + g.c + ' × ' + s.c) + '</div>'; });
+      cfg.sp.forEach((s, i) => { h += gridOp(i, nR, false) + '<div class="pcell val' + (s === g ? ' gv' : '') + '"><b>' + (s === g ? '' : '= ') + trim(vs[i], 3) + '</b><small>' + s.unit + '</small></div>'; });
+      rows.innerHTML = h + '</div></div>';
+    }
+    sel.addEventListener('change', render); rng.addEventListener('input', render);
+    render();
+  }
+
+  function limitPg(root, cfg) {
+    const id = 'lp' + (++uid), sp = cfg.sp, all = sp.concat([cfg.prod]), nR = sp.length;
+    let h = '<div class="egridwrap"><div class="egrid fit" style="grid-template-columns:' + gridTpl(all.length) + '">';
+    all.forEach((s, i) => { h += gridOp(i, nR, true) + nameCell(s, i === nR ? 'isprod' : ''); });
+    all.forEach((s, i) => { h += gridOp(i, nR, false) + '<div class="pcell"><div class="vis" data-vis="' + i + '"></div></div>'; });
+    all.forEach((s, i) => {
+      h += gridOp(i, nR, false) + (i < nR
+        ? '<div class="pcell"><input type="range" id="' + id + '-' + i + '" min="0" max="' + s.max + '" step="' + s.step + '" value="' + s.def + '" aria-label="Amount of ' + s.t + '"><output for="' + id + '-' + i + '"></output></div>'
+        : '<div class="pcell"></div>');
+    });
+    all.forEach((s, i) => { h += gridOp(i, nR, false) + '<div class="pcell calc" data-calc="' + i + '"></div>'; });
+    root.innerHTML = h + '</div></div>' + (cfg.note ? '<p class="pgnote">' + cfg.note + '</p>' : '') + '<div class="summary"></div>';
+    const sl = $$('input[type=range]', root), outs = $$('output', root), vis = $$('[data-vis]', root), calcs = $$('[data-calc]', root), sum = $('.summary', root);
+    function render() {
+      const a = sl.map(r => +r.value);
+      const qs = sp.map((s, i) => a[i] / s.c), qmin = Math.min(...qs);
+      const limIdx = qs.map((q, i) => Math.abs(q - qmin) < 1e-9 ? i : -1).filter(i => i >= 0);
+      sp.forEach((s, i) => {
+        const isLim = limIdx.includes(i);
+        outs[i].textContent = trim(a[i], 3) + ' ' + s.unit;
+        vis[i].innerHTML = piecesHtml(s, a[i], qmin * s.c);
+        calcs[i].innerHTML = '÷ <i class="cc' + (s.c === 1 ? ' one' : '') + '">' + s.c + '</i> = <b' + (isLim ? ' class="limv"' : '') + '>' + trim(qs[i], 3) + '</b><span class="badge' + (isLim ? ' lim' : '') + '">' + (isLim ? 'limiting' : 'excess') + '</span>';
+      });
+      const made = qmin * cfg.prod.c;
+      vis[nR].innerHTML = piecesHtml(cfg.prod, made);
+      calcs[nR].innerHTML = 'made:<div class="mk"><b class="limv">' + trim(qmin, 3) + '</b> × <i class="cc pr' + (cfg.prod.c === 1 ? ' one' : '') + '">' + cfg.prod.c + '</i> = <b>' + trim(made, 3) + '</b></div>' + cfg.prod.unit;
+      const limNames = limIdx.map(i => sp[i].h).join(' and ');
+      let t = '<div><b>' + limNames + '</b> ' + (limIdx.length > 1 ? 'run out together.' : 'runs out first.') + '</div>';
+      t += '<div>' + (cfg.prod.sum || cfg.prod.h) + ' made: <b class="limv">' + trim(qmin, 3) + '</b> × <i class="cc pr' + (cfg.prod.c === 1 ? ' one' : '') + '">' + cfg.prod.c + '</i> = <b>' + trim(made, 3) + ' ' + cfg.prod.unit + '</b></div>';
+      sp.forEach((s, i) => {
+        if (limIdx.includes(i)) return;
+        const used = qmin * s.c;
+        t += '<div>' + s.h + ' left over: ' + trim(a[i], 3) + ' − ' + trim(used, 3) + ' = <b>' + trim(a[i] - used, 3) + ' ' + s.unit + '</b></div>';
+      });
+      if (limIdx.length === 1) t += '<div>Change an excess amount and the result stays the same. Change the limiting one and it moves.</div>';
+      sum.innerHTML = t;
+    }
+    sl.forEach(r => r.addEventListener('input', render));
+    render();
+  }
+
+  function unitPg(root) {
+    const id = 'up' + (++uid);
+    const E = parseEq('4NH3 + 5O2 -> 4NO + 6H2O');
+    const all = [...E.R, ...E.P];
+    const AMT = { NH3: 0.2, O2: 0.25, NO: 0.2, H2O: 0.3 };
+    let gi = 0, stage = 0, timer = null;
+    root.innerHTML = '<div class="pg-ctl"><label for="' + id + '-s">I know the moles of</label><select id="' + id + '-s">' +
+      all.map((s, i) => '<option value="' + i + '">' + uni(s.f) + ' (' + AMT[s.f] + ' mol)</option>').join('') + '</select></div>' +
+      '<div class="eqstack"></div><div class="ustatus" aria-live="polite"></div>' +
+      '<div class="stepctl"><button type="button" class="btn next">Next step</button><button type="button" class="btn ghost play">Play</button><button type="button" class="btn ghost reset">Start again</button><span class="stepmeta"></span></div>';
+    const sel = $('select', root), stack = $('.eqstack', root), status = $('.ustatus', root);
+    const next = $('.next', root), play = $('.play', root), reset = $('.reset', root), meta = $('.stepmeta', root);
+    function render() {
+      const g = all[gi], n = AMT[g.f], cg = g.c;
+      const scaled = all.map(s => s.c / cg), moles = scaled.map(x => x * n);
+      let h = eqLine(E, all.map(s => s.c), g.f, '', 0);
+      if (stage >= 1) h += '<div class="opbadge" style="--i:0">÷ ' + cg + ' on every number</div>' + eqLine(E, scaled.map(fracStr), g.f, '', 1);
+      if (stage >= 2) h += '<div class="opbadge" style="--i:0">× ' + trim(n, 4) + ' on every number</div>' + eqLine(E, moles.map(x => trim(x, 4)), g.f, 'mol', 1);
+      stack.innerHTML = h;
+      if (stage === 0) status.innerHTML = '<p>You have <b>' + trim(n, 4) + ' mol</b> of ' + F(g.f) + ', and its coefficient in the equation is <b>' + cg + '</b>.</p><p>Step 1 divides the whole equation by ' + cg + ' so that ' + F(g.f) + ' becomes 1.</p>';
+      if (stage === 1) status.innerHTML = '<p><b>Step 1.</b> Dividing every number by ' + cg + ' gives a new equation where ' + F(g.f) + ' is 1. It now reads “per 1 mol of ' + sub(g.f) + '”.</p><p>Step 2 scales it up to the ' + trim(n, 4) + ' mol you really have.</p>';
+      if (stage === 2) status.innerHTML = '<p><b>Step 2.</b> Multiplying every number by ' + trim(n, 4) + ' turns the coefficients into moles. ' + F(g.f) + ' is back to ' + trim(n, 4) + ' mol, and the others are the answers.</p><p>In one line: moles wanted = moles given × (coefficient wanted ÷ coefficient given).</p>';
+      meta.textContent = 'Step ' + stage + ' of 2';
+      next.disabled = stage >= 2;
+      if (stage >= 2 && timer) { clearInterval(timer); timer = null; play.textContent = 'Play'; }
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } play.textContent = 'Play'; }
+    next.addEventListener('click', () => { if (stage < 2) { stage++; render(); } });
+    reset.addEventListener('click', () => { stop(); stage = 0; render(); });
+    play.addEventListener('click', () => {
+      if (timer) { stop(); return; }
+      if (stage >= 2) { stage = 0; render(); }
+      play.textContent = 'Pause';
+      stage++; render();
+      timer = setInterval(() => { if (stage < 2) { stage++; render(); } }, 3200);
+    });
+    sel.addEventListener('change', () => { stop(); gi = +sel.value; stage = 0; render(); });
+    render();
+  }
+
+  function yieldPg(root) {
+    const id = 'yp' + (++uid), T = 8, MAX = 10, GY = 164, GH = 150, PX = GH / MAX;
+    const ty = GY - T * PX;
+    root.innerHTML = '<div class="pg-ctl"><label for="' + id + '">Mass of MgO you actually weigh</label><input type="range" id="' + id + '" min="0" max="10" step="0.1" value="6"><output for="' + id + '"></output></div>' +
+      '<svg class="balsvg" viewBox="0 0 470 196" role="img" aria-label="Digital balance and yield gauge">' +
+      '<clipPath id="' + id + 'c"><rect x="330" y="14" width="38" height="150" rx="8"/></clipPath>' +
+      '<rect class="b-body" x="14" y="118" width="206" height="58" rx="12"/><rect class="b-lcd" x="44" y="130" width="146" height="32" rx="5"/>' +
+      '<text class="b-num" x="182" y="154" text-anchor="end"></text><ellipse class="b-pan" cx="117" cy="113" rx="72" ry="8"/><path class="b-mound" d=""/>' +
+      '<text class="g-tick" x="117" y="192" text-anchor="middle">digital balance</text>' +
+      '<rect class="g-tube" x="330" y="14" width="38" height="150" rx="8"/>' +
+      '<g clip-path="url(#' + id + 'c)"><rect class="g-fill" x="330" width="38"/><rect class="g-over" x="330" width="38"/></g>' +
+      '<line class="g-line" x1="322" x2="376" y1="' + ty + '" y2="' + ty + '"/>' +
+      '<text class="g-lab" x="382" y="' + (ty + 4) + '">8.0 g = 100%</text><text class="g-tick" x="382" y="18">10 g</text><text class="g-tick" x="382" y="' + GY + '">0 g</text></svg><div class="summary"></div>';
+    const rng = $('input', root), out = $('output', root), num = $('.b-num', root), mound = $('.b-mound', root), fill = $('.g-fill', root), over = $('.g-over', root), sum = $('.summary', root);
+    function render() {
+      const a = +rng.value, pct = a / T * 100;
+      out.textContent = a.toFixed(1) + ' g';
+      num.textContent = a.toFixed(1) + ' g';
+      const hh = a / MAX * 44;
+      mound.setAttribute('d', 'M 60 111 Q 117 ' + (111 - 2 * hh) + ' 174 111 Z');
+      const low = Math.min(a, T), hi = Math.max(0, a - T);
+      fill.setAttribute('y', GY - low * PX); fill.setAttribute('height', low * PX);
+      over.setAttribute('y', GY - (low + hi) * PX); over.setAttribute('height', hi * PX);
+      const msg = pct > 100.05
+        ? 'Above 100%. You cannot make more product than the equation predicts, so the extra mass is not pure product. The sample is probably wet or impure.'
+        : pct > 99.95
+          ? 'Exactly 100%. Nothing was lost, which almost never happens in a real experiment.'
+          : 'Below 100%. Some product was lost or never formed. See the reasons below.';
+      sum.innerHTML = '<div>Theoretical yield = <b>8.0 g</b> (from the equation, never weighed)</div>' +
+        '<div>Actual yield = <b>' + a.toFixed(1) + ' g</b> (from the balance)</div>' +
+        '<div>percentage yield = actual ÷ theoretical × 100 = ' + a.toFixed(1) + ' ÷ 8.0 × 100 = <b>' + trim(pct, 3) + '%</b></div><div>' + msg + '</div>';
+    }
+    rng.addEventListener('input', render);
+    render();
+  }
+
+  /* ---------- tabs ---------- */
+  function initTabs() {
+    const btns = $$('.tabbtn'), panels = $$('.tab');
+    function select(i, focus) {
+      btns.forEach((b, j) => { b.setAttribute('aria-selected', String(j === i)); b.tabIndex = j === i ? 0 : -1; });
+      panels.forEach((p, j) => { p.hidden = j !== i; });
+      try { history.replaceState(null, '', '#tab' + (i + 1)); } catch (e) { /* ignore */ }
+      if (focus) btns[i].focus();
+    }
+    $$('[data-nexttab]').forEach(nb => nb.addEventListener('click', () => { select(+nb.dataset.nexttab - 1); const bar = $('.tabbar'); if (bar) bar.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }));
+    btns.forEach((b, i) => {
+      b.addEventListener('click', () => select(i));
+      b.addEventListener('keydown', ev => {
+        if (ev.key === 'ArrowRight') { ev.preventDefault(); select((i + 1) % 3, true); }
+        if (ev.key === 'ArrowLeft') { ev.preventDefault(); select((i + 2) % 3, true); }
+        if (ev.key === 'Home') { ev.preventDefault(); select(0, true); }
+        if (ev.key === 'End') { ev.preventDefault(); select(2, true); }
+      });
+    });
+    $$('.jump button').forEach(b => b.addEventListener('click', () => {
+      const t = document.getElementById(b.dataset.go);
+      if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }));
+    const m = (location.hash || '').match(/^#tab([123])$/);
+    if (m) select(+m[1] - 1);
+  }
+
+  /* ---------- start ---------- */
+  $$('[data-set]').forEach(mountSet);
+  updateProg();
+  ratioPg($('#pg-sandwich'), {
+    nR: 3,
+    sp: [
+      { h: 'Bread', t: 'Bread', c: 2, unit: 'slices', ico: 'bread' },
+      { h: 'Cheese', t: 'Cheese', c: 1, unit: 'slices', ico: 'cheese' },
+      { h: 'Ham', t: 'Ham', c: 1, unit: 'slices', ico: 'ham' },
+      { h: 'Sandwich', t: 'Sandwiches', c: 1, unit: 'sandwiches', ico: 'sand' }
+    ], gi: 3, min: 1, max: 6, step: 1, amt: 2
+  });
+  ratioPg($('#pg-chem'), {
+    nR: 2,
+    sp: [
+      { h: 'H<sub>2</sub>', t: 'H₂', c: 2, unit: 'mol', step: 0.5, mcls: 'a' },
+      { h: 'O<sub>2</sub>', t: 'O₂', c: 1, unit: 'mol', step: 0.5, mcls: 'b' },
+      { h: 'H<sub>2</sub>O', t: 'H₂O', c: 2, unit: 'mol', step: 0.5, mcls: 'c' }
+    ], gi: 1, min: 0.5, max: 4, step: 0.5, amt: 0.5, note: 'Each circle stands for 0.5 mol.'
+  });
+  limitPg($('#lp-sandwich'), {
+    sp: [
+      { h: 'Bread', t: 'Bread', c: 2, unit: 'slices', max: 12, step: 1, def: 10, ico: 'bread' },
+      { h: 'Cheese', t: 'Cheese', c: 1, unit: 'slices', max: 8, step: 1, def: 3, ico: 'cheese' },
+      { h: 'Ham', t: 'Ham', c: 1, unit: 'slices', max: 12, step: 1, def: 8, ico: 'ham' }
+    ], prod: { h: 'Sandwich', sum: 'Sandwiches', c: 1, unit: 'sandwiches', ico: 'sand' }
+  });
+  limitPg($('#lp-chem'), {
+    sp: [
+      { h: 'H<sub>2</sub>', t: 'H₂', c: 2, unit: 'mol', max: 6, step: 0.5, def: 6, mcls: 'a' },
+      { h: 'O<sub>2</sub>', t: 'O₂', c: 1, unit: 'mol', max: 4, step: 0.5, def: 2, mcls: 'b' }
+    ], prod: { h: 'H<sub>2</sub>O', c: 2, unit: 'mol', mcls: 'c' }, note: 'Each circle stands for 0.5 mol.'
+  });
+  unitPg($('#pg-unit'));
+  yieldPg($('#yp-bal'));
+  initTabs();
+})();
+</script></body></html>
+
+</body></html>
