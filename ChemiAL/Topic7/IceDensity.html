@@ -1,0 +1,1262 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Why Ice Floats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: one wide instrument panel (molecular window + beaker + readouts) on top,
+   then four short sections that each answer one question the panel raises. */
+:root {
+  --bg: #f2f6f9;
+  --surface: #ffffff;
+  --soft: #e6eff5;
+  --ink: #0e2231;
+  --muted: #4d6275;
+  --line: #d2dce5;
+  --ice: #0b7fa5;
+  --water: #2a5fb0;
+  --heat: #b9511a;
+  --oxy: #d6453d;
+  --sim-bg: #06121c;
+  --sim-ink: #c9dcea;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #08131c; --surface: #0f1d2a; --soft: #142738; --ink: #e4edf4; --muted: #96abbd;
+    --line: #223545; --ice: #56c9ee; --water: #7aa9f2; --heat: #f29a5f; --oxy: #ff7068;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #08131c; --surface: #0f1d2a; --soft: #142738; --ink: #e4edf4; --muted: #96abbd;
+  --line: #223545; --ice: #56c9ee; --water: #7aa9f2; --heat: #f29a5f; --oxy: #ff7068;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 28px 56px; }
+* { box-sizing: border-box; }
+.wrap { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 56px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.12; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); font-weight: 700; }
+h2 { font-size: clamp(1.45rem, 3vw, 1.9rem); font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p { margin: 0; max-width: 66ch; }
+.kicker { font: 500 0.75rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ice); }
+header { display: flex; flex-direction: column; gap: 14px; }
+header p { font-size: 1.12rem; color: var(--muted); }
+section { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.lede { color: var(--muted); }
+code, .mono { font-family: var(--mono); }
+
+/* instrument panel */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.stage { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 16px; }
+.view { position: relative; background: var(--sim-bg); border-radius: 6px; overflow: hidden; aspect-ratio: 3 / 2; min-width: 0; }
+.view canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+.view canvas:active { cursor: grabbing; }
+.side { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 12px; min-width: 0; }
+.beaker { background: var(--soft); border-radius: 6px; padding: 8px 4px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; }
+.beaker svg { width: 100%; height: auto; max-height: 340px; }
+.beaker .cap { font: 500 0.68rem/1.2 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 4px 6px 6px; text-align: center; }
+dl.read { margin: 0; display: grid; grid-template-columns: 1fr; gap: 0; align-content: start; min-width: 0; }
+dl.read div { display: flex; flex-direction: column; gap: 1px; padding: 7px 0; border-bottom: 1px solid var(--line); min-width: 0; }
+dl.read div:first-child { padding-top: 0; }
+dl.read div:last-child { border-bottom: 0; }
+dl.read dt { font: 500 0.66rem/1.2 var(--mono); letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+dl.read dd { margin: 0; font: 500 1.08rem/1.25 var(--mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+dd.state { font-family: var(--display); font-weight: 700; font-size: 1.15rem; }
+.s-ice { color: var(--ice); } .s-liq { color: var(--water); }
+
+.controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.sliderbox { display: flex; flex-direction: column; gap: 6px; }
+.sliderbox label { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+input[type=range] { width: 100%; margin: 0; accent-color: var(--ice); height: 28px; }
+.ticks { position: relative; height: 18px; font: 400 0.72rem/1 var(--mono); color: var(--muted); }
+.ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font: 600 0.9rem/1 var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; cursor: pointer; min-height: 40px; }
+button:hover { border-color: var(--ice); }
+button.primary { background: var(--ice); border-color: var(--ice); color: #fff; }
+:root[data-theme="dark"] button.primary { color: #04131b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button.primary { color: #04131b; } }
+button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--ice); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 0.85rem; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { display: inline-block; flex: none; }
+.i-o { width: 12px; height: 12px; border-radius: 50%; background: var(--oxy); }
+.i-h { width: 8px; height: 8px; border-radius: 50%; background: #fff; border: 1px solid var(--muted); }
+.i-hb { width: 22px; height: 0; border-top: 2px dashed var(--ice); }
+.i-hbl { width: 22px; height: 0; border-top: 1px dashed var(--muted); }
+.i-fade { width: 12px; height: 12px; border-radius: 50%; background: var(--oxy); opacity: 0.3; }
+.i-void { width: 14px; height: 14px; border-radius: 3px; background: color-mix(in srgb, var(--ice) 30%, transparent); }
+.i-ex { width: 14px; height: 14px; border-radius: 3px; background: color-mix(in srgb, var(--heat) 55%, transparent); }
+.i-hex { width: 14px; height: 14px; background: color-mix(in srgb, var(--ice) 30%, transparent); clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%); }
+.i-ref { width: 18px; height: 11px; border: 1.5px dashed var(--muted); }
+.story { background: var(--soft); border-radius: 6px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; border-left: 4px solid var(--ice); }
+.story[data-r="liq"] { border-left-color: var(--water); }
+.story[data-r="max"] { border-left-color: var(--oxy); }
+.story[data-r="warm"] { border-left-color: var(--heat); }
+.note { font-size: 0.86rem; color: var(--muted); }
+.toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--muted); cursor: pointer; }
+.toggle input { width: 18px; height: 18px; margin: 0; accent-color: var(--ice); }
+
+/* two-column text + figure */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+.split > * { min-width: 0; }
+.fig { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.fig svg { width: 100%; height: auto; display: block; }
+.floatfig { margin: 0; max-width: 560px; align-self: center; width: 100%; }
+.floatfig figcaption { font-size: 0.92rem; color: var(--muted); padding: 8px 4px 0; line-height: 1.45; }
+.facts { display: flex; flex-direction: column; gap: 12px; }
+.facts p { max-width: 58ch; }
+.eq { font-family: var(--mono); font-size: 0.95rem; background: var(--soft); border-radius: 6px; padding: 10px 12px; overflow-x: auto; }
+
+/* charts */
+.charts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.chartbox { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 14px 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.chartbox h3 { font-size: 1rem; }
+.chartbox p { font-size: 0.88rem; color: var(--muted); }
+.chartbox svg { width: 100%; height: auto; display: block; }
+.chartbox.wide { grid-column: 1 / -1; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .tickline, svg .axisl { stroke: var(--muted); stroke-width: 1; }
+svg .tick { font: 400 11px var(--mono); fill: var(--muted); }
+svg .axt { font: 400 12px var(--body); fill: var(--muted); }
+svg .ann { font: 600 12px var(--body); fill: var(--ink); }
+svg .ln { stroke-width: 2.6; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+svg .ln-ice { stroke: var(--ice); } svg .ln-water { stroke: var(--water); }
+svg .ln-open { stroke: var(--ice); } svg .ln-therm { stroke: var(--heat); } svg .ln-net { stroke: var(--ink); stroke-width: 3.4; }
+svg .dot { fill: var(--surface); stroke: var(--water); stroke-width: 1.8; }
+svg .vl { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; }
+svg .mk { fill: var(--bg); stroke-width: 3; }
+svg .mk-ice { stroke: var(--ice); } svg .mk-water { stroke: var(--water); } svg .mk-heat { stroke: var(--heat); } svg .mk-net { stroke: var(--ink); } svg .mk-open { stroke: var(--ice); }
+svg .vline { stroke: var(--ink); stroke-width: 1; opacity: 0.35; }
+.clegend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.85rem; color: var(--muted); }
+.clegend span { display: inline-flex; align-items: center; gap: 7px; }
+.clegend i { width: 22px; height: 0; border-top: 3px solid; display: inline-block; flex: none; }
+
+.live4 { background: var(--soft); border-left: 4px solid var(--ice); border-radius: 6px; padding: 12px 16px; font-weight: 600; }
+.live4 span { display: block; font: 500 0.72rem/1.2 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.step { border-top: 3px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.step.a { border-color: var(--ice); } .step.b { border-color: var(--ink); } .step.c { border-color: var(--heat); }
+.step .tag { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0; }
+details + details { margin-top: 10px; }
+summary { cursor: pointer; padding: 14px 16px; font-weight: 600; list-style: none; display: flex; gap: 12px; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: "+"; font-family: var(--mono); color: var(--ice); flex: none; width: 1ch; }
+details[open] summary::before { content: "−"; }
+details .ans { padding: 0 16px 16px 44px; display: flex; flex-direction: column; gap: 8px; color: var(--ink); }
+details .ans p { max-width: 70ch; }
+.marks { font: 500 0.78rem/1.4 var(--mono); color: var(--muted); }
+footer { font-size: 0.85rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+footer p { max-width: 80ch; }
+
+@media (max-width: 860px) {
+  .stage { grid-template-columns: minmax(0, 1fr); }
+  .split, .charts, .steps { grid-template-columns: minmax(0, 1fr); }
+  .side { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  body { padding-block: 20px 40px; }
+  .wrap { gap: 40px; }
+  .side { grid-template-columns: minmax(0, 1fr); }
+  .beaker svg { max-height: 280px; }
+  details .ans { padding-left: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="kicker">Hydrogen bonding · Anomalous properties of water</span>
+  <h1>Why ice floats</h1>
+  <p>Cool a fixed window of water and watch hydrogen bonds lock the molecules into an open lattice. Drag to rotate the 3D view and click a molecule to see its hydrogen bonds. Count how many molecules fit in the window as a liquid and as ice, then compare with the density curve and the size of the cube.</p>
+</header>
+
+<!-- ============ SIMULATOR ============ -->
+<div class="panel" id="lab">
+  <div class="stage">
+    <div class="view">
+      <canvas id="cv" role="img" aria-label="3D molecular view of water molecules in a fixed window. Drag to rotate. Below 0 degrees Celsius every molecule forms four hydrogen bonds in a tetrahedral arrangement and some molecules are pushed out of the window."></canvas>
+    </div>
+    <div class="side">
+      <div class="beaker">
+        <svg id="beaker" viewBox="0 0 240 304" aria-label="A cube showing the volume of 1 kilogram of H2O as water or ice. The dashed outline is the volume of liquid water at 4 degrees Celsius" role="img">
+          <defs>
+            <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2"/></pattern>
+          </defs>
+          <g id="cube-faces" stroke="var(--surface)" stroke-width="1.2" stroke-linejoin="round">
+            <polygon id="cb-top" fill="var(--water)" fill-opacity="0.95"/>
+            <polygon id="cb-left" fill="var(--water)" fill-opacity="0.78"/>
+            <polygon id="cb-right" fill="var(--water)" fill-opacity="0.6"/>
+          </g>
+          <g id="cb-hatch" opacity="0">
+            <polygon id="cbh-top" fill="url(#hatch)"/><polygon id="cbh-left" fill="url(#hatch)"/><polygon id="cbh-right" fill="url(#hatch)"/>
+          </g>
+          <g id="cb-core" stroke="var(--surface)" stroke-width="1.2" stroke-linejoin="round">
+            <polygon id="ci-top" fill="var(--water)"/>
+            <polygon id="ci-left" fill="var(--water)" style="filter:brightness(0.82)"/>
+            <polygon id="ci-right" fill="var(--water)" style="filter:brightness(0.64)"/>
+          </g>
+          <text id="bk-pct" x="120" y="262" text-anchor="middle" font-size="17" font-weight="600" fill="var(--ink)" font-family="IBM Plex Mono, monospace"></text>
+          <text id="bk-edge" x="120" y="281" text-anchor="middle" font-size="13" fill="var(--ink)" font-family="IBM Plex Mono, monospace"></text>
+          <text id="bk-ref-t" x="120" y="298" text-anchor="middle" font-size="12" fill="var(--muted)" font-family="IBM Plex Mono, monospace">dark core: liquid water at 4 °C</text>
+        </svg>
+        <div class="cap">1.00 kg of H₂O</div>
+        <label class="toggle"><input id="exag" type="checkbox" checked> Exaggerate ×5 (not to scale)</label>
+      </div>
+      <dl class="read" aria-live="off">
+        <div><dt>Temperature</dt><dd id="r-T">10.0 °C</dd></div>
+        <div><dt>State</dt><dd id="r-state" class="state s-liq">Liquid water</dd></div>
+        <div><dt>Molecules in window</dt><dd id="r-count">70 (100 %)</dd></div>
+        <div><dt>Density</dt><dd id="r-rho">0.99970 g/cm³</dd></div>
+        <div><dt>1.00 kg occupies</dt><dd id="r-vol">1000.3 cm³</dd></div>
+        <div><dt>H bonds per molecule</dt><dd id="r-hb">3.3 of 4</dd></div>
+        <div><dt>Ice-like molecules</dt><dd id="r-ice">35 %</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="sliderbox">
+      <label for="temp">Temperature</label>
+      <input id="temp" type="range" min="-10" max="30" step="0.5" value="10">
+      <div class="ticks" aria-hidden="true">
+        <span style="left: calc(8px + (100% - 16px) * 0)">−10</span>
+        <span style="left: calc(8px + (100% - 16px) * 0.25)">0</span>
+        <span style="left: calc(8px + (100% - 16px) * 0.35)">4</span>
+        <span style="left: calc(8px + (100% - 16px) * 0.5)">10</span>
+        <span style="left: calc(8px + (100% - 16px) * 0.75)">20</span>
+        <span style="left: calc(8px + (100% - 16px) * 1)">30 °C</span>
+      </div>
+    </div>
+    <div class="btns">
+      <button id="b-cool" class="primary" type="button">Cool until it freezes</button>
+      <button id="b-warm" type="button">Warm it up</button>
+      <button data-set="-5" type="button">Ice, −5 °C</button>
+      <button data-set="0" type="button">0 °C</button>
+      <button data-set="4" type="button">4 °C</button>
+      <button data-set="20" type="button">20 °C</button>
+      <button id="b-pause" type="button" aria-pressed="false">Pause</button>
+    </div>
+    <div class="sliderbox">
+      <label for="speed">Molecular motion speed</label>
+      <input id="speed" type="range" min="0.1" max="1.5" step="0.05" value="0.35">
+    </div>
+    <div class="btns" aria-label="View controls">
+      <button id="v-side" type="button">Side view</button>
+      <button id="v-top" type="button">Look down the c-axis</button>
+      <label class="toggle"><input id="autoRot" type="checkbox"> Auto-rotate</label>
+      <label class="toggle"><input id="spaceFill" type="checkbox"> Space-filling spheres</label>
+    </div>
+  </div>
+
+  <div class="live4" id="selinfo" aria-live="off"></div>
+
+  <div class="legend">
+    <span><i class="i-o"></i>Oxygen</span>
+    <span><i class="i-h"></i>Hydrogen</span>
+    <span><i class="i-hb"></i>Hydrogen bond in the ice lattice</span>
+    <span><i class="i-hbl"></i>Short-lived hydrogen bond</span>
+    <span><i class="i-fade"></i>Pushed out, or about to come back</span>
+  </div>
+
+  <div class="story" id="story" data-r="liq" aria-live="polite">
+    <h3 id="st-h">Liquid, 0 to 4 °C: ice-like clusters still flicker</h3>
+    <p id="st-p"></p>
+  </div>
+  <p class="note">The molecular view is a 3D teaching model, not a full molecular dynamics calculation. The window never changes size, the molecules never change size, and the ice lattice is never stretched. Only molecules whose centres are inside the window are counted. A molecule pushed out fades away outside the window; in real life the extra volume is taken up in every direction, which the cube shows. The ice follows the real structure of ice Ih (hexagonal ice). Its hydrogen positions are random but obey the ice rules: every molecule donates two and accepts two hydrogen bonds. The liquid hydrogen-bond network is a simplified model.</p>
+</div>
+
+<!-- ============ MOLECULE ============ -->
+<section id="why-open">
+  <h2>Where the open structure comes from</h2>
+  <div class="split">
+    <div class="facts">
+      <p>Each water molecule has two O–H bonds and two lone pairs on oxygen. The two hydrogens are slightly positive and each can point at a lone pair on a neighbour. The two lone pairs are slightly negative and each can accept a hydrogen from another neighbour.</p>
+      <p>That gives <strong>four hydrogen bonds per molecule</strong>, spread tetrahedrally at about 109.5°. A molecule with only four neighbours at fixed angles cannot pack tightly. The network closes into rings of six molecules with empty channels between them.</p>
+      <p>In liquid water some of these bonds are always breaking. Molecules slip into the gaps, so each one has more than four close neighbours on average. The same mass takes up less room.</p>
+      <div class="eq">ice 0.917 g/cm³ · water 1.000 g/cm³<br>1.00 kg of H₂O: 1.00 dm³ as water → 1.09 dm³ as ice</div>
+    </div>
+    <div class="fig">
+      <svg viewBox="0 0 460 340" role="img" aria-label="One water molecule donating two hydrogen bonds and accepting two, arranged tetrahedrally">
+        <g stroke-linecap="round">
+          <!-- hydrogen bonds donated -->
+          <line x1="167" y1="125" x2="98" y2="76" stroke="var(--ice)" stroke-width="2.6" stroke-dasharray="6 5"/>
+          <line x1="293" y1="125" x2="362" y2="76" stroke="var(--ice)" stroke-width="2.6" stroke-dasharray="6 5"/>
+          <!-- hydrogen bonds accepted -->
+          <line x1="158" y1="226" x2="196" y2="196" stroke="var(--ice)" stroke-width="2.6" stroke-dasharray="6 5"/>
+          <line x1="302" y1="226" x2="264" y2="196" stroke="var(--ice)" stroke-width="2.6" stroke-dasharray="6 5"/>
+          <!-- covalent bonds -->
+          <line x1="230" y1="170" x2="167" y2="125" stroke="var(--ink)" stroke-width="4"/>
+          <line x1="230" y1="170" x2="293" y2="125" stroke="var(--ink)" stroke-width="4"/>
+          <line x1="100" y1="270" x2="158" y2="226" stroke="var(--ink)" stroke-width="4"/>
+          <line x1="360" y1="270" x2="302" y2="226" stroke="var(--ink)" stroke-width="4"/>
+        </g>
+        <!-- lone pair lobes -->
+        <ellipse cx="205" cy="196" rx="26" ry="12" transform="rotate(-38 205 196)" fill="var(--ice)" fill-opacity="0.22" stroke="var(--ice)" stroke-width="1.5"/>
+        <ellipse cx="255" cy="196" rx="26" ry="12" transform="rotate(38 255 196)" fill="var(--ice)" fill-opacity="0.22" stroke="var(--ice)" stroke-width="1.5"/>
+        <!-- lone pair electrons: one pair per lobe, the two dots side by side -->
+        <g fill="var(--ink)"><circle cx="202.6" cy="192.4" r="3"/><circle cx="207.4" cy="199.6" r="3"/><circle cx="257.4" cy="192.4" r="3"/><circle cx="252.6" cy="199.6" r="3"/></g>
+        <!-- neighbour oxygens -->
+        <g fill="var(--oxy)">
+          <circle cx="86" cy="68" r="19"/><circle cx="374" cy="68" r="19"/><circle cx="92" cy="278" r="19"/><circle cx="368" cy="278" r="19"/>
+        </g>
+        <!-- central oxygen -->
+        <circle cx="230" cy="170" r="27" fill="var(--oxy)"/>
+        <text x="230" y="175" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-weight="700" font-size="15" fill="#fff">O</text>
+        <!-- hydrogens -->
+        <g fill="var(--surface)" stroke="var(--ink)" stroke-width="2.2">
+          <circle cx="167" cy="125" r="11"/><circle cx="293" cy="125" r="11"/><circle cx="158" cy="226" r="11"/><circle cx="302" cy="226" r="11"/>
+        </g>
+        <g font-family="Source Sans 3, sans-serif" font-weight="600" font-size="11" fill="var(--ink)" text-anchor="middle">
+          <text x="167" y="129">H</text><text x="293" y="129">H</text><text x="158" y="230">H</text><text x="302" y="230">H</text>
+        </g>
+        <g class="ann" font-family="Source Sans 3, sans-serif" font-size="12.5" font-weight="600" fill="var(--ink)">
+          <text x="12" y="22">donates an H to a neighbour</text>
+          <text x="448" y="22" text-anchor="end">donates an H</text>
+          <text x="12" y="326">accepts an H on a lone pair</text>
+          <text x="448" y="326" text-anchor="end">accepts an H</text>
+          <text x="230" y="222" text-anchor="middle" font-size="11" fill="var(--muted)" font-weight="400">lone pairs</text>
+          <text x="230" y="130" text-anchor="middle" font-size="12" fill="var(--ice)">≈ 109.5°</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <figure class="fig floatfig">
+    <svg viewBox="0 0 420 262" role="img" aria-label="Ice floating in liquid water. Ice has a density of 0.917 grams per cubic centimetre and water 1.000, so the ice is less dense and floats">
+      <rect x="30" y="120" width="360" height="130" fill="var(--water)" fill-opacity="0.22"/>
+      <path d="M30 50 V250 H390 V50" fill="none" stroke="var(--muted)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="30" y1="120" x2="390" y2="120" stroke="var(--water)" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <rect x="150" y="110" width="120" height="120" rx="3" fill="var(--ice)" fill-opacity="0.78" stroke="var(--ice)" stroke-width="2"/>
+      <line x1="150" y1="120" x2="270" y2="120" stroke="var(--surface)" stroke-width="1.5" stroke-opacity="0.9"/>
+      <g font-family="Source Sans 3, sans-serif" font-size="13" fill="var(--ink)">
+        <text x="210" y="80" text-anchor="middle" font-weight="700" fill="var(--ice)">Ice: 0.917 g/cm³</text>
+        <line x1="210" y1="87" x2="210" y2="106" stroke="var(--ice)" stroke-width="1.6"/>
+        <polygon points="205,102 215,102 210,109" fill="var(--ice)"/>
+        <text x="42" y="168" font-weight="700" fill="var(--water)">Liquid water</text>
+        <text x="42" y="186" font-weight="700" fill="var(--water)">1.000 g/cm³</text>
+        <text x="42" y="112" font-size="11.5" fill="var(--muted)">air</text>
+        <text x="42" y="136" font-size="11.5" fill="var(--muted)">water surface</text>
+      </g>
+      <g font-family="Source Sans 3, sans-serif" font-size="13.5" font-weight="700" fill="var(--ink)">
+        <text x="285" y="168">Lower density,</text>
+        <text x="285" y="187">so ice floats</text>
+      </g>
+    </svg>
+    <figcaption>Ice floats because it is less dense than the liquid water around it.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ DENSITY CURVES ============ -->
+<section id="density">
+  <h2>What the density curve shows</h2>
+  <p class="lede">The open circle on each curve follows the temperature slider above. Ice sits far below liquid water. Inside the liquid the curve peaks at 4 °C.</p>
+  <div class="charts">
+    <div class="chartbox">
+      <h3>Freezing: a jump of about 8 %</h3>
+      <svg id="chA" role="img" aria-label="Density of ice and liquid water from minus 10 to 30 degrees Celsius"></svg>
+      <p>At 0 °C the density drops from 0.9998 g/cm³ (water) to 0.9168 g/cm³ (ice).</p>
+    </div>
+    <div class="chartbox">
+      <h3>Zoom on liquid water, 0 to 10 °C</h3>
+      <svg id="chB" role="img" aria-label="Density of liquid water from 0 to 10 degrees Celsius with a maximum at 4 degrees"></svg>
+      <p>The whole range is about 0.03 %. Dots are standard reference values.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 C ============ -->
+<section id="four">
+  <h2>Why the maximum is at 4 °C</h2>
+  <p class="lede">Two effects change the volume of liquid water as it warms. Cluster collapse makes the volume fall. Random motion makes it rise. Which one is bigger depends on the temperature.</p>
+  <div class="steps">
+    <div class="step a">
+      <span class="tag">0 to 4 °C</span>
+      <h3>Cluster collapse &gt; random motion</h3>
+      <p>Ice-like clusters with open gaps break down as the water warms, and molecules fall into the gaps. This shrinks the volume by more than faster random motion expands it. The volume falls and the density rises.</p>
+    </div>
+    <div class="step b">
+      <span class="tag">At 4 °C</span>
+      <h3>The two effects are equal</h3>
+      <p>The shrinking from cluster collapse exactly balances the expansion from random motion. The volume stops changing, so the density is at its maximum.</p>
+    </div>
+    <div class="step c">
+      <span class="tag">Above 4 °C</span>
+      <h3>Random motion &gt; cluster collapse</h3>
+      <p>Few clusters are left to collapse, while the molecules keep moving faster and push each other further apart. The expansion is bigger than the shrinking. The volume rises and the density falls.</p>
+    </div>
+  </div>
+  <div class="live4" id="live4" aria-live="polite"></div>
+</section>
+
+<!-- ============ QUESTIONS ============ -->
+<section id="check">
+  <h2>Check your understanding</h2>
+  <div>
+    <details>
+      <summary>Describe the structure of ice and explain why ice is less dense than liquid water. [4]</summary>
+      <div class="ans">
+        <p>Each water molecule forms four hydrogen bonds, two using its hydrogen atoms and two using the lone pairs on oxygen. The bonds are arranged tetrahedrally, giving a giant lattice of hexagonal rings with empty space in the middle.</p>
+        <p>When ice melts some hydrogen bonds break and the lattice collapses. Molecules move into the gaps and are closer together on average, so the same mass takes up less volume and the density is higher.</p>
+        <p class="marks">4 H-bonds per molecule · tetrahedral · open lattice with gaps · bonds break on melting and molecules move closer</p>
+      </div>
+    </details>
+    <details>
+      <summary>Calculate the volume of ice formed when 1.00 kg of water freezes. Ice has a density of 0.917 g/cm³. [2]</summary>
+      <div class="ans">
+        <p>Volume = mass ÷ density = 1000 g ÷ 0.917 g/cm³ = 1090 cm³ (1.09 dm³).</p>
+        <p>The water before freezing occupied about 1000 cm³, so the volume rises by about 9 %. This is why sealed pipes and bottles burst when their contents freeze.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Explain why a lake freezes from the top downwards and why fish can survive the winter. [3]</summary>
+      <div class="ans">
+        <p>Ice is less dense than water, so it floats and forms a layer at the surface. Cooling surface water that reaches 4 °C is the densest and sinks, so the bottom of the lake stays near 4 °C. The floating ice also insulates the water below, which stays liquid.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Explain why the density of liquid water is greatest at 4 °C. [3]</summary>
+      <div class="ans">
+        <p>From 0 to 4 °C, hydrogen-bonded ice-like clusters keep breaking down and molecules fill the gaps. This reduces the volume by more than the normal thermal expansion increases it, so density rises.</p>
+        <p>Above 4 °C there are fewer open clusters left to collapse and the increasing kinetic energy of the molecules, which push each other further apart, dominates. Volume rises and density falls. At 4 °C the two effects cancel.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Predict what the density curve would look like if water formed only two hydrogen bonds per molecule. [2]</summary>
+      <div class="ans">
+        <p>With two bonds per molecule water would form chains or rings rather than an open three-dimensional lattice. There would be no large gaps for molecules to fall into on melting, so the solid would be denser than the liquid and there would be no density maximum above the melting point.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p>Density data for liquid water at 1 atm are standard reference values for pure water. The density of ice Ih is 0.9168 g/cm³ at 0 °C, with a small rise on cooling. Below 0 °C the model treats the water as frozen, and 0 °C is shown as liquid.</p>
+  <p>The simulation is a teaching model. Molecules move by overdamped dynamics in a fixed periodic window of 9.0 × 15.7 × 14.7 Å, and ice-like molecules are drawn towards the sites of the ice Ih lattice (O–O distance 2.76 Å). The window holds 70 molecules as a liquid and 64 as ice, which is the ratio of the real densities (1.000 to 0.917). Surplus molecules leave through the faces of the window when the water freezes and return when it melts.</p>
+</footer>
+
+</div>
+
+<script>
+/* ---------- Water physics + molecular model (no DOM) ---------- */
+const SQ3 = Math.sqrt(3);
+
+// Density of liquid water 0-40 C: relative change in volume (x1e-4) versus 4 C,
+// split into an "open structure" term and a thermal term (least-squares fit to reference data).
+const FIT = { A: 61.9938636, tau: 22.8180469, b: 2.0561034, c: 0.0286636 };
+const RHO4 = 0.999972;      // g/cm3, liquid water at 3.98 C
+const RHO_ICE0 = 0.9168;    // g/cm3, ice Ih at 0 C
+
+function relOpen(T)    { return FIT.A * (Math.exp(-T / FIT.tau) - Math.exp(-4 / FIT.tau)); }
+function relThermal(T) { return FIT.b * (T - 4) + FIT.c * (T * T - 16); }
+function liquidRho(T)  { return RHO4 / (1 + (relOpen(T) + relThermal(T)) * 1e-4); }
+function iceRho(T)     { return RHO_ICE0 * (1 + 1.5e-4 * Math.max(0, -T)); }
+function rhoOf(T)      { return T < 0 ? iceRho(T) : liquidRho(T); }
+function vrelOf(T)     { return RHO4 / rhoOf(T); }          // volume of a fixed mass, relative to liquid at 4 C
+const VICE0 = RHO4 / RHO_ICE0;
+
+const D0 = 2.764;                          // Angstrom: O-O distance in ice, used as the unit of length
+const OH_U = 0.9572 / D0;                  // O-H bond length in those units
+const HOH = 104.52 * Math.PI / 180;
+const HLOC = [[Math.sin(HOH / 2), 0, Math.cos(HOH / 2)], [-Math.sin(HOH / 2), 0, Math.cos(HOH / 2)]];
+
+function makeSim(seed) {
+  let rs = (seed || 12345) >>> 0;
+  function rnd() {
+    rs = (rs + 0x6D2B79F5) | 0;
+    let t = Math.imul(rs ^ (rs >>> 15), 1 | rs);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  function gauss() {
+    let u = 0; while (u === 0) u = rnd();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rnd());
+  }
+
+  // ---- fixed window: 3 x 2 x 2 orthorhombic cells of ice Ih = 96 molecules (13.6 x 15.7 x 14.7 A) ----
+  const A_U = 4.5212 / D0, C_U = 7.3666 / D0, H_U = A_U * SQ3 / 2;
+  const NCX = 2, NCY = 2, NCZ = 2;
+  const LX0 = NCX * A_U, LY0 = 2 * NCY * H_U, LZ0 = NCZ * C_U;
+  const NS = 16 * NCX * NCY * NCZ / 2 * 1, NP = Math.round(NS * VICE0);      // 96 as ice, 105 as liquid (ratio of the real densities)
+  const KR = 45, KS = 6, SIG = 0.97, SIG2 = SIG * SIG, DT = 0.005, TS = 1.2, CAP = 5, VOUT = 1.1;
+  const IN = 0, LEAVE = 1, OUT = 2, RES = 3, ENTER = 4;
+  const L3 = [LX0, LY0, LZ0];
+  const mi = (d, L) => d - L * Math.round(d / L);
+
+  const basis = [[1 / 3, 2 / 3, 1 / 16], [2 / 3, 1 / 3, 9 / 16], [2 / 3, 1 / 3, 15 / 16], [1 / 3, 2 / 3, 7 / 16]];
+  const ptMap = new Map();
+  for (let i = -8; i <= 8; i++) for (let j = -8; j <= 8; j++) for (let k = -2; k <= 2; k++) for (const b of basis) {
+    const f1 = i + b[0], f2 = j + b[1], f3 = k + b[2];
+    const x = f1 * A_U - f2 * A_U / 2, y = f2 * H_U, z = f3 * C_U;   // 120-degree hexagonal setting
+    const w = [x, y, z].map((v, a) => { const m = (v + 1e-7) % L3[a]; return m < 0 ? m + L3[a] : m; });
+    ptMap.set(w.map(v => Math.round(v * 1e5)).join(','), w);
+  }
+  const pts = Array.from(ptMap.values());
+  function gapOffset(vals, L) {
+    const v = vals.slice().sort((a, b) => a - b); let best = -1, bi = 0;
+    for (let i = 0; i < v.length; i++) { const nx = i + 1 < v.length ? v[i + 1] : v[0] + L; if (nx - v[i] > best) { best = nx - v[i]; bi = i; } }
+    return { off: v[bi] + best / 2, margin: best / 2 };
+  }
+  const off = [0, 1, 2].map(a => gapOffset(pts.map(p => p[a]), L3[a]));   // put the window faces between molecules
+  const sx = new Float64Array(NS), sy = new Float64Array(NS), sz = new Float64Array(NS);
+  pts.forEach((p, k) => {
+    const q = [0, 1, 2].map(a => { let v = (p[a] - off[a].off) % L3[a]; return v < 0 ? v + L3[a] : v; });
+    sx[k] = q[0]; sy[k] = q[1]; sz[k] = q[2];
+  });
+  const nb = [];
+  for (let k = 0; k < NS; k++) {
+    const l = [];
+    for (let m = 0; m < NS; m++) {
+      if (m === k) continue;
+      const dx = mi(sx[m] - sx[k], LX0), dy = mi(sy[m] - sy[k], LY0), dz = mi(sz[m] - sz[k], LZ0);
+      if (dx * dx + dy * dy + dz * dz < 1.15 * 1.15) l.push(m);
+    }
+    nb.push(l);
+  }
+  // proton-disordered ice: orient every O-O edge along an Euler circuit -> each molecule donates 2 and accepts 2 hydrogen bonds
+  function eulerOrient() {
+    const adj = nb.map(l => l.slice());
+    adj.forEach(l => { for (let i = l.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); const t = l[i]; l[i] = l[j]; l[j] = t; } });
+    const used = new Set(), ptr = new Array(NS).fill(0), stack = [0], circuit = [];
+    while (stack.length) {
+      const v = stack[stack.length - 1]; let found = false;
+      while (ptr[v] < adj[v].length) {
+        const u = adj[v][ptr[v]++], key = v < u ? v * NS + u : u * NS + v;
+        if (!used.has(key)) { used.add(key); stack.push(u); found = true; break; }
+      }
+      if (!found) circuit.push(stack.pop());
+    }
+    const out = Array.from({ length: NS }, () => []);
+    for (let t = 0; t < circuit.length - 1; t++) out[circuit[t]].push(circuit[t + 1]);
+    return out;
+  }
+  const outN = eulerOrient();
+
+  // ice-like cluster field over sites (spatially smooth, uniform in 0..1)
+  let G = new Float64Array(NS);
+  for (let k = 0; k < NS; k++) G[k] = rnd();
+  for (let it = 0; it < 5; it++) {
+    const G2 = new Float64Array(NS);
+    for (let k = 0; k < NS; k++) { let s = 0; for (const m of nb[k]) s += G[m]; G2[k] = 0.5 * G[k] + 0.5 * s / nb[k].length; }
+    G = G2;
+  }
+  const order = Array.from(G.keys()).sort((a, b) => G[a] - G[b]);
+  const Gr = new Float64Array(NS);
+  order.forEach((k, r) => { Gr[k] = (r + 0.5) / NS; });
+  const ph = new Float64Array(NS), om = new Float64Array(NS);
+  for (let k = 0; k < NS; k++) { ph[k] = rnd() * 6.283; om[k] = 0.35 + rnd() * 0.8; }
+
+  // ---- small vector / quaternion helpers (quaternion = [w, x, y, z]) ----
+  function qrot(q, o, v) {
+    const w = q[o], x = q[o + 1], y = q[o + 2], z = q[o + 3];
+    const tx = 2 * (y * v[2] - z * v[1]), ty = 2 * (z * v[0] - x * v[2]), tz = 2 * (x * v[1] - y * v[0]);
+    return [v[0] + w * tx + (y * tz - z * ty), v[1] + w * ty + (z * tx - x * tz), v[2] + w * tz + (x * ty - y * tx)];
+  }
+  function qmul(a, b) {
+    return [a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3], a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2],
+            a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1], a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0]];
+  }
+  function qnorm(q) { const n = Math.hypot(q[0], q[1], q[2], q[3]) || 1; return [q[0] / n, q[1] / n, q[2] / n, q[3] / n]; }
+  function qFromAxes(xa, ya, za) {
+    const m00 = xa[0], m10 = xa[1], m20 = xa[2], m01 = ya[0], m11 = ya[1], m21 = ya[2], m02 = za[0], m12 = za[1], m22 = za[2];
+    const tr = m00 + m11 + m22; let w, x, y, z, s;
+    if (tr > 0) { s = Math.sqrt(tr + 1) * 2; w = 0.25 * s; x = (m21 - m12) / s; y = (m02 - m20) / s; z = (m10 - m01) / s; }
+    else if (m00 > m11 && m00 > m22) { s = Math.sqrt(1 + m00 - m11 - m22) * 2; w = (m21 - m12) / s; x = 0.25 * s; y = (m01 + m10) / s; z = (m02 + m20) / s; }
+    else if (m11 > m22) { s = Math.sqrt(1 + m11 - m00 - m22) * 2; w = (m02 - m20) / s; x = (m01 + m10) / s; y = 0.25 * s; z = (m12 + m21) / s; }
+    else { s = Math.sqrt(1 + m22 - m00 - m11) * 2; w = (m10 - m01) / s; x = (m02 + m20) / s; y = (m12 + m21) / s; z = 0.25 * s; }
+    return [w, x, y, z];
+  }
+  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+  const unit = (a) => { const n = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / n, a[1] / n, a[2] / n]; };
+  function randQ() {
+    const u1 = rnd(), u2 = rnd(), u3 = rnd();
+    return [Math.sqrt(u1) * Math.cos(6.2832 * u3), Math.sqrt(1 - u1) * Math.sin(6.2832 * u2), Math.sqrt(1 - u1) * Math.cos(6.2832 * u2), Math.sqrt(u1) * Math.sin(6.2832 * u3)];
+  }
+
+  const sim = {
+    NS, NP, LX0, LY0, LZ0, sx, sy, sz, nb, outN, SIG, D0, OH_U, HLOC, qrot, mi, fadeMargin: Math.min(0.2, 0.8 * Math.min(off[0].margin, off[1].margin, off[2].margin)),
+    x: new Float64Array(NP), y: new Float64Array(NP), z: new Float64Array(NP),
+    dx: new Float64Array(NP), dy: new Float64Array(NP), dz: new Float64Array(NP),
+    q: new Float64Array(4 * NP), w: new Float64Array(NP), al: new Float64Array(NP).fill(1),
+    vx: new Float64Array(NP), vy: new Float64Array(NP), vz: new Float64Array(NP),
+    site: new Int32Array(NP).fill(-1), occ: new Int32Array(NS).fill(-1), mode: new Uint8Array(NP),
+    don: new Int32Array(2 * NP).fill(-1), ord: new Uint8Array(2 * NP),
+    T: 10, p: 0.3, kT: 0.06, t: 0, acc: 0, speed: 0.35, lastEject: -9, lastEnter: -9, bondTimer: 0,
+    iceFrac: 0, count: NP, hb: 0
+  };
+  const fx = new Float64Array(NP), fy = new Float64Array(NP), fz = new Float64Array(NP);
+
+  function scatter() {
+    for (let i = 0; i < NP; i++) {
+      if (i < NS) { sim.x[i] = sx[i] + (rnd() - 0.5) * 0.2; sim.y[i] = sy[i] + (rnd() - 0.5) * 0.2; sim.z[i] = sz[i] + (rnd() - 0.5) * 0.2; }
+      else { sim.x[i] = rnd() * LX0; sim.y[i] = rnd() * LY0; sim.z[i] = rnd() * LZ0; }
+      sim.dx[i] = sim.x[i]; sim.dy[i] = sim.y[i]; sim.dz[i] = sim.z[i];
+      const q = randQ(); for (let a = 0; a < 4; a++) sim.q[4 * i + a] = q[a];
+      sim.mode[i] = IN; sim.al[i] = 1; sim.site[i] = -1; sim.w[i] = 0;
+    }
+    sim.occ.fill(-1); sim.don.fill(-1); sim.ord.fill(0);
+  }
+  scatter();
+
+  function kTof(T) { return T < 0 ? 0.006 + 0.0006 * (Math.max(T, -10) + 10) : 0.05 + 0.0015 * T; }
+  const dist = (i, j) => Math.hypot(mi(sim.x[j] - sim.x[i], LX0), mi(sim.y[j] - sim.y[i], LY0), mi(sim.z[j] - sim.z[i], LZ0));
+  const dirv = (i, j) => unit([mi(sim.x[j] - sim.x[i], LX0), mi(sim.y[j] - sim.y[i], LY0), mi(sim.z[j] - sim.z[i], LZ0)]);
+
+  function updateOrdering() {
+    const p = sim.p, amp = 0.22 * 4 * p * (1 - p), t = sim.t;
+    for (let k = 0; k < NS; k++) {
+      const act = p >= 0.999 ? true : (p <= 0.002 ? false : (Gr[k] + amp * Math.sin(om[k] * t + ph[k]) < p));
+      if (act && sim.occ[k] < 0) {
+        let best = -1, bd = 1e9;
+        for (let i = 0; i < NP; i++) {
+          if (sim.mode[i] !== IN || sim.site[i] >= 0) continue;
+          const dx = mi(sx[k] - sim.x[i], LX0), dy = mi(sy[k] - sim.y[i], LY0), dz = mi(sz[k] - sim.z[i], LZ0), d = dx * dx + dy * dy + dz * dz;
+          if (d < bd) { bd = d; best = i; }
+        }
+        if (best >= 0) { sim.site[best] = k; sim.occ[k] = best; }
+      } else if (!act && sim.occ[k] >= 0) {
+        sim.site[sim.occ[k]] = -1; sim.occ[k] = -1;
+      }
+    }
+    // untangle crossed assignments: swap two molecules' sites when that shortens both journeys
+    const d = (i, k) => Math.hypot(mi(sx[k] - sim.x[i], LX0), mi(sy[k] - sim.y[i], LY0), mi(sz[k] - sim.z[i], LZ0));
+    for (let n2 = 0; n2 < 60; n2++) {
+      const k1 = Math.floor(rnd() * NS), k2 = Math.floor(rnd() * NS), i1 = sim.occ[k1], i2 = sim.occ[k2];
+      if (i1 < 0 || i2 < 0 || i1 === i2) continue;
+      if (d(i1, k2) + d(i2, k1) + 0.05 < d(i1, k1) + d(i2, k2)) { sim.occ[k1] = i2; sim.occ[k2] = i1; sim.site[i1] = k2; sim.site[i2] = k1; }
+    }
+  }
+
+  function step() {
+    fx.fill(0); fy.fill(0); fz.fill(0);
+    for (let i = 0; i < NP; i++) {
+      if (sim.mode[i] !== IN) continue;
+      for (let j = i + 1; j < NP; j++) {
+        if (sim.mode[j] !== IN) continue;
+        const dx = mi(sim.x[j] - sim.x[i], LX0), dy = mi(sim.y[j] - sim.y[i], LY0), dz = mi(sim.z[j] - sim.z[i], LZ0);
+        const r2 = dx * dx + dy * dy + dz * dz;
+        if (r2 < SIG2) {
+          const r = Math.sqrt(r2) || 1e-6, f = KR * (SIG - r) / r;
+          fx[i] -= f * dx; fy[i] -= f * dy; fz[i] -= f * dz; fx[j] += f * dx; fy[j] += f * dy; fz[j] += f * dz;
+        }
+      }
+      const k = sim.site[i];
+      if (k >= 0) {
+        const dx = mi(sx[k] - sim.x[i], LX0), dy = mi(sy[k] - sim.y[i], LY0), dz = mi(sz[k] - sim.z[i], LZ0);
+        const d = Math.hypot(dx, dy, dz);
+        let f = KS * sim.w[i];
+        if (d * f > CAP) f = CAP / d;
+        fx[i] += f * dx; fy[i] += f * dy; fz[i] += f * dz;
+      }
+    }
+    const a = Math.sqrt(2 * sim.kT * DT);
+    for (let i = 0; i < NP; i++) {
+      if (sim.mode[i] !== IN) continue;
+      let nx = sim.x[i] + fx[i] * DT + a * gauss(), ny = sim.y[i] + fy[i] * DT + a * gauss(), nz = sim.z[i] + fz[i] * DT + a * gauss();
+      nx -= LX0 * Math.floor(nx / LX0); ny -= LY0 * Math.floor(ny / LY0); nz -= LZ0 * Math.floor(nz / LZ0);
+      sim.x[i] = nx; sim.y[i] = ny; sim.z[i] = nz;
+    }
+  }
+
+  // ---- open boundary: surplus molecules leave through a face of the window, and come back through one ----
+  function ejectOne() {
+    let best = -1, bd = 1e9;
+    for (let i = 0; i < NP; i++) {
+      if (sim.mode[i] !== IN) continue;
+      const d = Math.min(sim.x[i], LX0 - sim.x[i], sim.y[i], LY0 - sim.y[i], sim.z[i], LZ0 - sim.z[i]) + (sim.site[i] >= 0 ? 0.45 : 0);
+      if (d < bd) { bd = d; best = i; }
+    }
+    if (best < 0) return;
+    if (sim.site[best] >= 0) { sim.occ[sim.site[best]] = -1; sim.site[best] = -1; }
+    const c = [sim.x[best], LX0 - sim.x[best], sim.y[best], LY0 - sim.y[best], sim.z[best], LZ0 - sim.z[best]];
+    let f = 0; for (let a = 1; a < 6; a++) if (c[a] < c[f]) f = a;
+    const ax = f >> 1, sg = (f & 1) ? 1 : -1;
+    sim.vx[best] = ax === 0 ? sg : 0; sim.vy[best] = ax === 1 ? sg : 0; sim.vz[best] = ax === 2 ? sg : 0;
+    sim.mode[best] = LEAVE; sim.al[best] = 0.9; sim.w[best] = 0;
+    sim.don[2 * best] = sim.don[2 * best + 1] = -1;
+    sim.lastEject = sim.t;
+  }
+  function enterOne() {
+    let pick = -1;
+    for (let i = 0; i < NP; i++) if (sim.mode[i] === RES) { pick = i; break; }
+    if (pick < 0) return;
+    let bestD = -1, P = [0, 0, 0], N = [1, 0, 0];
+    for (let c = 0; c < 16; c++) {
+      const ax = Math.floor(rnd() * 3), sg = rnd() < 0.5 ? 1 : -1;      // sg = +1: enters through the low face
+      const e = [rnd() * LX0, rnd() * LY0, rnd() * LZ0]; e[ax] = sg > 0 ? 0 : L3[ax];
+      const n = [0, 0, 0]; n[ax] = sg;
+      const qp = [e[0] + n[0] * 0.5, e[1] + n[1] * 0.5, e[2] + n[2] * 0.5];
+      let md = 1e9;
+      for (let j = 0; j < NP; j++) {
+        if (sim.mode[j] !== IN && sim.mode[j] !== LEAVE) continue;
+        const dx = mi(sim.x[j] - qp[0], LX0), dy = mi(sim.y[j] - qp[1], LY0), dz = mi(sim.z[j] - qp[2], LZ0), d = dx * dx + dy * dy + dz * dz;
+        if (d < md) md = d;
+      }
+      if (md > bestD) { bestD = md; P = e; N = n; }
+    }
+    sim.x[pick] = P[0] - N[0] * 1.4; sim.y[pick] = P[1] - N[1] * 1.4; sim.z[pick] = P[2] - N[2] * 1.4;
+    sim.dx[pick] = sim.x[pick]; sim.dy[pick] = sim.y[pick]; sim.dz[pick] = sim.z[pick];
+    sim.vx[pick] = N[0]; sim.vy[pick] = N[1]; sim.vz[pick] = N[2];
+    sim.al[pick] = 0; sim.mode[pick] = ENTER; sim.site[pick] = -1; sim.w[pick] = 0;
+    sim.don[2 * pick] = sim.don[2 * pick + 1] = -1;
+    sim.lastEnter = sim.t;
+  }
+  function inBox(i) { return sim.x[i] >= 0 && sim.x[i] <= LX0 && sim.y[i] >= 0 && sim.y[i] <= LY0 && sim.z[i] >= 0 && sim.z[i] <= LZ0; }
+  function exchange(rdt) {
+    let nStay = 0, nEnter = 0;
+    for (let i = 0; i < NP; i++) {
+      const m = sim.mode[i];
+      if (m === LEAVE || m === OUT || m === ENTER) {
+        sim.x[i] += sim.vx[i] * VOUT * rdt; sim.y[i] += sim.vy[i] * VOUT * rdt; sim.z[i] += sim.vz[i] * VOUT * rdt;
+        if (m === LEAVE && !inBox(i)) { sim.mode[i] = OUT; sim.al[i] = 0.9; }
+        else if (m === OUT) { sim.al[i] -= rdt / 1.3; if (sim.al[i] <= 0) { sim.al[i] = 0; sim.mode[i] = RES; } }
+        else if (m === ENTER) { sim.al[i] = Math.min(1, sim.al[i] + rdt / 0.7); if (inBox(i)) { sim.mode[i] = IN; sim.al[i] = 1; } }
+      }
+      if (sim.mode[i] === IN) nStay++; else if (sim.mode[i] === ENTER) nEnter++;
+    }
+    const f = Math.min(1, Math.max(0, (sim.p - 0.58) / 0.42));
+    const want = NP - Math.round((NP - NS) * f);
+    if (nStay > want && sim.t - sim.lastEject > 0.3) ejectOne();
+    else if (nStay + nEnter < want && sim.t - sim.lastEnter > 0.25) enterOne();
+  }
+
+  // ---- hydrogen-bond graph: don[2i+s] = molecule that receives the hydrogen s of molecule i ----
+  function updateBonds() {
+    const T = sim.T, pBreak = 0.08 + 0.006 * Math.max(T, 0), pForm = Math.max(0.6, 0.95 - 0.008 * Math.max(T, 0));
+    const don = sim.don, ord = sim.ord, mode = sim.mode, w = sim.w, site = sim.site;
+    for (let i = 0; i < NP; i++) for (let s = 0; s < 2; s++) {
+      const e = 2 * i + s, j = don[e]; if (j < 0) continue;
+      if (mode[i] !== IN || mode[j] !== IN || dist(i, j) > 1.34) { don[e] = -1; ord[e] = 0; continue; }
+      if (ord[e]) { const ki = site[i], kj = site[j]; if (!(ki >= 0 && kj >= 0 && w[i] > 0.5 && w[j] > 0.5 && outN[ki][s] === kj)) ord[e] = 0; }
+      else if (rnd() < pBreak) don[e] = -1;
+    }
+    const acc = new Int32Array(NP);
+    for (let e = 0; e < 2 * NP; e++) if (don[e] >= 0) acc[don[e]]++;
+    // 1. lattice (ice-like) bonds follow the proton-disordered ice pattern
+    for (let k = 0; k < NS; k++) {
+      const i = sim.occ[k]; if (i < 0 || w[i] < 0.6 || mode[i] !== IN) continue;
+      for (let s = 0; s < 2; s++) {
+        const j = sim.occ[outN[k][s]]; if (j < 0 || w[j] < 0.6 || mode[j] !== IN) continue;
+        const e = 2 * i + s;
+        if (don[e] === j) { ord[e] = 1; continue; }
+        if (don[e] >= 0) { acc[don[e]]--; don[e] = -1; }
+        if (acc[j] >= 2) {
+          let done = false;
+          for (let e2 = 0; e2 < 2 * NP && !done; e2++) if (don[e2] === j && !ord[e2]) { don[e2] = -1; acc[j]--; done = true; }
+          if (!done) continue;
+        }
+        don[e] = j; ord[e] = 1; acc[j]++;
+      }
+    }
+    // 2. short-lived bonds between neighbours that still have a free donor slot and a free acceptor place
+    const cand = [];
+    for (let i = 0; i < NP; i++) {
+      if (mode[i] !== IN) continue;
+      for (let j = i + 1; j < NP; j++) {
+        if (mode[j] !== IN) continue;
+        if (don[2 * i] === j || don[2 * i + 1] === j || don[2 * j] === i || don[2 * j + 1] === i) continue;
+        const r = dist(i, j); if (r < 1.19) cand.push([r + 0.08 * rnd(), i, j]);
+      }
+    }
+    cand.sort((a, b) => a[0] - b[0]);
+    const okAngle = (i, j) => {
+      const d = dirv(i, j);
+      for (let s = 0; s < 2; s++) { const p = don[2 * i + s]; if (p >= 0) { const c = dot(d, dirv(i, p)); if (c > 0.34 || c < -0.87) return false; } }
+      return true;
+    };
+    for (const [, i, j] of cand) {
+      if (rnd() > pForm) continue;
+      const fi = don[2 * i] < 0 ? 0 : (don[2 * i + 1] < 0 ? 1 : -1), fj = don[2 * j] < 0 ? 0 : (don[2 * j + 1] < 0 ? 1 : -1);
+      const ij = fi >= 0 && acc[j] < 2 && okAngle(i, j), ji = fj >= 0 && acc[i] < 2 && okAngle(j, i);
+      if (ij && (!ji || rnd() < 0.5)) { don[2 * i + fi] = j; acc[j]++; ord[2 * i + fi] = 0; }
+      else if (ji) { don[2 * j + fj] = i; acc[i]++; ord[2 * j + fj] = 0; }
+    }
+    let nb2 = 0, cnt = 0;
+    for (let i = 0; i < NP; i++) if (mode[i] === IN) { cnt++; if (don[2 * i] >= 0) nb2++; if (don[2 * i + 1] >= 0) nb2++; }
+    sim.hb = cnt ? 2 * nb2 / cnt : 0;
+  }
+
+  // ---- orientation: each donated hydrogen points at the oxygen it donates to ----
+  function updateOrientation(rdt) {
+    const T = sim.T, don = sim.don, HX = new Float64Array(6 * NP), RC = 0.66, RO = 0.52;
+    for (let i = 0; i < NP; i++) for (let s = 0; s < 2; s++) {
+      const v = qrot(sim.q, 4 * i, HLOC[s]);
+      HX[6 * i + 3 * s] = v[0] * OH_U; HX[6 * i + 3 * s + 1] = v[1] * OH_U; HX[6 * i + 3 * s + 2] = v[2] * OH_U;    // H relative to its O
+    }
+    for (let i = 0; i < NP; i++) {
+      const o = 4 * i, w = sim.w[i], e0 = don[2 * i], e1 = don[2 * i + 1];
+      let tq = null, tau = [0, 0, 0];
+      if (sim.mode[i] === IN) {
+        if (e0 >= 0 && e1 >= 0) {
+          const d1 = dirv(i, e0), d2 = dirv(i, e1);
+          const za = unit([d1[0] + d2[0], d1[1] + d2[1], d1[2] + d2[2]]);
+          let xa = [d1[0] - d2[0], d1[1] - d2[1], d1[2] - d2[2]]; const pz = dot(xa, za); xa = unit([xa[0] - pz * za[0], xa[1] - pz * za[1], xa[2] - pz * za[2]]);
+          tq = qFromAxes(xa, cross(za, xa), za);
+        } else if (e0 >= 0 || e1 >= 0) {
+          const s = e0 >= 0 ? 0 : 1, d = dirv(i, don[2 * i + s]), h = qrot(sim.q, o, HLOC[s]), ax = cross(h, d), sn = Math.hypot(ax[0], ax[1], ax[2]);
+          if (sn > 1e-6) {
+            const ang = Math.atan2(sn, dot(h, d)) / 2, k = Math.sin(ang) / sn;
+            tq = qmul([Math.cos(ang), ax[0] * k, ax[1] * k, ax[2] * k], [sim.q[o], sim.q[o + 1], sim.q[o + 2], sim.q[o + 3]]);
+          }
+        }
+        // turn hydrogens away from other molecules' hydrogens and oxygens
+        for (let s = 0; s < 2; s++) {
+          const r = [HX[6 * i + 3 * s], HX[6 * i + 3 * s + 1], HX[6 * i + 3 * s + 2]], hx = sim.x[i] + r[0], hy = sim.y[i] + r[1], hz = sim.z[i] + r[2], mine = don[2 * i + s];
+          for (let j = 0; j < NP; j++) {
+            if (j === i || sim.mode[j] !== IN) continue;
+            const ox = mi(sim.x[j] - hx, LX0), oy = mi(sim.y[j] - hy, LY0), oz = mi(sim.z[j] - hz, LZ0);
+            if (j !== mine) { const d = Math.hypot(ox, oy, oz); if (d < RO) { const f = (RO - d) / (d || 1e-6); const t = cross(r, [-ox * f, -oy * f, -oz * f]); tau[0] += t[0]; tau[1] += t[1]; tau[2] += t[2]; } }
+            for (let s2 = 0; s2 < 2; s2++) {
+              const px = ox - HX[6 * j + 3 * s2], py = oy - HX[6 * j + 3 * s2 + 1], pz2 = oz - HX[6 * j + 3 * s2 + 2], d2 = Math.hypot(px, py, pz2);
+              if (d2 < RC) { const f = (RC - d2) / (d2 || 1e-6); const t = cross(r, [-px * f, -py * f, -pz2 * f]); tau[0] += t[0]; tau[1] += t[1]; tau[2] += t[2]; }
+            }
+          }
+        }
+      }
+      let q = [sim.q[o], sim.q[o + 1], sim.q[o + 2], sim.q[o + 3]];
+      if (tq) {
+        if (q[0] * tq[0] + q[1] * tq[1] + q[2] * tq[2] + q[3] * tq[3] < 0) tq = [-tq[0], -tq[1], -tq[2], -tq[3]];
+        const k = 1 - Math.exp(-(6 + 6 * w) * rdt);
+        q = qnorm([q[0] + (tq[0] - q[0]) * k, q[1] + (tq[1] - q[1]) * k, q[2] + (tq[2] - q[2]) * k, q[3] + (tq[3] - q[3]) * k]);
+      }
+      const tm = Math.hypot(tau[0], tau[1], tau[2]);
+      if (tm > 1e-9) {
+        const ang = Math.min(0.3, 40 * tm * rdt), ax = [tau[0] / tm, tau[1] / tm, tau[2] / tm], sa = Math.sin(ang / 2);
+        q = qnorm(qmul([Math.cos(ang / 2), ax[0] * sa, ax[1] * sa, ax[2] * sa], q));
+      }
+      const free = tq ? 0.12 : 1.4, ang = gauss() * Math.sqrt(rdt) * free * (0.3 + 0.7 * (1 - w)) * sim.speed * (1 + Math.max(T, 0) / 40);
+      const ax = unit([gauss(), gauss(), gauss()]), sa = Math.sin(ang / 2);
+      q = qnorm(qmul([Math.cos(ang / 2), ax[0] * sa, ax[1] * sa, ax[2] * sa], q));
+      sim.q[o] = q[0]; sim.q[o + 1] = q[1]; sim.q[o + 2] = q[2]; sim.q[o + 3] = q[3];
+    }
+  }
+
+  sim.advance = function (rdt) {
+    rdt = Math.min(rdt, 0.05);
+    sim.t += rdt;
+    const T = sim.T, ice = T < 0;
+    const pT = ice ? 1 : 0.55 * Math.exp(-T / FIT.tau);
+    sim.p += (pT - sim.p) * (1 - Math.exp(-(ice ? 1.0 : 1.3) * rdt));
+    if (ice && sim.p > 0.995) sim.p = 1;
+    sim.kT += (kTof(T) - sim.kT) * (1 - Math.exp(-2 * rdt));
+    updateOrdering();
+    const kw = 1 - Math.exp(-3 * rdt);
+    for (let i = 0; i < NP; i++) sim.w[i] += ((sim.site[i] >= 0 ? 1 : 0) - sim.w[i]) * kw;
+    exchange(rdt);
+    sim.acc += rdt * TS * sim.speed;
+    let guard = 0;
+    while (sim.acc >= DT && guard++ < 40) { step(); sim.acc -= DT; }
+    const a = 1 - Math.exp(-rdt / 0.14);
+    for (let i = 0; i < NP; i++) {
+      const m = sim.mode[i];
+      if (m === IN) {
+        let nx = sim.dx[i] + mi(sim.x[i] - sim.dx[i], LX0) * a, ny = sim.dy[i] + mi(sim.y[i] - sim.dy[i], LY0) * a, nz = sim.dz[i] + mi(sim.z[i] - sim.dz[i], LZ0) * a;
+        nx -= LX0 * Math.floor(nx / LX0); ny -= LY0 * Math.floor(ny / LY0); nz -= LZ0 * Math.floor(nz / LZ0);
+        sim.dx[i] = nx; sim.dy[i] = ny; sim.dz[i] = nz;
+      } else { sim.dx[i] += (sim.x[i] - sim.dx[i]) * Math.min(1, a * 2); sim.dy[i] += (sim.y[i] - sim.dy[i]) * Math.min(1, a * 2); sim.dz[i] += (sim.z[i] - sim.dz[i]) * Math.min(1, a * 2); }
+    }
+    updateOrientation(rdt);
+    sim.bondTimer += rdt;
+    if (sim.bondTimer > 0.45) { sim.bondTimer = 0; updateBonds(); }
+    let cnt = 0, nIce = 0;
+    for (let i = 0; i < NP; i++) if (sim.mode[i] <= LEAVE) { cnt++; if (sim.w[i] > 0.7) nIce++; }
+    sim.count = cnt; sim.iceFrac = nIce / Math.max(1, cnt);
+  };
+
+  sim.warmup = function (T) {
+    sim.T = T; sim.p = 0.55 * Math.exp(-T / FIT.tau); sim.kT = kTof(T);
+    scatter();
+    for (let i = 0; i < 120; i++) sim.advance(0.04);
+    updateBonds(); updateBonds();
+    for (let i = 0; i < 40; i++) sim.advance(0.04);
+    for (let i = 0; i < NP; i++) { sim.dx[i] = sim.x[i]; sim.dy[i] = sim.y[i]; sim.dz[i] = sim.z[i]; }
+  };
+  return sim;
+}
+
+if (typeof module !== 'undefined') module.exports = { makeSim, rhoOf, vrelOf, liquidRho, iceRho, relOpen, relThermal, FIT, VICE0 };
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var sim = makeSim(7);
+  sim.warmup(10);
+  var $ = function (id) { return document.getElementById(id); };
+  var MINUS = '−';
+  function fT(T, d) { var s = Math.abs(T).toFixed(d == null ? 1 : d); return (T < -0.0001 ? MINUS : '') + s; }
+
+  /* ---------- 3D molecular view ---------- */
+  var cv = $('cv'), ctx = cv.getContext ? cv.getContext('2d') : null;
+  var dpr = 1, cw = 600, ch = 400;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    cw = cv.clientWidth || 600; ch = cv.clientHeight || 400;
+    cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+  }
+  resize();
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+
+  var view = { yaw: 0.6, pitch: 0.3, tYaw: null, tPitch: null, auto: false, space: false, drag: null };
+  var sel = -1, camD = 18;
+  var proj3 = [0, 0, 0, 0], hit = { x: new Float64Array(sim.NP), y: new Float64Array(sim.NP), r: new Float64Array(sim.NP), d: new Float64Array(sim.NP), ok: new Uint8Array(sim.NP) };
+  var cY = 1, sY = 0, cP = 1, sP = 0, pxU = 40, ctrX = 0, ctrY = 0;
+  function mkSprite(c0, c1, c2) {
+    var s = 128, c = document.createElement('canvas'); c.width = c.height = s;
+    var g = c.getContext ? c.getContext('2d') : null; if (!g) return c;
+    var gr = g.createRadialGradient(s * 0.36, s * 0.34, s * 0.04, s * 0.5, s * 0.5, s * 0.5);
+    gr.addColorStop(0, c0); gr.addColorStop(0.55, c1); gr.addColorStop(1, c2);
+    g.fillStyle = gr; g.beginPath(); g.arc(s / 2, s / 2, s / 2 - 1, 0, 6.2832); g.fill();
+    return c;
+  }
+  var spO = mkSprite('#ffa79c', '#e5564c', '#9c2723'), spH = mkSprite('#ffffff', '#e6edf3', '#98a8b6');
+  function proj(x, y, z) {
+    var vx = x - sim.LX0 / 2, vy = y - sim.LY0 / 2, vz = z - sim.LZ0 / 2;
+    var xr = vx * cY - vy * sY, yr = vx * sY + vy * cY;
+    var y2 = yr * cP - vz * sP, z2 = yr * sP + vz * cP, s = pxU * camD / (camD + y2);
+    proj3[0] = ctrX + xr * s; proj3[1] = ctrY - z2 * s; proj3[2] = y2; proj3[3] = s;
+    return proj3;
+  }
+  function clampLine(p, q, L) {       // clip segment p->q to the window [0,L]; returns [t0,t1] or null
+    var t0 = 0, t1 = 1;
+    for (var a = 0; a < 3; a++) {
+      var d = q[a] - p[a];
+      if (Math.abs(d) < 1e-9) { if (p[a] < 0 || p[a] > L[a]) return null; continue; }
+      var u = (0 - p[a]) / d, v = (L[a] - p[a]) / d;
+      if (u > v) { var tmp = u; u = v; v = tmp; }
+      if (u > t0) t0 = u; if (v < t1) t1 = v;
+      if (t0 > t1) return null;
+    }
+    return [t0, t1];
+  }
+  function angleDeg(a, b) { var c = (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / (Math.hypot(a[0], a[1], a[2]) * Math.hypot(b[0], b[1], b[2])); return Math.acos(Math.max(-1, Math.min(1, c))) * 180 / Math.PI; }
+
+  function partnersOf(i) {      // oxygens hydrogen-bonded to molecule i: [index, donatedByI]
+    var out = [], don = sim.don, e;
+    for (e = 0; e < 2; e++) if (don[2 * i + e] >= 0 && sim.mode[don[2 * i + e]] === 0) out.push([don[2 * i + e], 1]);
+    for (var k = 0; k < sim.NP; k++) { if (sim.mode[k] !== 0) continue; for (e = 0; e < 2; e++) if (don[2 * k + e] === i) out.push([k, 0]); }
+    return out;
+  }
+  function relPos(i, j) {       // display position of j next to i (nearest periodic copy)
+    return [sim.dx[i] + sim.mi(sim.dx[j] - sim.dx[i], sim.LX0), sim.dy[i] + sim.mi(sim.dy[j] - sim.dy[i], sim.LY0), sim.dz[i] + sim.mi(sim.dz[j] - sim.dz[i], sim.LZ0)];
+  }
+  function faceDist(i) { return Math.min(sim.dx[i], sim.LX0 - sim.dx[i], sim.dy[i], sim.LY0 - sim.dy[i], sim.dz[i], sim.LZ0 - sim.dz[i]); }
+  function chooseSel() {
+    var best = -1, bd = 1e9, cx = sim.LX0 / 2, cy = sim.LY0 / 2, cz = sim.LZ0 / 2;
+    for (var i = 0; i < sim.NP; i++) {
+      if (sim.mode[i] !== 0 || faceDist(i) < 0.9) continue;
+      var d = Math.hypot(sim.dx[i] - cx, sim.dy[i] - cy, sim.dz[i] - cz) - 0.5 * (sim.w[i] > 0.7 ? 1 : 0);
+      if (d < bd) { bd = d; best = i; }
+    }
+    sel = best;
+  }
+
+  function draw() {
+    if (!ctx) return;
+    var L = [sim.LX0, sim.LY0, sim.LZ0], NP = sim.NP, md = sim.mode, space = view.space;
+    cY = Math.cos(view.yaw); sY = Math.sin(view.yaw); cP = Math.cos(view.pitch); sP = Math.sin(view.pitch);
+    pxU = 0.117 * Math.min(cw, ch); ctrX = cw / 2; ctrY = ch / 2 + 6;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = '#06121c'; ctx.fillRect(0, 0, cw, ch);
+    if (sel < 0 || md[sel] !== 0) chooseSel();
+    var items = [], i, s, rO = (space ? 0.48 : 0.15), rH = (space ? 0.29 : 0.085);
+    var Rd = 0.5 * Math.hypot(L[0], L[1], L[2]);
+    function dfade(d) { var t = Math.max(0, Math.min(1, (d + Rd) / (2 * Rd))); return 1 - 0.8 * Math.pow(t, 1.15); }
+
+    // window edges
+    var cn = [];
+    for (i = 0; i < 8; i++) { var p = proj((i & 1) ? L[0] : 0, (i & 2) ? L[1] : 0, (i & 4) ? L[2] : 0); cn.push([p[0], p[1], p[2]]); }
+    [[0, 1], [2, 3], [4, 5], [6, 7], [0, 2], [1, 3], [4, 6], [5, 7], [0, 4], [1, 5], [2, 6], [3, 7]].forEach(function (e) {
+      items.push({ d: (cn[e[0]][2] + cn[e[1]][2]) / 2, k: 4, x1: cn[e[0]][0], y1: cn[e[0]][1], x2: cn[e[1]][0], y2: cn[e[1]][1] });
+    });
+
+    // molecules and their bonds
+    var fm = sim.fadeMargin, Hpos = new Float64Array(6 * NP);
+    for (i = 0; i < NP; i++) {
+      hit.ok[i] = 0;
+      var m = md[i]; if (m === 3) continue;
+      var al = m === 0 ? Math.min(1, faceDist(i) / fm) : sim.al[i]; if (al < 0.02) continue;
+      var ox = sim.dx[i], oy = sim.dy[i], oz = sim.dz[i];
+      var po = proj(ox, oy, oz), sx0 = po[0], sy0 = po[1], d0 = po[2], sc0 = po[3];
+      for (s = 0; s < 2; s++) {
+        var v = sim.qrot(sim.q, 4 * i, sim.HLOC[s]), hx = ox + v[0] * sim.OH_U, hy = oy + v[1] * sim.OH_U, hz = oz + v[2] * sim.OH_U;
+        Hpos[6 * i + 3 * s] = hx; Hpos[6 * i + 3 * s + 1] = hy; Hpos[6 * i + 3 * s + 2] = hz;
+        var ph = proj(hx, hy, hz);
+        items.push({ d: (d0 + ph[2]) / 2, k: 2, x1: sx0, y1: sy0, x2: ph[0], y2: ph[1], w: 0.055 * ph[3], a: al * dfade(d0) });
+        items.push({ d: ph[2], k: 1, x: ph[0], y: ph[1], r: rH * ph[3], a: al * dfade(ph[2]) });
+      }
+      items.push({ d: d0, k: 0, x: sx0, y: sy0, r: rO * sc0, a: al * dfade(d0) });
+      if (m === 0) { hit.ok[i] = 1; hit.x[i] = sx0; hit.y[i] = sy0; hit.r[i] = rO * sc0; hit.d[i] = d0; }
+    }
+    for (i = 0; i < NP; i++) {
+      if (md[i] !== 0) continue;
+      var al2 = Math.min(1, faceDist(i) / fm);
+      for (s = 0; s < 2; s++) {
+        var j = sim.don[2 * i + s]; if (j < 0 || md[j] !== 0) continue;
+        var tp = relPos(i, j), st = [Hpos[6 * i + 3 * s], Hpos[6 * i + 3 * s + 1], Hpos[6 * i + 3 * s + 2]];
+        var cl = clampLine(st, tp, L); if (!cl) continue;
+        var pa = proj(st[0] + (tp[0] - st[0]) * cl[0], st[1] + (tp[1] - st[1]) * cl[0], st[2] + (tp[2] - st[2]) * cl[0]), ax = pa[0], ay = pa[1], ad = pa[2];
+        var pb = proj(st[0] + (tp[0] - st[0]) * cl[1], st[1] + (tp[1] - st[1]) * cl[1], st[2] + (tp[2] - st[2]) * cl[1]);
+        items.push({ d: (ad + pb[2]) / 2, k: 3, x1: ax, y1: ay, x2: pb[0], y2: pb[1], o: sim.ord[2 * i + s], a: al2 * dfade((ad + pb[2]) / 2), w: pa[3] });
+      }
+    }
+
+    // tetrahedron around the selected molecule
+    var info = '';
+    if (sel >= 0 && sim.T < 0) {
+      var pl = partnersOf(sel), pts = pl.map(function (q) { return relPos(sel, q[1] ? q[0] : q[0]); });
+      var po2 = proj(sim.dx[sel], sim.dy[sel], sim.dz[sel]);
+      items.push({ d: po2[2] - 0.01, k: 7, x: po2[0], y: po2[1], r: rO * po2[3] + 5, c: '#ffffff', w: 2 });
+      var pp = pts.map(function (q) { var r = proj(q[0], q[1], q[2]); return [r[0], r[1], r[2]]; });
+      pp.forEach(function (r) { items.push({ d: r[2] - 0.01, k: 7, x: r[0], y: r[1], r: rO * proj3[3] + 4, c: '#6fd6f4', w: 1.6 }); });
+      var n = pp.length, a1, a2, a3;
+      for (a1 = 0; a1 < n; a1++) for (a2 = a1 + 1; a2 < n; a2++) {
+        items.push({ d: (pp[a1][2] + pp[a2][2]) / 2, k: 6, x1: pp[a1][0], y1: pp[a1][1], x2: pp[a2][0], y2: pp[a2][1] });
+        for (a3 = a2 + 1; a3 < n; a3++) items.push({ d: (pp[a1][2] + pp[a2][2] + pp[a3][2]) / 3, k: 5, pts: [pp[a1], pp[a2], pp[a3]] });
+      }
+      var rel = pts.map(function (q) { return [q[0] - sim.dx[sel], q[1] - sim.dy[sel], q[2] - sim.dz[sel]]; }), sum = 0, cn2 = 0;
+      for (a1 = 0; a1 < n; a1++) for (a2 = a1 + 1; a2 < n; a2++) { sum += angleDeg(rel[a1], rel[a2]); cn2++; }
+      var dn = pl.filter(function (q) { return q[1]; }).length;
+      info = '<span>Selected molecule</span>' + n + (n === 1 ? ' hydrogen bond' : ' hydrogen bonds') + ' (' + dn + ' donated, ' + (n - dn) + ' accepted)' +
+        (cn2 ? '. The angle between its bonded neighbours averages ' + Math.round(sum / cn2) + '°. A perfect tetrahedron is 109.5°.' : '. It has too few bonds to show an angle.');
+    } else info = sim.T < 0 ? '<span>Selected molecule</span>Click a molecule to see its hydrogen bonds.' : '<span>Tetrahedron</span>Cool the water below 0 °C, then click a molecule to see its four hydrogen-bonded neighbours.';
+    if (info !== lastInfo) { lastInfo = info; $('selinfo').innerHTML = info; }
+
+    items.sort(function (a, b) { return b.d - a.d; });
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (i = 0; i < items.length; i++) {
+      var it = items[i];
+      switch (it.k) {
+        case 0: ctx.globalAlpha = it.a; ctx.drawImage(spO, it.x - it.r, it.y - it.r, 2 * it.r, 2 * it.r); break;
+        case 1: ctx.globalAlpha = it.a; ctx.drawImage(spH, it.x - it.r, it.y - it.r, 2 * it.r, 2 * it.r); break;
+        case 2: ctx.globalAlpha = it.a * 0.95; ctx.strokeStyle = '#d8e3ec'; ctx.lineWidth = Math.max(1.2, it.w); ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(it.x1, it.y1); ctx.lineTo(it.x2, it.y2); ctx.stroke(); break;
+        case 3: ctx.globalAlpha = it.a * (it.o ? 0.5 : 0.3); ctx.strokeStyle = it.o ? '#6fd6f4' : 'rgba(190,214,232,0.9)'; ctx.lineWidth = it.o ? Math.max(1.2, 0.035 * it.w) : Math.max(0.9, 0.025 * it.w); ctx.setLineDash(it.o ? [5, 3] : [3, 3]); ctx.beginPath(); ctx.moveTo(it.x1, it.y1); ctx.lineTo(it.x2, it.y2); ctx.stroke(); ctx.setLineDash([]); break;
+        case 4: ctx.globalAlpha = 0.55 * dfade(it.d); ctx.strokeStyle = '#f4f8fb'; ctx.lineWidth = 1.3; ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(it.x1, it.y1); ctx.lineTo(it.x2, it.y2); ctx.stroke(); break;
+        case 5: ctx.globalAlpha = 1; ctx.fillStyle = 'rgba(111,214,244,0.13)'; ctx.beginPath(); ctx.moveTo(it.pts[0][0], it.pts[0][1]); ctx.lineTo(it.pts[1][0], it.pts[1][1]); ctx.lineTo(it.pts[2][0], it.pts[2][1]); ctx.closePath(); ctx.fill(); break;
+        case 6: ctx.globalAlpha = 0.9; ctx.strokeStyle = '#ffd37a'; ctx.lineWidth = 1.6; ctx.setLineDash([]); ctx.beginPath(); ctx.moveTo(it.x1, it.y1); ctx.lineTo(it.x2, it.y2); ctx.stroke(); break;
+        case 7: ctx.globalAlpha = 1; ctx.strokeStyle = it.c; ctx.lineWidth = it.w; ctx.setLineDash([]); ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, 6.2832); ctx.stroke(); break;
+      }
+    }
+    ctx.globalAlpha = 1; ctx.setLineDash([]);
+
+    // labels
+    var fs = cw < 480 ? 10 : 11, cnt = sim.count, outN = NP - cnt, narrow = cw < 480;
+    ctx.textBaseline = 'alphabetic';
+    ctx.font = '500 ' + fs + 'px "IBM Plex Mono", monospace'; ctx.fillStyle = 'rgba(201,220,234,0.72)'; ctx.textAlign = 'left';
+    ctx.fillText(narrow ? 'Fixed window' : 'Window: fixed volume, 9.0 × 15.7 × 14.7 Å', 12, 22);
+    ctx.fillText(narrow ? 'Drag to rotate' : 'Drag to rotate · click a molecule', 12, ch - 12);
+    var right = cw - 12, num = String(cnt);
+    ctx.font = '600 20px "IBM Plex Mono", monospace'; ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff';
+    ctx.fillText(num, right, 26);
+    var nw = ctx.measureText(num).width;
+    ctx.font = '500 ' + fs + 'px "IBM Plex Mono", monospace'; ctx.fillStyle = 'rgba(201,220,234,0.72)';
+    ctx.fillText(narrow ? 'in the window' : 'molecules in the window', right - nw - 8, 22);
+    if (outN > 0) { ctx.fillStyle = '#f29a5f'; ctx.fillText(outN + ' pushed out', right, ch - 12); }
+    ctx.textAlign = 'left';
+  }
+  var lastInfo = '';
+  function pick(e) {
+    var r = cv.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, best = -1, bd = 1e9;
+    for (var i = 0; i < sim.NP; i++) {
+      if (!hit.ok[i]) continue;
+      var d = Math.hypot(hit.x[i] - x, hit.y[i] - y); if (d > hit.r[i] + 8) continue;
+      d += hit.d[i] * 0.5; if (d < bd) { bd = d; best = i; }
+    }
+    if (best >= 0) sel = best;
+  }
+  cv.addEventListener('pointerdown', function (e) { view.drag = { x: e.clientX, y: e.clientY, moved: 0 }; try { cv.setPointerCapture(e.pointerId); } catch (err) {} });
+  cv.addEventListener('pointermove', function (e) {
+    if (!view.drag) return;
+    var dx = e.clientX - view.drag.x, dy = e.clientY - view.drag.y; view.drag.x = e.clientX; view.drag.y = e.clientY; view.drag.moved += Math.abs(dx) + Math.abs(dy);
+    view.yaw += dx * 0.008; view.pitch = Math.max(-1.5708, Math.min(1.5708, view.pitch + dy * 0.008)); view.tYaw = view.tPitch = null;
+  });
+  function endDrag(e) { if (view.drag && view.drag.moved < 5 && e.type === 'pointerup') pick(e); view.drag = null; }
+  cv.addEventListener('pointerup', endDrag); cv.addEventListener('pointercancel', endDrag);
+
+  /* ---------- cube: 1 kg of water or ice, volume grows in all three directions ---------- */
+  var CB = { cx: 120, cy: 124, a0: 84 }, SQ = Math.sqrt(3) / 2;
+  function pts(a, list) { return list.map(function (p) { return (CB.cx + p[0] * SQ * a).toFixed(1) + ',' + (CB.cy + p[1] * a / 2).toFixed(1); }).join(' '); }
+  // hexagon corners in units of (SQ*a, a/2): top, upper right, lower right, bottom, lower left, upper left, centre
+  var Pt = { t: [0, -2], ur: [1, -1], lr: [1, 1], b: [0, 2], ll: [-1, 1], ul: [-1, -1], c: [0, 0] };
+  function face(id, a, k) { var e = $(id); if (e) e.setAttribute('points', pts(a, k.map(function (n) { return Pt[n]; }))); }
+  var Fk = { top: ['t', 'ur', 'c', 'ul'], left: ['ul', 'c', 'b', 'll'], right: ['c', 'ur', 'lr', 'b'] };
+  function drawBeaker() {
+    var gOut = Math.min(1, Math.max(0, (sim.NP - sim.count) / (sim.NP - sim.NS)));
+    var vrL = vrelOf(Math.max(sim.T, 0));     // volume of 1 kg relative to liquid at 4 C
+    var vr = vrL + (VICE0 - vrL) * gOut;      // follows the molecules leaving the window
+    var ex = $('exag').checked ? 5 : 1;       // optional exaggeration of the edge change so it can be seen
+    var a = CB.a0 * (1 + ex * (Math.cbrt(vr) - 1));   // edge length grows with the cube root of the volume
+    var tsc = Math.max(1, a / CB.a0);
+    ['top', 'left', 'right'].forEach(function (n) { face('ci-' + n, CB.a0, Fk[n]); });
+    ['top', 'left', 'right'].forEach(function (n) { face('cb-' + n, a, Fk[n]); face('cbh-' + n, a, Fk[n]); });
+    var icey = sim.p > 0.9 && sim.T < 0;
+    $('cube-faces').setAttribute('style', 'color:' + (icey ? 'var(--ice)' : 'var(--water)'));
+    ['cb-top', 'cb-left', 'cb-right'].forEach(function (id) { $(id).setAttribute('fill', icey ? 'var(--ice)' : 'var(--water)'); });
+    $('cb-hatch').setAttribute('opacity', icey ? '1' : '0');
+    var pct = (vr - 1) * 100, t = $('bk-pct');
+    t.textContent = Math.abs(pct) < 0.05 ? '' : 'volume ' + (pct > 0 ? '+' : MINUS) + Math.abs(pct).toFixed(1) + ' %';
+    var ed = (Math.cbrt(vr) - 1) * 100;
+    $('bk-edge').textContent = Math.abs(ed) < 0.05 ? '' : 'each edge ' + (ed > 0 ? '+' : MINUS) + Math.abs(ed).toFixed(1) + ' %' + (ex > 1 ? ' (drawn ×5)' : '');
+  }
+
+  /* ---------- readouts + story ---------- */
+  var STORY = {
+    ice: ['Ice: four hydrogen bonds per molecule',
+      'Each molecule makes four hydrogen bonds, two with its own hydrogens and two with the lone pairs on its oxygen, arranged tetrahedrally at about 109.5°. The network builds rings of six molecules and leaves open channels between them: use Look down the c-axis to see them. The window is a fixed volume and holds ' + sim.NP + ' molecules as a liquid. Once they lock into the lattice only ' + sim.NS + ' fit, so ' + (sim.NP - sim.NS) + ' are pushed out through the faces. The same volume now holds less mass, so ice is less dense.'],
+    liq: ['Liquid, 0 to 4 °C: ice-like clusters still flicker',
+      'Hydrogen bonds keep breaking and re-forming, so a molecule has about 3 bonds on average instead of 4. Clusters with the open ice arrangement survive for a moment, then collapse. Each collapse lets molecules move into the gaps, so the same mass takes up less space as the water warms. The window holds ' + sim.NP + ' molecules throughout. Between 0 and 4 °C the density changes by only about 0.01 %, too small to see by counting. The zoomed density curve below shows it.'],
+    max: ['4 °C: the two effects cancel',
+      'Collapsing clusters still shrink the volume, but faster molecular motion now pushes molecules apart by the same amount. The density is at its maximum, 0.99997 g/cm³. Counting molecules cannot show a difference this small; the curve can.'],
+    warm: ['Above 4 °C: motion wins',
+      'Few ice-like clusters remain to collapse. Molecules move faster and sit further apart on average, so the water expands and its density falls.']
+  };
+  var lastR = '';
+  function regime(T) { return T < 0 ? 'ice' : (T < 3.75 ? 'liq' : (T <= 4.25 ? 'max' : 'warm')); }
+  function readouts() {
+    var T = sim.T, rho = rhoOf(T), r = regime(T);
+    $('r-T').textContent = fT(T) + ' °C';
+    var st = $('r-state');
+    st.textContent = T < 0 ? 'Ice' : 'Liquid water';
+    st.className = 'state ' + (T < 0 ? 's-ice' : 's-liq');
+    $('r-rho').textContent = rho.toFixed(T < 0 ? 4 : 5) + ' g/cm³';
+    $('r-vol').textContent = (1000 / rho).toFixed(1) + ' cm³';
+    $('r-count').textContent = sim.count + ' (' + (sim.count / sim.NP * 100).toFixed(1) + ' %)';
+    $('r-hb').textContent = sim.hb.toFixed(1) + ' of 4';
+    $('r-ice').textContent = Math.round(sim.iceFrac * 100) + ' %';
+    var L4 = { ice: 'Below 0 °C the water is ice, which is far less dense than the liquid.',
+      liq: 'Cluster collapse > random motion. The volume falls as the water warms, so the density rises.',
+      max: 'The two effects are equal. The volume is at its smallest, so the density is at its maximum.',
+      warm: 'Random motion > cluster collapse. The volume rises as the water warms, so the density falls.' };
+    $('live4').innerHTML = '<span>At ' + fT(T) + ' °C</span>' + L4[r];
+    if (r !== lastR) {
+      lastR = r;
+      $('st-h').textContent = STORY[r][0]; $('st-p').textContent = STORY[r][1];
+      $('story').setAttribute('data-r', r === 'ice' ? 'ice' : r);
+    }
+  }
+
+  /* ---------- charts ---------- */
+  function mkChart(svg, o) {
+    var W = 640, H = o.h || 300, m = { l: o.ml || 62, r: 18, t: 22, b: 46 };
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var X = function (v) { return m.l + (v - o.x[0]) / (o.x[1] - o.x[0]) * (W - m.l - m.r); };
+    var Y = function (v) { return H - m.b - (v - o.y[0]) / (o.y[1] - o.y[0]) * (H - m.t - m.b); };
+    var s = '';
+    o.yt.forEach(function (t) { s += '<line class="grid" x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + Y(t).toFixed(1) + '" y2="' + Y(t).toFixed(1) + '"/><text class="tick" x="' + (m.l - 8) + '" y="' + (Y(t) + 4).toFixed(1) + '" text-anchor="end">' + o.yf(t) + '</text>'; });
+    o.xt.forEach(function (t) { s += '<line class="tickline" x1="' + X(t).toFixed(1) + '" x2="' + X(t).toFixed(1) + '" y1="' + (H - m.b) + '" y2="' + (H - m.b + 5) + '"/><text class="tick" x="' + X(t).toFixed(1) + '" y="' + (H - m.b + 19) + '" text-anchor="middle">' + (o.xf ? o.xf(t) : t) + '</text>'; });
+    s += '<line class="axisl" x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + (H - m.b) + '" y2="' + (H - m.b) + '"/>';
+    s += '<text class="axt" x="' + ((m.l + W - m.r) / 2) + '" y="' + (H - 6) + '" text-anchor="middle">' + o.xl + '</text>';
+    s += '<text class="axt" transform="translate(13 ' + ((m.t + H - m.b) / 2) + ') rotate(-90)" text-anchor="middle">' + o.yl + '</text>';
+    (o.vl || []).forEach(function (x) { s += '<line class="vl" x1="' + X(x).toFixed(1) + '" x2="' + X(x).toFixed(1) + '" y1="' + m.t + '" y2="' + (H - m.b) + '"/>'; });
+    o.series.forEach(function (se) {
+      var d = se.pts.map(function (p, i) { return (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1); }).join('');
+      s += '<path class="ln ' + se.cls + '" d="' + d + '"/>';
+    });
+    (o.dots || []).forEach(function (p) { s += '<circle class="dot" r="3.4" cx="' + X(p[0]).toFixed(1) + '" cy="' + Y(p[1]).toFixed(1) + '"/>'; });
+    (o.texts || []).forEach(function (t) { s += '<text class="ann" x="' + X(t.x).toFixed(1) + '" y="' + Y(t.y).toFixed(1) + '" text-anchor="' + (t.a || 'start') + '"' + (t.fill ? ' style="fill:' + t.fill + '"' : '') + '>' + t.s + '</text>'; });
+    s += '<line class="vline" data-vline y1="' + m.t + '" y2="' + (H - m.b) + '" x1="0" x2="0" style="display:none"/>';
+    o.markers.forEach(function (mk, k) { s += '<circle class="mk ' + mk.cls + '" data-mk="' + k + '" r="6" cx="0" cy="0" style="display:none"/>'; });
+    svg.innerHTML = s;
+    var vline = svg.querySelector('[data-vline]'), mks = svg.querySelectorAll('[data-mk]');
+    return function (T) {
+      var inx = T >= o.x[0] && T <= o.x[1];
+      vline.style.display = inx ? '' : 'none';
+      vline.setAttribute('x1', X(T)); vline.setAttribute('x2', X(T));
+      o.markers.forEach(function (mk, k) {
+        var ok = inx && (!mk.only || mk.only(T));
+        mks[k].style.display = ok ? '' : 'none';
+        if (ok) { mks[k].setAttribute('cx', X(T).toFixed(1)); mks[k].setAttribute('cy', Y(mk.f(T)).toFixed(1)); }
+      });
+    };
+  }
+  function range(a, b, st) { var r = []; for (var x = a; x <= b + 1e-9; x += st) r.push(+x.toFixed(4)); return r; }
+
+  var upA = mkChart($('chA'), {
+    x: [-10, 30], y: [0.90, 1.02], xt: [-10, 0, 10, 20, 30], yt: [0.90, 0.94, 0.98, 1.02].concat([]),
+    xf: function (t) { return t < 0 ? MINUS + Math.abs(t) : t; }, yf: function (t) { return t.toFixed(2); },
+    xl: 'Temperature (°C)', yl: 'Density (g/cm³)', vl: [0],
+    series: [
+      { cls: 'ln-ice', pts: range(-10, 0, 0.5).map(function (T) { return [T, iceRho(T)]; }) },
+      { cls: 'ln-water', pts: range(0, 30, 0.5).map(function (T) { return [T, liquidRho(T)]; }) }
+    ],
+    texts: [
+      { x: -9.5, y: 0.932, s: 'ice', fill: 'var(--ice)' },
+      { x: 12, y: 1.011, s: 'liquid water', fill: 'var(--water)' },
+      { x: 0.8, y: 0.955, s: 'melting point' }
+    ],
+    markers: [
+      { cls: 'mk-ice', f: iceRho, only: function (T) { return T < 0; } },
+      { cls: 'mk-water', f: liquidRho, only: function (T) { return T >= 0; } }
+    ]
+  });
+  var meas = [[0, 0.99984], [1, 0.99990], [2, 0.99994], [3, 0.99996], [4, 0.99997], [5, 0.99996], [6, 0.99994], [7, 0.99990], [8, 0.99985], [9, 0.99978], [10, 0.99970]];
+  var upB = mkChart($('chB'), {
+    ml: 70, x: [0, 10], y: [0.99965, 1.00001], xt: range(0, 10, 2), yt: [0.99970, 0.99980, 0.99990, 1.00000],
+    yf: function (t) { return t.toFixed(5); }, xl: 'Temperature (°C)', yl: 'Density (g/cm³)', vl: [4],
+    series: [{ cls: 'ln-water', pts: range(0, 10, 0.1).map(function (T) { return [T, liquidRho(T)]; }) }],
+    dots: meas,
+    texts: [{ x: 4.25, y: 0.999995, s: 'maximum at 4 °C' }],
+    markers: [{ cls: 'mk-water', f: liquidRho, only: function (T) { return T >= 0; } }]
+  });
+  function updateCharts() { upA(sim.T); upB(sim.T); }
+
+  /* ---------- controls ---------- */
+  var slider = $('temp'), sweep = null, paused = false;
+  function setT(T) { sim.T = T; slider.value = T; updateCharts(); }
+  slider.addEventListener('input', function () { sweep = null; setT(parseFloat(slider.value)); });
+  document.querySelectorAll('[data-set]').forEach(function (b) {
+    b.addEventListener('click', function () { sweep = null; setT(parseFloat(b.getAttribute('data-set'))); });
+  });
+  $('b-cool').addEventListener('click', function () { if (sim.T <= -8) setT(20); sweep = { to: -8, rate: 1.6 }; });
+  $('b-warm').addEventListener('click', function () { if (sim.T >= 20) setT(-8); sweep = { to: 20, rate: 1.6 }; });
+  $('b-pause').addEventListener('click', function () {
+    paused = !paused; this.textContent = paused ? 'Resume' : 'Pause'; this.setAttribute('aria-pressed', paused ? 'true' : 'false');
+  });
+  $('speed').addEventListener('input', function () { sim.speed = parseFloat(this.value); });
+  function goView(yaw, pitch) { view.tYaw = yaw; view.tPitch = pitch; view.auto = false; $('autoRot').checked = false; }
+  $('v-side').addEventListener('click', function () { goView(0.6, 0.25); });
+  $('v-top').addEventListener('click', function () { goView(0, 1.5708); });
+  $('autoRot').addEventListener('change', function () { view.auto = this.checked; if (this.checked) view.tYaw = view.tPitch = null; });
+  $('spaceFill').addEventListener('change', function () { view.space = this.checked; });
+
+  /* ---------- loop ---------- */
+  var last = performance.now(), acc = 0, lastUI = 0, visible = true, running = false;
+  var FRAME_MS = 33;      // draw at about 30 frames per second to keep the page light
+  function frame(now) {
+    if (!visible || document.hidden) { running = false; return; }
+    requestAnimationFrame(frame);
+    var el = now - last;
+    if (el < FRAME_MS - 2) return;
+    var dt = Math.min(el / 1000, 0.06); last = now;
+    if (sweep && !paused) {
+      var d = sweep.to - sim.T, stp = sweep.rate * dt;
+      if (Math.abs(d) <= stp) { setT(sweep.to); sweep = null; } else setT(sim.T + Math.sign(d) * stp);
+    }
+    if (view.auto && !view.drag) view.yaw += dt * 0.2;
+    if (view.tYaw !== null) {
+      var dy0 = view.tYaw - view.yaw; dy0 -= 6.28318 * Math.round(dy0 / 6.28318);
+      var k0 = Math.min(1, dt * 4); view.yaw += dy0 * k0; view.pitch += (view.tPitch - view.pitch) * k0;
+      if (Math.abs(dy0) < 0.002 && Math.abs(view.tPitch - view.pitch) < 0.002) { view.yaw = view.tYaw; view.pitch = view.tPitch; view.tYaw = view.tPitch = null; }
+    }
+    if (!paused) sim.advance(dt);
+    draw();
+    if (now - lastUI > 150) { lastUI = now; drawBeaker(); readouts(); }
+  }
+  function start() { if (!running && visible && !document.hidden) { running = true; last = performance.now(); requestAnimationFrame(frame); } }
+  document.addEventListener('visibilitychange', start);
+  if (window.IntersectionObserver) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; start(); }, { threshold: 0 }).observe(cv);
+  setT(10);
+  sim.advance(0.016); draw(); drawBeaker(); readouts();
+  start();
+})();
+</script>
+
+</body></html>
