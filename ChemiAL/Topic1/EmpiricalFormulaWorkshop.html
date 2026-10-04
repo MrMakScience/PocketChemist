@@ -212,6 +212,33 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
 .mol[hidden]{display:none}
 .c3f{fill:#E3B81F;stroke:currentColor;stroke-width:3} .c2f{fill:#E0533D;stroke:currentColor;stroke-width:3}
 @media (prefers-reduced-motion:reduce){.bar,.dots,.dots i,.tok i,.grp{transition:none!important}}
+
+
+.tier{margin:26px 0 8px;background:var(--card);border:1.5px solid var(--ink);border-radius:14px;padding:18px;box-shadow:5px 5px 0 var(--accent)}
+.thead{display:flex;gap:16px;align-items:flex-start}
+.tbadge{flex:0 0 auto;width:68px;height:80px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tbadge span{font:700 11px var(--font-mono);letter-spacing:.14em}
+.tbadge b{font:800 36px/1 var(--font-display)}
+.thead h3{font-size:24px}
+.thead p{margin:6px 0 0;color:var(--muted);font-size:16px}
+.pills{display:flex;gap:8px;overflow-x:auto;padding:16px 2px 12px}
+.pill{flex:0 0 auto;font:700 15px var(--font-display);background:var(--paper);color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:9px 18px;cursor:pointer;min-height:44px;white-space:nowrap}
+.pill.wk{border-color:var(--accent)}
+.pill[aria-selected="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pill .ck{display:none;color:var(--good)}
+.pill.done .ck{display:inline}
+.pill.done[aria-selected="true"] .ck{color:var(--accent-ink)}
+.pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.stage .q{margin:0;box-shadow:none}
+.stage .q.demo{box-shadow:none}
+.stage .q[hidden]{display:none}
+@media (max-width:520px){.tier{padding:14px}.tbadge{width:54px;height:64px}.tbadge b{font-size:28px}.thead{gap:12px}.thead h3{font-size:20px}.thead p{font-size:15px}}
+
+.tier{scroll-margin-top:84px}
+.pickhint{margin-top:16px;padding:8px 12px;background:var(--hi);color:var(--hi-ink);border-radius:8px;font-size:15px}
+.pickhint+.pills{padding-top:10px}
+.nextbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;border-top:1.5px dashed var(--line);padding-top:14px;color:var(--muted);font-size:15px}
+.nextbar .btn{margin-left:auto}
 </style>
 <div class="wrap">
 <header class="top">
@@ -259,11 +286,10 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
   </div>
   <div class="box">
    <h3>How to use each question</h3>
-   <p><b>Demos</b> play step by step on their own. Press pause or step through them yourself.<br><b>Practice:</b> try it on paper first. Press <b>Need help?</b> to reveal one step at a time. The keys show exactly what to press on your calculator. Then type your answer and check it.</p>
+   <p><b>Choose a question</b> with the round buttons at the top of each tier (Worked example, Practice 1, 2, 3…). The big blue button at the bottom of each question takes you to the next one.<br><b>Worked examples</b> play step by step on their own. Press pause or step through them yourself.<br><b>Practice:</b> try it on paper first. Press <b>Need help?</b> to reveal one step at a time. The keys show exactly what to press on your calculator. Then type your answer and check it.</p>
   </div>
  </div>
- <div class="qhead"><h2>Worked demos</h2></div><div id="demos1"></div>
- <div class="qhead"><h2>Practice</h2><span class="prog" id="prog1"></span></div><div id="prac1"></div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog1"></span></div><div id="qs1"></div>
 </section>
 
 <!-- ============ TAB 2 ============ -->
@@ -288,8 +314,7 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
    <p>Mr means “add up the RAMs” for the whole formula. For H₂O: (2 × 1.0) + 16.0 = <b>18.0</b>. The Mr of the dry salt is worked out for you step by step.</p>
    <p>“Heat to constant mass” means heating, cooling and weighing again until the mass stops changing, so the reaction is complete.</p></div>
  </div>
- <div class="qhead"><h2>Worked demos</h2></div><div id="demos2"></div>
- <div class="qhead"><h2>Practice</h2><span class="prog" id="prog2"></span></div><div id="prac2"></div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog2"></span></div><div id="qs2"></div>
 </section>
 
 <!-- ============ TAB 3 ============ -->
@@ -339,8 +364,7 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
    <p style="margin-top:10px">Every question lists its weighings in a table, in the order they were taken. Find the two weighings named in the brackets and subtract. The step-by-step help shows the exact numbers to subtract.</p>
   </div>
  </div>
- <div class="qhead"><h2>Worked demo</h2></div><div id="demos3"></div>
- <div class="qhead"><h2>Practice</h2><span class="prog" id="prog3"></span></div><div id="prac3"></div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog3"></span></div><div id="qs3"></div>
 </section>
 
 <!-- ============ TAB 4 ============ -->
@@ -375,18 +399,17 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
   <div class="box"><h3>Check for oxygen</h3>
    <p>If C + H already adds up to the sample mass, there is <b>no oxygen</b>. The compound is a hydrocarbon and your table only needs C and H. Never take oxygen from the CO₂ or H₂O, because some of that oxygen came from the air.</p></div>
  </div>
- <div class="qhead"><h2>Worked demos</h2></div><div id="demos4"></div>
- <div class="qhead"><h2>Practice</h2><span class="prog" id="prog4"></span></div><div id="prac4"></div>
+ <div class="qhead"><h2>Questions</h2><span class="prog" id="prog4"></span></div><div id="qs4"></div>
 </section>
 <footer>Answers are checked by the page, in any order of elements (for example “O2S” is read as SO₂). For hydrates, type just the number <i>n</i>.</footer>
 </div>
 <script>const RAM={H:1.0,C:12.0,N:14.0,O:16.0,Na:23.0,Mg:24.3,Al:27.0,P:31.0,S:32.1,Cl:35.5,Ca:40.1,Fe:55.8,Co:58.9,Cu:63.5,Zn:65.4,Y:52.0,Sn:118.7,Pb:207.2,Mn:54.9,V:50.9,Ni:58.7};
 const Q=[
 /* ---------- TAB 1 : masses or % given ---------- */
-{id:'t1d1',tab:1,demo:true,kind:'mass',label:'Demo A · masses given',
+{id:'t1d1',tab:1,demo:true,kind:'mass',label:'Demo',
  text:'A sample of a compound contains 40.07 g of sulphur and 59.93 g of oxygen. Determine the empirical formula of the compound.',
  parts:[['S',40.07],['O',59.93]],answer:'SO3'},
-{id:'t1d2',tab:1,demo:true,kind:'percent',label:'Demo B · % by mass given',
+{id:'t1d2',tab:1,demo:true,kind:'percent',label:'Demo',
  text:'A compound contains 40.0% carbon, 6.7% hydrogen and 53.3% oxygen by mass. Determine its empirical formula.',
  parts:[['C',40.0],['H',6.7],['O',53.3]],answer:'CH2O'},
 {id:'t1p1',tab:1,kind:'mass',label:'Practice 1',
@@ -421,10 +444,10 @@ const Q=[
  parts:[['P',43.7],['O',56.3]],answer:'P2O5'},
 
 /* ---------- TAB 2 : decomposition / heating ---------- */
-{id:'t2d1',tab:2,demo:true,kind:'oxide',label:'Demo A · metal oxide',
+{id:'t2d1',tab:2,demo:true,kind:'oxide',label:'Demo',
  text:'4.01 g of calcium burns in excess oxygen. The mass of calcium oxide formed is 5.61 g. Determine the empirical formula of the oxide.',
  metal:'Ca',metalMass:4.01,oxideMass:5.61,answer:'CaO'},
-{id:'t2d2',tab:2,demo:true,kind:'hydrate',label:'Demo B · water of crystallisation',
+{id:'t2d2',tab:2,demo:true,kind:'hydrate',label:'Demo',
  text:'9.44 g of hydrated copper(II) sulphate ([[CuSO4·nH2O]]) was heated strongly in a crucible. After heating for 30 minutes, 6.06 g of solid was left. Determine the number of water of crystallisation, <i>n</i>.',
  salt:'CuSO4',saltParts:[['Cu',1],['S',1],['O',4]],hyd:9.44,dry:6.06,answer:'5'},
 {id:'t2p1',tab:2,kind:'oxide',label:'Practice 1',
@@ -459,68 +482,73 @@ const Q=[
  salt:'CaSO4',saltParts:[['Ca',1],['S',1],['O',4]],hyd:8.61,dry:6.81,answer:'2'},
 
 /* ---------- TAB 3 : experimental set-up (several subtractions) ---------- */
-{id:'t3d1',tab:3,demo:true,kind:'setup',label:'Demo · zinc heated in a crucible',
+{id:'t3d1',tab:3,demo:true,kind:'setup',dir:'gain',label:'Demo · zinc heated in a crucible',
  text:'Some zinc powder is heated in a crucible. The data collected in the experiment are listed in the table. Determine the empirical formula of the zinc compound formed.',
  weighs:[['a','Crucible','23.8'],['b','Crucible and zinc powder before heating','28.8'],['c','Crucible and the residue after heating','30.0']],
  parts:[['Zn','b','a','Zn = (crucible + zinc) − crucible'],['O','c','b','O = (crucible + residue) − (crucible + zinc)']],answer:'ZnO',
  think:{q:'Explain why the lid needs to be opened and closed frequently.',a:'Opening the lid lets air (oxygen) in, so all the zinc can react. Closing it stops white zinc oxide powder escaping as smoke. If any escaped, the mass gained would be too small and the oxygen mass would be wrong.'}},
-{id:'t3p1',tab:3,kind:'setup',label:'Practice 1 · magnesium ribbon',
+{id:'t3d2',tab:3,demo:true,kind:'setup',dir:'loss',label:'Demo · tin(IV) oxide reduced in hydrogen',
+ text:'Dry hydrogen was passed over heated tin oxide in a tube until the white solid had all turned into shiny tin. The tube was cooled while hydrogen was still flowing, then weighed. Determine the empirical formula of the tin oxide.',
+ weighs:[['a','Empty tube','30.00'],['b','Tube + tin oxide before heating','37.54'],['c','Tube + tin after heating','35.94']],
+ parts:[['Sn','c','a','Sn = (tube + tin) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + tin)']],answer:'SnO2',
+ think:{q:'Why is the tube heated strongly, not gently?',a:'Hydrogen only removes the oxygen from the oxide at a high temperature. With gentle heating some oxide would be left, so the oxygen lost would look too small.'}},
+{id:'t3p1',tab:3,kind:'setup',dir:'gain',label:'Practice 1 · magnesium ribbon',
  text:'A piece of magnesium ribbon was heated strongly in a crucible with a lid until it had all reacted.',
  weighs:[['a','Crucible + lid','20.15'],['b','Crucible + lid + magnesium','22.58'],['c','Crucible + lid + product','24.18']],
  parts:[['Mg','b','a','Mg = (crucible + Mg) − crucible'],['O','c','b','O = (crucible + product) − (crucible + Mg)']],answer:'MgO',
  think:{q:'Why should the product be heated, cooled and weighed again until the mass stops changing?',a:'A constant mass shows the reaction is complete. If the mass is still rising, some magnesium has not yet reacted with oxygen.'}},
-{id:'t3p2',tab:3,kind:'setup',label:'Practice 2 · aluminium powder',
+{id:'t3p2',tab:3,kind:'setup',dir:'gain',label:'Practice 2 · aluminium powder',
  text:'Aluminium powder was heated in a crucible in air. The results are shown below.',
  weighs:[['a','Crucible','19.50'],['b','Crucible + aluminium powder','22.20'],['c','Crucible + aluminium oxide','24.60']],
  parts:[['Al','b','a','Al = (crucible + Al) − crucible'],['O','c','b','O = (crucible + oxide) − (crucible + Al)']],answer:'Al2O3',
  think:{q:'Why is a powder used instead of a lump of aluminium?',a:'Powder has a much larger surface area, so it reacts faster and more completely with oxygen.'}},
-{id:'t3p3',tab:3,kind:'setup',label:'Practice 3 · copper(II) oxide + hydrogen',
+{id:'t3p3',tab:3,kind:'setup',dir:'loss',label:'Practice 3 · copper(II) oxide + hydrogen',
  text:'Dry hydrogen was passed over heated copper(II) oxide in a combustion tube until all the black solid had turned to brown copper. The tube was cooled while hydrogen was still flowing.',
  weighs:[['a','Empty tube','31.20'],['b','Tube + oxide before heating','39.15'],['c','Tube + copper after heating','37.55']],
  parts:[['Cu','c','a','Cu = (tube + copper) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + copper)']],answer:'CuO',
  think:{q:'Why is hydrogen kept flowing while the tube cools?',a:'Hot copper would react with air and turn back into oxide. That would make the mass of oxygen removed look too small.'}},
-{id:'t3p4',tab:3,kind:'setup',label:'Practice 4 · lead oxide + hydrogen',
+{id:'t3p4',tab:3,kind:'setup',dir:'loss',label:'Practice 4 · lead oxide + hydrogen',
  text:'A sample of lead oxide was heated in a stream of hydrogen until it became shiny lead metal.',
  weighs:[['a','Empty tube','30.40'],['b','Tube + lead oxide before heating','52.72'],['c','Tube + lead after heating','51.12']],
  parts:[['Pb','c','a','Pb = (tube + lead) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + lead)']],answer:'PbO',
  think:{q:'Why is the hydrogen leaving the tube burnt?',a:'Hydrogen is flammable and explosive when mixed with air. Burning it off safely turns it into water.'}},
-{id:'t3p5',tab:3,kind:'setup',label:'Practice 5 · copper + sulphur',
+{id:'t3p5',tab:3,kind:'setup',dir:'gain',label:'Practice 5 · copper + sulphur',
  text:'Copper powder was heated with excess sulphur in a crucible. Heating continued until the excess sulphur had burnt away, leaving a black solid.',
  weighs:[['a','Crucible','22.10'],['b','Crucible + copper','28.45'],['c','Crucible + black solid','30.05']],
  parts:[['Cu','b','a','Cu = (crucible + Cu) − crucible'],['S','c','b','S = (crucible + solid) − (crucible + Cu)']],answer:'Cu2S',
  think:{q:'Why is excess sulphur used, and why must it be burnt away at the end?',a:'Excess sulphur makes sure all the copper reacts. The leftover sulphur must be driven off, otherwise it adds to the mass and the sulphur mass in the compound is too high.'}},
-{id:'t3p6',tab:3,kind:'setup',label:'Practice 6 · iron oxide + hydrogen',
+{id:'t3p6',tab:3,kind:'setup',dir:'loss',label:'Practice 6 · iron oxide + hydrogen',
  text:'An iron oxide was reduced to iron by heating it in a stream of hydrogen.',
  weighs:[['a','Empty tube','32.15'],['b','Tube + iron oxide before heating','55.29'],['c','Tube + iron after heating','48.89']],
  parts:[['Fe','c','a','Fe = (tube + iron) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + iron)']],answer:'Fe3O4',
  think:{q:'Why must the tube be cool before it is weighed?',a:'A hot tube warms the air around it, and the rising air makes the balance reading unsteady and too low. Cooling in hydrogen also stops the iron re-oxidising.'}},
-{id:'t3p7',tab:3,kind:'setup',label:'Practice 7 · calcium + nitrogen',
+{id:'t3p7',tab:3,kind:'setup',dir:'gain',label:'Practice 7 · calcium + nitrogen',
  text:'Calcium was heated strongly in a stream of dry nitrogen gas until it had all reacted.',
  weighs:[['a','Crucible','22.60'],['b','Crucible + calcium','34.63'],['c','Crucible + product','37.43']],
  parts:[['Ca','b','a','Ca = (crucible + Ca) − crucible'],['N','c','b','N = (crucible + product) − (crucible + Ca)']],answer:'Ca3N2',
  think:{q:'Why must air be kept out of this experiment?',a:'In air, calcium would also form calcium oxide. The extra mass gained would not all be nitrogen, so the mass of N and the formula would be wrong.'}},
-{id:'t3p8',tab:3,kind:'setup',label:'Practice 8 · magnesium + sulphur',
+{id:'t3p8',tab:3,kind:'setup',dir:'gain',label:'Practice 8 · magnesium + sulphur',
  text:'Magnesium ribbon was heated with excess sulphur in a crucible. The excess sulphur was burnt off and the crucible was cooled before weighing.',
  weighs:[['a','Crucible','21.80'],['b','Crucible + magnesium','24.23'],['c','Crucible + product','27.44']],
  parts:[['Mg','b','a','Mg = (crucible + Mg) − crucible'],['S','c','b','S = (crucible + product) − (crucible + Mg)']],answer:'MgS',
  think:{q:'Why is this experiment done in a fume cupboard?',a:'The excess sulphur burns to form sulphur dioxide, which is a toxic gas.'}},
-{id:'t3p9',tab:3,kind:'setup',label:'Practice 9 · nickel(II) oxide + hydrogen',
+{id:'t3p9',tab:3,kind:'setup',dir:'loss',label:'Practice 9 · nickel(II) oxide + hydrogen',
  text:'Nickel oxide was heated in a stream of hydrogen until it had all changed to nickel metal.',
  weighs:[['a','Empty tube','28.50'],['b','Tube + nickel oxide before heating','35.97'],['c','Tube + nickel after heating','34.37']],
  parts:[['Ni','c','a','Ni = (tube + nickel) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + nickel)']],answer:'NiO',
  think:{q:'Why must all the oxide be reduced before the final weighing?',a:'Any oxide left over still holds oxygen, so the mass of oxygen removed would look too small. Heat in hydrogen, cool and reweigh until the mass is constant.'}},
-{id:'t3p10',tab:3,kind:'setup',label:'Practice 10 · copper(I) oxide + hydrogen',
+{id:'t3p10',tab:3,kind:'setup',dir:'loss',label:'Practice 10 · copper(I) oxide + hydrogen',
  text:'A red-brown copper oxide was heated in a stream of hydrogen until it had all become pink-brown copper metal.',
  weighs:[['a','Empty tube','29.80'],['b','Tube + copper oxide before heating','44.10'],['c','Tube + copper after heating','42.50']],
  parts:[['Cu','c','a','Cu = (tube + copper) − tube'],['O','b','c','O lost = (tube + oxide) − (tube + copper)']],answer:'Cu2O',
  think:{q:'How can you be sure the reduction is complete?',a:'Heat again in hydrogen, cool, and weigh again. When two readings are the same (constant mass), no more oxygen is being removed.'}},
 
 /* ---------- TAB 4 : combustion analysis ---------- */
-{id:'t4d1',tab:4,demo:true,kind:'combust',label:'Demo A · CO₂ and H₂O masses given',
+{id:'t4d1',tab:4,demo:true,kind:'combust',label:'Demo · compound Z',
  text:'Compound <i>Z</i> containing only C, H and O burnt completely in air to form carbon dioxide and water as the only products. Complete combustion of 1.86 g of <i>Z</i> gives 2.64 g of carbon dioxide and 1.62 g of water. Determine the empirical formula of <i>Z</i>.',
  sample:1.86,co2:2.64,h2o:1.62,answer:'CH3O',
  think:{q:'In the apparatus, why is the water absorber placed before the carbon dioxide absorber?',a:'The carbon dioxide absorber (for example soda lime or NaOH) would also soak up water vapour. If it came first, the mass gain for CO₂ would be too big and the water mass too small.'}},
-{id:'t4d2',tab:4,demo:true,kind:'combust',label:'Demo B · U-tube readings',
+{id:'t4d2',tab:4,demo:true,kind:'combust',label:'Demo · compound V',
  text:'Compound <i>V</i> contains only C, H and O. 1.20 g of <i>V</i> is burnt completely in excess oxygen. The gases pass through a water absorber (U-tube 1) and then a carbon dioxide absorber (U-tube 2), which are weighed before and after. Determine the empirical formula of <i>V</i>.',
  sample:1.2,co2:2.64,h2o:1.44,answer:'C3H8O',
  tubes:{wb:46.25,wa:47.69,cb:52.8,ca:55.44}},
@@ -814,6 +842,7 @@ function act(q,el,a){
   }
 }
 function counts(){
+  $$('.pill').forEach(p=>p.classList.toggle('done',!!done[p.dataset.id]));
   [1,2,3,4].forEach(t=>{
     const pr=Q.filter(q=>q.tab===t&&!q.demo), d=pr.filter(q=>done[q.id]).length;
     $('#pg'+t).textContent=d+' / '+pr.length+' practice';
@@ -821,7 +850,58 @@ function counts(){
   });
 }
 function init(){
-  Q.forEach(q=>{ $('#'+(q.demo?'demos':'prac')+q.tab).appendChild(render(q)); });
+  const SEC={
+   1:[['Masses given','You are given the mass of each element. Copy the masses into the table, divide each by its RAM, then divide the larger moles by the smallest.',q=>q.kind==='mass'],
+      ['Percentages given','You are given percentages by mass. Pretend the sample weighs 100 g so every % becomes grams, then use the same table.',q=>q.kind==='percent']],
+   2:[['A metal burns to form an oxide','You are given the mass of the metal and the mass of the oxide. Mass of O = mass of oxide − mass of metal. Then use the table.',q=>q.kind==='oxide'],
+      ['Hydrated crystals are heated','You are given the mass of the crystals and the dry solid left. Mass of water = crystals − dry solid. Divide each by its Mr, and the water value is n.',q=>q.kind==='hydrate']],
+   3:[['Heated element gains mass','Weigh the container, the container with the element, and the container with the product. Two subtractions give the mass of each element.',q=>q.dir==='gain'],
+      ['Oxide reduced in hydrogen','The oxide loses oxygen, so the mass goes down. Subtract the weighings to find the metal left and the oxygen removed.',q=>q.dir==='loss']],
+   4:[['CO₂ and H₂O masses given','You are given the mass of CO₂ and H₂O formed. Work out the mass of C and H from them, then O by subtraction from the sample.',q=>q.kind==='combust'&&!q.tubes],
+      ['U-tube readings given','You are given the before and after readings of the two U-tubes. Subtract to find the mass of H₂O and CO₂ first, then carry on as before.',q=>q.kind==='combust'&&!!q.tubes]]};
+  Object.keys(SEC).forEach(t=>{
+    const host=$('#qs'+t); const tiers=[];
+    SEC[t].forEach(([title,desc,fn],ti)=>{
+      const qs=Q.filter(q=>q.tab==Number(t)&&fn(q));
+      const demos=qs.filter(q=>q.demo), pr=qs.filter(q=>!q.demo);
+      const order=demos.concat(pr);
+      const tier=document.createElement('div'); tier.className='tier';
+      tier.innerHTML='<div class="thead"><div class="tbadge"><span>TIER</span><b>'+(ti+1)+'</b></div><div><h3>'+title+'</h3><p>'+desc+'</p></div></div>'+
+        '<div class="pickhint">👇 <b>Tap a button to choose a question.</b> Start with the worked example, then try Practice 1.</div><div class="pills" role="tablist">'+order.map((q,i)=>{
+           const n=q.demo?(demos.length>1?'Worked example '+(demos.indexOf(q)+1):'Worked example'):'Practice '+(pr.indexOf(q)+1);
+           if(!q.demo) q.label=q.label.replace(/^Practice \d+/,'Practice '+(pr.indexOf(q)+1));
+           return '<button type="button" role="tab" class="pill'+(q.demo?' wk':'')+'" data-id="'+q.id+'" aria-selected="'+(i===0)+'">'+n+'<span class="ck"> ✓</span></button>';
+         }).join('')+'</div><div class="stage"></div>';
+      const stage=$('.stage',tier);
+      order.forEach((q,i)=>{ const el=render(q); el.hidden=i!==0; stage.appendChild(el); });
+      tier.addEventListener('click',ev=>{
+        const p=ev.target.closest('.pill'); if(!p) return;
+        $$('.pill',tier).forEach(x=>x.setAttribute('aria-selected',String(x===p)));
+        order.forEach(q=>{ const el=$('#q-'+q.id,tier); const on=q.id===p.dataset.id; if(!on&&state[q.id]&&state[q.id].timer){clearInterval(state[q.id].timer);state[q.id].timer=null;paintHelp(q,el);} el.hidden=!on; });
+      });
+      host.appendChild(tier); tiers.push({tier,order,title});
+    });
+    tiers.forEach((T,ti)=>{
+      T.order.forEach((q,i)=>{
+        const nb=document.createElement('div'); nb.className='nextbar';
+        const nx=T.order[i+1], pr=T.order.filter(x=>!x.demo);
+        let html='';
+        if(nx) html=(q.demo?'<span>Done watching? Now try one yourself.</span>':'')+'<button type="button" class="btn pri" data-go="'+nx.id+'">'+(q.demo?'Start Practice 1':'Next: Practice '+(pr.indexOf(nx)+1))+' →</button>';
+        else if(tiers[ti+1]) html='<span>Tier complete. Well done!</span><button type="button" class="btn pri" data-gotier="'+(ti+1)+'">Next: '+tiers[ti+1].title+' →</button>';
+        else if(Number(t)<4) html='<span>All questions in this topic done.</span><button type="button" class="btn pri" data-gotab="'+(Number(t)+1)+'">Next topic: '+$('#tb'+(Number(t)+1)).firstChild.textContent.replace(/^\d · /,'')+' →</button>';
+        else html='<span>That is every question. Great work!</span>';
+        nb.innerHTML=html; $('.body',$('#q-'+q.id,T.tier)).appendChild(nb);
+      });
+      T.tier.addEventListener('click',ev=>{
+        const g=ev.target.closest('[data-go],[data-gotier],[data-gotab]'); if(!g) return;
+        if(g.dataset.gotab){ $('#tb'+g.dataset.gotab).click(); return; }
+        const dest=g.dataset.gotier!==undefined?tiers[Number(g.dataset.gotier)]:T;
+        const id=g.dataset.go||dest.order[0].id;
+        $('.pill[data-id="'+id+'"]',dest.tier).click();
+        dest.tier.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  });
   counts();
   // intro: empirical vs molecular
   const sm=[['H2O2','HO','÷ 2'],['C2H4','CH2','÷ 2'],['C6H6','CH','÷ 6'],['C6H12O6','CH2O','÷ 6']];
