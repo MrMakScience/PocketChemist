@@ -1,0 +1,1195 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ideal Gas Law Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column, a lab bench figure leading each question, and a worked-table that fills step by step. */
+:root{
+  --bg:#EDF3F5; --surface:#FFFFFF; --surface2:#E3ECEF; --ink:#10242B; --muted:#41565E; --line:#BCCDD2;
+  --accent:#0A6A89; --accent-ink:#FFFFFF; --accent-soft:#D4ECF4;
+  --heat:#A63D00; --heat-soft:#FBE4D4;
+  --ok:#14693A; --ok-soft:#DCF1E3; --bad:#A92219; --bad-soft:#FBE2DF;
+  --glass:#F6FAFB; --metal:#5B7078;
+  --el-O:#B3261E; --el-N:#2F5FC4; --el-Cl:#1B7A36; --el-S:#8A6A00; --el-B:#A8315E;
+  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --f-body:'Atkinson Hyperlegible','Segoe UI',system-ui,-apple-system,sans-serif;
+  --f-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B171C; --surface:#12232A; --surface2:#1B323B; --ink:#E6F1F4; --muted:#A8BEC6; --line:#2E4752;
+  --accent:#63CDEB; --accent-ink:#04202A; --accent-soft:#15414F;
+  --heat:#FFA066; --heat-soft:#472816;
+  --ok:#74D79B; --ok-soft:#153828; --bad:#FF9088; --bad-soft:#4A201D;
+  --glass:#0F1E24; --metal:#8FA8B1;
+  --el-O:#FF8E86; --el-N:#8FB0FF; --el-Cl:#6FD596; --el-S:#E8C531; --el-B:#FF9CC0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B171C; --surface:#12232A; --surface2:#1B323B; --ink:#E6F1F4; --muted:#A8BEC6; --line:#2E4752;
+  --accent:#63CDEB; --accent-ink:#04202A; --accent-soft:#15414F;
+  --heat:#FFA066; --heat-soft:#472816;
+  --ok:#74D79B; --ok-soft:#153828; --bad:#FF9088; --bad-soft:#4A201D;
+  --glass:#0F1E24; --metal:#8FA8B1;
+  --el-O:#FF8E86; --el-N:#8FB0FF; --el-Cl:#6FD596; --el-S:#E8C531; --el-B:#FF9CC0; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 var(--f-body);padding-inline:16px;padding-block:0 56px;overflow-wrap:break-word}
+.wrap{max-width:980px;margin-inline:auto}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0 0 .8em}
+sub,sup{line-height:0}
+a{color:var(--accent)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:6px;z-index:10}
+.skip:focus{top:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* header */
+.top{padding-block:28px 18px}
+.eyebrow{font:500 .8rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.top h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:800;letter-spacing:-.02em}
+.lede{max-width:62ch;color:var(--muted);margin:10px 0 0;font-size:1.05rem}
+
+/* tabs */
+.tablist{display:flex;gap:8px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:0}
+.tablist button{font:700 1rem/1.2 var(--f-display);background:transparent;color:var(--muted);border:2px solid transparent;border-bottom:none;border-radius:10px 10px 0 0;padding:12px 18px;min-height:48px;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:3px;margin-bottom:-2px}
+.tablist button small{font:400 .8rem/1.2 var(--f-body);color:var(--muted)}
+.tablist button[aria-selected="true"]{background:var(--surface);color:var(--ink);border-color:var(--line);border-bottom:2px solid var(--surface)}
+.tablist button:hover{color:var(--ink)}
+.panel{padding-block:24px;display:flex;flex-direction:column;gap:20px}
+.panel h2{font-size:clamp(1.5rem,4vw,2rem);font-weight:700}
+
+/* cards */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.box h3{font-size:1.2rem;margin-bottom:10px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px}
+.callout{border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0 0}
+.callout.heat{border-color:var(--heat);background:var(--heat-soft)}
+.eqs{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.eqs li{font:500 1.2rem/1.3 var(--f-mono);background:var(--surface2);border-radius:8px;padding:10px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;transition:opacity .4s,transform .4s}
+.eqs li small{font:400 .85rem/1.3 var(--f-body);color:var(--muted)}
+.eqs li.hid{opacity:0;transform:translateY(6px)}
+.eqs li.final{background:var(--accent);color:var(--accent-ink)}
+.eqs li.final small{color:var(--accent-ink)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin-inline:4px;text-align:center}
+.frac>span:first-child{border-bottom:2px solid currentColor;padding:0 6px 2px}
+.frac>span:last-child{padding:2px 6px 0}
+.flow{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px;counter-reset:s}
+.flow li{background:var(--surface2);border-radius:10px;padding:12px 14px;counter-increment:s;font-size:.95rem}
+.flow li::before{content:"Stage " counter(s);display:block;font:500 .75rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.flow b{display:block;font-family:var(--f-display);margin-bottom:2px}
+
+/* tables */
+.tw{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+thead th{background:var(--surface2);font:700 .9rem/1.2 var(--f-display)}
+tbody th{background:var(--surface2);font-weight:700;font-size:.95rem}
+td{font-variant-numeric:tabular-nums}
+.ref td:first-child,.ref th:first-child{white-space:nowrap}
+.work-t td{min-width:130px}
+.work-t .rule{display:block;font-size:.88rem;color:var(--muted);margin-bottom:3px}
+.work-t .calc{font-family:var(--f-mono);font-size:.95rem}
+.blank{color:var(--muted);opacity:.6}
+td.pop,.pop{animation:pop .6s ease-out}
+@keyframes pop{0%{background:var(--accent-soft);transform:scale(.97)}100%{background:transparent;transform:none}}
+td b.res{color:var(--accent)}
+.emp-t td,.emp-t th{text-align:center}
+.emp-t tbody th{text-align:left;position:sticky;left:0}
+.emp-t{min-width:480px}
+
+/* converter */
+.conv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;align-items:end;margin-top:8px}
+label{font-weight:700;font-size:.95rem;display:block;margin-bottom:4px}
+input,select{font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--metal);border-radius:8px;padding:10px 12px;min-height:48px;width:100%}
+.convout{margin-top:12px;background:var(--surface2);border-radius:10px;padding:12px 14px;font-family:var(--f-mono);font-size:.95rem;line-height:1.7}
+
+/* pager */
+.pager{display:flex;flex-wrap:wrap;gap:8px}
+.pager button{min-width:48px;min-height:48px;padding:6px 12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;font:700 1rem var(--f-display);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.pager button[aria-current="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pager button.done:not([aria-current="true"]){border-color:var(--ok);background:var(--ok-soft)}
+.pager button .tick{font-size:.85em}
+
+/* question */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.qtag{display:inline-block;font:500 .78rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;background:var(--surface2);padding:7px 10px;border-radius:6px;color:var(--ink)}
+.qtag.demo{background:var(--heat-soft);color:var(--heat)}
+.qtext{font-size:1.08rem;max-width:68ch;margin:0}
+.bench{background:var(--surface2);border-radius:12px;padding:12px;min-width:0}
+.bench svg{width:100%;height:auto;display:block;max-width:720px;margin-inline:auto}
+.benchbar{display:flex;gap:10px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.chips li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font:500 .92rem var(--f-mono)}
+.chips li span{color:var(--muted);font-family:var(--f-body);margin-right:6px}
+.given{font-size:.95rem;color:var(--muted);margin:0}
+.given b{color:var(--ink)}
+.btn{font:700 1rem var(--f-display);min-height:48px;padding:10px 20px;border-radius:10px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.07)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.ans{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px;align-items:end}
+.ans .field{min-width:0}
+.ans .withunit{display:flex;gap:8px;align-items:center}
+.ans .unit{white-space:nowrap}
+.ans .go{grid-column:1/-1}
+.fb{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.fb li{border-radius:10px;padding:10px 14px;border:2px solid var(--line);display:flex;gap:10px}
+.fb li.ok{background:var(--ok-soft);border-color:var(--ok)}
+.fb li.no{background:var(--bad-soft);border-color:var(--bad)}
+.fb li.info{background:var(--accent-soft);border-color:var(--accent)}
+.fb .ic{font-weight:800;flex:none}
+.fb .ok .ic{color:var(--ok)} .fb .no .ic{color:var(--bad)}
+
+/* worked steps */
+.help{border-top:2px dashed var(--line);padding-top:16px;display:flex;flex-direction:column;gap:14px}
+.worked{display:flex;flex-direction:column;gap:16px}
+.worked h4{font-size:1rem;color:var(--muted);font-family:var(--f-mono);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{background:var(--surface2);border-radius:12px;padding:12px 16px 12px 58px;position:relative;min-height:56px}
+.steps li::before{content:attr(data-n);position:absolute;left:14px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 .95rem/32px var(--f-display);text-align:center}
+.steps li.enter{animation:slide .5s ease-out}
+@keyframes slide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.steps strong{font-family:var(--f-display);display:block;font-size:1.05rem}
+.steps .why{margin:2px 0 6px}
+.steps .calc{font-family:var(--f-mono);font-size:.98rem;display:block;margin:4px 0;line-height:1.7}
+.steps .res{color:var(--accent);font-weight:700}
+.stepbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stepbar .count{font:500 .9rem var(--f-mono);color:var(--muted)}
+
+/* syringe figure */
+.s-barrel{fill:var(--glass);stroke:var(--metal);stroke-width:3}
+.s-gas{fill:var(--accent);opacity:.2}
+.s-jacket{fill:var(--heat-soft);stroke:var(--heat);stroke-width:2;stroke-dasharray:7 5}
+.s-plunger{fill:var(--metal)}
+.s-rod{stroke:var(--metal);stroke-width:6;stroke-linecap:round}
+.s-tick{stroke:var(--ink);stroke-width:1.5}
+.s-label{fill:var(--ink);font:500 14px var(--f-mono)}
+.s-cap{fill:var(--metal);font:500 13px var(--f-body)}
+.s-p{fill:var(--accent)}
+.s-drop{fill:var(--accent)}
+.s-merc{fill:var(--heat)}
+.s-therm{fill:var(--glass);stroke:var(--metal);stroke-width:2.5}
+.s-heat{stroke:var(--heat);stroke-width:2.5;fill:none;stroke-linecap:round}
+
+.exb{font-size:.95rem;color:var(--muted)}
+@media (max-width:640px){
+  body{font-size:16px}
+  .qcard{padding:16px}
+  .box{padding:16px}
+  table.stack thead{position:absolute;left:-9999px}
+  table.stack,table.stack tbody,table.stack tr,table.stack td,table.stack th{display:block;width:100%}
+  table.stack tr{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
+  table.stack td,table.stack th{border:none;border-bottom:1px solid var(--line)}
+  table.stack td::before{content:attr(data-label);display:block;font:500 .72rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .ref td:first-child,.ref th:first-child{white-space:normal}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001s !important;animation-iteration-count:1 !important;transition-duration:.001s !important}
+}
+.emp-t .calc{display:block;font-family:var(--f-mono);font-size:.9rem}
+.simctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px 20px;margin-top:14px}
+.simctl output{font:500 .95rem var(--f-mono);color:var(--accent)}
+input[type=range]{padding:0;min-height:44px;accent-color:var(--accent);border:none;background:transparent}
+
+/* graphics */
+.topgrid{display:flex;gap:20px;align-items:center;justify-content:space-between}
+.topgrid>div{min-width:0}
+.hero-art{width:104px;height:auto;flex:none}
+.hero-art .bub circle{animation:bub 1.7s ease-in 3 both}
+.hero-art .bub circle:nth-child(2){animation-delay:.5s}.hero-art .bub circle:nth-child(3){animation-delay:.9s}
+.hero-art .vap circle{animation:vap 1.7s ease-out 3 both}
+.hero-art .vap circle:nth-child(2){animation-delay:.4s}.hero-art .vap circle:nth-child(3){animation-delay:.8s}.hero-art .vap circle:nth-child(4){animation-delay:1.1s}
+@keyframes bub{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
+@keyframes vap{0%{transform:translateY(14px);opacity:0}30%{opacity:.9}100%{transform:translateY(-10px);opacity:.15}}
+@media (max-width:520px){.hero-art{width:64px}}
+.meter{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mlabel{font:500 .95rem var(--f-mono);color:var(--muted)}
+.tubefill{animation:tube .6s ease-out both;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes tube{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.molrow{display:flex;gap:20px 36px;flex-wrap:wrap;align-items:flex-end;margin-top:6px}
+.molrow figure{margin:0;min-width:0;flex:0 1 auto;max-width:100%}
+.molrow figcaption{font-size:.95rem;margin-top:6px;color:var(--muted)}
+.molrow figcaption b{color:var(--ink);font-family:var(--f-mono)}
+.molfig{margin:8px 0 2px}
+.molfig small{display:block;color:var(--muted);margin-top:4px;font-size:.88rem}
+.cubewrap{background:var(--surface2);border-radius:12px;padding:12px;margin-top:8px}
+.cubewrap svg{width:100%;height:auto;display:block;max-width:560px;margin-inline:auto}
+.cs{transition:opacity .5s}
+.cs.off{opacity:0}
+.ratiofig svg text{font-family:var(--f-mono)}
+.rf-t{font:700 13px var(--f-display) !important;fill:var(--ink)}
+.rf-v{font:500 12px var(--f-mono) !important;fill:var(--ink)}
+.rf-s{font:700 13px var(--f-mono) !important;fill:var(--ink)}
+.grow .bar{animation:growbar .8s ease-out both;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes growbar{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.at{font:700 17px var(--f-mono);fill:var(--ink)}
+.at-H{font-weight:500;fill:var(--muted)}
+.at-O{fill:var(--el-O)}.at-N{fill:var(--el-N)}.at-Cl{fill:var(--el-Cl)}.at-S{fill:var(--el-S)}.at-B{fill:var(--el-B)}
+.molrow figure svg{display:block}
+
+</style>
+<a class="skip" href="#main">Skip to the lessons</a>
+<div class="wrap">
+<header class="top"><div class="topgrid"><div>
+  <p class="eyebrow">iAL Chemistry · Ideal gas equation</p>
+  <h1>Molar Mass Lab</h1>
+  <p class="lede">Vaporise a weighed sample, read the gas volume, and use pV = nRT to find its molar mass. Then turn that into a molecular formula. Every question has step-by-step help, and the data you need is always given.</p>
+  </div>
+  <svg class="hero-art" viewBox="0 0 120 150" aria-hidden="true" focusable="false">
+    <path d="M45 10h30v38l36 78a10 10 0 0 1-9 14H18a10 10 0 0 1-9-14l36-78z" fill="var(--glass)" stroke="var(--metal)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M30 96h60l21 30a10 10 0 0 1-9 14H18a10 10 0 0 1-9-14z" fill="var(--accent)" opacity=".85"/>
+    <rect x="41" y="6" width="38" height="8" rx="3" fill="var(--metal)"/>
+    <g class="bub"><circle cx="45" cy="120" r="5" fill="var(--glass)"/><circle cx="70" cy="126" r="4" fill="var(--glass)"/><circle cx="88" cy="118" r="3" fill="var(--glass)"/></g>
+    <g class="vap" fill="var(--accent)"><circle cx="54" cy="36" r="4"/><circle cx="68" cy="26" r="3.2"/><circle cx="60" cy="18" r="2.6"/><circle cx="76" cy="40" r="2.6"/></g>
+  </svg></div></header>
+
+<main id="main">
+<div class="tablist" role="tablist" aria-label="Lessons">
+  <button role="tab" id="tab1" aria-controls="panel1" aria-selected="true"><span>1 · Finding molar mass</span><small id="prog1"></small></button>
+  <button role="tab" id="tab2" aria-controls="panel2" aria-selected="false" tabindex="-1"><span>2 · Finding molecular formula</span><small id="prog2"></small></button>
+</div>
+
+<!-- ================= TAB 1 ================= -->
+<section class="panel" id="panel1" role="tabpanel" aria-labelledby="tab1" tabindex="0">
+  <h2>Finding molar mass from a gas volume</h2>
+
+  <div class="cols">
+    <div class="box">
+      <h3>Why the empirical formula is not enough</h3>
+      <p>We have learnt to find an empirical formula. It only gives the simplest whole-number ratio of atoms. CH<sub>2</sub>O could be methanal, ethanoic acid or glucose, and those are three very different molecules.</p>
+      <p>To find the true molecular formula we also need the <b>molar mass, M</b>, of the compound.</p>
+      <div class="callout">Many compounds behave like an <b>ideal gas</b> once they are vaporised. That lets us use the gas equation to weigh their molecules.</div>
+    </div>
+    <div class="box">
+      <h3>Turn pV = nRT into a formula for M</h3>
+      <p>We cannot count moles directly, but we can weigh the sample. The number of moles is <i>n</i> = <i>m</i> ÷ <i>M</i>. Swap that in and rearrange.</p>
+      <ol class="eqs" id="derive">
+        <li>pV = nRT <small>the ideal gas equation</small></li>
+        <li>n = m ÷ M <small>moles from mass and molar mass</small></li>
+        <li>pV = (m ÷ M) × RT <small>replace n</small></li>
+        <li class="final">M = <span class="frac"><span>m × R × T</span><span>p × V</span></span> <small>multiply by M, divide by pV</small></li>
+      </ol>
+      <button class="btn" id="replayDerive" type="button">↻ Replay the rearranging</button>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3>Same ratio, different molecules</h3>
+    <p>These three molecules have different structures and different sizes. Count the atoms in each one: they are all whole-number multiples of one carbon, two hydrogen and one oxygen. That makes the empirical formula CH<sub>2</sub>O for all of them. Only the molar mass can tell them apart.</p>
+    <div class="molrow" id="molFig"></div>
+  </div>
+
+  <div class="box">
+    <h3>The experiment</h3>
+    <p>A small, weighed amount of a volatile liquid is injected through a rubber cap into a <b>gas syringe</b>. The syringe is kept hot, above the boiling point of the liquid. The liquid vaporises and pushes the plunger out until the gas pressure equals the air pressure. You then read three things: the <b>volume</b> on the barrel, the <b>temperature</b> of the heating and the <b>pressure</b> of the room. The mass is the mass you injected.</p>
+  </div>
+
+  <div class="box" id="simBox">
+    <h3>Try the experiment</h3>
+    <p>Choose an unknown liquid, set the mass you inject, the heating temperature and the room pressure, and watch the plunger. The liquids have a hidden molar mass. Read the volume, then press <b>Work out the molar mass</b> to see the method.</p>
+    <div class="bench"><div id="simFig"></div>
+      <div class="benchbar"><ul class="chips" id="simChips" aria-label="Current readings"></ul><div class="btnrow"><button class="btn" id="simMotion" type="button"></button><button class="btn" id="simReplay" type="button">↻ Vaporise again</button></div></div></div>
+    <div class="simctl">
+      <div><label for="simLiq">Unknown liquid</label><select id="simLiq"><option value="58">Liquid X</option><option value="86">Liquid Y</option><option value="154">Liquid Z</option></select></div>
+      <div><label for="simM">Mass injected: <output id="simMo"></output></label><input id="simM" type="range" min="0.10" max="0.50" step="0.01" value="0.25"></div>
+      <div><label for="simT">Temperature: <output id="simTo"></output></label><input id="simT" type="range" min="90" max="140" step="1" value="100"></div>
+      <div><label for="simP">Pressure: <output id="simPo"></output></label><input id="simP" type="range" min="95" max="105" step="0.5" value="101"></div>
+    </div>
+    <div class="btnrow" style="margin-top:12px"><button class="btn primary" id="simReveal" type="button" aria-expanded="false" aria-controls="simAns">Work out the molar mass</button></div>
+    <div class="convout" id="simAns" hidden></div>
+  </div>
+
+  <div class="box">
+    <h3>Units: change everything to SI before you calculate</h3>
+    <p>The gas constant is <b>R = 8.31 J mol<sup>−1</sup> K<sup>−1</sup></b>. It only works if every other quantity is in the units below. Questions will often give you something different, so check each one.</p>
+    <div class="tw"><table class="ref stack" aria-label="Units to use in the equation">
+      <thead><tr><th scope="col">Quantity</th><th scope="col">Use</th><th scope="col">If you are given</th><th scope="col">How to convert</th></tr></thead>
+      <tbody>
+        <tr><th scope="row" data-label="Quantity">Pressure, <i>p</i></th><td data-label="Use">pascals, Pa</td><td data-label="If you are given">kPa</td><td data-label="How to convert">1 kPa = 1000 Pa, so multiply by 10<sup>3</sup></td></tr>
+        <tr><th scope="row" data-label="Quantity">Volume, <i>V</i></th><td data-label="Use">cubic metres, m<sup>3</sup></td><td data-label="If you are given">cm<sup>3</sup></td><td data-label="How to convert">1 m = 100 cm<br>1 m<sup>3</sup> = (100 cm)<sup>3</sup> = 100 × 100 × 100 cm<sup>3</sup> = 10<sup>6</sup> cm<sup>3</sup><br>so divide by 10<sup>6</sup></td></tr>
+        <tr><th scope="row" data-label="Quantity"></th><td data-label="Use"></td><td data-label="If you are given">dm<sup>3</sup></td><td data-label="How to convert">1 m = 10 dm<br>1 m<sup>3</sup> = (10 dm)<sup>3</sup> = 10 × 10 × 10 dm<sup>3</sup> = 10<sup>3</sup> dm<sup>3</sup><br>so divide by 10<sup>3</sup></td></tr>
+        <tr><th scope="row" data-label="Quantity">Temperature, <i>T</i></th><td data-label="Use">kelvin, K</td><td data-label="If you are given">°C</td><td data-label="How to convert">add 273</td></tr>
+        <tr><th scope="row" data-label="Quantity">Mass, <i>m</i></th><td data-label="Use">grams, g</td><td data-label="If you are given">mg</td><td data-label="How to convert">1 g = 1000 mg, so divide by 10<sup>3</sup></td></tr>
+      </tbody>
+    </table></div>
+    <h4 style="margin-top:18px;font-size:1.05rem">Where do 10<sup>3</sup> and 10<sup>6</sup> come from?</h4>
+    <div class="cubewrap"><div id="cubeFig"></div>
+      <ul class="eqs" style="margin-top:10px">
+        <li>1 m = 10 dm <small>so</small> 1 m³ = 10 × 10 × 10 = 1000 dm³</li>
+        <li>1 dm = 10 cm <small>so</small> 1 dm³ = 10 × 10 × 10 = 1000 cm³</li>
+        <li class="final">1 m³ = 1000 × 1000 cm³ = 10⁶ cm³ <small>the same as (100 cm)³</small></li>
+      </ul>
+      <button class="btn" id="replayCube" type="button">↻ Replay the zoom</button></div>
+    <h4 style="margin-top:18px;font-size:1.05rem">Try a conversion</h4>
+    <div class="conv">
+      <div><label for="cvType">Convert</label>
+        <select id="cvType">
+          <option value="kpa">kPa to Pa</option>
+          <option value="cm3" selected>cm³ to m³</option>
+          <option value="dm3">dm³ to m³</option>
+          <option value="c">°C to K</option>
+          <option value="mg">mg to g</option>
+        </select></div>
+      <div><label for="cvVal">Value</label><input id="cvVal" type="text" inputmode="decimal" autocomplete="off" value="95.0"></div>
+    </div>
+    <div class="convout" id="cvOut" role="status" aria-live="polite"></div>
+  </div>
+
+  <section aria-labelledby="h-prac1">
+    <h2 id="h-prac1" style="margin-bottom:12px">Questions</h2>
+    <div class="pager" id="pg1" role="group" aria-label="Choose a question for lesson 1"></div>
+  </section>
+  <div id="q1" tabindex="-1"></div>
+</section>
+
+<!-- ================= TAB 2 ================= -->
+<section class="panel" id="panel2" role="tabpanel" aria-labelledby="tab2" tabindex="0" hidden>
+  <h2>From composition and gas data to molecular formula</h2>
+
+  <div class="box">
+    <h3>The plan, in five stages</h3>
+    <ol class="flow">
+      <li><b>Table method</b>Mass, RAM, moles, divide by the smallest, make whole numbers.</li>
+      <li><b>Empirical formula</b>Write it and work out its mass, Mr.</li>
+      <li><b>Molar mass of the gas</b>Convert to SI, then M = mRT ÷ pV.</li>
+      <li><b>Find n</b>n = M ÷ Mr of the empirical formula. Round to a whole number.</li>
+      <li><b>Molecular formula</b>Multiply every subscript in the empirical formula by n.</li>
+    </ol>
+    <div class="callout heat">Two different whole numbers appear in these questions. A multiplier such as × 2 in the <b>ratio table</b> (to turn 2.5 into 5) belongs to the empirical formula. The number <b>n</b> at the end belongs to the molecular formula. Do not mix them up.</div>
+    <p style="margin-top:12px">Relative atomic masses (RAM) and R are given in every question. Percentages become grams if you pretend the sample is 100 g. The unit rules from lesson 1 still apply: kPa to Pa, cm<sup>3</sup> and dm<sup>3</sup> to m<sup>3</sup>, °C to K, mg to g.</p>
+  </div>
+
+  <section aria-labelledby="h-prac2">
+    <h2 id="h-prac2" style="margin-bottom:12px">Questions</h2>
+    <div class="pager" id="pg2" role="group" aria-label="Choose a question for lesson 2"></div>
+  </section>
+  <div id="q2" tabindex="-1"></div>
+</section>
+</main>
+</div>
+
+<script>
+(function (root) {
+'use strict';
+const R = 8.31, KOFF = 273;
+const RAM = { H: 1.0, B: 10.8, C: 12.0, N: 14.0, O: 16.0, S: 32.1, Cl: 35.5 };
+const NAMES = { H: 'hydrogen', B: 'boron', C: 'carbon', N: 'nitrogen', O: 'oxygen', S: 'sulphur', Cl: 'chlorine' };
+const VF = { m3: 1, dm3: 1e-3, cm3: 1e-6 };
+const UT = { kPa: 'kPa', Pa: 'Pa', cm3: 'cm³', dm3: 'dm³', m3: 'm³', C: '°C', K: 'K', g: 'g', mg: 'mg' };
+const THIN = ' ';
+
+function sciHTML(a, sf) {
+  let e = Math.floor(Math.log10(a));
+  let ms = (a / Math.pow(10, e)).toFixed(sf - 1);
+  if (parseFloat(ms) >= 10) { e += 1; ms = (a / Math.pow(10, e)).toFixed(sf - 1); }
+  return ms + ' × 10<sup>' + (e < 0 ? '−' : '') + Math.abs(e) + '</sup>';
+}
+function fmt(x, sf) {
+  sf = sf || 3;
+  if (x === 0) return '0';
+  const a = Math.abs(x), neg = x < 0 ? '−' : '';
+  const r = Number(a.toPrecision(sf));
+  const e = Math.floor(Math.log10(r));
+  if (e < -2 || e >= 6) return neg + sciHTML(a, sf);
+  const d = Math.max(0, sf - 1 - e);
+  let [i, f] = r.toFixed(d).split('.');
+  if (i.length >= 5) i = i.replace(/\B(?=(\d{3})+(?!\d))/g, THIN);
+  return neg + i + (f ? '.' + f : '');
+}
+function parseFormula(str) {
+  if (typeof str !== 'string') return null;
+  const sub = { '\u2080': 0, '\u2081': 1, '\u2082': 2, '\u2083': 3, '\u2084': 4, '\u2085': 5, '\u2086': 6, '\u2087': 7, '\u2088': 8, '\u2089': 9 };
+  let s = str.replace(/[\u2080-\u2089]/g, c => String(sub[c])).replace(/[\s_{}^]/g, '');
+  if (!s) return null;
+  const o = {};
+  const re = /([A-Z][a-z]?)(\d*)/y;
+  let pos = 0, m;
+  while (pos < s.length) {
+    re.lastIndex = pos;
+    m = re.exec(s);
+    if (!m) return null;
+    o[m[1]] = (o[m[1]] || 0) + (m[2] ? +m[2] : 1);
+    pos = re.lastIndex;
+  }
+  return o;
+}
+function sameFormula(a, b) {
+  const x = typeof a === 'string' ? parseFormula(a) : a, y = typeof b === 'string' ? parseFormula(b) : b;
+  if (!x || !y) return false;
+  const kx = Object.keys(x), ky = Object.keys(y);
+  return kx.length === ky.length && kx.every(k => x[k] === y[k]);
+}
+function formulaHTML(f) { return f.replace(/(\d+)/g, '<sub>$1</sub>'); }
+function mrOf(f) { const o = parseFormula(f); return Object.keys(o).reduce((a, e) => a + RAM[e] * o[e], 0); }
+function parseNum(s) {
+  if (s == null) return NaN;
+  s = String(s).trim().replace(/,/g, '.').replace(/[−–]/g, '-').replace(/\s+/g, '');
+  const m = s.match(/^(-?\d*\.?\d+)(?:[x×*]10\^?(-?\d+)|e(-?\d+))?$/i);
+  if (!m) return NaN;
+  return parseFloat(m[1]) * Math.pow(10, parseInt(m[2] || m[3] || '0', 10));
+}
+function siValues(q) {
+  return {
+    p: q.p.v * (q.p.u === 'kPa' ? 1e3 : 1),
+    V: q.V.v * VF[q.V.u],
+    T: q.T.v + (q.T.u === 'C' ? KOFF : 0),
+    m: q.m.v / (q.m.u === 'mg' ? 1e3 : 1)
+  };
+}
+function molarMass(si) { return si.m * R * si.T / (si.p * si.V); }
+function gasPart(q) {
+  const si = siValues(q);
+  return { si, top: si.m * R * si.T, bottom: si.p * si.V, M: molarMass(si) };
+}
+function convRows(q) {
+  const si = siValues(q);
+  const rows = [];
+  // pressure
+  if (q.p.u === 'kPa') rows.push({ key: 'p', name: 'Pressure, <i>p</i>', rule: '1 kPa = 10³ Pa', work: q.p.s + ' kPa × 10³ = ' + fmt(si.p) + ' Pa', si: fmt(si.p) + ' Pa', change: true,
+    say: 'The pressure must be in pascals. 1 kPa = 1000 Pa, so multiply by 10³.' });
+  else rows.push({ key: 'p', name: 'Pressure, <i>p</i>', rule: 'already in Pa', work: 'no change', si: fmt(si.p) + ' Pa', change: false,
+    say: 'The pressure is already in pascals. Nothing to change.' });
+  // volume
+  if (q.V.u === 'cm3') rows.push({ key: 'V', name: 'Volume, <i>V</i>', rule: '1 m = 100 cm, so 1 m³ = (100 cm)³ = 10⁶ cm³', work: q.V.s + ' cm³ ÷ 10⁶ = ' + fmt(si.V) + ' m³', si: fmt(si.V) + ' m³', change: true,
+    say: '1 m = 100 cm. Cube both sides: 1 m³ = (100 cm)³ = 100 × 100 × 100 cm³ = 10⁶ cm³. So divide the cm³ value by 10⁶.' });
+  else if (q.V.u === 'dm3') rows.push({ key: 'V', name: 'Volume, <i>V</i>', rule: '1 m = 10 dm, so 1 m³ = (10 dm)³ = 10³ dm³', work: q.V.s + ' dm³ ÷ 10³ = ' + fmt(si.V) + ' m³', si: fmt(si.V) + ' m³', change: true,
+    say: '1 m = 10 dm. Cube both sides: 1 m³ = (10 dm)³ = 10 × 10 × 10 dm³ = 10³ dm³. So divide the dm³ value by 10³.' });
+  else rows.push({ key: 'V', name: 'Volume, <i>V</i>', rule: 'already in m³', work: 'no change', si: fmt(si.V) + ' m³', change: false,
+    say: 'The volume is already in cubic metres. Nothing to change.' });
+  // temperature
+  if (q.T.u === 'C') rows.push({ key: 'T', name: 'Temperature, <i>T</i>', rule: 'K = °C + 273', work: q.T.s + ' °C + 273 = ' + fmt(si.T) + ' K', si: fmt(si.T) + ' K', change: true,
+    say: 'The temperature must be in kelvin. Add 273 to the Celsius value.' });
+  else rows.push({ key: 'T', name: 'Temperature, <i>T</i>', rule: 'already in K', work: 'no change', si: fmt(si.T) + ' K', change: false,
+    say: 'The temperature is already in kelvin. Nothing to change.' });
+  // mass
+  if (q.m.u === 'mg') rows.push({ key: 'm', name: 'Mass, <i>m</i>', rule: '1 g = 10³ mg', work: q.m.s + ' mg ÷ 10³ = ' + fmt(si.m) + ' g', si: fmt(si.m) + ' g', change: true,
+    say: 'The mass must be in grams. 1 g = 1000 mg, so divide the mg value by 10³.' });
+  else rows.push({ key: 'm', name: 'Mass, <i>m</i>', rule: 'already in g', work: 'no change', si: fmt(si.m) + ' g', change: false,
+    say: 'The mass is already in grams. Nothing to change.' });
+  return rows;
+}
+// answers you would get by skipping some conversions
+function skippedAnswers(q) {
+  const keys = ['p', 'V', 'T', 'm'].filter(k => (k === 'p' && q.p.u === 'kPa') || (k === 'V' && q.V.u !== 'm3') || (k === 'T' && q.T.u === 'C') || (k === 'm' && q.m.u === 'mg'));
+  const out = [];
+  for (let mask = 1; mask < (1 << keys.length); mask++) {
+    const skip = keys.filter((k, i) => mask & (1 << i));
+    const si = siValues(q);
+    skip.forEach(k => { si[k] = q[k].v; });
+    out.push({ skip, val: molarMass(si) });
+  }
+  return out;
+}
+function empirical(q) {
+  const items = q.comp.items;
+  const moles = items.map(([e, v]) => v / RAM[e]);
+  const min = Math.min.apply(null, moles);
+  const ratio = moles.map(x => x / min);
+  let mult = 1;
+  for (const k of [1, 2, 3, 4]) { if (ratio.every(r => Math.abs(r * k - Math.round(r * k)) < 0.12)) { mult = k; break; } }
+  const whole = ratio.map(r => Math.round(r * mult));
+  const formula = items.map((it, i) => it[0] + (whole[i] > 1 ? whole[i] : '')).join('');
+  const mr = items.reduce((a, it, i) => a + RAM[it[0]] * whole[i], 0);
+  return { items, moles, min, ratio, mult, whole, formula, mr };
+}
+function molecular(q) {
+  const e = empirical(q), g = gasPart(q);
+  const nRaw = g.M / e.mr, n = Math.round(nRaw);
+  const formula = e.items.map((it, i) => it[0] + (e.whole[i] * n > 1 ? e.whole[i] * n : '')).join('');
+  return { e, g, nRaw, n, formula };
+}
+root.Solver = { R, KOFF, RAM, NAMES, UT, fmt, sciHTML, parseFormula, sameFormula, formulaHTML, mrOf, parseNum, siValues, molarMass, gasPart, convRows, skippedAnswers, empirical, molecular };
+if (typeof module !== 'undefined') module.exports = root.Solver;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+window.QDATA={"1":[{"id":"t1d","tab":1,"demo":true,"label":"Demo","f":"C3H6O","name":"propanone","M":58,"p":{"v":101,"u":"kPa","s":"101"},"V":{"v":120,"u":"cm3","s":"120"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":0.227,"u":"g","s":"0.227"},"text":"A weighed sample of a volatile liquid, X, is injected through a rubber cap into a gas syringe held in a heated water bath. X vaporises completely. The sample has a mass of <b>0.227&nbsp;g</b> and the vapour occupies <b>120&nbsp;cm³</b> at <b>100&nbsp;°C</b> and <b>101&nbsp;kPa</b>. Find the molar mass of X."},{"id":"t1p1","tab":1,"demo":false,"label":"Practice 1","f":"C2H6O","name":"ethanol","M":46,"p":{"v":105,"u":"kPa","s":"105"},"V":{"v":85,"u":"cm3","s":"85.0"},"T":{"v":90,"u":"C","s":"90.0"},"m":{"v":0.136,"u":"g","s":"0.136"},"text":"<b>0.136&nbsp;g</b> of a volatile liquid, Y, is injected into a heated gas syringe. All of it turns to vapour. The syringe reads <b>85.0&nbsp;cm³</b> when the temperature is <b>90.0&nbsp;°C</b> and the pressure is <b>105&nbsp;kPa</b>. Calculate the molar mass of Y."},{"id":"t1p2","tab":1,"demo":false,"label":"Practice 2","f":"C6H14","name":"hexane","M":86,"p":{"v":100,"u":"kPa","s":"100"},"V":{"v":0.25,"u":"dm3","s":"0.250"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":0.694,"u":"g","s":"0.694"},"text":"A student vaporises <b>0.694&nbsp;g</b> of an unknown liquid, Z, in a gas syringe kept at <b>100&nbsp;°C</b>. The pressure is <b>100&nbsp;kPa</b> and the vapour fills <b>0.250&nbsp;dm³</b>. What is the molar mass of Z?"},{"id":"t1p3","tab":1,"demo":false,"label":"Practice 3","f":"C4H10","name":"butane","M":58,"p":{"v":101000,"u":"Pa","s":"101 000"},"V":{"v":0.3,"u":"dm3","s":"0.300"},"T":{"v":298,"u":"K","s":"298"},"m":{"v":0.71,"u":"g","s":"0.710"},"text":"A weighed sample of a volatile liquid, X, is injected through a rubber cap into a gas syringe held in a heated water bath. X vaporises completely. The sample has a mass of <b>0.710&nbsp;g</b> and the vapour occupies <b>0.300&nbsp;dm³</b> at <b>298&nbsp;K</b> and <b>101 000&nbsp;Pa</b>. Find the molar mass of X."},{"id":"t1p4","tab":1,"demo":false,"label":"Practice 4","f":"CCl4","name":"tetrachloromethane","M":154,"p":{"v":98,"u":"kPa","s":"98.0"},"V":{"v":60,"u":"cm3","s":"60.0"},"T":{"v":110,"u":"C","s":"110"},"m":{"v":0.285,"u":"g","s":"0.285"},"text":"<b>0.285&nbsp;g</b> of a volatile liquid, Y, is injected into a heated gas syringe. All of it turns to vapour. The syringe reads <b>60.0&nbsp;cm³</b> when the temperature is <b>110&nbsp;°C</b> and the pressure is <b>98.0&nbsp;kPa</b>. Calculate the molar mass of Y."},{"id":"t1p5","tab":1,"demo":false,"label":"Practice 5","f":"CH4O","name":"methanol","M":32,"p":{"v":102,"u":"kPa","s":"102"},"V":{"v":0.00015,"u":"m3","s":"1.50 × 10<sup>−4</sup>"},"T":{"v":351,"u":"K","s":"351"},"m":{"v":168,"u":"mg","s":"168"},"text":"A student vaporises <b>168&nbsp;mg</b> of an unknown liquid, Z, in a gas syringe kept at <b>351&nbsp;K</b>. The pressure is <b>102&nbsp;kPa</b> and the vapour fills <b>1.50 × 10<sup>−4</sup>&nbsp;m³</b>. What is the molar mass of Z?"},{"id":"t1p6","tab":1,"demo":false,"label":"Practice 6","f":"C6H6","name":"benzene","M":78,"p":{"v":98000,"u":"Pa","s":"98 000"},"V":{"v":110,"u":"cm3","s":"110"},"T":{"v":95,"u":"C","s":"95.0"},"m":{"v":0.275,"u":"g","s":"0.275"},"text":"A weighed sample of a volatile liquid, X, is injected through a rubber cap into a gas syringe held in a heated water bath. X vaporises completely. The sample has a mass of <b>0.275&nbsp;g</b> and the vapour occupies <b>110&nbsp;cm³</b> at <b>95.0&nbsp;°C</b> and <b>98 000&nbsp;Pa</b>. Find the molar mass of X."},{"id":"t1p7","tab":1,"demo":false,"label":"Practice 7","f":"CHCl3","name":"trichloromethane","M":119.5,"p":{"v":100,"u":"kPa","s":"100"},"V":{"v":0.08,"u":"dm3","s":"0.0800"},"T":{"v":85,"u":"C","s":"85.0"},"m":{"v":321,"u":"mg","s":"321"},"text":"<b>321&nbsp;mg</b> of a volatile liquid, Y, is injected into a heated gas syringe. All of it turns to vapour. The syringe reads <b>0.0800&nbsp;dm³</b> when the temperature is <b>85.0&nbsp;°C</b> and the pressure is <b>100&nbsp;kPa</b>. Calculate the molar mass of Y."},{"id":"t1p8","tab":1,"demo":false,"label":"Practice 8","f":"C4H8O2","name":"ethyl ethanoate","M":88,"p":{"v":101000,"u":"Pa","s":"101 000"},"V":{"v":0.0002,"u":"m3","s":"2.00 × 10<sup>−4</sup>"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":0.573,"u":"g","s":"0.573"},"text":"A student vaporises <b>0.573&nbsp;g</b> of an unknown liquid, Z, in a gas syringe kept at <b>100&nbsp;°C</b>. The pressure is <b>101 000&nbsp;Pa</b> and the vapour fills <b>2.00 × 10<sup>−4</sup>&nbsp;m³</b>. What is the molar mass of Z?"},{"id":"t1p9","tab":1,"demo":false,"label":"Practice 9","f":"C5H12","name":"pentane","M":72,"p":{"v":97.5,"u":"kPa","s":"97.5"},"V":{"v":150,"u":"cm3","s":"150"},"T":{"v":345,"u":"K","s":"345"},"m":{"v":0.367,"u":"g","s":"0.367"},"text":"A weighed sample of a volatile liquid, X, is injected through a rubber cap into a gas syringe held in a heated water bath. X vaporises completely. The sample has a mass of <b>0.367&nbsp;g</b> and the vapour occupies <b>150&nbsp;cm³</b> at <b>345&nbsp;K</b> and <b>97.5&nbsp;kPa</b>. Find the molar mass of X."},{"id":"t1p10","tab":1,"demo":false,"label":"Practice 10","f":"C6H12","name":"cyclohexane","M":84,"p":{"v":101000,"u":"Pa","s":"101 000"},"V":{"v":0.2,"u":"dm3","s":"0.200"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":547,"u":"mg","s":"547"},"text":"<b>547&nbsp;mg</b> of a volatile liquid, Y, is injected into a heated gas syringe. All of it turns to vapour. The syringe reads <b>0.200&nbsp;dm³</b> when the temperature is <b>100&nbsp;°C</b> and the pressure is <b>101 000&nbsp;Pa</b>. Calculate the molar mass of Y."}],"2":[{"id":"t2d","tab":2,"demo":true,"label":"Demo","f":"C2H4O2","name":"methyl methanoate","M":60,"comp":{"kind":"percent","items":[["C",40],["H",6.7],["O",53.3]]},"p":{"v":100,"u":"kPa","s":"100"},"V":{"v":105,"u":"cm3","s":"105"},"T":{"v":80,"u":"C","s":"80.0"},"m":{"v":0.215,"u":"g","s":"0.215"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;40.0%, H&nbsp;=&nbsp;6.7% and O&nbsp;=&nbsp;53.3%. A sample of the compound with a mass of <b>0.215&nbsp;g</b> vaporises to occupy <b>105&nbsp;cm³</b> at <b>80.0&nbsp;°C</b> and <b>100&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p1","tab":2,"demo":false,"label":"Practice 1","f":"C2H6","name":"ethane","M":30,"comp":{"kind":"percent","items":[["C",80],["H",20]]},"p":{"v":101,"u":"kPa","s":"101"},"V":{"v":0.25,"u":"dm3","s":"0.250"},"T":{"v":25,"u":"C","s":"25.0"},"m":{"v":0.306,"u":"g","s":"0.306"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;80.0% and H&nbsp;=&nbsp;20.0%. When <b>0.306&nbsp;g</b> of the compound is vaporised, it fills <b>0.250&nbsp;dm³</b> at <b>25.0&nbsp;°C</b> and a pressure of <b>101&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p2","tab":2,"demo":false,"label":"Practice 2","f":"C6H6","name":"benzene","M":78,"comp":{"kind":"mass","items":[["C",4.62],["H",0.38]]},"p":{"v":99,"u":"kPa","s":"99.0"},"V":{"v":115,"u":"cm3","s":"115"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":0.286,"u":"g","s":"0.286"},"text":"A compound contains <b>4.62&nbsp;g</b> of carbon and <b>0.38&nbsp;g</b> of hydrogen only. The vapour from <b>0.286&nbsp;g</b> of the compound occupies <b>115&nbsp;cm³</b> when measured at <b>100&nbsp;°C</b> and <b>99.0&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p3","tab":2,"demo":false,"label":"Practice 3","f":"C3H6O","name":"propanone","M":58,"comp":{"kind":"percent","items":[["C",62.1],["H",10.3],["O",27.6]]},"p":{"v":101000,"u":"Pa","s":"101 000"},"V":{"v":0.00013,"u":"m3","s":"1.30 × 10<sup>−4</sup>"},"T":{"v":100,"u":"C","s":"100"},"m":{"v":246,"u":"mg","s":"246"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;62.1%, H&nbsp;=&nbsp;10.3% and O&nbsp;=&nbsp;27.6%. A sample of the compound with a mass of <b>246&nbsp;mg</b> vaporises to occupy <b>1.30 × 10<sup>−4</sup>&nbsp;m³</b> at <b>100&nbsp;°C</b> and <b>101 000&nbsp;Pa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p4","tab":2,"demo":false,"label":"Practice 4","f":"C4H10","name":"butane","M":58,"comp":{"kind":"percent","items":[["C",82.8],["H",17.2]]},"p":{"v":104,"u":"kPa","s":"104"},"V":{"v":0.18,"u":"dm3","s":"0.180"},"T":{"v":303,"u":"K","s":"303"},"m":{"v":0.431,"u":"g","s":"0.431"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;82.8% and H&nbsp;=&nbsp;17.2%. When <b>0.431&nbsp;g</b> of the compound is vaporised, it fills <b>0.180&nbsp;dm³</b> at <b>303&nbsp;K</b> and a pressure of <b>104&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p5","tab":2,"demo":false,"label":"Practice 5","f":"C3H4","name":"propyne","M":40,"comp":{"kind":"percent","items":[["C",90],["H",10]]},"p":{"v":98500,"u":"Pa","s":"98 500"},"V":{"v":90,"u":"cm3","s":"90.0"},"T":{"v":20,"u":"C","s":"20.0"},"m":{"v":0.146,"u":"g","s":"0.146"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;90.0% and H&nbsp;=&nbsp;10.0%. The vapour from <b>0.146&nbsp;g</b> of the compound occupies <b>90.0&nbsp;cm³</b> when measured at <b>20.0&nbsp;°C</b> and <b>98 500&nbsp;Pa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p6","tab":2,"demo":false,"label":"Practice 6","f":"C2H4Cl2","name":"1,2-dichloroethane","M":99,"comp":{"kind":"mass","items":[["C",1.94],["H",0.32],["Cl",5.74]]},"p":{"v":100,"u":"kPa","s":"100"},"V":{"v":80,"u":"cm3","s":"80.0"},"T":{"v":120,"u":"C","s":"120"},"m":{"v":243,"u":"mg","s":"243"},"text":"A compound contains <b>1.94&nbsp;g</b> of carbon, <b>0.32&nbsp;g</b> of hydrogen and <b>5.74&nbsp;g</b> of chlorine only. A sample of the compound with a mass of <b>243&nbsp;mg</b> vaporises to occupy <b>80.0&nbsp;cm³</b> at <b>120&nbsp;°C</b> and <b>100&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p7","tab":2,"demo":false,"label":"Practice 7","f":"B2H6","name":"diborane","M":27.6,"comp":{"kind":"percent","items":[["B",78.3],["H",21.7]]},"p":{"v":102,"u":"kPa","s":"102"},"V":{"v":0.22,"u":"dm3","s":"0.220"},"T":{"v":15,"u":"C","s":"15.0"},"m":{"v":0.259,"u":"g","s":"0.259"},"text":"A compound has the percentage composition by mass B&nbsp;=&nbsp;78.3% and H&nbsp;=&nbsp;21.7%. When <b>0.259&nbsp;g</b> of the compound is vaporised, it fills <b>0.220&nbsp;dm³</b> at <b>15.0&nbsp;°C</b> and a pressure of <b>102&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p8","tab":2,"demo":false,"label":"Practice 8","f":"C4H6","name":"buta-1,3-diene","M":54,"comp":{"kind":"mass","items":[["C",5.33],["H",0.67]]},"p":{"v":100000,"u":"Pa","s":"1.00 × 10<sup>5</sup>"},"V":{"v":125,"u":"cm3","s":"125"},"T":{"v":30,"u":"C","s":"30.0"},"m":{"v":0.268,"u":"g","s":"0.268"},"text":"A compound contains <b>5.33&nbsp;g</b> of carbon and <b>0.67&nbsp;g</b> of hydrogen only. The vapour from <b>0.268&nbsp;g</b> of the compound occupies <b>125&nbsp;cm³</b> when measured at <b>30.0&nbsp;°C</b> and <b>1.00 × 10<sup>5</sup>&nbsp;Pa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p9","tab":2,"demo":false,"label":"Practice 9","f":"S2Cl2","name":"disulfur dichloride","M":135.2,"comp":{"kind":"mass","items":[["S",4.27],["Cl",4.73]]},"p":{"v":101,"u":"kPa","s":"101"},"V":{"v":70,"u":"cm3","s":"70.0"},"T":{"v":427,"u":"K","s":"427"},"m":{"v":269,"u":"mg","s":"269"},"text":"A compound contains <b>4.27&nbsp;g</b> of sulphur and <b>4.73&nbsp;g</b> of chlorine only. A sample of the compound with a mass of <b>269&nbsp;mg</b> vaporises to occupy <b>70.0&nbsp;cm³</b> at <b>427&nbsp;K</b> and <b>101&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."},{"id":"t2p10","tab":2,"demo":false,"label":"Practice 10","f":"CH3NO2","name":"nitromethane","M":61,"comp":{"kind":"percent","items":[["C",19.7],["H",4.9],["N",23],["O",52.4]]},"p":{"v":96,"u":"kPa","s":"96.0"},"V":{"v":0.000115,"u":"m3","s":"1.15 × 10<sup>−4</sup>"},"T":{"v":110,"u":"C","s":"110"},"m":{"v":0.212,"u":"g","s":"0.212"},"text":"A compound has the percentage composition by mass C&nbsp;=&nbsp;19.7%, H&nbsp;=&nbsp;4.9%, N&nbsp;=&nbsp;23.0% and O&nbsp;=&nbsp;52.4%. When <b>0.212&nbsp;g</b> of the compound is vaporised, it fills <b>1.15 × 10<sup>−4</sup>&nbsp;m³</b> at <b>110&nbsp;°C</b> and a pressure of <b>96.0&nbsp;kPa</b>. Find (a) the empirical formula, (b) the molar mass and (c) the molecular formula of the compound."}]};
+(function () {
+'use strict';
+const S = window.Solver, D = window.QDATA, F = S.formulaHTML, fmt = S.fmt;
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const reduced = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+let done = {};
+try { done = JSON.parse(localStorage.getItem('mml-done') || '{}') || {}; } catch (e) { done = {}; }
+function saveDone() { try { localStorage.setItem('mml-done', JSON.stringify(done)); } catch (e) {} }
+const idx = { 1: 0, 2: 0 };
+const NSTEP_TIME = 3600;
+
+/* ---------- helpers ---------- */
+function unitHTML(o) { return o.u === 'C' ? '°C' : S.UT[o.u]; }
+function given(o) { return o.s + '&nbsp;' + unitHTML(o); }
+function mrWorking(f) {
+  const o = S.parseFormula(f);
+  return Object.keys(o).map(e => o[e] + ' × ' + S.RAM[e].toFixed(1)).join(' + ');
+}
+function frac(n, d) { return '<span class="frac"><span>' + n + '</span><span>' + d + '</span></span>'; }
+function ramLine(q) {
+  const els = q.tab === 2 ? q.comp.items.map(i => i[0]) : Object.keys(S.parseFormula(q.f));
+  return els.map(e => e + ' = ' + S.RAM[e].toFixed(1)).join(', ');
+}
+
+/* ---------- syringe bench ---------- */
+const GEO = { L: 330, x0: 56, y0: 70, h: 56 };
+function niceMax(v) {
+  const t = v / 0.7, e = Math.floor(Math.log10(t)), b = t / Math.pow(10, e);
+  const n = [1, 2, 2.5, 5, 10].find(x => x >= b - 1e-9);
+  return n * Math.pow(10, e);
+}
+function benchSVG(q) {
+  const { L, x0, y0, h } = GEO;
+  const max = q.fixedMax || niceMax(q.V.v), px = x0 + (q.V.v / max) * L;
+  const e10 = Math.floor(Math.log10(max)), nice = max / Math.pow(10, e10);
+  const div = nice === 2 ? 4 : 5;
+  const isM3 = q.V.u === 'm3';
+  let ticks = '';
+  for (let k = 0; k <= div * 5; k++) {
+    const x = x0 + (k / (div * 5)) * L, major = k % 5 === 0;
+    ticks += `<line class="s-tick" x1="${x}" x2="${x}" y1="${y0 + h}" y2="${y0 + h + (major ? 9 : 5)}"/>`;
+    if (major) {
+      const val = (k / 5) * max / div;
+      const lab = isM3 ? parseFloat((val / Math.pow(10, e10)).toPrecision(3)) : parseFloat(val.toPrecision(3));
+      ticks += `<text class="s-label" x="${x}" y="${y0 + h + 28}" text-anchor="middle">${lab}</text>`;
+    }
+  }
+  const cap = isM3 ? `volume / 10<tspan dy="-6" font-size="10">${e10 < 0 ? '−' : ''}${Math.abs(e10)}</tspan><tspan dy="6"> m³</tspan>` : `volume / ${S.UT[q.V.u]}`;
+  const Tk = S.siValues(q).T, tf = Math.min(1, Math.max(0, (Tk - 250) / 250));
+  const tlabel = q.T.s + (q.T.u === 'C' ? ' °C' : ' K');
+  const desc = `Gas syringe in a heating jacket. ${q.m.s.replace(/<[^>]+>/g, '')} ${S.UT[q.m.u]} of liquid has vaporised and the plunger reads ${q.V.s.replace(/<[^>]+>/g, '')} ${S.UT[q.V.u]} at ${tlabel.replace(/<[^>]+>/g, '')}.`;
+  const my = 40 + 130 * (1 - tf);
+  return `<svg viewBox="0 0 500 214" role="img" aria-label="${desc}" data-px="${px}">
+  <title>${desc}</title>
+  <path class="s-heat" d="M130 52q6-8 0-16t0-16M200 52q6-8 0-16t0-16M270 52q6-8 0-16t0-16" aria-hidden="true"/>
+  <rect class="s-jacket" x="${x0 - 8}" y="${y0 - 10}" width="${L + 16}" height="${h + 20}" rx="10"/>
+  <rect class="s-gas" x="${x0}" y="${y0 + 1.5}" width="${px - x0}" height="${h - 3}"/>
+  <rect class="s-barrel" x="${x0}" y="${y0}" width="${L}" height="${h}" rx="6" fill="none" style="fill:none"/>
+  <rect class="s-plunger" x="${x0 - 18}" y="${y0 + h / 2 - 9}" width="18" height="18" rx="3" style="fill:var(--metal)"/>
+  <g class="pts" aria-hidden="true"></g>
+  <ellipse class="liq" cx="${x0 + 12}" cy="${y0 + h - 6}" rx="11" ry="4" style="fill:var(--accent)" opacity="0"/>
+  <g class="pl" transform="translate(${px},0)"><rect class="s-plunger" x="-10" y="${y0 + 2}" width="10" height="${h - 4}" rx="2"/><line class="s-rod" x1="0" x2="78" y1="${y0 + h / 2}" y2="${y0 + h / 2}"/><rect class="s-plunger" x="78" y="${y0 + h / 2 - 18}" width="8" height="36" rx="3"/></g>
+  <g aria-hidden="true"><rect x="41" y="4" width="16" height="34" rx="4" style="fill:var(--surface);stroke:var(--metal);stroke-width:2.5"/><polygon points="44,38 54,38 49,52" style="fill:var(--metal)"/><circle class="s-drop drop" cx="49" cy="58" r="5" opacity="0"/></g>
+  ${ticks}
+  <text class="s-label" x="${x0 + L / 2}" y="${y0 + h + 52}" text-anchor="middle" style="font-size:13px">${cap}</text>
+  <rect class="s-therm" x="446" y="40" width="10" height="130" rx="5"/><circle class="s-therm" cx="451" cy="182" r="12"/>
+  <rect class="s-merc" x="448.5" y="${my}" width="5" height="${170 - my}" rx="2"/><circle class="s-merc" cx="451" cy="182" r="9"/>
+  <text class="s-label" x="451" y="212" text-anchor="middle" style="font-size:13px">${tlabel}</text>
+</svg>`;
+}
+let currentBench = null;
+const motion = { on: !reduced() };
+const benches = new Set(), motionBtns = new Set();
+function motionLabel() {
+  motionBtns.forEach(b => { if (!b.isConnected) { motionBtns.delete(b); return; } b.textContent = motion.on ? '❚❚ Pause particles' : '▶ Move particles'; b.setAttribute('aria-pressed', motion.on ? 'true' : 'false'); });
+}
+function bindMotion(btn) {
+  motionBtns.add(btn); motionLabel();
+  btn.addEventListener('click', () => { motion.on = !motion.on; benches.forEach(b => b.setMoving(motion.on)); motionLabel(); });
+}
+function stopBench() { if (currentBench) { cancelAnimationFrame(currentBench.raf); benches.delete(currentBench); currentBench = null; } }
+function makeBench(host, q, opts) {
+  const svg = $('svg', host), { x0, y0, h } = GEO;
+  const pxF = parseFloat(svg.getAttribute('data-px'));
+  const pl = $('.pl', svg), gas = $('.s-gas', svg), liq = $('.liq', svg), drop = $('.drop', svg), pts = $('.pts', svg);
+  const N = q.nParticles || 18, P = [], NS = 'http://www.w3.org/2000/svg';
+  const sf = Math.sqrt(S.siValues(q).T / 373);
+  let seed = 7 + q.id.length * 13;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const bench = { raf: 0, t0: 0, last: 0, px: pxF, n: N, playing: false, moving: motion.on };
+  const B = () => ({ xa: x0 + 8, xb: Math.max(x0 + 14, bench.px - 8), ya: y0 + 8, yb: y0 + h - 8 });
+  for (let i = 0; i < N; i++) {
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('r', 3.6); c.setAttribute('class', 's-p'); pts.appendChild(c);
+    const ang = rnd() * 6.283, sp = (60 + rnd() * 80) * sf, bd = B();
+    P.push({ c, x: bd.xa + rnd() * (bd.xb - bd.xa), y: bd.ya + rnd() * (bd.yb - bd.ya), vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, sp });
+  }
+  function place() {
+    const bd = B();
+    P.forEach((p, i) => {
+      p.x = Math.min(bd.xb, Math.max(bd.xa, p.x)); p.y = Math.min(bd.yb, Math.max(bd.ya, p.y));
+      p.c.setAttribute('cx', p.x.toFixed(1)); p.c.setAttribute('cy', p.y.toFixed(1)); p.c.setAttribute('opacity', i < bench.n ? 1 : 0);
+    });
+  }
+  function setPx(px) { bench.px = px; pl.setAttribute('transform', `translate(${px},0)`); gas.setAttribute('width', Math.max(0, px - x0)); }
+  function finalState() { setPx(pxF); bench.n = N; drop.setAttribute('opacity', 0); liq.setAttribute('opacity', 0); place(); }
+  function move(dt) {
+    const bd = B();
+    P.forEach(p => {
+      p.vx += (rnd() - .5) * 220 * dt; p.vy += (rnd() - .5) * 220 * dt;
+      const s = Math.hypot(p.vx, p.vy) || 1; p.vx *= p.sp / s; p.vy *= p.sp / s;
+      p.x += p.vx * dt; p.y += p.vy * dt;
+      if (p.x < bd.xa) { p.x = bd.xa; p.vx = Math.abs(p.vx); } else if (p.x > bd.xb) { p.x = bd.xb; p.vx = -Math.abs(p.vx); }
+      if (p.y < bd.ya) { p.y = bd.ya; p.vy = Math.abs(p.vy); } else if (p.y > bd.yb) { p.y = bd.yb; p.vy = -Math.abs(p.vy); }
+    });
+  }
+  function tick(ts) {
+    const dt = Math.min(0.05, bench.last ? (ts - bench.last) / 1000 : 0.016); bench.last = ts;
+    if (bench.playing) {
+      const t = (ts - bench.t0) / 1000;
+      if (t < 0.9) { drop.setAttribute('opacity', 1); drop.setAttribute('cy', 58 + 30 * (t / 0.9) * (t / 0.9)); }
+      else if (t < 1.2) { drop.setAttribute('opacity', 0); liq.setAttribute('opacity', 1); liq.setAttribute('rx', 11); }
+      else if (t < 3.4) {
+        const u = (t - 1.2) / 2.2, e = 1 - Math.pow(1 - u, 3);
+        setPx(x0 + 6 + (pxF - x0 - 6) * e); bench.n = Math.ceil(N * e);
+        liq.setAttribute('rx', 11 * (1 - e)); liq.setAttribute('opacity', 1 - e);
+      } else { bench.playing = false; setPx(pxF); bench.n = N; liq.setAttribute('opacity', 0); }
+    }
+    if (bench.moving || bench.playing) move(dt);
+    place();
+    if (bench.moving || bench.playing) bench.raf = requestAnimationFrame(tick); else { bench.raf = 0; bench.last = 0; }
+  }
+  function run() { if (!bench.raf) { bench.last = 0; bench.raf = requestAnimationFrame(tick); } }
+  bench.setMoving = on => { bench.moving = on; if (on) run(); };
+  bench.play = function () {
+    if (reduced()) { finalState(); return; }
+    setPx(x0 + 6); bench.n = 0; place(); drop.setAttribute('cy', 58);
+    bench.playing = true; bench.t0 = performance.now(); run();
+  };
+  finalState();
+  benches.add(bench);
+  if (opts && opts.sim) bench.dispose = () => { cancelAnimationFrame(bench.raf); benches.delete(bench); };
+  else currentBench = bench;
+  if (bench.moving) run();
+  return bench;
+}
+
+
+/* ---------- graphics: atoms, molecules, bars, cubes, meter ---------- */
+const ATOMC = { H: ['#F2F5F6', '#10242B', 8], C: ['#4B5B64', '#FFFFFF', 11], N: ['#2F5FC4', '#FFFFFF', 11], O: ['#C93228', '#FFFFFF', 11], B: ['#E88AA6', '#10242B', 11], S: ['#E8C531', '#10242B', 13], Cl: ['#1F8A3E', '#FFFFFF', 12] };
+function atomSVG(e, cx, cy) {
+  const [f, t, r] = ATOMC[e];
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}" stroke="var(--ink)" stroke-width="1.2"/><text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="${t}" font-family="IBM Plex Mono,monospace">${e}</text>`;
+}
+// parts: [[el,count],...] makes one unit; n units drawn in dashed boxes
+function moleculeSVG(parts, n, label, maxW) {
+  maxW = maxW || 420;
+  const atoms = []; parts.forEach(([e, c]) => { for (let i = 0; i < c; i++) atoms.push(e); });
+  let uw = 12; atoms.forEach(e => { uw += ATOMC[e][2] * 2 + 1; }); uw -= 1;
+  const rmax = Math.max.apply(null, atoms.map(e => ATOMC[e][2])), uh = rmax * 2 + 12, gap = 10;
+  const per = Math.max(1, Math.min(n, Math.floor((maxW + gap) / (uw + gap)))), rows = Math.ceil(n / per);
+  const W = per * uw + (per - 1) * gap, H = rows * uh + (rows - 1) * gap;
+  let g = '';
+  for (let k = 0; k < n; k++) {
+    const r = Math.floor(k / per), c = k % per, ox = c * (uw + gap), oy = r * (uh + gap);
+    g += `<rect x="${ox + 1}" y="${oy + 1}" width="${uw - 2}" height="${uh - 2}" rx="${Math.min(14, uh / 2)}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="6 4"/>`;
+    let x = ox + 6;
+    atoms.forEach(e => { const rr = ATOMC[e][2]; g += atomSVG(e, x + rr, oy + uh / 2); x += rr * 2 + 1; });
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="${label}">${g}</svg>`;
+}
+function partsOf(f) { const o = S.parseFormula(f); return Object.keys(o).map(e => [e, o[e]]); }
+function ratioFig(q, k, animate) {
+  const e = S.empirical(q), stage = k >= 5 ? 3 : k >= 4 ? 2 : k >= 3 ? 1 : 0;
+  if (!stage) return '';
+  const n = e.items.length, pw = Math.max(170, n * 46 + 36), H = 176, base = 140, maxH = 92;
+  const panels = [
+    { t: 'Moles (mol)', v: e.moles, f: x => fmt(x, 3) },
+    { t: '÷ smallest', v: e.ratio, f: x => x.toFixed(2) },
+    { t: e.mult > 1 ? `× ${e.mult} → whole` : 'Whole numbers', v: e.whole, f: x => String(x) }
+  ].slice(0, stage);
+  let g = '', desc = [];
+  panels.forEach((p, pi) => {
+    const ox = pi * (pw + 24), mx = Math.max.apply(null, p.v);
+    g += `<g class="${animate && pi === stage - 1 ? 'grow' : ''}"><text class="rf-t" x="${ox + pw / 2}" y="18" text-anchor="middle">${p.t}</text><line x1="${ox + 6}" x2="${ox + pw - 6}" y1="${base}" y2="${base}" stroke="var(--metal)" stroke-width="2"/>`;
+    e.items.forEach((it, i) => {
+      const bw = 30, x = ox + 18 + i * ((pw - 36) / n) + ((pw - 36) / n - bw) / 2, hh = Math.max(3, p.v[i] / mx * maxH), col = ATOMC[it[0]][0];
+      g += `<rect class="bar" x="${x}" y="${base - hh}" width="${bw}" height="${hh}" rx="3" fill="${col}" stroke="var(--ink)" stroke-width="1.2"/><text class="rf-v" x="${x + bw / 2}" y="${base - hh - 5}" text-anchor="middle">${p.f(p.v[i])}</text><text class="rf-s" x="${x + bw / 2}" y="${base + 18}" text-anchor="middle">${it[0]}</text>`;
+    });
+    g += '</g>';
+    if (pi < panels.length - 1) g += `<path d="M${ox + pw + 2} ${base - 50}h18m-6 -6l6 6l-6 6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>`;
+    desc.push(p.t + ': ' + e.items.map((it, i) => it[0] + ' ' + p.f(p.v[i])).join(', '));
+  });
+  const W = panels.length * pw + (panels.length - 1) * 24;
+  return `<div><h4>Picture of the table</h4><svg viewBox="0 0 ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="Bar charts. ${desc.join('. ').replace(/<[^>]+>/g, '')}">${g}</svg></div>`;
+}
+function cubeParts(x, y, s, dx, dy, n, col) {
+  col = col || {};
+  const c = col.edge || 'var(--metal)';
+  let g = `<polygon points="${x},${y} ${x + dx},${y + dy} ${x + s + dx},${y + dy} ${x + s},${y}" fill="${col.top || 'var(--accent-soft)'}" stroke="${c}" stroke-width="2"/>
+  <polygon points="${x + s},${y} ${x + s + dx},${y + dy} ${x + s + dx},${y + s + dy} ${x + s},${y + s}" fill="${col.right || 'var(--surface2)'}" stroke="${c}" stroke-width="2"/>
+  <rect x="${x}" y="${y}" width="${s}" height="${s}" fill="${col.front || 'var(--glass)'}" stroke="${c}" stroke-width="2"/>`;
+  let l = '';
+  for (let i = 1; i < n; i++) {
+    const a = i / n;
+    l += `<line x1="${x + a * s}" y1="${y}" x2="${x + a * s}" y2="${y + s}"/><line x1="${x}" y1="${y + a * s}" x2="${x + s}" y2="${y + a * s}"/>`;
+    l += `<line x1="${x + a * s}" y1="${y}" x2="${x + a * s + dx}" y2="${y + dy}"/><line x1="${x + a * dx}" y1="${y + a * dy}" x2="${x + s + a * dx}" y2="${y + a * dy}"/>`;
+    l += `<line x1="${x + s}" y1="${y + a * s}" x2="${x + s + dx}" y2="${y + a * s + dy}"/><line x1="${x + s + a * dx}" y1="${y + a * dy}" x2="${x + s + a * dx}" y2="${y + s + a * dy}"/>`;
+  }
+  g += `<g stroke="var(--metal)" stroke-width="0.8" opacity=".55">${l}</g>`;
+  const k = s / n, hx = dx / n, hy = dy / n;
+  const hi = `<g class="hi" fill="${col.hi || 'var(--heat)'}" stroke="var(--ink)" stroke-width="1"><rect x="${x}" y="${y}" width="${k}" height="${k}"/><polygon points="${x},${y} ${x + hx},${y + hy} ${x + k + hx},${y + hy} ${x + k},${y}"/></g>`;
+  return { body: g, hi };
+}
+function cubeFigHTML() {
+  const A = cubeParts(24, 70, 120, 48, -34, 10);
+  const B = cubeParts(316, 70, 120, 48, -34, 10, { top: 'var(--heat-soft)', right: 'var(--heat-soft)', front: 'var(--heat-soft)', edge: 'var(--heat)', hi: 'var(--ok)' });
+  return `<svg viewBox="0 0 520 240" role="img" aria-label="A cube of side 1 metre split into 10 by 10 by 10 small cubes, each 1 cubic decimetre, shown in orange. One orange cube is enlarged, and it is split into 10 by 10 by 10 small green cubes, each 1 cubic centimetre.">
+  <g class="cs c1">${A.body}<text class="s-label" x="84" y="208" text-anchor="middle">1 m</text><text class="s-label" x="84" y="232" text-anchor="middle" style="font-weight:700">1 m³</text></g>
+  <g class="cs c2">${A.hi.replace('var(--heat)', 'var(--heat)')}</g>
+  <g class="cs c3"><path d="M60 64C110 42 250 42 308 56" fill="none" stroke="var(--heat)" stroke-width="2.5" stroke-dasharray="6 5"/><path d="M296 48l14 8l-13 8" fill="none" stroke="var(--heat)" stroke-width="2.5" stroke-linecap="round"/><text class="s-label" x="184" y="22" text-anchor="middle" style="fill:var(--heat)">zoom in on one small cube</text></g>
+  <g class="cs c4">${B.body}<text class="s-label" x="376" y="208" text-anchor="middle" style="fill:var(--heat)">1 dm</text><text class="s-label" x="376" y="232" text-anchor="middle" style="font-weight:700;fill:var(--heat)">1 dm³</text></g>
+  <g class="cs c5">${B.hi}<path d="M292 112L314 82" fill="none" stroke="var(--ok)" stroke-width="2"/><text class="s-label" x="288" y="128" text-anchor="end" style="font-weight:700;fill:var(--ok)">1 cm³</text><text class="s-label" x="288" y="146" text-anchor="end" style="fill:var(--ok)">(1 cm each side)</text></g></svg>`;
+}
+
+
+/* ---------- structural (displayed) formulas ---------- */
+const STRUCT = {
+  'methanal': { a: [['C', 60, 56], ['O', 60, 22], ['H', 34, 76], ['H', 86, 76]], b: [[0, 1, 2], [0, 2, 1], [0, 3, 1]] },
+  'ethanoic acid': { a: [['C', 50, 60], ['H', 50, 24], ['H', 50, 96], ['H', 14, 60], ['C', 86, 60], ['O', 86, 24], ['O', 122, 60], ['H', 150, 60]], b: [[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1], [4, 5, 2], [4, 6, 1], [6, 7, 1]] },
+  'glucose': (function () {
+    // open-chain glucose, full displayed formula: every C, O and H is its own atom
+    const a = [], b = [], y = 100, X = i => 40 + 48 * i;
+    const add = (el, x, yy) => { a.push([el, x, yy]); return a.length - 1; };
+    const C = [0, 1, 2, 3, 4, 5].map(i => add('C', X(i), y));
+    for (let i = 0; i < 5; i++) b.push([C[i], C[i + 1], 1]);
+    // C1: aldehyde, C=O up and H down
+    let o = add('O', X(0), y - 36); b.push([C[0], o, 2]);
+    let h = add('H', X(0), y + 36); b.push([C[0], h, 1]);
+    // C2 to C5: one O-H and one H, alternating sides
+    [1, 2, 3, 4].forEach((i, k) => {
+      const up = k % 2 === 0, s = up ? -1 : 1;
+      o = add('O', X(i), y + s * 36); b.push([C[i], o, 1]);
+      h = add('H', X(i) + 24, y + s * 56); b.push([o, h, 1]);
+      h = add('H', X(i), y - s * 36); b.push([C[i], h, 1]);
+    });
+    // C6: CH2OH
+    h = add('H', X(5), y - 36); b.push([C[5], h, 1]);
+    h = add('H', X(5), y + 36); b.push([C[5], h, 1]);
+    o = add('O', X(5) + 36, y); b.push([C[5], o, 1]);
+    h = add('H', X(5) + 64, y); b.push([o, h, 1]);
+    return { a, b };
+  })(),
+  'methyl methanoate': { a: [['H', 20, 60], ['C', 56, 60], ['O', 56, 24], ['O', 92, 60], ['C', 128, 60], ['H', 128, 24], ['H', 128, 96], ['H', 164, 60]], b: [[0, 1, 1], [1, 2, 2], [1, 3, 1], [3, 4, 1], [4, 5, 1], [4, 6, 1], [4, 7, 1]] },
+  'ethane': { a: [['C', 50, 60], ['C', 86, 60], ['H', 50, 24], ['H', 50, 96], ['H', 14, 60], ['H', 86, 24], ['H', 86, 96], ['H', 122, 60]], b: [[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1], [1, 5, 1], [1, 6, 1], [1, 7, 1]] },
+  'benzene': (function () {
+    const a = [], b = [];
+    for (let i = 0; i < 6; i++) { const t = (-90 + 60 * i) * Math.PI / 180; a.push(['C', 80 + 34 * Math.cos(t), 76 + 34 * Math.sin(t)]); }
+    for (let i = 0; i < 6; i++) { const t = (-90 + 60 * i) * Math.PI / 180; a.push(['H', 80 + 68 * Math.cos(t), 76 + 68 * Math.sin(t)]); }
+    for (let i = 0; i < 6; i++) { b.push([i, (i + 1) % 6, i % 2 === 0 ? 2 : 1]); b.push([i, 6 + i, 1]); }
+    return { a, b };
+  })(),
+  'propanone': { a: [['C', 50, 60], ['C', 86, 60], ['C', 122, 60], ['O', 86, 24], ['H', 28, 34], ['H', 28, 86], ['H', 12, 60], ['H', 144, 86], ['H', 160, 60], ['H', 144, 34]], b: [[0, 1, 1], [1, 2, 1], [1, 3, 2], [0, 4, 1], [0, 5, 1], [0, 6, 1], [2, 7, 1], [2, 8, 1], [2, 9, 1]] },
+  'butane': { a: [['C', 50, 60], ['C', 86, 60], ['C', 122, 60], ['C', 158, 60], ['H', 50, 24], ['H', 50, 96], ['H', 14, 60], ['H', 86, 24], ['H', 86, 96], ['H', 122, 24], ['H', 122, 96], ['H', 158, 24], ['H', 158, 96], ['H', 194, 60]], b: [[0, 1, 1], [1, 2, 1], [2, 3, 1], [0, 4, 1], [0, 5, 1], [0, 6, 1], [1, 7, 1], [1, 8, 1], [2, 9, 1], [2, 10, 1], [3, 11, 1], [3, 12, 1], [3, 13, 1]] },
+  'propyne': { a: [['C', 50, 60], ['C', 86, 60], ['C', 122, 60], ['H', 50, 24], ['H', 50, 96], ['H', 14, 60], ['H', 158, 60]], b: [[0, 1, 1], [1, 2, 3], [0, 3, 1], [0, 4, 1], [0, 5, 1], [2, 6, 1]] },
+  '1,2-dichloroethane': { a: [['Cl', 20, 60], ['C', 58, 60], ['C', 94, 60], ['Cl', 132, 60], ['H', 58, 24], ['H', 58, 96], ['H', 94, 24], ['H', 94, 96]], b: [[0, 1, 1], [1, 2, 1], [2, 3, 1], [1, 4, 1], [1, 5, 1], [2, 6, 1], [2, 7, 1]] },
+  'diborane': { a: [['B', 70, 60], ['B', 130, 60], ['H', 34, 28], ['H', 34, 92], ['H', 166, 28], ['H', 166, 92], ['H', 100, 28], ['H', 100, 92]], b: [[0, 2, 1], [0, 3, 1], [1, 4, 1], [1, 5, 1], [0, 6, 1, 'dash'], [1, 6, 1, 'dash'], [0, 7, 1, 'dash'], [1, 7, 1, 'dash']] },
+  'buta-1,3-diene': { a: [['C', 50, 60], ['C', 86, 60], ['C', 122, 60], ['C', 158, 60], ['H', 24, 36], ['H', 24, 84], ['H', 86, 24], ['H', 122, 96], ['H', 184, 36], ['H', 184, 84]], b: [[0, 1, 2], [1, 2, 1], [2, 3, 2], [0, 4, 1], [0, 5, 1], [1, 6, 1], [2, 7, 1], [3, 8, 1], [3, 9, 1]] },
+  'disulfur dichloride': { a: [['Cl', 20, 60], ['S', 58, 60], ['S', 94, 60], ['Cl', 132, 60]], b: [[0, 1, 1], [1, 2, 1], [2, 3, 1]] },
+  'nitromethane': { a: [['C', 50, 60], ['N', 90, 60, 'N⁺'], ['O', 126, 34], ['O', 126, 86, 'O⁻'], ['H', 50, 24], ['H', 50, 96], ['H', 14, 60]], b: [[0, 1, 1], [1, 2, 2], [1, 3, 1], [0, 4, 1], [0, 5, 1], [0, 6, 1]] }
+};
+function structSVG(key, label) {
+  const m = STRUCT[key]; if (!m) return '';
+  const lab = a => a[3] === false ? null : (a[3] || a[0]);
+  const rad = a => { const l = lab(a); return l ? (l.length > 2 ? l.length * 7 : l.length > 1 ? 12 : 9) : 0; };
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  m.a.forEach(a => { const r = rad(a) + 10; x0 = Math.min(x0, a[1] - r); x1 = Math.max(x1, a[1] + r); y0 = Math.min(y0, a[2] - 18); y1 = Math.max(y1, a[2] + 18); });
+  let g = '';
+  m.b.forEach(([i, j, o, st]) => {
+    const A = m.a[i], B = m.a[j], dx = B[1] - A[1], dy = B[2] - A[2], d = Math.hypot(dx, dy), ux = dx / d, uy = dy / d;
+    const sx = A[1] + ux * rad(A), sy = A[2] + uy * rad(A), ex = B[1] - ux * rad(B), ey = B[2] - uy * rad(B);
+    const offs = o === 1 ? [0] : o === 2 ? [-3.2, 3.2] : [-4.6, 0, 4.6];
+    offs.forEach(f => { g += `<line x1="${(sx - uy * f).toFixed(1)}" y1="${(sy + ux * f).toFixed(1)}" x2="${(ex - uy * f).toFixed(1)}" y2="${(ey + ux * f).toFixed(1)}" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"${st === 'dash' ? ' stroke-dasharray="4 4"' : ''}/>`; });
+  });
+  m.a.forEach(a => {
+    let l = lab(a); if (!l) return;
+    const ch = /[⁺⁻]$/.test(l) ? (l.slice(-1) === '⁺' ? '+' : '−') : '';
+    if (ch) l = l.slice(0, -1);
+    g += `<text x="${a[1].toFixed(1)}" y="${(a[2] + 5.5).toFixed(1)}" text-anchor="middle" class="at at-${a[0]}">${l}</text>`;
+    if (ch) g += `<text x="${(a[1] + (ch === '+' ? -3 : 12)).toFixed(1)}" y="${(a[2] + (ch === '+' ? -13 : -4)).toFixed(1)}" text-anchor="middle" class="at at-${a[0]}" style="font-size:13px">${ch}</text>`;
+  });
+  const W = Math.round(x1 - x0), H = Math.round(y1 - y0);
+  return `<svg viewBox="${x0.toFixed(0)} ${y0.toFixed(0)} ${W} ${H}" style="width:100%;max-width:${W}px;height:auto" role="img" aria-label="${label}">${g}</svg>`;
+}
+
+/* ---------- worked solutions ---------- */
+function blankCell() { return '<span class="blank" aria-hidden="true">?</span><span class="sr-only">not shown yet</span>'; }
+function convTable(q, rows, startCell, stepOf, caption) {
+  const body = rows.map((r, i) => `<tr data-rs="${stepOf ? stepOf(i) : 1}"><th scope="row" data-label="Quantity">${r.name}</th><td data-label="Given">${given(q[r.key])}</td><td data-label="Conversion" data-cell="${startCell + 2 * i}"></td><td data-label="In SI units" data-cell="${startCell + 2 * i + 1}"></td></tr>`).join('');
+  return `<div class="tbl"><h4>${caption}</h4><div class="tw"><table class="work-t stack" aria-label="${caption}"><thead><tr><th scope="col">Quantity</th><th scope="col">Given</th><th scope="col">Conversion</th><th scope="col">In SI units</th></tr></thead><tbody>${body}</tbody></table></div></div>`;
+}
+function convCells(rows, startCell, stepOf) {
+  const cells = {};
+  rows.forEach((r, i) => {
+    cells[startCell + 2 * i] = { step: stepOf(i), html: `<span class="rule">${r.rule}</span><span class="calc">${r.work}</span>` };
+    cells[startCell + 2 * i + 1] = { step: stepOf(i), html: `<b class="res">${r.si}</b>` };
+  });
+  return cells;
+}
+const CTITLE = ['Pressure in pascals', 'Volume in cubic metres', 'Temperature in kelvin', 'Mass in grams'];
+function gasSteps(q, g) {
+  const si = g.si;
+  return [
+    { title: 'Put the SI values into M = mRT ÷ pV', html: `<p class="why">From pV = nRT with n = m ÷ M. R = 8.31 J mol<sup>−1</sup> K<sup>−1</sup>.</p><span class="calc">M = ${frac('m × R × T', 'p × V')}</span><span class="calc">M = ${frac(`${fmt(si.m)} g × 8.31 J mol<sup>−1</sup> K<sup>−1</sup> × ${fmt(si.T)} K`, `${fmt(si.p)} Pa × ${fmt(si.V)} m³`)} = <span class="res">${fmt(g.M)} g mol<sup>−1</sup></span></span>` }
+  ];
+}
+function buildT1(q) {
+  const rows = S.convRows(q), g = S.gasPart(q);
+  const cells = convCells(rows, 0, () => 1);
+  const conv = {
+    title: 'Change every quantity to SI units',
+    html: '<p class="why">The equation needs Pa, m³, K and g. Look at each row of the table: the rule is on top and the working is underneath. If a quantity is already in the right unit, nothing changes.</p>'
+  };
+  const gs = gasSteps(q, g);
+  gs[0].html += `<p class="why" style="margin-top:6px">Check: this fits <b>${q.name}</b>, ${F(q.f)}. With RAM ${ramLine(q)}, Mr = ${mrWorking(q.f)} = ${fmt(S.mrOf(q.f))}.</p>`;
+  return { tables: convTable(q, rows, 0, () => 1, 'Convert the data to SI units'), cells, steps: [conv].concat(gs) };
+}
+function buildT2(q) {
+  const mo = S.molecular(q), e = mo.e, g = mo.g, rows = S.convRows(q);
+  const pct = q.comp.kind === 'percent', items = e.items;
+  const cells = {};
+  const head = items.map(i => `<th scope="col">${i[0]}</th>`).join('');
+  const r1 = items.map((it, i) => { cells['e1_' + i] = { step: 1, html: it[1].toFixed(pct ? 1 : 2) }; return `<td data-cell="e1_${i}"></td>`; }).join('');
+  const r3 = items.map((it, i) => { cells['e2_' + i] = { step: 2, html: `<span class="calc">${it[1].toFixed(pct ? 1 : 2)} ÷ ${S.RAM[it[0]].toFixed(1)}</span><b class="res">= ${fmt(e.moles[i])}</b>` }; return `<td data-cell="e2_${i}"></td>`; }).join('');
+  const r4 = items.map((it, i) => { cells['e3_' + i] = { step: 3, html: `<span class="calc">${fmt(e.moles[i])} ÷ ${fmt(e.min)}</span><b class="res">= ${e.ratio[i].toFixed(2)}</b>` }; return `<td data-cell="e3_${i}"></td>`; }).join('');
+  const r5 = items.map((it, i) => { cells['e4_' + i] = { step: 4, html: e.mult > 1 ? `<span class="calc">${e.ratio[i].toFixed(2)} × ${e.mult}</span><b class="res">= ${e.whole[i]}</b>` : `<b class="res">${e.whole[i]}</b>` }; return `<td data-cell="e4_${i}"></td>`; }).join('');
+  const emp = `<div class="tbl"><h4>Table method: empirical formula</h4><div class="tw"><table class="emp-t" aria-label="Table method for the empirical formula"><thead><tr><th scope="col"><span class="sr-only">Row</span></th>${head}</tr></thead><tbody>
+  <tr data-rs="1"><th scope="row">${pct ? 'Mass in 100 g (g)' : 'Mass (g)'}</th>${r1}</tr>
+  <tr data-rs="2"><th scope="row">Moles = mass ÷ RAM</th>${r3}</tr>
+  <tr data-rs="3"><th scope="row">÷ smallest moles</th>${r4}</tr>
+  <tr data-rs="4"><th scope="row">Whole-number ratio</th>${r5}</tr></tbody></table></div></div>`;
+  const cc = convCells(rows, 0, () => 6);
+  Object.keys(cc).forEach(k => { cells['c' + k] = cc[k]; });
+  const convHTML = convTable(q, rows, 0, () => 6, 'Gas data in SI units').replace(/data-cell="(\d+)"/g, 'data-cell="c$1"');
+  const gs = gasSteps(q, g);
+  const steps = [
+    { title: pct ? 'Write the masses' : 'Write the masses', html: pct ? '<p class="why">The question gives percentages. Pretend the sample is 100 g, so each percentage becomes the same number of grams.</p>' : '<p class="why">The question gives masses in grams. Copy them into the table.</p>' },
+    { title: 'Work out the moles', html: '<p class="why">Moles = mass ÷ RAM. Each cell in the table shows the division.</p>' },
+    { title: 'Divide by the smallest number of moles', html: `<p class="why">The smallest is ${fmt(e.min)} mol, so divide every value in the row by it. The smallest one becomes 1.</p>` },
+    { title: 'Make them whole numbers', html: e.mult > 1 ? `<p class="why">Values such as .5, .33 or .25 cannot be rounded. Multiply every value by ${e.mult}.</p>` : `<p class="why">These are already whole numbers (small differences come from rounding). Multiply by 1.</p>` },
+    { title: 'Write the empirical formula and its mass', html: `<p class="why">Use the whole numbers as subscripts.</p><span class="calc">Empirical formula = <span class="res">${F(e.formula)}</span></span><span class="calc">Mr of ${F(e.formula)} = ${mrWorking(e.formula)} = ${fmt(e.mr)}</span><div class="molfig">${moleculeSVG(partsOf(e.formula), 1, 'One empirical unit, ' + e.formula, 300)}<small>One empirical unit</small></div>` },
+    { title: 'Convert the gas data to SI units', html: '<p class="why">Look at the second table. Convert the quantities that are not in Pa, m³, K and g. The rule is on top and the working is underneath.</p>' },
+    { title: gs[0].title, html: gs[0].html + `<p class="why" style="margin-top:6px">This is the molar mass of the compound.</p>` },
+    { title: 'How many empirical units are in one molecule?', html: `<p class="why">n = M ÷ Mr of the empirical formula. Round to the nearest whole number.</p><span class="calc">n = ${fmt(g.M)} ÷ ${fmt(e.mr)} = ${mo.nRaw.toFixed(2)} ≈ <span class="res">${mo.n}</span></span>` },
+    { title: 'Write the molecular formula', html: mo.n === 1 ? `<p class="why">n = 1, so the molecular formula is the same as the empirical formula.</p><span class="calc">Molecular formula = <span class="res">${F(mo.formula)}</span></span><div class="molfig">${structSVG(q.name, 'Structural formula of ' + q.name)}<small>Structural formula of ${q.name}, ${F(mo.formula)}. One empirical unit is the whole molecule.</small></div>` : `<p class="why">Multiply every subscript in the empirical formula by n.</p><span class="calc">(${F(e.formula)}) × ${mo.n} = <span class="res">${F(mo.formula)}</span></span><div class="molfig">${structSVG(q.name, 'Structural formula of ' + q.name)}<small>Structural formula of ${q.name}, ${F(mo.formula)}</small></div><div class="molfig">${moleculeSVG(partsOf(e.formula), mo.n, mo.n + ' empirical units ' + e.formula + ' make one molecule of ' + mo.formula, 420)}<small>It is made of ${mo.n} empirical units, ${F(e.formula)} each</small></div><p class="why" style="margin-top:6px">This is ${q.name}.</p>` }
+  ];
+  return { tables: emp + convHTML, cells, steps };
+}
+function mountWork(q, host) {
+  const b = q.tab === 1 ? buildT1(q) : buildT2(q);
+  host.innerHTML = b.tables + '' + '<div><h4>Steps</h4><ol class="steps" aria-live="polite"></ol></div>';
+  const rfig = $('.ratiofig', host); let lastStage = 0;
+  const ol = $('.steps', host), tds = $$('[data-cell]', host);
+  let k = 0;
+  tds.forEach(td => { td.innerHTML = blankCell(); });
+  function show(n, animate) {
+    n = Math.max(0, Math.min(b.steps.length, n));
+    while (ol.children.length > n) ol.removeChild(ol.lastChild);
+    while (ol.children.length < n) {
+      const i = ol.children.length, li = document.createElement('li');
+      li.setAttribute('data-n', i + 1);
+      li.innerHTML = `<strong>${b.steps[i].title}</strong>${b.steps[i].html}`;
+      if (animate) li.className = 'enter';
+      ol.appendChild(li);
+    }
+    tds.forEach(td => {
+      const c = b.cells[td.getAttribute('data-cell')];
+      if (!c) return;
+      const on = c.step <= n, was = td.getAttribute('data-on') === '1';
+      if (on && !was) { td.innerHTML = c.html; td.setAttribute('data-on', '1'); if (animate && c.step === n) td.classList.add('pop'); }
+      else if (!on && was) { td.innerHTML = blankCell(); td.setAttribute('data-on', '0'); td.classList.remove('pop'); }
+    });
+    $$('tr[data-rs]', host).forEach(tr => { tr.hidden = n < +tr.getAttribute('data-rs'); });
+    $$('.tbl', host).forEach(t => { t.hidden = !$$('tr[data-rs]', t).some(tr => !tr.hidden); });
+    if (rfig) {
+      const st = n >= 5 ? 3 : n >= 4 ? 2 : n >= 3 ? 1 : 0;
+      if (st !== lastStage) { rfig.innerHTML = ratioFig(q, n, animate); lastStage = st; }
+    }
+    k = n;
+    return k;
+  }
+  show(0, false);
+  return { show, get k() { return k; }, total: b.steps.length };
+}
+
+/* ---------- answer checking ---------- */
+function skipWords(q, key) {
+  return { p: `pressure (${S.UT[q.p.u]} to Pa)`, V: `volume (${S.UT[q.V.u]} to m³)`, T: 'temperature (°C to K)', m: 'mass (mg to g)' }[key];
+}
+function checkM(q, raw, g) {
+  const v = S.parseNum(raw);
+  if (isNaN(v)) return ['no', 'Write the molar mass as a number, for example 45.9.'];
+  const err = Math.abs(v - g.M) / g.M;
+  if (err <= 0.015) return ['ok', `Molar mass correct: ${fmt(g.M)} g mol<sup>−1</sup>.`];
+  const hit = S.skippedAnswers(q).find(a => Math.abs(v - a.val) / a.val < 0.03);
+  if (hit) return ['no', `Your answer is what you get if you do not convert the ${hit.skip.map(k => skipWords(q, k)).join(' and ')}. Go back to the units table.`];
+  if (err < 0.05) return ['no', 'Close. Keep the full numbers on your calculator and round only at the end.'];
+  return ['no', 'Not yet. Check each SI value first, then use M = mRT ÷ pV. Press Need help? for the steps.'];
+}
+function checkFormula(raw, target, other, otherMsg, hintMsg) {
+  const f = S.parseFormula(raw);
+  if (!f) return ['no', 'Write the formula with capital letters and numbers, for example C2H6O.'];
+  if (S.sameFormula(f, target)) return ['ok', `Correct: ${F(target)}.`];
+  if (other && S.sameFormula(f, other)) return ['no', otherMsg];
+  return ['no', hintMsg];
+}
+
+/* ---------- question card ---------- */
+function chips(q) {
+  const li = (l, v) => `<li><span>${l}</span>${v}</li>`;
+  return `<ul class="chips" aria-label="Readings from the syringe">${li('m', given(q.m))}${li('V', given(q.V))}${li('T', given(q.T))}${li('p', given(q.p))}</ul>`;
+}
+function qHTML(q) {
+  const t = q.tab, total = D[t].length;
+  const demo = q.demo;
+  const rLine = t === 1 ? `Use <b>R = 8.31 J mol<sup>−1</sup> K<sup>−1</sup></b>.` : `Use <b>R = 8.31 J mol<sup>−1</sup> K<sup>−1</sup></b>. RAM: <b>${ramLine(q)}</b>.`;
+  let interact;
+  if (demo) {
+    interact = `<div class="help"><div class="stepbar" role="group" aria-label="Demo controls">
+      <button class="btn primary play" type="button">▶ Play demo</button>
+      <button class="btn back" type="button">‹ Back</button>
+      <button class="btn next" type="button">Next ›</button>
+      <button class="btn restart" type="button">Restart</button>
+      <span class="count" aria-hidden="true"></span></div>
+      <div class="worked"></div></div>`;
+  } else {
+    const form = t === 1
+      ? `<div class="field"><label for="a-M">Molar mass of the liquid</label><div class="withunit"><input id="a-M" type="text" inputmode="decimal" autocomplete="off" aria-describedby="fb-${q.id}"><span class="unit">g mol<sup>−1</sup></span></div></div>`
+      : `<div class="field"><label for="a-E">(a) Empirical formula</label><input id="a-E" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="fb-${q.id}" placeholder="e.g. C2H6O"></div>
+         <div class="field"><label for="a-M">(b) Molar mass</label><div class="withunit"><input id="a-M" type="text" inputmode="decimal" autocomplete="off" aria-describedby="fb-${q.id}"><span class="unit">g mol<sup>−1</sup></span></div></div>
+         <div class="field"><label for="a-F">(c) Molecular formula</label><input id="a-F" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="fb-${q.id}" placeholder="e.g. C4H10"></div>`;
+    interact = `<form class="ans" novalidate>${form}<div class="go btnrow"><button class="btn primary" type="submit">Check my answer</button></div></form>
+      <ul class="fb" id="fb-${q.id}" role="status" aria-live="polite"></ul>
+      <div class="help"><div class="stepbar"><button class="btn helpbtn" type="button">Need help? Show step 1</button><button class="btn showall" type="button" hidden>Show all steps</button><button class="btn hidehelp" type="button" hidden>Hide help</button><span class="count"></span></div><div class="worked" hidden></div></div>`;
+  }
+  const prev = idx[t] > 0, next = idx[t] < total - 1;
+  return `<article class="qcard" aria-labelledby="qt-${q.id}">
+  <div><span class="qtag ${demo ? 'demo' : ''}" id="qt-${q.id}">${t === 1 ? 'Lesson 1' : 'Lesson 2'} · ${q.label}${demo ? ' · watch first' : ''}</span></div>
+  <p class="qtext">${q.text}</p>
+  <div class="bench">${chips(q)}</div>
+  <p class="given">${rLine}</p>
+  ${interact}
+  <nav class="btnrow" aria-label="Move between questions"><button class="btn goprev" type="button" ${prev ? '' : 'disabled'}>‹ Previous</button><button class="btn gonext" type="button" ${next ? '' : 'disabled'}>Next question ›</button></nav>
+</article>`;
+}
+function wire(q, root) {
+  const t = q.tab;
+  const bench = null;
+  if (bench) {
+    $('.replay', root).addEventListener('click', () => bench.play());
+    bindMotion($('.motion', root));
+  }
+  $('.goprev', root).addEventListener('click', () => go(t, idx[t] - 1));
+  $('.gonext', root).addEventListener('click', () => go(t, idx[t] + 1));
+  const worked = $('.worked', root), work = mountWork(q, worked);
+  const count = $('.count', root);
+  if (q.demo) {
+    const play = $('.play', root);
+    let timer = null;
+    const upd = () => {
+      worked.hidden = work.k === 0;
+      count.textContent = `Step ${work.k} of ${work.total}`;
+      $('.back', root).disabled = work.k === 0;
+      $('.next', root).disabled = work.k === work.total;
+    };
+    const stop = () => { clearInterval(timer); timer = null; play.textContent = work.k >= work.total ? '↻ Play again' : '▶ Play demo'; };
+    const step = d => { work.show(work.k + d, true); upd(); if (work.k >= work.total) stop(); };
+    play.addEventListener('click', () => {
+      if (timer) { stop(); return; }
+      if (work.k >= work.total) { work.show(0, false); }
+      play.textContent = '❚❚ Pause';
+      step(1);
+      timer = setInterval(() => step(1), NSTEP_TIME);
+    });
+    $('.next', root).addEventListener('click', () => { stop(); step(1); });
+    $('.back', root).addEventListener('click', () => { stop(); step(-1); });
+    $('.restart', root).addEventListener('click', () => { stop(); work.show(0, false); upd(); if (bench) bench.play(); });
+    root._cleanup = () => clearInterval(timer);
+    upd();
+  } else {
+    const fb = $('.fb', root), hb = $('.helpbtn', root), sa = $('.showall', root), hh = $('.hidehelp', root);
+    const updHelp = () => {
+      const k = work.k;
+      worked.hidden = k === 0;
+      hb.hidden = k >= work.total;
+      hb.textContent = k === 0 ? 'Need help? Show step 1' : `Next step (${k + 1} of ${work.total})`;
+      sa.hidden = k === 0 || k >= work.total;
+      hh.hidden = k === 0;
+      count.textContent = k ? `Showing ${k} of ${work.total} steps` : '';
+    };
+    hb.addEventListener('click', () => { work.show(work.k + 1, true); updHelp(); });
+    sa.addEventListener('click', () => { work.show(work.total, false); updHelp(); });
+    hh.addEventListener('click', () => { work.show(0, false); updHelp(); hb.focus(); });
+    updHelp();
+    $('form', root).addEventListener('submit', ev => {
+      ev.preventDefault();
+      const res = [];
+      if (t === 1) {
+        const g = S.gasPart(q), raw = $('#a-M', root).value;
+        if (!raw.trim()) res.push(['no', 'Type your answer first.']);
+        else {
+          const r = checkM(q, raw, g); res.push(r);
+          if (r[0] === 'ok') { res.push(['info', `This matches <b>${q.name}</b>, ${F(q.f)}.`]); done[q.id] = 1; saveDone(); }
+        }
+      } else {
+        const mo = S.molecular(q), vals = { E: $('#a-E', root).value, M: $('#a-M', root).value, F: $('#a-F', root).value };
+        if (!vals.E.trim() && !vals.M.trim() && !vals.F.trim()) res.push(['no', 'Type your answers first.']);
+        else {
+          let ok = 0;
+          if (vals.E.trim()) {
+            const r = checkFormula(vals.E, mo.e.formula, mo.formula, 'That is the molecular formula. The empirical formula is the simplest whole-number ratio.', 'Check the table: moles = mass ÷ RAM, divide by the smallest, then make whole numbers.');
+            if (r[0] === 'no' && S.parseFormula(vals.E) && !S.sameFormula(vals.E, mo.e.formula)) {
+              const a = S.parseFormula(vals.E), tg = mo.e.items.map(i => i[0]);
+              const ks = Object.keys(a);
+              if (ks.length === tg.length && tg.every(e => a[e])) {
+                const k = a[tg[0]] / mo.e.whole[0];
+                if (tg.every((e, i) => Math.abs(a[e] / mo.e.whole[i] - k) < 1e-9) && k > 1) r[1] = 'That ratio is right but it is not the simplest. Divide every number by their common factor.';
+              }
+            }
+            res.push([r[0], '(a) ' + r[1]]); if (r[0] === 'ok') ok++;
+          } else res.push(['info', '(a) Not answered yet.']);
+          if (vals.M.trim()) { const r = checkM(q, vals.M, mo.g); res.push([r[0], '(b) ' + r[1]]); if (r[0] === 'ok') ok++; } else res.push(['info', '(b) Not answered yet.']);
+          if (vals.F.trim()) {
+            const r = checkFormula(vals.F, mo.formula, mo.e.formula, mo.n === 1 ? '' : 'That is the empirical formula. Multiply each subscript by n = M ÷ Mr of the empirical formula.', 'Work out n = M ÷ Mr(empirical), then multiply every subscript by n.');
+            res.push([r[0], '(c) ' + r[1]]); if (r[0] === 'ok') ok++;
+          } else res.push(['info', '(c) Not answered yet.']);
+          if (ok === 3) { done[q.id] = 1; saveDone(); res.push(['ok', 'All three parts are correct.']); }
+        }
+      }
+      fb.innerHTML = res.map(([c, m]) => `<li class="${c}"><span class="ic" aria-hidden="true">${c === 'ok' ? '✓' : c === 'no' ? '✗' : 'i'}</span><span><span class="sr-only">${c === 'ok' ? 'Correct. ' : c === 'no' ? 'Not correct. ' : ''}</span>${m}</span></li>`).join('');
+      renderPager(t); updateProgress();
+    });
+  }
+}
+function renderPager(t) {
+  $('#pg' + t).innerHTML = D[t].map((q, i) => {
+    const d = done[q.id], cur = i === idx[t];
+    return `<button type="button" data-i="${i}" ${cur ? 'aria-current="true"' : ''} class="${d ? 'done' : ''}" aria-label="${q.label}${d ? ', completed' : ''}${cur ? ', current' : ''}">${i === 0 ? 'Demo' : i}${d ? '<span class="tick" aria-hidden="true">✓</span>' : ''}</button>`;
+  }).join('');
+}
+function updateProgress() {
+  [1, 2].forEach(t => {
+    const n = D[t].filter(q => !q.demo && done[q.id]).length;
+    $('#prog' + t).textContent = `${n} of 10 questions done`;
+  });
+}
+function renderQ(t) {
+  stopBench();
+  const root = $('#q' + t);
+  if (root._cleanup) root._cleanup();
+  const q = D[t][idx[t]];
+  root.innerHTML = qHTML(q);
+  wire(q, root);
+  renderPager(t);
+  const b = currentBench; if (b && !reduced()) b.play();
+}
+function go(t, i, noFocus) {
+  idx[t] = Math.max(0, Math.min(D[t].length - 1, i));
+  renderQ(t);
+  const root = $('#q' + t);
+  if (!noFocus) { root.focus({ preventScroll: true }); root.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' }); }
+}
+[1, 2].forEach(t => $('#pg' + t).addEventListener('click', ev => { const b = ev.target.closest('button[data-i]'); if (b) go(t, +b.getAttribute('data-i')); }));
+
+/* ---------- tabs ---------- */
+const tabs = $$('[role=tab]');
+function selectTab(i, focus) {
+  tabs.forEach((b, j) => { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; $('#' + b.getAttribute('aria-controls')).hidden = j !== i; });
+  if (focus) tabs[i].focus();
+  renderQ(i + 1);
+  try { history.replaceState(null, '', '#tab' + (i + 1)); } catch (e) {}
+}
+tabs.forEach((b, i) => {
+  b.addEventListener('click', () => selectTab(i));
+  b.addEventListener('keydown', ev => {
+    let n = null;
+    if (ev.key === 'ArrowRight') n = (i + 1) % tabs.length;
+    else if (ev.key === 'ArrowLeft') n = (i + tabs.length - 1) % tabs.length;
+    else if (ev.key === 'Home') n = 0; else if (ev.key === 'End') n = tabs.length - 1;
+    if (n !== null) { ev.preventDefault(); selectTab(n, true); }
+  });
+});
+
+/* ---------- lesson 1 extras ---------- */
+(function () {
+  const lis = $$('#derive li');
+  let timers = [];
+  $('#replayDerive').addEventListener('click', () => {
+    timers.forEach(clearTimeout); timers = [];
+    if (reduced()) return;
+    lis.forEach(li => li.classList.add('hid'));
+    lis.forEach((li, i) => timers.push(setTimeout(() => li.classList.remove('hid'), 500 + i * 900)));
+  });
+  const type = $('#cvType'), val = $('#cvVal'), out = $('#cvOut');
+  const samples = { kpa: '105', cm3: '95.0', dm3: '0.250', c: '90', mg: '174' };
+  function run() {
+    const raw = val.value.trim(), v = S.parseNum(raw), k = type.value;
+    if (isNaN(v)) { out.innerHTML = 'Type a number to convert.'; return; }
+    const L = {
+      kpa: ['1 kPa = 1000 Pa = 10³ Pa', `${raw} kPa × 10³ = <b>${fmt(v * 1e3)} Pa</b>`],
+      cm3: ['1 m = 100 cm', '1 m³ = (100 cm)³ = 100 × 100 × 100 cm³ = 10⁶ cm³', `${raw} cm³ ÷ 10⁶ = <b>${fmt(v / 1e6)} m³</b>`],
+      dm3: ['1 m = 10 dm', '1 m³ = (10 dm)³ = 10 × 10 × 10 dm³ = 10³ dm³', `${raw} dm³ ÷ 10³ = <b>${fmt(v / 1e3)} m³</b>`],
+      c: ['K = °C + 273', `${raw} + 273 = <b>${fmt(v + 273)} K</b>`],
+      mg: ['1 g = 1000 mg = 10³ mg', `${raw} mg ÷ 10³ = <b>${fmt(v / 1e3)} g</b>`]
+    }[k];
+    out.innerHTML = L.join('<br>');
+  }
+  type.addEventListener('change', () => { val.value = samples[type.value]; run(); });
+  val.addEventListener('input', run);
+  run();
+})();
+
+
+
+/* ---------- lesson 1: intro graphics ---------- */
+(function () {
+  const mf = $('#molFig');
+  const mol = [['CH2O', 1, 'methanal'], ['C2H4O2', 2, 'ethanoic acid'], ['C6H12O6', 6, 'glucose']];
+  mf.innerHTML = mol.map(([f, n, name]) => `<figure>${structSVG(name, 'Structural formula of ' + name)}<figcaption><b>${F(f)}</b> · ${name}<br>${n} × CH<sub>2</sub>O = ${F(f)}</figcaption></figure>`).join('');
+  const cf = $('#cubeFig'); cf.innerHTML = cubeFigHTML();
+  const st = $$('.cs', cf);
+  let timers = [];
+  function replay() {
+    timers.forEach(clearTimeout); timers = [];
+    if (reduced()) return;
+    st.forEach((g, i) => { if (i > 0) g.classList.add('off'); });
+    st.forEach((g, i) => { if (i > 0) timers.push(setTimeout(() => g.classList.remove('off'), 500 + i * 800)); });
+  }
+  $('#replayCube').addEventListener('click', replay);
+})();
+
+/* ---------- lesson 1: live experiment ---------- */
+(function () {
+  const $id = id => document.getElementById(id);
+  const fig = $id('simFig'), ans = $id('simAns');
+  const names = { 58: ['propanone', 'C3H6O'], 86: ['hexane', 'C6H14'], 154: ['tetrachloromethane', 'CCl4'] };
+  let bench = null;
+  function state() {
+    const M = +$id('simLiq').value, m = +$id('simM').value, T = +$id('simT').value, p = +$id('simP').value;
+    const V = Number((m * S.R * (T + 273) / (p * 1e3 * M) * 1e6).toPrecision(3));
+    const mk = (v, u) => ({ v, u, s: fmt(v) });
+    return { M, id: 'sim', fixedMax: 400, nParticles: Math.min(40, Math.round(6 + (m / M) * 3500)), m: mk(m, 'g'), T: mk(T, 'C'), p: mk(p, 'kPa'), V: mk(V, 'cm3') };
+  }
+  function render() {
+    const q = state();
+    $id('simMo').textContent = q.m.s + ' g'; $id('simTo').textContent = q.T.s + ' °C'; $id('simPo').textContent = q.p.s + ' kPa';
+    if (bench) bench.dispose();
+    fig.innerHTML = benchSVG(q);
+    bench = makeBench(fig, q, { sim: true });
+    $id('simChips').innerHTML = `<li><span>m</span>${given(q.m)}</li><li><span>V</span>${given(q.V)}</li><li><span>T</span>${given(q.T)}</li><li><span>p</span>${given(q.p)}</li>`;
+    if (!ans.hidden) reveal();
+  }
+  function reveal() {
+    const q = state(), rows = S.convRows(q), g = S.gasPart(q), nm = names[q.M];
+    ans.innerHTML = rows.map(r => `${r.name.replace(/<[^>]+>/g, '')}: ${r.change ? r.work : r.si + ' (no change)'}`).join('<br>')
+      + `<br>M = ${frac('m × R × T', 'p × V')} = ${frac(`${fmt(g.si.m)} g × 8.31 J mol<sup>−1</sup> K<sup>−1</sup> × ${fmt(g.si.T)} K`, `${fmt(g.si.p)} Pa × ${fmt(g.si.V)} m³`)} = <b>${fmt(g.M)} g mol<sup>−1</sup></b>`
+      + `<br>This liquid is ${nm[0]}, ${F(nm[1])}. Its true Mr is ${q.M.toFixed(1)}.`;
+  }
+  ['simLiq', 'simM', 'simT', 'simP'].forEach(id => $id(id).addEventListener('input', render));
+  $id('simReplay').addEventListener('click', () => bench && bench.play());
+  bindMotion($id('simMotion'));
+  $id('simReveal').addEventListener('click', () => {
+    const open = ans.hidden;
+    ans.hidden = !open; $id('simReveal').setAttribute('aria-expanded', open ? 'true' : 'false');
+    $id('simReveal').textContent = open ? 'Hide the working' : 'Work out the molar mass';
+    if (open) reveal();
+  });
+  render();
+})();
+
+/* ---------- start ---------- */
+updateProgress();
+selectTab(location.hash === '#tab2' ? 1 : 0);
+})();
+
+</script>
+
+</body></html>

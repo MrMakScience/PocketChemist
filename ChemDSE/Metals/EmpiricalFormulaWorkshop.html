@@ -239,10 +239,12 @@ svg.fig .pipefill{fill:none;stroke:var(--accent-soft)}
 .pickhint+.pills{padding-top:10px}
 .nextbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;border-top:1.5px dashed var(--line);padding-top:14px;color:var(--muted);font-size:15px}
 .nextbar .btn{margin-left:auto}
+
+.final{font-size:20px;line-height:1.4}
 </style>
 <div class="wrap">
 <header class="top">
-  <div class="kicker">DSE Chemistry · Mole Calculation</div>
+  <div class="kicker">IAL Chemistry · Moles &amp; formulae</div>
   <h1>Empirical Formula Workshop</h1>
   <p>Four question types, each with a worked demo and practice questions. Every answer uses the same table. Relative atomic masses are always given, so keep the periodic table closed.</p>
 </header>
@@ -631,7 +633,7 @@ function tail(S,parts,fin){
       fill:parts.map((p,i)=>['whole',i,String(w[i]),p.r.toFixed(2)+' × '+m])});
   }
   const f=fin(parts,w,m);
-  S.push({title:'Write the answer',text:f.text,final:f.html});
+  S.push({title:'Write the answer',text:f.text,final:f.sentence||f.html});
   return {m,w,html:f.html,plain:f.plain,hasWhole:m>1};
 }
 
@@ -639,14 +641,14 @@ function build(q){
   const S=[]; let parts=[], ramLabel='RAM', ramPre=true, fin;
   const P=(s,ram,mass,dp,html)=>({sym:s,html:html||s,ram,mass,dp});
   const elemFin=(parts,w)=>{const f=parts.map((p,i)=>p.sym+(w[i]>1?w[i]:'')).join('');
-    return {plain:f,html:sub(f),text:'Use the whole-number ratio as the small numbers (subscripts) after each symbol. A "1" is not written.'};};
+    return {plain:f,html:sub(f),sentence:'The empirical formula is <b>'+sub(f)+'</b>.',text:'Use the whole-number ratio as the small numbers (subscripts) after each symbol. A "1" is not written.'};};
   fin=elemFin;
 
   if(q.kind==='mass'||q.kind==='percent'){
     const pc=q.kind==='percent', dp=pc?1:2;
     parts=q.parts.map(([s,m])=>P(s,RAM[s],m,dp));
     S.push(pc?{title:'Pretend you have 100 g',text:'"54.5%" means 54.5 g in every 100 g. So just change each <b>%</b> into <b>g</b> and write it in the Mass row.',fill:parts.map((p,i)=>['mass',i,p.mass.toFixed(dp)])}
-             :{title:'Put the masses in the table',text:'Copy each mass into the <b>Mass</b> row. The RAM row is already filled in for you.',fill:parts.map((p,i)=>['mass',i,p.mass.toFixed(dp)])});
+             :{title:'Put the masses in the table',text:'Copy each mass into the <b>Mass</b> row. The RAM of each element is given above the table.',fill:parts.map((p,i)=>['mass',i,p.mass.toFixed(dp)])});
   }
   if(q.kind==='oxide'){
     const mO=r2(q.oxideMass-q.metalMass);
@@ -667,7 +669,7 @@ function build(q){
     S.push({title:'Work out the Mr of each substance',text:'Here we divide by <b>Mr</b> (add up the RAMs), because each column is a whole substance, not one element.',
       lines:[{label:'Mr of '+sub(q.salt),calc:terms+' = '+dryMr.toFixed(1)},{label:'Mr of H<sub>2</sub>O',calc:'(2 × 1.0) + 16.0 = 18.0'}],
       fill:[['ram',0,dryMr.toFixed(1),terms],['ram',1,'18.0','(2 × 1.0) + 16.0']]});
-    fin=(parts,w)=>{const n=w[1];return {plain:String(n),html:sub(q.salt)+' · <b>'+n+'</b>H<sub>2</sub>O &nbsp;(<i>n</i> = '+n+')',
+    fin=(parts,w)=>{const n=w[1];return {plain:String(n),html:sub(q.salt)+' · <b>'+n+'</b>H<sub>2</sub>O &nbsp;(<i>n</i> = '+n+')',sentence:'The number of water of crystallisation is <i>n</i> = <b>'+n+'</b>, so the formula is '+sub(q.salt)+' · <b>'+n+'</b>H<sub>2</sub>O.',
       text:'The ratio salt : water = 1 : <i>n</i>, so <i>n</i> is the number in the water column.'};};
   }
   if(q.kind==='setup'){
@@ -705,8 +707,8 @@ function build(q){
       lines:[{label:'mass of O',keys:[q.sample.toFixed(2),'−',mC.toFixed(2),'−',mH.toFixed(2),'='],res:'0.00 g → no O'}]});
   }
   const t=tail(S,parts,fin);
-  const rows=[{key:'ram',label:ramLabel,pre:ramPre?parts.map(p=>p.ram.toFixed(1)):null},
-              {key:'mass',label:'Mass (g)'},{key:'mol',label:'No. of mole (mol)'},{key:'rat',label:'Mole ratio (÷ smallest mole)'}];
+  const rows=(ramPre?[]:[{key:'ram',label:ramLabel}]).concat([
+              {key:'mass',label:'Mass (g)'},{key:'mol',label:'No. of mole (mol)'},{key:'rat',label:'Mole ratio (÷ smallest mole)'}]);
   if(t.hasWhole) rows.push({key:'whole',label:'Whole-number ratio (× '+t.m+')'});
   return {cols:parts.map(p=>p.html),rows,steps:S,plain:t.plain,html:t.html,m:t.m,w:t.w,parts};
 }
