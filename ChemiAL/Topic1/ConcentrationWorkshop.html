@@ -1,0 +1,737 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='Ke3xBYxdUVuPdn+sZcHdUQ==' src='https://4c7bb13d-18fb-4171-afb5-793cc38db91e.frame.claudeusercontent.com/j2YQHZJQB_4OdPqqCNUicJlF1lflEsMMogkZgZWFV5HHlr_HNva2PPjd_PSu71D62wb36rGa_91KUoh4Bdtt8WDqgtanBJyua48Q-EZc0zj2gRleZowaZysWz-N2m-4ntKirisXvwiMCUfa3wm76Pn9JMCUOiUDVHRSgKLeF96coBRANZQ4Fqf0Z1AcUxvghp9LGfGLdZ_JWi_yBPwYJOnVpLtQW9WXbd8zGTkKIqf3VdXUOTBCmWAMtb4G6IIUfh9kDGFDcYTzM8NXNaf0Kj77UZ7dLGxBtwUqiUMOEjlSI2pvYK_IEvDrKucEmrRU0d4izve1B2wr4uHAns5iv78nbutAOrRm8IP8SthIRdOY-9-nge9a9YuEx5XmCvusIKkPUaa6L6syX2MHYk48pAf97lejax1kggQG-5wCAE6vywuw5KlQjufxr9HG0kelXoG8t9JktJct-p2CHf5jnPINT5nxqA_BZDIP9gdpOLaKU7egU4mUna0RBHNlo5gVsu6JDE2C0W51njE_pea428B1XLAhN9bPuimyLR4x_LtFYi_ceAOjxhXcakaIGUlkGwEdXwcfH5Rc9LRoLbTxI6yokXLHR-PhdHlvJ3mtKaobP5MrvV73teH228rlm708OdtzUlntshA_AaYMIKn3_mgCLFarNWhOoq7pjY29hgKH8y4uskbB2OUR_N32rEtSiR-QLFSzRkcmo2Y4jxjA41g'></script></head><body>
+<title>Concentration Workshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap">
+<style>
+/* Layout: one sticky three-tab workbook. Each question type is an accordion holding a hatched worked example and five practice items, each with animated step-by-step help. */
+:root{
+ --bg:#F2F6F7;--surface:#FFFFFF;--surface2:#E6EEF2;--ink:#102430;--muted:#445A68;--line:#B7C7D0;
+ --accent:#0A6BA0;--on-accent:#FFFFFF;--lemon:#F5C518;--lemon-soft:#FFF1B3;
+ --ok:#14663A;--ok-bg:#DDF3E5;--bad:#A8231B;--bad-bg:#FBE5E2;--warn-bg:#FFF1B3;
+ --liq:#2F9BD6;--dot:#08507A;--glass:#3B5566;--focus:#0B57D0;
+ --font-d:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--font-b:'Atkinson Hyperlegible','Segoe UI',system-ui,sans-serif;--font-m:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B151B;--surface:#13222B;--surface2:#1B2F3B;--ink:#E8F1F5;--muted:#A9BDC8;--line:#34505F;--accent:#6FC4F2;--on-accent:#04202F;--lemon-soft:#4A3D08;--ok:#7FDDA6;--ok-bg:#12341F;--bad:#FFA59D;--bad-bg:#3C1814;--warn-bg:#4A3D08;--liq:#3AA6E0;--dot:#D3EEFB;--glass:#8FA9B8;--focus:#9CC2FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B151B;--surface:#13222B;--surface2:#1B2F3B;--ink:#E8F1F5;--muted:#A9BDC8;--line:#34505F;--accent:#6FC4F2;--on-accent:#04202F;--lemon-soft:#4A3D08;--ok:#7FDDA6;--ok-bg:#12341F;--bad:#FFA59D;--bad-bg:#3C1814;--warn-bg:#4A3D08;--liq:#3AA6E0;--dot:#D3EEFB;--glass:#8FA9B8;--focus:#9CC2FF;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:1.0625rem;line-height:1.6;padding-inline:clamp(16px,4vw,32px);padding-block:0 4rem;overflow-wrap:break-word}
+.wrap{max-width:62rem;margin-inline:auto}
+h1,h2,h3,h4{font-family:var(--font-d);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,6vw,3.1rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.55rem,4vw,2.1rem);font-weight:800;margin-bottom:1rem}
+h3{font-size:1.3rem;font-weight:600;margin:0 0 .6rem}
+p{margin:0 0 .8rem;max-width:68ch}
+sub,sup{line-height:0}
+a{color:var(--accent)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--on-accent);padding:.6rem 1rem;z-index:50}
+.skip:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.top{padding-block:1.6rem 1.2rem}
+.hero{display:flex;gap:1.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.hero>div:first-child{flex:1 1 20rem;min-width:0}
+.eyebrow{font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:.4rem}
+.lede{font-size:1.15rem;margin-top:.6rem}
+.hero-bk{width:104px;flex:0 0 auto}
+.overall{margin-top:1rem;display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;font-size:.95rem}
+.track{flex:1 1 8rem;max-width:16rem;height:.7rem;background:var(--surface2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s}
+.linkbtn{background:none;border:0;color:var(--accent);text-decoration:underline;font:inherit;cursor:pointer;min-height:44px;padding:0 .3rem}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding-block:.5rem;border-bottom:2px solid var(--ink);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;margin-inline:calc(-1*clamp(16px,4vw,32px));padding-inline:clamp(16px,4vw,32px)}
+.tab{min-height:52px;border:2px solid var(--line);background:var(--surface);color:var(--ink);font:700 1rem/1.2 var(--font-b);border-radius:10px 10px 0 0;padding:.4rem .5rem;cursor:pointer;text-align:center;overflow-wrap:normal;word-break:normal}
+.tab small{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] small{color:var(--bg)}
+.panel{padding-block:1.6rem}
+.panel[hidden]{display:none}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(1rem,3vw,1.6rem);margin-bottom:1.4rem}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.4rem;align-items:start}
+.split>*{min-width:0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.9rem;margin-block:1rem}
+.grid3>*{min-width:0}
+.mini{border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;background:var(--bg)}
+.mini h4{font-size:1.05rem;margin-bottom:.3rem}
+.mini p{margin:0;font-size:.97rem}
+.callout{background:var(--lemon-soft);border-left:6px solid var(--lemon);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin-block:1rem 0;max-width:none}
+.formula{display:inline-block;font-family:var(--font-m);font-weight:700;background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:.25rem .6rem;font-size:.95rem}
+.ex{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+.ex li{padding:.7rem .9rem;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.ex b{display:block}
+.particles{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.particles figure{margin:0}
+.particles svg{width:100%;height:auto;border:2px solid var(--glass);border-radius:10px;background:var(--surface2)}
+.particles figcaption,.bkfig figcaption{font-size:.88rem;line-height:1.35;margin-top:.3rem}
+.pdot{fill:var(--dot)}
+.pmove{animation:drift var(--t,3s) ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(var(--dx),var(--dy))}}
+.bkrow{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:flex-end}
+.bkfig{margin:0;width:8.5rem;text-align:center}
+.bkfig figcaption b{display:block}
+.bkwrap svg{display:block;width:100%;max-width:104px;height:auto;margin-inline:auto}
+.glass{fill:none;stroke:var(--glass);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tick{stroke:var(--glass);stroke-width:1.5}
+.liq{fill:var(--liq)}
+.dot{fill:var(--dot);animation:bob 2.6s ease-in-out infinite alternate;transform-box:fill-box}
+@keyframes bob{from{transform:translateY(-1.5px)}to{transform:translateY(1.5px)}}
+.cmp{width:100%;border-collapse:collapse;font-size:.97rem}
+.cmp th,.cmp td{border:1px solid var(--line);padding:.5rem .7rem;text-align:left;vertical-align:top}
+.cmp th{background:var(--surface2)}
+.scroll{overflow-x:auto;max-width:100%}
+label{font-weight:700}
+input[type=range]{width:100%;min-height:44px;accent-color:var(--accent)}
+input[type=text],input[type=number]{font:inherit;min-height:48px;padding:.4rem .7rem;border:2px solid var(--glass);border-radius:8px;background:var(--surface);color:var(--ink);width:100%;min-width:0}
+.ctl{display:grid;gap:.2rem;margin-bottom:.6rem}
+.out{font-family:var(--font-m);font-weight:500;background:var(--surface2);border-radius:8px;padding:.7rem .9rem;margin:.6rem 0 0;max-width:none;overflow-wrap:anywhere}
+.btn{min-height:44px;padding:.5rem 1.1rem;border-radius:8px;border:2px solid var(--accent);background:var(--accent);color:var(--on-accent);font:700 1rem var(--font-b);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.08)}
+.meterWrap{padding:2.4rem 1.4rem 0}
+.meter{position:relative;display:flex;height:2.2rem;border:2px solid var(--ink);border-radius:6px;overflow:visible}
+.zone{height:100%}
+.z1{width:25.8%;background:var(--surface2)}
+.z2{width:10.7%;background:var(--ok-bg);border-inline:2px solid var(--ok)}
+.z3{width:63.5%;background:repeating-linear-gradient(135deg,var(--warn-bg) 0 8px,var(--surface) 8px 12px)}
+.marker{position:absolute;top:-2.3rem;transform:translateX(-50%);text-align:center;font-weight:700;font-size:.85rem;white-space:nowrap;transition:left .4s}
+.marker::after{content:"\25BC";display:block;line-height:1;margin-top:-2px}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;list-style:none;padding:0;margin:.8rem 0 0;font-size:.9rem}
+.legend li{display:flex;gap:.4rem;align-items:center}
+.sw{width:1.1rem;height:1.1rem;border:2px solid var(--ink);border-radius:3px;display:inline-block}
+.verdict{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;border:2px solid var(--ink);font-weight:700;max-width:none}
+.v-low{background:var(--surface2)}.v-ok{background:var(--ok-bg);border-color:var(--ok)}.v-tox{background:var(--warn-bg)}.v-lethal{background:var(--bad-bg);border-color:var(--bad)}
+.presets{display:flex;gap:.6rem;flex-wrap:wrap;margin-block:.6rem}
+.tri{width:100%;max-width:15rem;height:auto;display:block}
+.tri polygon,.tri line{fill:var(--surface);stroke:var(--ink);stroke-width:3}
+.tri text{font:800 28px var(--font-d);fill:var(--ink);text-anchor:middle}
+.tri .cov{fill:var(--accent)}
+.tri .hide{opacity:.15}
+.triCtl{display:flex;gap:.5rem;flex-wrap:wrap;margin-block:.6rem}
+.triCtl button{min-height:44px;min-width:44px;border:2px solid var(--glass);background:var(--surface);color:var(--ink);border-radius:8px;font:700 1rem var(--font-b);padding:.3rem .8rem;cursor:pointer}
+.triCtl button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.bridge{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;gap:.8rem;margin-block:1rem}
+@media (min-width:44rem){.bridge{grid-template-columns:auto auto auto;justify-content:center;gap:1.2rem}}
+.bnode{border:2px solid var(--ink);background:var(--surface);border-radius:12px;padding:.8rem 1rem;text-align:center;min-width:12rem}
+.bnode b{display:block}
+.bmid{display:grid;gap:.5rem;font-family:var(--font-m);font-weight:700;font-size:.95rem}
+.barrow{display:flex;align-items:center;gap:.4rem;color:var(--accent)}
+.barrow::before{content:"";flex:1;height:3px;background:currentColor;min-width:2rem}
+.barrow.to::after{content:"\25B6"}.barrow.back{flex-direction:row-reverse}.barrow.back::after{content:"\25C0"}.barrow.back::before{order:2}
+.barrow.to::before{animation:flow 1.6s linear infinite;background:repeating-linear-gradient(90deg,currentColor 0 8px,transparent 8px 14px);background-size:14px 3px}
+@keyframes flow{to{background-position:14px 0}}
+.routine{counter-reset:r;list-style:none;padding:0;margin:1rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:.8rem}
+.routine li{counter-increment:r;border:1px solid var(--line);border-radius:10px;padding:.8rem;background:var(--bg)}
+.routine li::before{content:counter(r);display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:800;margin-bottom:.4rem}
+.expl{display:grid;grid-template-columns:minmax(0,9rem) minmax(0,1fr);gap:1.2rem;align-items:center}
+@media (max-width:30rem){.expl{grid-template-columns:1fr}.expl .bkfig{margin-inline:auto}}
+.gh{display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap;margin:2rem 0 .8rem;border-bottom:2px solid var(--ink);padding-bottom:.3rem}
+.tier{font:700 .8rem var(--font-b);letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bg);padding:.15rem .6rem;border-radius:99px}
+.type{margin-bottom:.8rem}
+.type h4{font-size:inherit}
+.acc-h{width:100%;display:flex;gap:.8rem;align-items:center;justify-content:space-between;text-align:left;min-height:56px;padding:.6rem 1rem;border:2px solid var(--ink);border-radius:10px;background:var(--surface);color:var(--ink);font:700 1.1rem/1.25 var(--font-d);cursor:pointer}
+.acc-h[aria-expanded="true"]{background:var(--ink);color:var(--bg);border-radius:10px 10px 0 0}
+.acc-t{flex:1;min-width:0}
+.acc-p{font:700 .85rem var(--font-b);white-space:nowrap}
+.chev::before{content:"\25BE";display:inline-block;transition:transform .2s}
+.acc-h[aria-expanded="true"] .chev::before{transform:rotate(180deg)}
+.acc-b{border:2px solid var(--ink);border-top:0;border-radius:0 0 10px 10px;padding:1rem;background:var(--surface)}
+.idea{display:flex;gap:.6rem 1rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem}
+.idea span.t{color:var(--muted);font-size:.95rem}
+.demo{position:relative;border:2px solid var(--ink);border-radius:6px;padding:1.3rem 1rem 1rem;background:var(--bg);margin-bottom:1.2rem}
+.demo::before{content:"";position:absolute;inset:0 0 auto 0;height:9px;background:repeating-linear-gradient(135deg,var(--ink) 0 2px,transparent 2px 6px)}
+.demoLab{font:800 1.1rem var(--font-d);text-decoration:underline;text-underline-offset:4px;margin-bottom:.5rem}
+.qs{list-style:none;padding:0;margin:0;display:grid;gap:1rem}
+.q{border:2px solid var(--line);border-radius:10px;padding:1rem;background:var(--bg)}
+.q.done{border-color:var(--ok)}
+.qhead{display:flex;justify-content:space-between;gap:.6rem;font-weight:700;margin-bottom:.4rem}
+.status{color:var(--ok)}
+.qlay{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:start}
+@media (max-width:34rem){.qlay{grid-template-columns:1fr}}
+.qtx{min-width:0}
+.qtx p.qq{max-width:none;font-size:1.08rem}
+.ram{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;font-size:.92rem;margin:.3rem 0 .6rem;max-width:none}
+.chip{font-family:var(--font-m);font-weight:700;font-size:.88rem;background:var(--surface);border:1px solid var(--glass);border-radius:6px;padding:.1rem .5rem}
+.vis{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap}
+.vis .op{font:800 1.6rem var(--font-d);padding-bottom:3rem}
+.vis .bkfig{width:6.8rem}
+.vis .bkfig figcaption{font-size:.8rem}
+.bal{display:flex;gap:1rem;align-items:flex-end}
+.balcol{width:6rem;text-align:center;font-size:.8rem}
+.stack{display:flex;flex-direction:column-reverse;height:8rem;border:2px solid var(--ink);border-radius:6px;overflow:hidden;background:var(--surface)}
+.stack div{display:grid;place-items:center;border-top:1px solid var(--ink);background:var(--surface2);overflow:hidden;font-weight:700;min-height:0}
+.stack div.unk{background:var(--lemon-soft);outline:2px dashed var(--ink);outline-offset:-4px}
+.ans{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-end;margin-top:.8rem}
+.ans .fld{flex:1 1 11rem;min-width:0}
+.fieldrow{display:flex;gap:.5rem;align-items:center}
+.unit{white-space:nowrap;font-weight:700}
+.fb{margin:.6rem 0 0;padding:0;font-weight:700;max-width:none}
+.fb:not(:empty){padding:.6rem .8rem;border-radius:8px;border:2px solid var(--ink);background:var(--surface)}
+.fb.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ink)}
+.fb.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--ink)}
+.steps{margin-top:1rem;border-top:2px dashed var(--glass);padding-top:.8rem}
+.stepsbar{display:flex;align-items:center;gap:.8rem;font-weight:700;font-size:.9rem}
+.stepList{list-style:none;padding:0;margin:.8rem 0;display:grid;gap:.7rem}
+.step{display:flex;gap:.8rem;padding:.7rem .8rem;border-radius:10px;background:var(--surface);border:1px solid var(--line);animation:slideIn .45s both}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}}
+.sn{flex:0 0 2rem;height:2rem;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800}
+.step.final{border:2px solid var(--ok);background:var(--ok-bg)}
+.step.final .sn{background:var(--ok);color:var(--bg)}
+.sb{min-width:0;flex:1}
+.st{display:block}
+.say{margin:.2rem 0 .4rem;font-size:.98rem}
+.calc{font-family:var(--font-m);font-weight:500;font-size:.95rem;background:var(--surface2);border-radius:6px;padding:.4rem .6rem;margin-top:.3rem;overflow-wrap:anywhere;animation:lineIn .45s both;animation-delay:calc(.3s + var(--i,0)*.4s)}
+@keyframes lineIn{from{opacity:0;transform:translateX(-8px)}}
+.calc.big{font-size:1.1rem}
+mark{background:var(--lemon-soft);color:var(--ink);padding:.05rem .3rem;border-radius:4px;font-weight:700;animation:flash 1.4s both;animation-delay:.9s}
+@keyframes flash{0%{background:var(--lemon)}100%{background:var(--lemon-soft)}}
+.stepBtns{display:flex;gap:.5rem;flex-wrap:wrap}
+.sub{display:flex;gap:.4rem;flex-wrap:wrap;margin:0 0 1rem}
+.subtab{min-height:44px;min-width:48px;border:2px solid var(--glass);background:var(--surface);color:var(--ink);border-radius:8px;font:700 1rem var(--font-b);padding:.3rem .9rem;cursor:pointer}
+.subtab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chk{color:var(--ok)}.subtab[aria-selected="true"] .chk{color:inherit}
+.nextq{margin-top:1rem}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+<a class="skip" href="#main">Skip to the lessons</a>
+<header class="top"><div class="wrap">
+ <div class="hero">
+  <div>
+   <p class="eyebrow">IAL Chemistry &middot; Amount of substance</p>
+   <h1>Concentration Workshop</h1>
+   <p class="lede">Mass concentration, molarity and dilution. Every question has a worked example, five practice items, and step-by-step help when you get stuck.</p>
+   <div class="overall"><span id="overallTxt">0 of 70 practice questions correct</span><span class="track" aria-hidden="true"><i id="overallBar"></i></span><button type="button" class="linkbtn" id="resetBtn">Reset progress</button></div>
+  </div>
+  <div class="hero-bk" id="heroBk" aria-hidden="true"></div>
+ </div>
+</div></header>
+<div class="wrap">
+<div class="tabs" role="tablist" aria-label="Lesson sections">
+ <button class="tab" role="tab" id="tab-what" aria-controls="panel-what" aria-selected="true" data-tab="what">1. Concept</button>
+ <button class="tab" role="tab" id="tab-calc" aria-controls="panel-calc" aria-selected="false" tabindex="-1" data-tab="calc">2. Calculations</button>
+ <button class="tab" role="tab" id="tab-dil" aria-controls="panel-dil" aria-selected="false" tabindex="-1" data-tab="dil">3. Dilution</button>
+</div>
+<main id="main">
+
+<section id="panel-what" class="panel" role="tabpanel" aria-labelledby="tab-what" tabindex="0">
+ <h2>What is concentration?</h2>
+ <div class="block">
+  <h3>Reactions like to happen in solution</h3>
+  <div class="split">
+   <div>
+    <p>In a solid, the particles are locked in place. Only the ones on the surface can meet the other chemical. When a substance dissolves, its particles spread out and move around freely, so they collide with the other reactant everywhere in the liquid. That makes many reactions much faster.</p>
+    <ul class="ex">
+     <li><b>Silver nitrate and sodium chloride</b>Mix the two dry white solids and nothing obvious happens. Dissolve each in water and mix them: a white precipitate of silver chloride forms straight away.</li>
+     <li><b>Reactions in your body</b>Cells and blood are mostly water. Medicines and nutrients are carried dissolved in body fluids, so the chemistry of life happens in solution.</li>
+    </ul>
+   </div>
+   <div class="particles" aria-hidden="true" id="particles"></div>
+  </div>
+  <p class="callout"><strong>The catch:</strong> a solution only works well at the right <strong>concentration</strong>. Too weak and little happens. Too strong and it wastes chemicals, or becomes dangerous.</p>
+ </div>
+
+ <div class="block">
+  <h3>Concentration: how much solute in how much solution</h3>
+  <div class="grid3">
+   <div class="mini"><h4>Solute</h4><p>The substance that dissolves, such as salt.</p></div>
+   <div class="mini"><h4>Solvent</h4><p>The liquid that does the dissolving, usually water.</p></div>
+   <div class="mini"><h4>Solution</h4><p>The solute and solvent mixed together.</p></div>
+  </div>
+  <div class="bkrow" id="dilVsConc" aria-hidden="true"></div>
+  <p>Both beakers hold the same volume, but the one on the right has more solute particles in it, so it is more concentrated. <span class="formula">concentration = amount of solute &divide; volume of solution</span></p>
+  <p><strong>Remember:</strong> <span class="formula">1000 cm&sup3; = 1 dm&sup3; = 1 L</span> and <span class="formula">M = mol dm<sup>&minus;3</sup></span></p>
+ </div>
+
+ <div class="block">
+  <h3>Why the right concentration matters: a real medicine</h3>
+  <p><strong>Paracetamol</strong> (also called acetaminophen) relieves pain and fever when its concentration in the blood is about <strong>10 to 20 mg/L</strong>. Below that it may not work. Far above it, it can damage the liver, and doctors use about <strong>150 mg/L, four hours after a dose,</strong> as the level where emergency treatment is needed.</p>
+  <p>The dose has to suit the person. A medicine spreads through body fluid, roughly <strong>0.9 L for every kg</strong> of body mass, so a smaller person has less fluid to dilute the same dose. That is why children's doses are worked out from body mass.</p>
+  <p class="callout">This is a simplified model for learning. Real doses come from the label, a doctor or a pharmacist, who also allow for how fast the body removes the drug. If anyone takes too much medicine, contact emergency services or a poison information centre straight away.</p>
+  <div class="presets"><button type="button" class="btn ghost" id="preAdult">Adult, 70 kg</button><button type="button" class="btn ghost" id="preChild">Child, 20 kg</button></div>
+  <div class="split">
+   <div>
+    <div class="ctl"><label for="mass">Body mass: <output id="massV">70</output> kg</label><input type="range" id="mass" min="15" max="100" step="5" value="70"></div>
+    <p class="out" id="doseOut"></p>
+   </div>
+   <div>
+    <p><strong>What if this person takes one 500 mg tablet?</strong></p>
+    <div class="meterWrap"><div class="meter" aria-hidden="true"><div class="zone z1"></div><div class="zone z2"></div><div class="zone z3"></div><div class="marker" id="marker">0</div></div></div>
+    <ul class="legend"><li><span class="sw" style="background:var(--surface2)"></span>Too low: under 10 mg/L</li><li><span class="sw" style="background:var(--ok-bg);border-color:var(--ok)"></span>Therapeutic: 10 to 20</li><li><span class="sw" style="background:repeating-linear-gradient(135deg,var(--warn-bg) 0 4px,var(--surface) 4px 6px)"></span>Too high: over 20</li></ul>
+    <p class="verdict" id="verdict" role="status"></p>
+   </div>
+  </div>
+ </div>
+
+ <div class="block">
+  <h3>Two ways to write concentration</h3>
+  <div class="scroll"><table class="cmp"><caption class="sr-only">Mass concentration compared with molarity</caption>
+   <thead><tr><th scope="col"></th><th scope="col">Mass concentration</th><th scope="col">Molar concentration (molarity)</th></tr></thead>
+   <tbody>
+    <tr><th scope="row">Unit</th><td>g dm<sup>&minus;3</sup></td><td>mol dm<sup>&minus;3</sup> (M)</td></tr>
+    <tr><th scope="row">Counts</th><td>grams of solute</td><td>moles, which means number of particles</td></tr>
+    <tr><th scope="row">Used by</th><td>Non-chemists: it is easy to weigh out and prepare. A saline drip is 9 g dm<sup>&minus;3</sup>.</td><td>Chemists: equations work in particle ratios, so moles show how much will react.</td></tr>
+   </tbody></table></div>
+  <p style="margin-top:1rem">Same mass, very different number of particles. Each beaker below holds 18.0 g per dm<sup>3</sup>:</p>
+  <div class="bkrow" id="gluNa" aria-hidden="true"></div>
+ </div>
+ <p><button type="button" class="btn" data-goto="calc">Start the calculations</button></p>
+</section>
+
+<section id="panel-calc" class="panel" role="tabpanel" aria-labelledby="tab-calc" tabindex="0" hidden="">
+ <h2>Concentration calculations</h2>
+ <div class="block">
+  <h3>Use the same routine every time</h3>
+  <ol class="routine">
+   <li><b>Write down</b><br>what you are given and what you need.</li>
+   <li><b>Convert units</b><br>cm&sup3; to dm&sup3; by dividing by 1000.</li>
+   <li><b>Choose a formula</b><br>and rearrange it if needed.</li>
+   <li><b>Calculate and round</b><br>keep all digits until the very end.</li>
+  </ol>
+ </div>
+ <div class="block">
+  <h3>Toolbox</h3>
+  <div class="split">
+   <div>
+    <h4>Cover a letter to get the formula</h4>
+    <div id="tri1"></div>
+   </div>
+   <div>
+    <h4>Cover a letter: mass, moles, M<sub>r</sub></h4>
+    <div id="tri2"></div>
+   </div>
+  </div>
+  <h4 style="margin-top:1.4rem">Swap between mass concentration and molarity</h4>
+  <div class="bridge">
+   <div class="bnode"><b>Mass concentration</b>g dm<sup>&minus;3</sup></div>
+   <div class="bmid"><span class="barrow to"><span>&divide; M<sub>r</sub></span></span><span class="barrow back"><span>&times; M<sub>r</sub></span></span></div>
+   <div class="bnode"><b>Molarity</b>mol dm<sup>&minus;3</sup></div>
+  </div>
+  <p>To go from mass concentration to molarity, divide by M<sub>r</sub>. To go back, multiply by M<sub>r</sub>.</p>
+  <div class="split" style="margin-top:1.4rem">
+   <div>
+    <h4>cm&sup3; and dm&sup3; converter</h4>
+    <div class="ctl"><label for="cvCm">Volume in cm&sup3;</label><input type="number" inputmode="decimal" id="cvCm" value="250" min="0" step="any"></div>
+    <div class="ctl"><label for="cvDm">Volume in dm&sup3;</label><input type="number" inputmode="decimal" id="cvDm" value="0.25" min="0" step="any"></div>
+    <p class="out" id="cvOut"></p>
+   </div>
+   <div>
+    <h4>Concentration explorer</h4>
+    <div class="expl"><div id="expViz" aria-hidden="true"></div><div>
+     <div class="ctl"><label for="expN">Moles, n: <output id="expNv">0.20</output> mol</label><input type="range" id="expN" min="0.05" max="0.5" step="0.05" value="0.2"></div>
+     <div class="ctl"><label for="expV">Volume: <output id="expVv">500</output> cm&sup3;</label><input type="range" id="expV" min="100" max="1000" step="50" value="500"></div>
+    </div></div>
+    <p class="out" id="expOut" role="status"></p>
+   </div>
+  </div>
+ </div>
+ <div id="mount-calc"></div>
+</section>
+
+<section id="panel-dil" class="panel" role="tabpanel" aria-labelledby="tab-dil" tabindex="0" hidden="">
+ <h2>Dilution of concentration</h2>
+ <div class="block">
+  <h3>Water changes the volume, not the moles</h3>
+  <p>When you dilute a solution you add water. The water carries no solute, so the <strong>moles of solute stay fixed</strong>. Only the volume grows, so the concentration falls.</p>
+  <p><span class="formula">n<sub>1</sub> = n<sub>2</sub></span> &nbsp; so &nbsp; <span class="formula">c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub></span></p>
+  <p>Because the same unit appears on both sides, V can stay in cm&sup3; here. You do not need to convert.</p>
+  <div class="split">
+   <div>
+    <div class="expl"><div id="dilViz" aria-hidden="true" class="bkrow"></div><div>
+     <div class="ctl"><label for="dilV">Final volume: <output id="dilVv">400</output> cm&sup3;</label><input type="range" id="dilV" min="100" max="1000" step="50" value="400"></div>
+    </div></div>
+    <p class="out" id="dilOut" role="status"></p>
+   </div>
+   <div>
+    <h4>Words to watch</h4>
+    <div class="scroll"><table class="cmp"><caption class="sr-only">How to find the final volume</caption>
+     <thead><tr><th scope="col">The question says</th><th scope="col">So V<sub>2</sub> is</th></tr></thead>
+     <tbody><tr><td>diluted <strong>to</strong> 500 cm&sup3;</td><td>500 cm&sup3;</td></tr><tr><td>500 cm&sup3; of water is <strong>added</strong> to 100 cm&sup3;</td><td>100 + 500 = 600 cm&sup3;</td></tr></tbody></table></div>
+   </div>
+  </div>
+ </div>
+ <div id="mount-dil"></div>
+</section>
+</main>
+</div>
+<noscript><p style="padding:1rem">This workshop needs JavaScript to show the questions.</p></noscript>
+<script>
+const CW=(function(){
+const RAM={H:1.0,C:12.0,N:14.0,O:16.0,Na:23.0,Mg:24.3,Al:27.0,S:32.1,Cl:35.5,K:39.1,Ca:40.1,Mn:54.9,Cr:52.0,Fe:55.8,Cu:63.5,Zn:65.4,Ag:107.9};
+const ORDER=Object.keys(RAM);
+const SPEC={
+ NaCl:['NaCl','sodium chloride',{Na:1,Cl:1}],
+ glucose:['C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>','glucose',{C:6,H:12,O:6}],
+ NaOH:['NaOH','sodium hydroxide',{Na:1,O:1,H:1}],
+ CuSO4:['CuSO<sub>4</sub>','copper(II) sulphate',{Cu:1,S:1,O:4}],
+ Na2CO3:['Na<sub>2</sub>CO<sub>3</sub>','sodium carbonate',{Na:2,C:1,O:3}],
+ KMnO4:['KMnO<sub>4</sub>','potassium manganate(VII)',{K:1,Mn:1,O:4}],
+ HCl:['HCl','hydrochloric acid',{H:1,Cl:1}],
+ H2SO4:['H<sub>2</sub>SO<sub>4</sub>','sulphuric acid',{H:2,S:1,O:4}],
+ AgNO3:['AgNO<sub>3</sub>','silver nitrate',{Ag:1,N:1,O:3}],
+ KCl:['KCl','potassium chloride',{K:1,Cl:1}],
+ ZnNO32:['Zn(NO<sub>3</sub>)<sub>2</sub>','zinc nitrate',{Zn:1,N:2,O:6}],
+ CaCl2:['CaCl<sub>2</sub>','calcium chloride',{Ca:1,Cl:2}],
+ K2Cr2O7:['K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub>','potassium dichromate',{K:2,Cr:2,O:7}],
+ K2CO3:['K<sub>2</sub>CO<sub>3</sub>','potassium carbonate',{K:2,C:1,O:3}],
+ K2SO4:['K<sub>2</sub>SO<sub>4</sub>','potassium sulphate',{K:2,S:1,O:4}],
+ Na2SO4:['Na<sub>2</sub>SO<sub>4</sub>','sodium sulphate',{Na:2,S:1,O:4}],
+ HNO3:['HNO<sub>3</sub>','nitric acid',{H:1,N:1,O:3}],
+ CH3COOH:['CH<sub>3</sub>COOH','ethanoic acid',{C:2,H:4,O:2}],
+ NH3:['NH<sub>3</sub>','ammonia',{N:1,H:3}],
+ MgCl2:['MgCl<sub>2</sub>','magnesium chloride',{Mg:1,Cl:2}],
+ AlCl3:['AlCl<sub>3</sub>','aluminium chloride',{Al:1,Cl:3}],
+ KOH:['KOH','potassium hydroxide',{K:1,O:1,H:1}],
+ CaNO32:['Ca(NO<sub>3</sub>)<sub>2</sub>','calcium nitrate',{Ca:1,N:2,O:6}],
+ KNO3:['KNO<sub>3</sub>','potassium nitrate',{K:1,N:1,O:3}]
+};
+const C3='cm<sup>3</sup>',D3='dm<sup>3</sup>',GD='g dm<sup>−3</sup>',MD='mol dm<sup>−3</sup>';
+const UNITS={gdm:GD,M:MD,g:'g',mol:'mol',dm3:D3,cm3:C3};
+const $n=s=>parseFloat(s);
+const g=(x,sf=5)=>x===0?'0':String(Number(x.toPrecision(sf)));
+const fin=(x,sf)=>{let s=x.toPrecision(sf);if(/e/.test(s))s=String(Number(s));return s;};
+const mk=x=>'<mark>'+x+'</mark>';
+const nm=k=>SPEC[k][1], fm=k=>SPEC[k][0];
+const mr=k=>Object.entries(SPEC[k][2]).reduce((s,[e,c])=>s+RAM[e]*c,0);
+const mrS=k=>g(mr(k),5);
+const mrParts=k=>Object.entries(SPEC[k][2]).map(([e,c])=>c===1?RAM[e].toFixed(1):'('+RAM[e].toFixed(1)+' × '+c+')').join(' + ');
+const ramOf=(...ks)=>{const set=new Set();ks.forEach(k=>Object.keys(SPEC[k][2]).forEach(e=>set.add(e)));return ORDER.filter(e=>set.has(e)).map(e=>[e,RAM[e].toFixed(1)]);};
+function sfOf(s){s=String(s).replace(/^[-+]/,'');if(s.includes('.')){const t=s.replace('.','').replace(/^0+/,'');return t.length||1;}const t=s.replace(/^0+/,'').replace(/0+$/,'');return t.length||1;}
+const sfa=(...a)=>Math.min(3,Math.max(2,Math.min(...a.map(sfOf))));
+const st=(title,say,calc)=>({title,say,calc});
+const mrStep=k=>st('Find the relative formula mass, M<sub>r</sub>','Add up the RAM of every atom in the formula.',['M<sub>r</sub> of '+fm(k)+' = '+mrParts(k),'= '+mk(mrS(k))]);
+const convStep=(v,V)=>st('Change cm³ into dm³','The formulas need volume in dm³. 1000 cm³ = 1 dm³, so divide by 1000.',[v+' ÷ 1000 = '+mk(g(V)+' '+D3)]);
+const ansTxt=(a,sf,u)=>fin(a,sf)+' '+UNITS[u];
+
+function bT1(k,m,v){const V=$n(v)/1000,ans=$n(m)/V,sf=sfa(m,v);
+ return {q:m+' g of '+nm(k)+' is dissolved in water to form a '+v+' '+C3+' solution. Calculate the concentration, in '+GD+', of this '+nm(k)+' solution.',
+ ram:null,unit:'gdm',ans,sf,vis:{k:'one',lvl:.55,dots:14,cap:'<b>'+v+' '+C3+'</b>'+nm(k)+' solution'},
+ steps:[convStep(v,V),
+  st('Pick the formula','Mass concentration is the number of grams dissolved in every 1 dm³.',['mass concentration = mass (g) ÷ volume (dm³)']),
+  st('Substitute and calculate','The question gives the mass in grams, so you do not need M<sub>r</sub> here.',[m+' ÷ '+g(V)+' = '+mk(ansTxt(ans,sf,'gdm'))])]};}
+function bT2(k,n,v){const V=$n(v)/1000,ans=$n(n)/V,sf=sfa(n,v);
+ return {q:v+' '+C3+' of '+nm(k)+' solution contains '+n+' mol of '+nm(k)+'. Calculate the molarity of the solution.',
+ ram:null,unit:'M',ans,sf,vis:{k:'one',lvl:.5,dots:Math.min(30,Math.max(4,Math.round($n(n)/V*4))),cap:'<b>'+v+' '+C3+'</b>contains '+n+' mol'},
+ steps:[convStep(v,V),
+  st('Pick the formula','Molarity is the number of moles in every 1 dm³.',['molarity, c = moles, n ÷ volume, V (dm³)']),
+  st('Substitute and calculate','Moles on top, volume in dm³ underneath.',[n+' ÷ '+g(V)+' = '+mk(ansTxt(ans,sf,'M'))])]};}
+function bT3(k,gc){const M=mr(k),ans=$n(gc)/M,sf=sfa(gc);
+ return {q:'Calculate the molarity of a '+gc+' '+GD+' '+nm(k)+' solution.',ram:ramOf(k),unit:'M',ans,sf,
+ vis:{k:'one',lvl:.55,dots:12,cap:'<b>'+gc+' '+GD+'</b>'+nm(k)},
+ steps:[mrStep(k),
+  st('Pick the formula','M<sub>r</sub> is grams per mole. Grams per dm³ divided by grams per mole leaves moles per dm³.',['molarity = mass concentration ÷ M<sub>r</sub>']),
+  st('Substitute and calculate','',[gc+' ÷ '+mrS(k)+' = '+mk(ansTxt(ans,sf,'M'))])]};}
+function bT4(k,c){const M=mr(k),ans=$n(c)*M,sf=sfa(c);
+ return {q:'Calculate the concentration, in '+GD+', of a '+c+' '+MD+' '+nm(k)+' solution.',ram:ramOf(k),unit:'gdm',ans,sf,
+ vis:{k:'one',lvl:.55,dots:12,cap:'<b>'+c+' '+MD+'</b>'+nm(k)},
+ steps:[mrStep(k),
+  st('Pick the formula','Each dm³ holds c moles, and every mole weighs M<sub>r</sub> grams.',['mass concentration = molarity × M<sub>r</sub>']),
+  st('Substitute and calculate','',[c+' × '+mrS(k)+' = '+mk(ansTxt(ans,sf,'gdm'))])]};}
+function bT5(k,c,v){const V=$n(v)/1000,n=$n(c)*V,M=mr(k),ans=n*M,sf=sfa(c,v);
+ return {q:'Calculate the mass of '+nm(k)+' in '+v+' '+C3+' of '+c+' M '+nm(k)+' solution.',ram:ramOf(k),unit:'g',ans,sf,
+ vis:{k:'one',lvl:.45,dots:10,cap:'<b>'+v+' '+C3+'</b>'+c+' M'},
+ steps:[convStep(v,V),
+  st('Find the moles','moles, n = molarity × volume (dm³)',[c+' × '+g(V)+' = '+mk(g(n)+' mol')]),
+  mrStep(k),
+  st('Change moles into mass','mass = moles × M<sub>r</sub>',[g(n)+' × '+mrS(k)+' = '+mk(ansTxt(ans,sf,'g'))])]};}
+function bT6(k,gc,v){const V=$n(v)/1000,m=$n(gc)*V,M=mr(k),ans=m/M,sf=sfa(gc,v);
+ return {q:'Calculate the number of moles of '+nm(k)+' in '+v+' '+C3+' of '+gc+' '+GD+' '+nm(k)+' solution.',ram:ramOf(k),unit:'mol',ans,sf,
+ vis:{k:'one',lvl:.45,dots:10,cap:'<b>'+v+' '+C3+'</b>'+gc+' '+GD},
+ steps:[convStep(v,V),
+  st('Find the mass of solute','mass = mass concentration × volume (dm³)',[gc+' × '+g(V)+' = '+mk(g(m)+' g')]),
+  mrStep(k),
+  st('Change mass into moles','moles = mass ÷ M<sub>r</sub>',[g(m)+' ÷ '+mrS(k)+' = '+mk(ansTxt(ans,sf,'mol'))])]};}
+function bT7(k,c,n,out){const V=$n(n)/$n(c),ans=out==='cm3'?V*1000:V,sf=sfa(c,n);
+ const steps=[st('Pick the formula','Rearrange c = n ÷ V to make V the subject.',['volume (dm³) = moles ÷ molarity']),
+  st('Substitute and calculate','',[n+' ÷ '+c+' = '+mk(g(V)+' '+D3)])];
+ if(out==='cm3')steps.push(st('Change dm³ into cm³','The question wants cm³, so multiply by 1000.',[g(V)+' × 1000 = '+mk(ansTxt(ans,sf,'cm3'))]));
+ return {q:'A '+c+' M '+nm(k)+' solution contains '+n+' mol of '+nm(k)+'. Calculate the volume of solution in '+UNITS[out]+'.',ram:null,unit:out,ans,sf,
+ vis:{k:'one',lvl:.5,dots:10,cap:'<b>? '+UNITS[out]+'</b>'+c+' M, '+n+' mol'},steps};}
+function bT8(k,gc,n,out){const M=mr(k),c=$n(gc)/M,V=$n(n)/c,ans=out==='cm3'?V*1000:V,sf=sfa(gc,n);
+ const steps=[mrStep(k),
+  st('Change to molarity first','molarity = mass concentration ÷ M<sub>r</sub>',[gc+' ÷ '+mrS(k)+' = '+mk(g(c)+' '+MD)]),
+  st('Find the volume','volume = moles ÷ molarity',[n+' ÷ '+g(c)+' = '+mk(g(V)+' '+D3)])];
+ if(out==='cm3')steps.push(st('Change dm³ into cm³','Multiply by 1000.',[g(V)+' × 1000 = '+mk(ansTxt(ans,sf,'cm3'))]));
+ return {q:'A '+gc+' '+GD+' '+nm(k)+' solution contains '+n+' mol '+nm(k)+'. Calculate the volume of solution in '+UNITS[out]+'.',ram:ramOf(k),unit:out,ans,sf,
+ vis:{k:'one',lvl:.5,dots:10,cap:'<b>? '+UNITS[out]+'</b>'+gc+' '+GD},steps};}
+function bT9(k,desc,d,pct){const rho=$n(d)*1000,mc=rho*$n(pct)/100,M=mr(k),ans=mc/M,sf=sfa(d,pct);
+ return {q:'A sample of '+desc+' has a density of '+d+' g cm<sup>−3</sup>. If the sample contains '+pct+'% of '+nm(k)+' by mass, calculate the molarity of the '+nm(k)+'.',
+ ram:ramOf(k),unit:'M',ans,sf,vis:{k:'one',lvl:.6,dots:20,cap:'<b>'+pct+'% by mass</b>'+d+' g cm<sup>−3</sup>'},
+ steps:[st('Mass of 1 dm³ of the solution','Density is in g cm⁻³. There are 1000 cm³ in 1 dm³, so multiply by 1000.',[d+' × 1000 = '+mk(g(rho)+' g in 1 dm³')]),
+  st('Mass of '+nm(k)+' in that 1 dm³','Only '+pct+'% of the solution is '+nm(k)+'. This is the mass concentration.',[g(rho)+' × '+pct+' ÷ 100 = '+mk(g(mc)+' '+GD)]),
+  mrStep(k),
+  st('Change to molarity','molarity = mass concentration ÷ M<sub>r</sub>',[g(mc)+' ÷ '+mrS(k)+' = '+mk(ansTxt(ans,sf,'M'))])]};}
+function bT10(k1,v1,c1,i1,eq1,k2,v2,c2,i2,eq2,ion){
+ const V1=$n(v1)/1000,V2=$n(v2)/1000,s1=$n(c1)*V1,s2=$n(c2)*V2,n1=s1*i1,n2=s2*i2,nt=n1+n2,Vt=V1+V2,ans=nt/Vt,sf=sfa(c1,c2);
+ return {q:v1+' '+C3+' of '+c1+' M '+fm(k1)+'(aq) is mixed with '+v2+' '+C3+' of '+c2+' M '+fm(k2)+'(aq). Assume no reaction happens. Calculate the molar concentration of '+ion+'(aq) ions in the resultant mixture.',
+ ram:null,unit:'M',ans,sf,vis:{k:'mix',a:'<b>'+v1+' '+C3+'</b>'+c1+' M',b:'<b>'+v2+' '+C3+'</b>'+c2+' M',r:'<b>'+g(Vt*1000)+' '+C3+'</b>? M '+ion},
+ steps:[st('See how each salt splits into ions','Count how many '+ion+' ions one formula unit gives.',[eq1,eq2]),
+  st('Moles of '+ion+' from each solution','First n = c × V for the salt, then multiply by the number of '+ion+' per formula unit.',
+   [fm(k1)+': '+c1+' × '+g(V1)+' = '+g(s1)+' mol, × '+i1+' = '+mk(g(n1)+' mol '+ion),fm(k2)+': '+c2+' × '+g(V2)+' = '+g(s2)+' mol, × '+i2+' = '+mk(g(n2)+' mol '+ion)]),
+  st('Add the moles and add the volumes','Both solutions end up in one beaker.',['total moles = '+g(n1)+' + '+g(n2)+' = '+mk(g(nt)+' mol'),'total volume = '+v1+' + '+v2+' = '+g(Vt*1000)+' '+C3+' = '+mk(g(Vt)+' '+D3)]),
+  st('Divide','concentration = total moles ÷ total volume',[g(nt)+' ÷ '+g(Vt)+' = '+mk(ansTxt(ans,sf,'M'))])]};}
+function bT11(q,tgt,tz,side,same,other){
+ const sumO=other.reduce((s,[,z,c])=>s+z*$n(c),0),sumS=same.reduce((s,[,z,c])=>s+z*$n(c),0),rest=sumO-sumS,ans=rest/tz;
+ const sf=sfa(...same.concat(other).map(x=>x[2]));
+ const line=([i,z,c])=>i+': '+z+' × '+c+' = '+g(z*$n(c));
+ const sName=side==='cation'?'positive (cations)':'negative (anions)',oName=side==='cation'?'negative (anions)':'positive (cations)';
+ const pieces=same.map(([i,z,c])=>({l:i,v:z*$n(c)})),unk={l:tgt+' ?',v:rest,unk:true},oth=other.map(([i,z,c])=>({l:i,v:z*$n(c)}));
+ return {q,ram:null,unit:'M',ans,sf,vis:{k:'bal',left:side==='cation'?pieces.concat([unk]):oth,right:side==='cation'?oth:pieces.concat([unk]),lt:side==='cation'?'Positive charge':'Negative charge',rt:side==='cation'?'Negative charge':'Positive charge'},
+ steps:[st('A solution has no overall charge','Total positive charge = total negative charge. The charge from one kind of ion = charge number × molarity.',['total (+) charge = total (−) charge']),
+  st('Total '+oName+' charge (all known)','',other.map(line).concat(other.length>1?['total = '+mk(g(sumO))]:[])),
+  st('Known '+sName+' charge','',same.map(line).concat(same.length>1?['total = '+mk(g(sumS))]:[])),
+  st('Charge left for '+tgt,'The unknown ion must make up the difference.',[g(sumO)+' − '+g(sumS)+' = '+mk(g(rest))]),
+  st('Divide by its charge number',tgt+' carries '+tz+' charges per ion, so divide by '+tz+'.',[g(rest)+' ÷ '+tz+' = '+mk(ansTxt(ans,sf,'M'))])]};}
+const dilTxt=(mode,x)=>mode==='add'?'diluted by adding '+x+' '+C3+' of water':'diluted to '+x+' '+C3;
+function dilVis(v1,V2,c1,c2){return {k:'dil',dots:12,l1:.35,l2:Math.min(.95,.35+.6*(1-$n(v1)/V2)),tint:Math.max(.18,Math.min(1,$n(v1)/V2)),c1:'<b>'+v1+' '+C3+'</b>'+c1,c2:'<b>'+g(V2)+' '+C3+'</b>'+c2};}
+function bT12(k,c1,v1,x,mode){const V2=mode==='add'?$n(v1)+$n(x):$n(x),ans=$n(c1)*$n(v1)/V2,sf=sfa(c1,v1,x);
+ const know=['c<sub>1</sub> = '+c1+' M','V<sub>1</sub> = '+v1+' '+C3];
+ if(mode==='add')know.push('V<sub>2</sub> = '+v1+' + '+x+' = '+g(V2)+' '+C3);else know.push('V<sub>2</sub> = '+x+' '+C3);know.push('c<sub>2</sub> = ?');
+ return {q:v1+' '+C3+' of '+c1+' M '+nm(k)+' is '+dilTxt(mode,x)+'. Determine the molarity of the diluted '+nm(k)+'.',ram:null,unit:'M',ans,sf,vis:dilVis(v1,V2,c1+' M','? M'),
+ steps:[st('Moles stay the same','Water adds no solute, so moles before = moles after.',['n<sub>1</sub> = n<sub>2</sub>','c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>']),
+  st('List what you know','If the question says water was added, add it to V<sub>1</sub> to get V<sub>2</sub>.',know),
+  st('Rearrange and calculate','Both volumes are in cm³, so the units cancel. No conversion needed.',['c<sub>2</sub> = (c<sub>1</sub> × V<sub>1</sub>) ÷ V<sub>2</sub>','= ('+c1+' × '+v1+') ÷ '+g(V2)+' = '+mk(ansTxt(ans,sf,'M'))]),
+  st('Sense check','A diluted solution must be weaker than the original.',[ans<$n(c1)?'✓ '+fin(ans,sf)+' is smaller than '+c1:'Check your working: the answer should be smaller than '+c1])]};}
+function bT13(k,c2,v1,x,mode){const V2=mode==='add'?$n(v1)+$n(x):$n(x),ans=$n(c2)*V2/$n(v1),sf=sfa(c2,v1,x);
+ const know=['c<sub>2</sub> = '+c2+' M','V<sub>1</sub> = '+v1+' '+C3];
+ if(mode==='add')know.push('V<sub>2</sub> = '+v1+' + '+x+' = '+g(V2)+' '+C3);else know.push('V<sub>2</sub> = '+x+' '+C3);know.push('c<sub>1</sub> = ?');
+ return {q:v1+' '+C3+' of '+nm(k)+' solution is '+dilTxt(mode,x)+'. The diluted solution has a molarity of '+c2+' M. Calculate the molarity of the original solution.',ram:null,unit:'M',ans,sf,vis:dilVis(v1,V2,'? M',c2+' M'),
+ steps:[st('Moles stay the same','Water adds no solute, so moles before = moles after.',['c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>']),
+  st('List what you know','',know),
+  st('Rearrange and calculate','This time c<sub>1</sub> is the unknown.',['c<sub>1</sub> = (c<sub>2</sub> × V<sub>2</sub>) ÷ V<sub>1</sub>','= ('+c2+' × '+g(V2)+') ÷ '+v1+' = '+mk(ansTxt(ans,sf,'M'))]),
+  st('Sense check','The original solution must be stronger than the diluted one.',[ans>$n(c2)?'✓ '+fin(ans,sf)+' is bigger than '+c2:'Check your working: the answer should be bigger than '+c2])]};}
+function bT14(k,c1,v1,c2){const V2=$n(c1)*$n(v1)/$n(c2),ans=V2-$n(v1);
+ return {q:'Calculate the volume of the water needed to dilute '+v1+' '+C3+' of '+c1+' M '+nm(k)+' solution to '+c2+' M.',ram:null,unit:'cm3',ans,sf:3,vis:dilVis(v1,V2,c1+' M',c2+' M'),
+ steps:[st('Moles stay the same','Water adds no solute, so moles before = moles after.',['c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>']),
+  st('Find the final volume, V<sub>2</sub>','',['V<sub>2</sub> = (c<sub>1</sub> × V<sub>1</sub>) ÷ c<sub>2</sub>','= ('+c1+' × '+v1+') ÷ '+c2+' = '+mk(g(V2)+' '+C3)]),
+  st('Find the water added','V<sub>2</sub> is the TOTAL volume. The water is only the extra part.',[g(V2)+' − '+v1+' = '+mk(ansTxt(ans,3,'cm3'))]),
+  st('Sense check','Do not answer with V<sub>2</sub>. The question asks for the water, which is V<sub>2</sub> − V<sub>1</sub>.',['✓ '+v1+' + '+fin(ans,3)+' = '+g(V2)+' '+C3])]};}
+const SALT=(f,eq)=>f;
+const eqNaCl='NaCl → Na<sup>+</sup> + Cl<sup>−</sup>',eqCa='CaCl<sub>2</sub> → Ca<sup>2+</sup> + 2Cl<sup>−</sup>',eqMg='MgCl<sub>2</sub> → Mg<sup>2+</sup> + 2Cl<sup>−</sup>';
+const TYPES=[
+{id:'t1',title:'Concentration from mass and volume',idea:'mass concentration (g dm<sup>−3</sup>) = mass (g) ÷ volume (dm<sup>3</sup>)',tip:'Always change cm³ to dm³ first.',build:bT1,
+ demo:['NaCl','5.70','500.0'],qs:[['glucose','18.0','250.0'],['NaOH','4.00','100.0'],['CuSO4','12.5','250.0'],['Na2CO3','2.65','50.0'],['KMnO4','0.790','25.0']]},
+{id:'t2',title:'Concentration from moles and volume',idea:'molarity, c (mol dm<sup>−3</sup>) = moles, n ÷ volume, V (dm<sup>3</sup>)',tip:'Always change cm³ to dm³ first.',build:bT2,
+ demo:['Na2CO3','0.25','100.0'],qs:[['HCl','0.050','250.0'],['NaOH','0.125','500.0'],['H2SO4','0.0200','25.0'],['KCl','1.50','750.0'],['AgNO3','0.00350','20.0']]},
+{id:'t3',title:'Mass concentration to molarity',idea:'molarity = mass concentration ÷ M<sub>r</sub>',tip:'g dm⁻³ ÷ g mol⁻¹ = mol dm⁻³',build:bT3,
+ demo:['ZnNO32','75.0'],qs:[['NaCl','29.25'],['NaOH','20.0'],['H2SO4','49.0'],['KMnO4','15.8'],['CuSO4','80.0']]},
+{id:'t4',title:'Molarity to mass concentration',idea:'mass concentration = molarity × M<sub>r</sub>',tip:'mol dm⁻³ × g mol⁻¹ = g dm⁻³',build:bT4,
+ demo:['CaCl2','2.0',{sf:3}],qs:[['NaOH','0.500'],['HCl','0.100'],['Na2CO3','0.250'],['H2SO4','0.0500'],['KMnO4','0.0200']]},
+{id:'t5',title:'Mass of solute in a solution',idea:'n = c × V (dm<sup>3</sup>), then mass = n × M<sub>r</sub>',tip:'Two steps: moles first, then mass.',build:bT5,
+ demo:['K2Cr2O7','0.25','100.0'],qs:[['NaOH','0.100','250.0'],['Na2CO3','0.200','500.0'],['KMnO4','0.0200','100.0'],['CuSO4','0.500','20.0'],['NaCl','0.154','1000.0']]},
+{id:'t6',title:'Moles of solute in a solution',idea:'mass = mass conc. × V (dm<sup>3</sup>), then n = mass ÷ M<sub>r</sub>',tip:'Two steps: mass first, then moles.',build:bT6,
+ demo:['K2CO3','56.0','250.0'],qs:[['NaCl','11.7','100.0'],['NaOH','16.0','250.0'],['H2SO4','49.0','50.0'],['Na2CO3','53.0','500.0'],['CuSO4','79.8','20.0']]},
+{id:'t7',title:'Volume of solution from molarity and moles',idea:'volume (dm<sup>3</sup>) = moles ÷ molarity',tip:'Check the unit the question asks for: dm³ or cm³.',build:bT7,
+ demo:['Na2SO4','0.50','0.40','dm3'],qs:[['HCl','2.0','0.50','dm3'],['NaOH','0.250','0.0500','dm3'],['AgNO3','0.100','0.0250','cm3'],['KCl','1.50','3.00','dm3'],['KMnO4','0.0500','0.00125','cm3']]},
+{id:'t8',title:'Volume of solution from mass concentration and moles',idea:'c = mass conc. ÷ M<sub>r</sub>, then V = n ÷ c',tip:'Turn g dm⁻³ into mol dm⁻³ first.',build:bT8,
+ demo:['K2SO4','80.0','0.50','dm3',{sf:3}],qs:[['NaOH','40.0','0.200','dm3'],['NaCl','58.5','0.250','dm3'],['Na2CO3','21.2','0.0500','dm3'],['CuSO4','39.9','0.0125','cm3'],['H2SO4','9.81','0.0200','dm3']]},
+{id:'t9',title:'Molarity from percentage by mass and density',idea:'mass conc. = density × 1000 × (% ÷ 100), then ÷ M<sub>r</sub>',tip:'Remember × 1000 to go from g cm⁻³ to g dm⁻³.',build:bT9,
+ demo:['HNO3','concentrated nitric acid','1.51','68.0'],qs:[['HCl','concentrated hydrochloric acid','1.18','36.0'],['H2SO4','concentrated sulphuric acid','1.84','98.0'],['NaOH','concentrated sodium hydroxide solution','1.52','50.0'],['CH3COOH','glacial ethanoic acid','1.05','99.0'],['NH3','concentrated ammonia solution','0.880','35.0']]},
+{id:'t10',title:'Ions in a mixed solution: add the moles',idea:'c(ion) = total moles of ion ÷ total volume',tip:'Count ions per formula unit: CaCl₂ gives 2 Cl⁻.',build:bT10,
+ demo:['KCl','100.0','0.50',1,'KCl → K<sup>+</sup> + Cl<sup>−</sup>','CaCl2','100.0','0.25',2,eqCa,'Cl<sup>−</sup>'],
+ qs:[['NaCl','50.0','0.20',1,eqNaCl,'MgCl2','50.0','0.10',2,eqMg,'Cl<sup>−</sup>'],
+  ['HCl','100.0','0.30',1,'HCl → H<sup>+</sup> + Cl<sup>−</sup>','CaCl2','50.0','0.20',2,eqCa,'Cl<sup>−</sup>'],
+  ['KCl','200.0','0.25',1,'KCl → K<sup>+</sup> + Cl<sup>−</sup>','AlCl3','300.0','0.10',3,'AlCl<sub>3</sub> → Al<sup>3+</sup> + 3Cl<sup>−</sup>','Cl<sup>−</sup>'],
+  ['Na2SO4','25.0','0.40',2,'Na<sub>2</sub>SO<sub>4</sub> → 2Na<sup>+</sup> + SO<sub>4</sub><sup>2−</sup>','NaCl','75.0','0.20',1,eqNaCl,'Na<sup>+</sup>'],
+  ['CaNO32','150.0','0.10',2,'Ca(NO<sub>3</sub>)<sub>2</sub> → Ca<sup>2+</sup> + 2NO<sub>3</sub><sup>−</sup>','KNO3','100.0','0.20',1,'KNO<sub>3</sub> → K<sup>+</sup> + NO<sub>3</sub><sup>−</sup>','NO<sub>3</sub><sup>−</sup>']]},
+{id:'t11',title:'Ions in a mixed solution: charge balance',idea:'total (+) charge = total (−) charge, charge = z × c',tip:'Ion charge number × molarity, on each side.',build:bT11,
+ demo:['In a solution containing magnesium chloride and iron(III) chloride, the molarities of magnesium ions and chloride ions are 0.05 M and 0.40 M respectively. What is the molarity of iron(III) ions in the solution?','Fe<sup>3+</sup>',3,'cation',[['Mg<sup>2+</sup>',2,'0.05']],[['Cl<sup>−</sup>',1,'0.40']]],
+ qs:[['A solution contains calcium chloride and aluminium chloride. The molarities of calcium ions and chloride ions are 0.10 M and 0.80 M respectively. What is the molarity of aluminium ions?','Al<sup>3+</sup>',3,'cation',[['Ca<sup>2+</sup>',2,'0.10']],[['Cl<sup>−</sup>',1,'0.80']]],
+  ['A solution contains sodium chloride and zinc chloride. The molarities of sodium ions and chloride ions are 0.30 M and 0.70 M respectively. What is the molarity of zinc ions?','Zn<sup>2+</sup>',2,'cation',[['Na<sup>+</sup>',1,'0.30']],[['Cl<sup>−</sup>',1,'0.70']]],
+  ['A solution contains potassium sulphate and aluminium sulphate. The molarities of potassium ions and sulphate ions are 0.20 M and 0.50 M respectively. What is the molarity of aluminium ions?','Al<sup>3+</sup>',3,'cation',[['K<sup>+</sup>',1,'0.20']],[['SO<sub>4</sub><sup>2−</sup>',2,'0.50']],{sf:3}],
+  ['A solution contains iron(II) chloride and iron(III) chloride. The molarities of iron(II) ions and chloride ions are 0.20 M and 0.70 M respectively. What is the molarity of iron(III) ions?','Fe<sup>3+</sup>',3,'cation',[['Fe<sup>2+</sup>',2,'0.20']],[['Cl<sup>−</sup>',1,'0.70']]],
+  ['A solution contains sodium nitrate and sodium sulphate. The molarities of nitrate ions and sodium ions are 0.20 M and 0.60 M respectively. What is the molarity of sulphate ions?','SO<sub>4</sub><sup>2−</sup>',2,'anion',[['NO<sub>3</sub><sup>−</sup>',1,'0.20']],[['Na<sup>+</sup>',1,'0.60']]]]},
+{id:'t12',title:'Dilution: find the final molarity',idea:'c<sub>1</sub>V<sub>1</sub> = c<sub>2</sub>V<sub>2</sub>, so c<sub>2</sub> = c<sub>1</sub>V<sub>1</sub> ÷ V<sub>2</sub>',tip:'Moles do not change when you add water.',build:bT12,
+ demo:['HCl','5.0','50','500.0','to'],qs:[['NaOH','2.0','25.0','250.0','to'],['HCl','12.0','10.0','1000.0','to'],['KCl','0.500','20.0','80.0','add'],['NaCl','1.50','100.0','750.0','to'],['H2SO4','18.0','5.00','900.0','to']]},
+{id:'t13',title:'Dilution: find the original molarity',idea:'c<sub>1</sub> = c<sub>2</sub>V<sub>2</sub> ÷ V<sub>1</sub>',tip:'The original is always the stronger solution.',build:bT13,
+ demo:['HCl','0.20','25.0','250.0','to'],qs:[['NaOH','0.150','10.0','100.0','to'],['H2SO4','0.080','20.0','500.0','to'],['KOH','0.250','50.0','150.0','add'],['HNO3','0.320','5.00','250.0','to'],['CuSO4','0.0600','25.0','100.0','to']]},
+{id:'t14',title:'Dilution: water required',idea:'V<sub>2</sub> = c<sub>1</sub>V<sub>1</sub> ÷ c<sub>2</sub>, then water = V<sub>2</sub> − V<sub>1</sub>',tip:'V₂ is the total volume, not the water.',build:bT14,
+ demo:['CuSO4','3.0','100.0','0.5'],qs:[['HCl','2.0','50.0','0.50'],['NaOH','4.00','25.0','0.100'],['H2SO4','18.0','10.0','1.00'],['KCl','1.20','200.0','0.400'],['AgNO3','0.80','20.0','0.050']]}
+];
+const GROUPS=[
+ {tab:'calc',tier:1,name:'Calculating concentration',types:['t1','t2']},
+ {tab:'calc',tier:1,name:'Mass concentration and molarity inter-conversion',types:['t3','t4']},
+ {tab:'calc',tier:1,name:'Moles and mass of solute in a solution',types:['t5','t6']},
+ {tab:'calc',tier:1,name:'Volume of solution',types:['t7','t8']},
+ {tab:'calc',tier:2,name:'Molarity from percentage by mass and density',types:['t9']},
+ {tab:'calc',tier:2,name:'Concentration of ions in a mixed solution',types:['t10','t11']},
+ {tab:'dil',tier:1,name:'Final and original molarity after dilution',types:['t12','t13']},
+ {tab:'dil',tier:2,name:'Water required for dilution',types:['t14']}
+];
+function compute(def,args){let a=args.slice(),o=a[a.length-1];let ov=null;if(Object.prototype.toString.call(o)==='[object Object]'){ov=o;a=a.slice(0,-1);}const r=def.build(...a);if(ov&&ov.sf)r.sf=ov.sf;r.text=ansTxt(r.ans,r.sf,r.unit);return r;}
+function check(q,raw){const s=String(raw).trim().replace(/−/g,'-').replace(/,/g,'.').replace(/\s+/g,'');
+ if(!s)return 'empty';if(!/^(\d+\.?\d*|\.\d+)(e-?\d+)?$/i.test(s))return 'nan';
+ const x=parseFloat(s),rel=Math.abs(x-q.ans)/q.ans;if(rel<=0.015)return 'ok';if(rel<=0.05)return 'close';
+ const r=x/q.ans;if(Math.abs(r-1000)<30||Math.abs(r-0.001)<0.00003)return 'k1000';return 'no';}
+return {TYPES,GROUPS,compute,check,mr,fin,UNITS};
+})();
+</script>
+<script>
+(function(){
+'use strict';
+const RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+const $=(s,r)=>(r||document).querySelector(s);
+const NS='http://www.w3.org/2000/svg';
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function tween(from,to,ms,fn){if(RM||!ms){fn(to);return;}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-k,3);fn(from+(to-from)*e);if(k<1)requestAnimationFrame(f);})(t0);}
+let uid=0;
+function makeBeaker(maxDots,seed){
+ maxDots=maxDots||40;let s=(seed||3)*9301+49297;const rnd=()=>{s=(s*9301+49297)%233280;return s/233280;};
+ const id='bk'+(++uid),wrap=el('div','bkwrap');
+ wrap.innerHTML='<svg viewBox="0 0 120 140" focusable="false" aria-hidden="true"><defs><clipPath id="'+id+'"><path d="M22 12V120Q22 130 32 130H88Q98 130 98 120V12Z"/></clipPath></defs><g clip-path="url(#'+id+')"><rect class="liq" x="22" y="130" width="76" height="0"/><g class="dots"></g></g><path class="glass" d="M18 8V120Q18 134 32 134H88Q102 134 102 120V8"/><path class="tick" d="M98 40H88M98 70H90M98 100H88"/></svg>';
+ const liq=$('.liq',wrap),g=$('.dots',wrap),dots=[];
+ for(let i=0;i<maxDots;i++){const c=document.createElementNS(NS,'circle');c.setAttribute('class','dot');c.setAttribute('r','2.7');c.setAttribute('cx',(28+rnd()*64).toFixed(1));c.style.animationDelay=(i%7*.35)+'s';g.appendChild(c);dots.push({c,fy:rnd()});}
+ const api={el:wrap,lvl:0,n:0};
+ function draw(v){const h=118*v;liq.setAttribute('y',130-h);liq.setAttribute('height',h);dots.forEach((d,i)=>{d.c.setAttribute('cy',(124-d.fy*Math.max(h-14,0)).toFixed(1));d.c.style.visibility=(i<api.n&&h>16)?'visible':'hidden';});}
+ api.set=function(lvl,n,tint,animate){api.n=Math.min(maxDots,Math.round(n));liq.style.opacity=(.3+.7*(tint==null?1:tint)).toFixed(2);tween(api.lvl,lvl,animate?650:0,v=>{api.lvl=v;draw(v);});api.lvl=lvl;draw(lvl);};
+ return api;}
+function fig(lvl,n,tint,cap,seed,animate){const f=el('figure','bkfig');const b=makeBeaker(40,seed);f.appendChild(b.el);f.appendChild(el('figcaption','',cap));b.set(lvl,n,tint,animate);f.b=b;return f;}
+function renderVis(v){
+ const d=el('div','vis');d.setAttribute('aria-hidden','true');
+ if(v.k==='one')d.appendChild(fig(v.lvl,v.dots,1,v.cap,5));
+ else if(v.k==='dil'){d.appendChild(fig(v.l1,v.dots,1,v.c1,7));d.appendChild(el('span','op','+ water →'));d.appendChild(fig(v.l2,v.dots,v.tint,v.c2,7));}
+ else if(v.k==='mix'){d.appendChild(fig(.4,8,1,v.a,2));d.appendChild(el('span','op','+'));d.appendChild(fig(.4,8,1,v.b,9));d.appendChild(el('span','op','='));d.appendChild(fig(.8,16,.8,v.r,4));}
+ else if(v.k==='bal'){const col=(items,t)=>{const tot=Math.max(1e-9,items.reduce((s,x)=>s+Math.max(0,x.v),0));const c=el('div','balcol');const st=el('div','stack');items.forEach(x=>{const p=el('div',x.unk?'unk':'',x.l);p.style.flex=Math.max(0.15,x.v)+' 1 0';st.appendChild(p);});c.appendChild(st);c.appendChild(el('div','',t));return c;};
+  const mx=Math.max(v.left.reduce((s,x)=>s+x.v,0),v.right.reduce((s,x)=>s+x.v,0));const b=el('div','bal');const l=col(v.left,v.lt),r=col(v.right,v.rt);
+  [l,r].forEach((c,i)=>{const tot=(i?v.right:v.left).reduce((s,x)=>s+x.v,0);c.firstChild.style.height=(8*tot/mx).toFixed(2)+'rem';});b.appendChild(l);b.appendChild(r);d.appendChild(b);}
+ return d;}
+function mountSteps(host,q,startOpen){
+ host.hidden=false;host.innerHTML='';let i=0;const n=q.steps.length;
+ const bar=el('div','stepsbar');const count=el('span');const track=el('span','track');const fill=el('i');track.appendChild(fill);bar.append(count,track);
+ const list=el('ol','stepList');list.setAttribute('aria-live','polite');
+ const btns=el('div','stepBtns');
+ const next=el('button','btn','Next step');next.type='button';
+ const all=el('button','btn ghost','Show all steps');all.type='button';
+ const again=el('button','btn ghost','Start again');again.type='button';again.hidden=true;
+ btns.append(next,all,again);host.append(bar,list,btns);
+ function addStep(k){const s=q.steps[k];const li=el('li','step');li.innerHTML='<span class="sn" aria-hidden="true">'+(k+1)+'</span><div class="sb"><strong class="st"><span class="sr-only">Step '+(k+1)+': </span>'+s.title+'</strong>'+(s.say?'<p class="say">'+s.say+'</p>':'')+s.calc.map((c,j)=>'<div class="calc" style="--i:'+j+'">'+c+'</div>').join('')+'</div>';list.appendChild(li);return li;}
+ function finish(){const li=el('li','step final');li.innerHTML='<span class="sn" aria-hidden="true">✓</span><div class="sb"><strong class="st">Answer</strong><div class="calc big" style="--i:0"><mark>'+q.text+'</mark></div><p class="say">Check the unit and the significant figures.</p></div>';list.appendChild(li);}
+ function upd(){count.textContent=i>=n?'All '+n+' steps shown':'Step '+i+' of '+n;fill.style.width=(100*i/n)+'%';next.hidden=all.hidden=i>=n;again.hidden=i<n;}
+ function showNext(){if(i>=n)return;const li=addStep(i);i++;if(i===n)finish();upd();li.scrollIntoView({block:'nearest',behavior:RM?'auto':'smooth'});}
+ next.onclick=showNext;
+ all.onclick=function(){while(i<n)showNext();again.focus();};
+ again.onclick=function(){list.innerHTML='';i=0;upd();showNext();next.focus();};
+ upd();if(startOpen!==false)showNext();}
+window.CWUI={el,fig,makeBeaker,renderVis,mountSteps,tween,RM,$};
+
+/* ---------- intro widgets ---------- */
+const hb=makeBeaker(40,4);$('#heroBk').appendChild(hb.el);hb.set(.7,16,1,false);
+const dv=$('#dilVsConc');dv.appendChild(fig(.7,4,.35,'<b>250 cm³</b>dilute',11));dv.appendChild(fig(.7,16,1,'<b>250 cm³</b>concentrated',12));
+const gn=$('#gluNa');gn.appendChild(fig(.7,10,1,'<b>Glucose</b>0.100 mol dm⁻³',13));gn.appendChild(fig(.7,31,1,'<b>Sodium chloride</b>0.308 mol dm⁻³',14));
+// particles
+(function(){const P=$('#particles');function box(moving){const f=el('figure');let h='<svg viewBox="0 0 160 110" focusable="false">';let r=17;const rnd=()=>{r=(r*9301+49297)%233280;return r/233280;};
+ if(!moving){for(let y=0;y<4;y++)for(let x=0;x<5;x++)h+='<circle class="pdot" cx="'+(30+x*25)+'" cy="'+(22+y*22)+'" r="6"/>';}
+ else for(let i=0;i<14;i++)h+='<circle class="pdot pmove" cx="'+(14+rnd()*132).toFixed(0)+'" cy="'+(14+rnd()*82).toFixed(0)+'" r="6" style="--dx:'+((rnd()-.5)*40).toFixed(0)+'px;--dy:'+((rnd()-.5)*40).toFixed(0)+'px;--t:'+(2+rnd()*2).toFixed(1)+'s"/>';
+ f.innerHTML=h+'</svg><figcaption>'+(moving?'<b>In solution:</b> particles move and collide everywhere.':'<b>Solid:</b> particles locked in place.')+'</figcaption>';return f;}
+ P.append(box(false),box(true));})();
+// dose planner (paracetamol, simplified: body fluid = 0.9 L per kg)
+(function(){const m=$('#mass');function upd(){const kg=+m.value,V=.9*kg,lo=Math.round(10*V/10)*10,hi=Math.round(20*V/10)*10,c=500/V;$('#massV').textContent=kg;
+ $('#doseOut').innerHTML='body fluid \u2248 0.9 \u00d7 '+kg+' kg = '+V.toFixed(1)+' L<br>dose for 10 mg/L = 10 \u00d7 '+V.toFixed(1)+' \u2248 '+lo+' mg<br>dose for 20 mg/L = 20 \u00d7 '+V.toFixed(1)+' \u2248 '+hi+' mg<br><mark>therapeutic dose \u2248 '+lo+' to '+hi+' mg</mark>';
+ const pos=Math.min(1,Math.sqrt(c/150));const mk=$('#marker');mk.style.left=(pos*100)+'%';mk.textContent=c.toFixed(1)+' mg/L';
+ let cls,txt;if(c<10){cls='v-low';txt='One tablet gives '+c.toFixed(1)+' mg/L: below the therapeutic window, so it may not relieve pain.';}else if(c<=20){cls='v-ok';txt='\u2713 One tablet gives '+c.toFixed(1)+' mg/L: inside the therapeutic window.';}else{cls='v-tox';txt='\u26A0 One tablet gives '+c.toFixed(1)+' mg/L: above the therapeutic window. Too much for this body size, which is why doses follow body mass.';}
+ const v=$('#verdict');v.className='verdict '+cls;v.textContent=txt;}
+ m.oninput=upd;$('#preAdult').onclick=()=>{m.value=70;upd();};$('#preChild').onclick=()=>{m.value=20;upd();};upd();})();
+// formula triangles
+function triangle(host,top,bl,br,rules){
+ const svgL=s=>s.replace(/<sub>(.*?)<\/sub>/g,'<tspan dy="6" font-size="16">$1</tspan>');
+ host.innerHTML='<svg class="tri" viewBox="0 0 220 160" aria-hidden="true"><polygon points="110,10 212,150 8,150"/><line x1="56" y1="84" x2="164" y2="84"/><line x1="110" y1="84" x2="110" y2="150"/><text data-p="t" x="110" y="64">'+svgL(top)+'</text><text data-p="l" x="68" y="130">'+svgL(bl)+'</text><text data-p="r" x="152" y="130">'+svgL(br)+'</text></svg><div class="triCtl" role="group" aria-label="Cover one letter"></div><p class="out" role="status">Press a button to cover one letter.</p>';
+ const ctl=$('.triCtl',host),out=$('.out',host),keys=[['t',top],['l',bl],['r',br]];
+ keys.forEach(([k,lab])=>{const b=el('button','','Cover '+lab);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=function(){$all('button',ctl).forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');
+  $all('text',host).forEach(t=>{t.setAttribute('class',t.dataset.p===k?'cov':'');t.innerHTML=t.dataset.p===k?'?':svgL(({t:top,l:bl,r:br})[t.dataset.p]);});out.innerHTML=rules[k];};ctl.appendChild(b);});}
+function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));}
+window.CWUI.$all=$all;
+triangle($('#tri1'),'n','c','V',{t:'n = c × V',l:'c = n ÷ V',r:'V = n ÷ c'});
+triangle($('#tri2'),'m','n','M<sub>r</sub>',{t:'m = n × M<sub>r</sub>',l:'n = m ÷ M<sub>r</sub>',r:'M<sub>r</sub> = m ÷ n'});
+// converter
+(function(){const a=$('#cvCm'),b=$('#cvDm'),o=$('#cvOut');function show(){const x=parseFloat(a.value);o.innerHTML=isNaN(x)?'Type a number.':x+' cm³ ÷ 1000 = <mark>'+Number((x/1000).toPrecision(8))+' dm³</mark><br>The decimal point moves 3 places to the left.';}
+ a.oninput=function(){const x=parseFloat(a.value);if(!isNaN(x))b.value=Number((x/1000).toPrecision(8));show();};
+ b.oninput=function(){const x=parseFloat(b.value);if(!isNaN(x)){a.value=Number((x*1000).toPrecision(8));show();}};show();})();
+// explorer
+(function(){const bk=makeBeaker(40,6);$('#expViz').appendChild(bk.el);const N=$('#expN'),V=$('#expV');let first=true;
+ function upd(){const n=+N.value,v=+V.value,c=n/(v/1000);$('#expNv').textContent=n.toFixed(2);$('#expVv').textContent=v;
+ $('#expOut').innerHTML='c = n ÷ V = '+n.toFixed(2)+' ÷ '+(v/1000).toFixed(3)+' = <mark>'+c.toFixed(2)+' mol dm<sup>−3</sup></mark>';
+ bk.set(.2+.75*(v-100)/900,n*60,.25+.75*Math.min(1,c/5),!first);first=false;}
+ N.oninput=V.oninput=upd;upd();})();
+// dilution explorer
+(function(){const host=$('#dilViz');const f1=fig(.35,12,1,'<b>100 cm³</b>2.0 M',7,false),f2=fig(.5,12,1,'',7,false);host.append(f1,f2);const cap=f2.querySelector('figcaption');const V=$('#dilV');let first=true;
+ function upd(){const v=+V.value,c=.2/(v/1000);$('#dilVv').textContent=v;cap.innerHTML='<b>'+v+' cm³</b>'+c.toFixed(2)+' M';
+ $('#dilOut').innerHTML='n = 2.0 × 0.100 = 0.20 mol (fixed)<br>c<sub>2</sub> = 0.20 ÷ '+(v/1000).toFixed(3)+' = <mark>'+c.toFixed(2)+' mol dm<sup>−3</sup></mark><br>Water added = '+v+' − 100 = '+(v-100)+' cm³';
+ f2.b.set(Math.min(.95,.35+.6*(1-100/v)),12,Math.max(.18,100/v),!first);first=false;}
+ V.oninput=upd;upd();})();
+})();
+</script>
+<script>
+(function(){
+'use strict';
+const {el,renderVis,mountSteps,$all,$,RM}=window.CWUI;
+const TYPES={};CW.TYPES.forEach(t=>TYPES[t.id]=t);
+let done={};try{done=JSON.parse(localStorage.getItem('cw-progress')||'{}')||{};}catch(e){done={};}
+function save(){try{localStorage.setItem('cw-progress',JSON.stringify(done));}catch(e){}}
+function updProgress(){let total=0;CW.TYPES.forEach(t=>{let c=0;for(let i=1;i<=5;i++)if(done[t.id+'-'+i])c++;total+=c;const p=document.querySelector('[data-prog="'+t.id+'"]');if(p)p.textContent=c+' / 5 correct';});
+ $('#overallTxt').textContent=total+' of 70 practice questions correct';$('#overallBar').style.width=(total/70*100)+'%';}
+function ramHTML(q){return q.ram?'<p class="ram"><span>Relative atomic mass (RAM):</span> '+q.ram.map(r=>'<span class="chip">'+r[0]+' = '+r[1]+'</span>').join(' ')+'</p>':'';}
+function qHead(q){return '<div class="qlay"><div class="qtx"><p class="qq">'+q.q+'</p>'+ramHTML(q)+'</div></div>';}
+function buildDemo(def){
+ const q=CW.compute(def,def.demo);const d=el('div','demo');
+ d.innerHTML='<p class="demoLab">Worked example</p>'+qHead(q);
+ const steps=el('div','steps');steps.hidden=true;const b=el('button','btn','Walk me through it');b.type='button';
+ b.onclick=function(){b.hidden=true;mountSteps(steps,q,true);};
+ const wrap=el('div','stepBtns');wrap.appendChild(b);d.append(wrap,steps);return d;}
+const MSG={empty:'Type your answer first.',nan:'Enter a number only, for example 0.25. The unit is shown for you.',
+ close:'Very close, but not within rounding. Keep every digit on your calculator until the last step, and check your M<sub>r</sub>.',
+ k1000:'Your digits are right but the size is off by a factor of 1000. Check the cm³ and dm³ conversion.'};
+function buildPractice(def,args,idx){
+ const q=CW.compute(def,args),qid=def.id+'-'+idx,li=el('div','q');let tries=0;
+ if(done[qid])li.classList.add('done');
+ li.innerHTML='<div class="qhead"><span>Question '+idx+' of 5</span><span class="status" role="status"></span></div>'+qHead(q);
+ const inId='in-'+qid,form=el('form','ans');form.noValidate=true;
+ form.innerHTML='<div class="fld"><label for="'+inId+'">Your answer</label><div class="fieldrow"><input type="text" inputmode="decimal" autocomplete="off" id="'+inId+'"><span class="unit">'+CW.UNITS[q.unit]+'</span></div></div><button type="submit" class="btn">Check</button>';
+ const help=el('button','btn ghost','Show me how');help.type='button';help.setAttribute('aria-expanded','false');form.appendChild(help);
+ const fb=el('p','fb');fb.setAttribute('role','status');const steps=el('div','steps');steps.hidden=true;
+ const status=li.querySelector('.status');
+ function setDone(){done[qid]=true;save();li.classList.add('done');status.textContent='✓ Correct';updProgress();li.dispatchEvent(new CustomEvent('cw-done',{bubbles:true}));}
+ if(done[qid])status.textContent='✓ Correct';
+ form.onsubmit=function(e){e.preventDefault();const r=CW.check(q,$('#'+inId).value);fb.className='fb';
+  if(r==='ok'){fb.classList.add('ok');fb.innerHTML='✓ Correct! <mark>'+q.text+'</mark>';setDone();}
+  else if(MSG[r]){fb.classList.add('bad');fb.innerHTML=(r==='empty'||r==='nan'?'':'✖ ')+MSG[r];}
+  else{tries++;fb.classList.add('bad');fb.innerHTML='✖ Not quite. '+(tries>=2?'Hint: start with “'+q.steps[0].title+'”, then press Show me how.':'Check your working, or press Show me how.');}};
+ help.onclick=function(){const open=help.getAttribute('aria-expanded')==='true';if(open){steps.hidden=true;steps.innerHTML='';help.setAttribute('aria-expanded','false');help.textContent='Show me how';}else{mountSteps(steps,q,true);help.setAttribute('aria-expanded','true');help.textContent='Hide help';}};
+ li.append(form,fb,steps);return li;}
+function renderBody(def,body){
+ body.appendChild(el('div','idea','<span class="formula">'+def.idea+'</span><span class="t">'+def.tip+'</span>'));
+ const items=[buildDemo(def)].concat(def.qs.map((a,i)=>buildPractice(def,a,i+1)));
+ const tl=el('div','sub');tl.setAttribute('role','tablist');tl.setAttribute('aria-label',def.title+': worked example and practice questions');
+ const btns=[],panels=[];
+ function sel(i,focus){btns.forEach((b,j)=>{b.setAttribute('aria-selected',String(i===j));b.tabIndex=i===j?0:-1;panels[j].hidden=i!==j;});if(focus)btns[i].focus();}
+ function mark(i){if(i>0&&!btns[i].querySelector('.chk'))btns[i].insertAdjacentHTML('beforeend',' <span class="chk"><span aria-hidden="true">\u2713</span><span class="sr-only"> correct</span></span>');}
+ items.forEach((it,i)=>{const id=def.id+'-s'+i;
+  const b=el('button','subtab',i?'Q'+i:'Example');b.type='button';b.setAttribute('role','tab');b.id='st-'+id;b.setAttribute('aria-controls','sp-'+id);
+  b.onclick=()=>sel(i);b.onkeydown=function(e){let j=null;const n=items.length;if(e.key==='ArrowRight')j=(i+1)%n;else if(e.key==='ArrowLeft')j=(i+n-1)%n;else if(e.key==='Home')j=0;else if(e.key==='End')j=n-1;if(j!==null){e.preventDefault();sel(j,true);}};
+  const p=el('div','subpanel');p.id='sp-'+id;p.setAttribute('role','tabpanel');p.setAttribute('aria-labelledby',b.id);p.appendChild(it);
+  if(i<items.length-1){const nx=el('button','btn ghost nextq',i?'Next question':'Start practice');nx.type='button';nx.onclick=()=>{sel(i+1,false);btns[i+1].scrollIntoView({block:'nearest'});};p.appendChild(nx);}
+  btns.push(b);panels.push(p);tl.appendChild(b);});
+ body.appendChild(tl);panels.forEach(p=>body.appendChild(p));
+ sel(0,false);for(let i=1;i<items.length;i++)if(done[def.id+'-'+i])mark(i);
+ body.addEventListener('cw-done',e=>{const i=items.indexOf(e.target);if(i>0)mark(i);});}
+function buildType(def,reg){
+ const sec=el('section','type');const h=el('h4');const btn=el('button','acc-h');btn.type='button';btn.id='h-'+def.id;btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-controls','b-'+def.id);
+ btn.innerHTML='<span class="acc-t">'+def.title+'</span><span class="acc-p" data-prog="'+def.id+'">0 / 5 correct</span><span class="chev" aria-hidden="true"></span>';
+ h.appendChild(btn);const body=el('div','acc-b');body.id='b-'+def.id;body.hidden=true;body.setAttribute('role','region');body.setAttribute('aria-labelledby',btn.id);
+ let built=false;const me={btn,body};reg.push(me);btn.onclick=function(){const open=btn.getAttribute('aria-expanded')==='true';if(!open){reg.forEach(r=>{if(r!==me){r.btn.setAttribute('aria-expanded','false');r.body.hidden=true;}});if(!built){renderBody(def,body);built=true;}}btn.setAttribute('aria-expanded',String(!open));body.hidden=open;};
+ sec.append(h,body);sec._open=btn.onclick;sec._btn=btn;return sec;}
+function mount(tab,host){const reg=[],firsts=[];
+ CW.GROUPS.filter(g=>g.tab===tab).forEach(g=>{const gh=el('div','gh');gh.innerHTML='<span class="tier">Tier '+g.tier+'</span><h3>'+g.name+'</h3>';gh.firstChild.nextSibling.style.margin='0';host.appendChild(gh);
+  g.types.forEach(id=>{const s=buildType(TYPES[id],reg);host.appendChild(s);firsts.push(s);});});
+ firsts[0]._open();}
+mount('calc',$('#mount-calc'));mount('dil',$('#mount-dil'));updProgress();
+// reset (two-step confirm, no dialogs)
+(function(){const b=$('#resetBtn');let armed=false,t;b.onclick=function(){if(!armed){armed=true;b.textContent='Click again to reset';t=setTimeout(function(){armed=false;b.textContent='Reset progress';},4000);}else{clearTimeout(t);armed=false;done={};save();b.textContent='Reset progress';$all('.q').forEach(q=>{q.classList.remove('done');q.querySelector('.status').textContent='';});$all('.fb').forEach(f=>{f.className='fb';f.innerHTML='';});$all('.chk').forEach(c=>c.remove());updProgress();}};})();
+// tabs
+const tabs=$all('.tabs > .tab');
+function show(name,focus){tabs.forEach(t=>{const on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;$('#panel-'+t.dataset.tab).hidden=!on;if(on&&focus)t.focus();});
+ try{history.replaceState(null,'','#'+name);}catch(e){}window.scrollTo(0,0);}
+tabs.forEach((t,i)=>{t.onclick=()=>show(t.dataset.tab);t.onkeydown=function(e){let j=null;if(e.key==='ArrowRight')j=(i+1)%3;else if(e.key==='ArrowLeft')j=(i+2)%3;else if(e.key==='Home')j=0;else if(e.key==='End')j=2;if(j!==null){e.preventDefault();show(tabs[j].dataset.tab,true);}};});
+$all('[data-goto]').forEach(b=>b.onclick=()=>show(b.dataset.goto,false));
+const h=(location.hash||'').slice(1);if(['what','calc','dil'].indexOf(h)>-1)show(h);
+})();
+</script>
+
+</body></html>

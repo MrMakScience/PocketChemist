@@ -1,0 +1,1175 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='dN1Be8libtz1BA+xgJe6QA==' src='https://9f3cb2ae-73c0-46d4-ab2b-efd74765de53.frame.claudeusercontent.com/xelbV3K_UQzr52bkQgWYO5egFFXjfxZsDcZhznpA742KoKS-LMpbuWI-iUl_YK2GAsIEJSSgopeDIwvXgiBM4G_oaJ0OSzhis8k1Ozc95jn36CppD9Z9fC9-64Y31O9FyGieyKq-18PREQuRkkjJD6g6h8VQhJb5i3W_Ti457lBV6lcH-oK7Y-eiVaswSdqlHVpUTy4xM-6Kz6A92v2O4Mbh6Zl39lhXk337kk3-HCq-Ywm2bEZuXF3X6m6rNXaO5Qoq_8e6CqogNGjdfDxLJ4tHfNhQjAxrRTN-VXJB6rYigc_JlvWZLE5AtqjO-1UBsFkbNnyC-nyXqpeGfAoDEWZ92cm8Cm4PUhn4HoU5HTcXT4f0K1Y48rQE_0jMm6alPQr2-g9TcQgz9qoSTjv2mGQw5KZ7_L4SbGksWru5g3vwfyRgwtANAYAsS3ygBWfrERUdcvEr0ZQ715Aa71ttEcGeJScyAX-MmQSjoWVj7JN83j5GGfeqfNikFvwXas4-nDu-q4mdNjVZ-zzOuiMZTSOFtRfHQEp6Kpk2rC8CVcZt_3DGEEjziTLuG-0sY8pgTEG3FZpV3C0GCONIEOE0a9jcluum5v2UC5SBn2WGubzKwrH4g8kNeYIhMudYF55kkZJF49vk2UX3OnCA2lAxJKLcC766r5dQhdV_r1Ks_zFxfj3s2-1xvAczRuyaTVpVCsjurKF1zKeH-W_ekkU2gA'></script></head><body>
+<title>Gas Volume Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+/* Layout: sticky topic tabs over a single reading column; each question is a card that opens into chart + steps. */
+:root {
+  --bg: #EDF3F5;
+  --surface: #FFFFFF;
+  --surface-2: #E3EDF0;
+  --ink: #10252E;
+  --muted: #465C67;
+  --line: #BFD0D7;
+  --accent: #0B6E78;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #D3ECEF;
+  --good: #166534;
+  --good-soft: #DCF3E3;
+  --bad: #A61B1B;
+  --bad-soft: #FBE3E1;
+  --warn: #7A4B00;
+  --warn-soft: #FFF0CC;
+  --viz-bg: #FFFFFF;
+  --viz-ink: #10252E;
+  --viz-muted: #4A5E68;
+  --viz-line: #C6D3D9;
+  --viz-track: #EAF0F3;
+  --c0: #1B6CB0; --c1: #C2410C; --c2: #2B7A3D; --c3: #7A3E9D; --c4: #8A6A00; --c5: #0B7285;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B181E; --surface: #13252D; --surface-2: #1B323C; --ink: #E8F1F4; --muted: #A9BEC7; --line: #2F4854;
+    --accent: #55C6D1; --accent-ink: #04242A; --accent-soft: #163A41;
+    --good: #7BDCA0; --good-soft: #14341F; --bad: #FF9E94; --bad-soft: #451B1A; --warn: #FFD27A; --warn-soft: #3A2D0A;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B181E; --surface: #13252D; --surface-2: #1B323C; --ink: #E8F1F4; --muted: #A9BEC7; --line: #2F4854;
+  --accent: #55C6D1; --accent-ink: #04242A; --accent-soft: #163A41;
+  --good: #7BDCA0; --good-soft: #14341F; --bad: #FF9E94; --bad-soft: #451B1A; --warn: #FFD27A; --warn-soft: #3A2D0A;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { font-size: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+  padding-inline: 1rem; padding-block: 0 3rem;
+}
+.wrap { max-width: 62rem; margin-inline: auto; }
+h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+sub { font-size: .72em; line-height: 0; }
+sup { font-size: .72em; line-height: 0; }
+.st { font-size: .85em; opacity: .9; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.skip { position: absolute; left: .5rem; top: -4rem; background: var(--accent); color: var(--accent-ink); padding: .6rem 1rem; border-radius: .4rem; z-index: 50; }
+.skip:focus { top: .5rem; }
+
+/* header */
+.top { display: flex; gap: 1rem 1.5rem; align-items: center; justify-content: space-between; flex-wrap: wrap; padding-block: 1.25rem 1rem; }
+.brand { display: flex; align-items: center; gap: .9rem; min-width: 0; }
+.brand svg { flex: none; width: 4.5rem; height: auto; }
+.brand h1 { font-size: clamp(1.45rem, 4.5vw, 2.1rem); font-weight: 800; letter-spacing: -.01em; }
+.brand p { color: var(--muted); font-size: .95rem; }
+.overall { min-width: 0; font-size: .95rem; color: var(--muted); display: grid; gap: .35rem; flex: 0 1 15rem; }
+.meter { height: .6rem; background: var(--surface-2); border-radius: 1rem; overflow: hidden; border: 1px solid var(--line); }
+.meter > i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .6s ease; }
+
+/* tabs */
+.tabbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); padding-block: .5rem; margin-inline: -1rem; padding-inline: 1rem; border-bottom: 1px solid var(--line); }
+.tabs { display: flex; gap: .5rem; max-width: 62rem; margin-inline: auto; }
+.tab {
+  flex: 1 1 0; min-width: 0; min-height: 3rem; padding: .55rem .9rem; text-align: left;
+  font: inherit; font-weight: 700; color: var(--ink); background: var(--surface);
+  border: 2px solid var(--line); border-radius: .6rem; cursor: pointer;
+  display: grid; gap: .1rem; line-height: 1.25;
+}
+.tab small { font-weight: 400; color: var(--muted); font-size: .85rem; }
+.tab[aria-selected="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 -4px 0 var(--accent); }
+.tab:hover { border-color: var(--accent); }
+
+/* panels */
+.panel { padding-block: 1.5rem 0; display: grid; gap: 1.5rem; }
+.panel[hidden], .tierpanel[hidden] { display: none; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: .9rem; padding: 1.25rem; min-width: 0; }
+.card h2 { font-size: 1.4rem; margin-bottom: .6rem; }
+.card h3 { font-size: 1.15rem; margin-bottom: .5rem; }
+.lead { font-size: 1.125rem; max-width: 46rem; }
+.two { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); align-items: start; }
+.two > * { min-width: 0; }
+.keyline { margin-block: .9rem; padding: .75rem 1rem; border-radius: .6rem; background: var(--accent-soft); font-weight: 700; display: flex; flex-wrap: wrap; gap: .25rem .75rem; align-items: baseline; }
+.keyline span { font-family: var(--font-mono); font-weight: 500; font-size: .95rem; }
+.note { color: var(--muted); font-size: .95rem; }
+.canvas { background: var(--viz-bg); color: var(--viz-ink); border: 1px solid var(--viz-line); border-radius: .7rem; padding: .9rem; }
+.canvas svg { display: block; max-width: 100%; height: auto; margin-inline: auto; }
+.canvas .cap { color: var(--viz-muted); font-size: .9rem; margin-top: .5rem; text-align: center; }
+
+/* lots slider */
+.lots { display: grid; gap: .75rem; }
+.lots label { font-weight: 700; color: var(--viz-ink); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.lots input[type="range"] { width: 100%; min-height: 2.75rem; accent-color: #0B6E78; }
+
+/* tier picker */
+.tiers { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
+.tier {
+  font: inherit; text-align: left; cursor: pointer; color: var(--ink); background: var(--surface);
+  border: 2px solid var(--line); border-radius: .7rem; padding: .7rem .9rem; min-height: 3.5rem; display: grid; gap: .15rem; line-height: 1.3;
+}
+.tier b { font-family: var(--font-display); font-size: 1.05rem; }
+.tier span { color: var(--muted); font-size: .9rem; }
+.tier .cnt { font-family: var(--font-mono); font-size: .85rem; color: var(--accent); font-weight: 600; }
+.tier[aria-selected="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 -4px 0 var(--accent); }
+.tier:hover { border-color: var(--accent); }
+.tierpanel { display: grid; gap: 1.25rem; }
+.method { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: .75rem 0 0; list-style: none; counter-reset: m; }
+.method li { counter-increment: m; background: var(--surface-2); border-radius: .5rem; padding: .35rem .7rem .35rem .5rem; display: flex; gap: .45rem; align-items: baseline; font-size: .98rem; }
+.method li::before { content: counter(m); font-family: var(--font-mono); font-weight: 600; background: var(--accent); color: var(--accent-ink); border-radius: 50%; width: 1.5rem; height: 1.5rem; display: inline-grid; place-items: center; font-size: .8rem; flex: none; }
+.compare { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin-top: .9rem; }
+.compare .canvas { display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: center; }
+.compare b { display: block; font-size: 1.05rem; }
+.compare span { color: var(--viz-muted); font-size: .92rem; }
+
+/* question card */
+.sechead { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.sechead h3 { font-size: 1.3rem; }
+.q { background: var(--surface); border: 1px solid var(--line); border-radius: .9rem; padding: 1.1rem; display: grid; gap: .9rem; min-width: 0; scroll-margin-top: 5rem; }
+.q.demo { border: 2px solid var(--accent); }
+.q.solved { border-color: var(--good); }
+.qhead { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.badge { font-family: var(--font-mono); font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: .25rem .6rem; border-radius: 2rem; background: var(--surface-2); color: var(--ink); }
+.demo .badge { background: var(--accent); color: var(--accent-ink); }
+.badge.ok { background: var(--good-soft); color: var(--good); }
+.prompt { max-width: 46rem; font-size: 1.08rem; }
+.eqi { font-family: var(--font-mono); font-size: .95em; white-space: nowrap; }
+.data { font-family: var(--font-mono); font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+.data b { color: var(--ink); font-weight: 600; }
+.opts { border: 0; padding: 0; margin: 0; display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); min-width: 0; }
+.opt { position: relative; display: flex; gap: .7rem; align-items: center; min-height: 3rem; padding: .5rem .8rem; border: 2px solid var(--line); border-radius: .6rem; cursor: pointer; background: var(--surface); }
+.opt input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.opt .ltr { font-family: var(--font-mono); font-weight: 600; width: 1.9rem; height: 1.9rem; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--surface-2); }
+.opt:hover { border-color: var(--accent); }
+.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opt:has(input:focus-visible) { outline: 3px solid var(--accent); outline-offset: 3px; }
+.opt.right { border-color: var(--good); background: var(--good-soft); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt .tag { margin-left: auto; font-size: .85rem; font-weight: 700; }
+.numrow { display: flex; flex-wrap: wrap; gap: .6rem; align-items: end; }
+.numrow label { flex: 1 1 100%; font-weight: 700; }
+.inwrap { display: flex; align-items: center; gap: .5rem; flex: 0 1 15rem; border: 2px solid var(--line); border-radius: .6rem; padding-inline: .8rem; background: var(--surface); min-height: 3rem; }
+.inwrap:focus-within { border-color: var(--accent); outline: 3px solid var(--accent); outline-offset: 2px; }
+.inwrap input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-family: var(--font-mono); font-size: 1.15rem; padding: .5rem 0; outline: none; }
+.inwrap .u { color: var(--muted); font-weight: 700; }
+.btn { font: inherit; font-weight: 700; min-height: 2.9rem; padding: .5rem 1.1rem; border-radius: .6rem; border: 2px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; display: inline-flex; gap: .45rem; align-items: center; justify-content: center; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn:hover:not(:disabled) { filter: brightness(1.08); }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.row { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.fb { min-height: 1.5rem; font-weight: 700; }
+.fb.ok { color: var(--good); }
+.fb.no { color: var(--bad); }
+
+/* worked solution */
+.work { display: grid; gap: 1rem; border-top: 1px dashed var(--line); padding-top: 1rem; }
+.work[hidden] { display: none; }
+@media (min-width: 52rem) { .work { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; } .work .viz { position: sticky; top: 5rem; } }
+.viz { background: var(--viz-bg); color: var(--viz-ink); border: 1px solid var(--viz-line); border-radius: .7rem; padding: .9rem; display: grid; gap: .8rem; min-width: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: .85rem; color: var(--viz-muted); }
+.legend span { display: inline-flex; gap: .35rem; align-items: center; }
+.sw { width: 1.3rem; height: .8rem; border-radius: 2px; box-shadow: inset 0 0 0 2px #46606C; }
+.sw.s1 { background: #46606C; }
+.sw.s2 { background: repeating-linear-gradient(135deg, #46606C 0 3px, #fff 3px 6px); }
+.sw.s3 { background: #fff; }
+.vrows { display: grid; gap: .8rem; min-height: 4rem; }
+.vempty { color: var(--viz-muted); font-size: .95rem; }
+.vrow { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: .15rem .6rem; align-items: center; animation: rowin .45s ease both; }
+.vlab { font-weight: 700; font-size: .98rem; line-height: 1.2; overflow-wrap: anywhere; }
+.vbar { display: grid; gap: .2rem; min-width: 0; }
+.track { height: 1.6rem; background: var(--viz-track); border-radius: .35rem; display: flex; overflow: hidden; }
+.seg { height: 100%; width: 0; flex: none; transition: width .8s cubic-bezier(.2, .8, .2, 1); }
+.seg.have, .seg.made { background: var(--gc); }
+.seg.used { background: repeating-linear-gradient(135deg, var(--gc) 0 6px, #fff 6px 11px); box-shadow: inset 0 0 0 2px var(--gc); }
+.seg.left { background: #fff; box-shadow: inset 0 0 0 2px var(--gc); }
+.vtxt { font-family: var(--font-mono); font-size: .82rem; color: var(--viz-muted); overflow-wrap: anywhere; }
+.vscale { font-size: .8rem; color: var(--viz-muted); border-top: 1px solid var(--viz-line); padding-top: .4rem; font-family: var(--font-mono); }
+@keyframes rowin { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; min-width: 0; }
+.step { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: .7rem; padding: .75rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--surface); animation: stepin .45s ease both; }
+.step.cur { border-color: var(--accent); background: var(--accent-soft); }
+.sn { width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-family: var(--font-mono); font-weight: 600; }
+.step h4 { font-size: 1.05rem; margin-bottom: .3rem; }
+.sb { display: grid; gap: .45rem; font-size: 1rem; }
+.sb .eq { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; overflow-wrap: anywhere; }
+.sb .ratio { font-family: var(--font-mono); font-size: .95rem; color: var(--muted); overflow-wrap: anywhere; }
+.sb .small { font-size: .92rem; color: var(--muted); }
+.sb .big { font-size: 1.5rem; font-family: var(--font-display); }
+.calc { list-style: none; padding: 0; margin: 0; display: grid; gap: .3rem; font-family: var(--font-mono); font-size: .95rem; }
+.calc li { padding: .3rem .55rem; background: var(--surface-2); border-radius: .4rem; overflow-wrap: anywhere; }
+.calc b { color: var(--accent); font-weight: 700; }
+.warn { background: var(--warn-soft); color: var(--warn); padding: .5rem .7rem; border-radius: .5rem; font-weight: 700; font-size: .95rem; }
+.mol { display: flex; flex-wrap: wrap; gap: .3rem; padding: .6rem; background: var(--viz-bg); border: 1px solid var(--viz-line); border-radius: .6rem; justify-content: center; }
+.atom { width: 2.6rem; height: 2.6rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-family: var(--font-display); font-size: .95rem; box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .35); animation: pop .5s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes stepin { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.final { padding: .8rem 1rem; border-radius: .7rem; background: var(--good-soft); color: var(--good); font-weight: 700; animation: stepin .45s ease both; }
+.ctrls { display: flex; flex-wrap: wrap; gap: .5rem; }
+.foot { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: center; color: var(--muted); font-size: .92rem; }
+.linkbtn { font: inherit; background: none; border: 0; color: var(--accent); text-decoration: underline; cursor: pointer; padding: .6rem .2rem; min-height: 2.75rem; }
+@media (max-width: 30rem) {
+  body { font-size: 1rem; }
+  .brand svg { width: 3.4rem; }
+  .vrow { grid-template-columns: 3.6rem minmax(0, 1fr); }
+  .card, .q { padding: .9rem; }
+  .btn { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* question tabs inside a tier */
+.qtabs { display: flex; flex-wrap: wrap; gap: .5rem; scroll-margin-top: 5rem; }
+.qtab { font: inherit; font-weight: 700; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: .6rem; min-width: 3.4rem; min-height: 2.9rem; padding: .4rem .9rem; cursor: pointer; display: inline-flex; gap: .35rem; align-items: center; justify-content: center; }
+.qtab[data-qid$="-d"] { border-color: var(--accent); }
+.qtab:hover { border-color: var(--accent); }
+.qtab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.qtab.done:not([aria-selected="true"]) { border-color: var(--good); background: var(--good-soft); color: var(--good); }
+.qtab .mk { font-weight: 800; }
+.qpanel { min-width: 0; }
+.qnext { justify-content: flex-end; }
+
+.work.single { grid-template-columns: minmax(0, 1fr); }
+
+.frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.1; margin-inline: .12em; font-size: .92em; }
+.frac .n { padding-inline: .2em; border-bottom: 1.5px solid currentColor; }
+.frac .d { padding-inline: .2em; }
+
+</style>
+
+<a class="skip" href="#main">Skip to the questions</a>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewbox="0 0 96 40" role="img" aria-label="Gas syringe">
+        <rect x="22" y="8" width="52" height="24" rx="3" style="fill:var(--accent-soft);stroke:var(--ink);stroke-width:2"/>
+        <rect x="38" y="10" width="34" height="20" style="fill:var(--c0);opacity:.85"/>
+        <g style="stroke:var(--ink);stroke-width:1.5"><path d="M46 8v5M54 8v5M62 8v5M70 8v5"/></g>
+        <rect x="35" y="10" width="5" height="20" rx="1" style="fill:var(--ink)"/>
+        <path d="M3 20h32" style="stroke:var(--ink);stroke-width:3;stroke-linecap:round"/>
+        <rect x="74" y="17" width="16" height="6" rx="2" style="fill:var(--ink)"/>
+      </svg>
+      <div>
+        <h1>Gas Volume Lab</h1>
+        <p>Pearson IAL Chemistry · calculations with gas volumes</p>
+      </div>
+    </div>
+    <div class="overall">
+      <span id="ovtxt" role="status"></span>
+      <div class="meter" aria-hidden="true"><i id="ovbar"></i></div>
+    </div>
+  </header>
+
+  <div class="tabbar">
+    <div class="tabs" role="tablist" aria-label="Topics">
+      <button class="tab" role="tab" id="tab-1" data-tab="1" aria-controls="panel-1" aria-selected="true">1 · Avogadro’s law<small>Volume ratio = mole ratio</small></button>
+      <button class="tab" role="tab" id="tab-2" data-tab="2" aria-controls="panel-2" aria-selected="false" tabindex="-1">2 · Empirical formulae<small>Gas volumes to formulae</small></button>
+    </div>
+  </div>
+
+  <main id="main">
+    <div class="panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+      <section class="card" aria-labelledby="avo-h">
+        <h2 id="avo-h">Avogadro’s law: volume tells you moles</h2>
+        <p class="lead">At the same temperature and pressure, equal volumes of any gases hold the same number of moles.</p>
+        <p class="keyline">pV = nRT <span>same p, T and V → same n</span></p>
+        <p class="lead">So gas volume is proportional to moles. You never need to convert back to moles. Read the volume ratio straight from the coefficients in the equation.</p>
+        <p class="note" style="margin-top:.6rem">Use one unit all the way through (1 dm³ = 1000 cm³). Relative atomic masses and molar volume are given only in the questions that need them.</p>
+      </section>
+      <div class="two">
+        <div class="canvas" id="avo-svg"></div>
+        <section class="card" aria-labelledby="lots-h">
+          <h3 id="lots-h">Try it: coefficients are volumes</h3>
+          <p class="note" style="margin-bottom:.8rem">N₂(g) + 3H₂(g) → 2NH₃(g). Let one lot be 10 cm³ per coefficient.</p>
+          <div class="canvas lots">
+            <label for="lots"><span>Lots of the equation</span><span id="lotsval" aria-live="polite"></span></label>
+            <input type="range" id="lots" min="1" max="10" step="1" value="2">
+            <div id="lotsviz" class="vrows"></div>
+          </div>
+        </section>
+      </div>
+      <div id="tiers-1"></div>
+    </div>
+
+    <div class="panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" hidden="">
+      <section class="card" aria-labelledby="emp-h">
+        <h2 id="emp-h">From gas volumes to formulae</h2>
+        <p class="lead">A volume ratio is a mole ratio, and a mole ratio is the ratio of coefficients. Atoms are never lost, so counting atoms on each side gives the unknown formula.</p>
+        <ol class="method" aria-label="Route">
+          <li>Volumes</li><li>Whole-number ratio</li><li>Equation</li><li>Count atoms</li><li>Formula</li>
+        </ol>
+        <p class="note" style="margin-top:.8rem">r.t.p. means room temperature and pressure. Every gas in a question is measured under the same conditions.</p>
+      </section>
+      <div id="tiers-2"></div>
+    </div>
+  </main>
+
+  <div class="foot">
+    <span>Progress is saved in this browser only.</span>
+    <button class="linkbtn" type="button" id="resetbtn">Reset progress</button>
+  </div>
+</div>
+
+<script>
+/* ===== Core helpers + Tab 1 generator (Avogadro / volume ratios) ===== */
+const AR = { H: 1.0, C: 12.0, N: 14.0, O: 16.0, S: 32.1, Cl: 35.5 };
+const EL_NAME = { H: 'Hydrogen', C: 'Carbon', N: 'Nitrogen', O: 'Oxygen', S: 'Sulfur', Cl: 'Chlorine' };
+
+function parseF(f) {
+  const out = {}; const re = /([A-Z][a-z]?)(\d*)/g; let m;
+  while ((m = re.exec(f)) !== null) {
+    if (!m[1]) continue;
+    out[m[1]] = (out[m[1]] || 0) + (m[2] ? +m[2] : 1);
+  }
+  return out;
+}
+function subF(f) { return f.replace(/(\d+)/g, '<sub>$1</sub>'); }
+function gcd(a, b) { return b ? gcd(b, a % b) : a; }
+function fn(x) { return String(+(+x).toFixed(4)); }           // tidy number
+const UNIT = { cm3: 'cm³', dm3: 'dm³' };
+function elementsOf(formulas) {
+  const s = new Set();
+  formulas.forEach(f => Object.keys(parseF(f)).forEach(e => s.add(e)));
+  return [...s].filter(e => AR[e] !== undefined);
+}
+function eqHtml(rs, ps) {
+  const side = a => a.map(([c, f, s]) => (c > 1 ? c : '') + subF(f) + (s ? '(' + s + ')' : '')).join(' + ');
+  return side(rs) + ' → ' + side(ps);
+}
+function maxScale(steps) {
+  let m = 0;
+  steps.forEach(st => (st.bars || []).forEach(b => {
+    m = Math.max(m, b.segs.reduce((a, s) => a + s.vol, 0));
+  }));
+  return m;
+}
+
+/* spec.type: 'prod' | 'total' | 'air' | 'mixfuel' | 'yield' */
+function gen1(sp) {
+  const dp = sp.dp || 0, U = UNIT[sp.unit];
+  const V = x => (+x).toFixed(dp) + ' ' + U;
+  const rs = sp.eq, ps = sp.pr;
+  const ci = {}; let k = 0;
+  [...rs, ...ps].forEach(([c, f]) => { if (!(f in ci)) ci[f] = k++; });
+  ci.air = 5; ci.mix = 4;
+  const stateOf = f => { const x = [...rs, ...ps].find(a => a[1] === f); return x ? x[2] : ''; };
+  const lab = f => subF(f) + (stateOf(f) ? '<span class="st">(' + stateOf(f) + ')</span>' : '');
+  const row = (f, segs, text, label) => ({ key: f, label: label || lab(f), ci: ci[f], segs, text });
+  const coef = f => ([...rs, ...ps].find(a => a[1] === f) || [0])[0];
+  const ratioLine = (arr) => arr.map(a => subF(a[1])).join(' : ') + ' = ' + arr.map(a => a[0]).join(' : ');
+  const steps = [];
+  const eqStep = (extra) => ({
+    title: 'Write the balanced equation',
+    html: '<p class="eq">' + eqHtml(rs, ps) + '</p><p>Same temperature and pressure, so <b>volume ratio = mole ratio = coefficient ratio</b>.</p><p class="ratio">' + ratioLine([...rs, ...ps]) + '</p>' + (extra || ''),
+    bars: []
+  });
+
+  let answer, unit = sp.unit, extraNote = '';
+  if (sp.type === 'prod' || sp.type === 'total') {
+    // limiting reagent
+    let ext = Infinity, lim = null;
+    rs.forEach(([c, f]) => { const r = sp.given[f] / c; if (r < ext - 1e-9) { ext = r; lim = f; } });
+    const startRows = () => rs.map(([c, f]) => row(f, [{ vol: sp.given[f], kind: 'have' }], V(sp.given[f]) + ' at start'));
+    const s1 = eqStep();
+    s1.bars = startRows();
+    steps.push(s1);
+    steps.push({
+      title: 'Divide each volume by its coefficient',
+      html: '<p>This shows how many "lots" of the equation each gas can supply.</p><ul class="calc">' +
+        rs.map(([c, f]) => '<li>' + subF(f) + ': ' + V(sp.given[f]) + ' ÷ ' + c + ' = <b>' + fn(sp.given[f] / c) + '</b> lots</li>').join('') + '</ul>',
+      bars: startRows()
+    });
+    const usedOf = f => coef(f) * ext;
+    const reactBars = () => rs.map(([c, f]) => {
+      const used = usedOf(f), left = sp.given[f] - used;
+      const segs = [{ vol: used, kind: 'used' }];
+      if (left > 1e-9) segs.push({ vol: left, kind: 'left' });
+      return row(f, segs, V(used) + ' used' + (left > 1e-9 ? ', ' + V(left) + ' left over' : ', none left'));
+    });
+    steps.push({
+      title: 'Pick the limiting reagent',
+      html: '<p>The <b>smallest</b> number of lots runs out first. That is <b>' + subF(lim) + '</b>, so only <b>' + fn(ext) + '</b> lots of the equation can happen.</p>',
+      bars: reactBars()
+    });
+    if (sp.type === 'prod') {
+      const pf = sp.ask, pc = coef(pf);
+      answer = ext * pc;
+      steps.push({
+        title: 'Product volume = lots × coefficient',
+        html: '<p>' + subF(pf) + ' = ' + fn(ext) + ' × ' + pc + ' = <b>' + V(answer) + '</b></p>',
+        bars: [...reactBars(), row(pf, [{ vol: answer, kind: 'made' }], V(answer) + ' made')]
+      });
+    } else {
+      const leftLines = rs.map(([c, f]) => {
+        const used = usedOf(f), left = sp.given[f] - used;
+        return '<li>' + subF(f) + ': used = ' + c + ' × ' + fn(ext) + ' = ' + fn(used) + '; left = ' + fn(sp.given[f]) + ' − ' + fn(used) + ' = <b>' + fn(left) + '</b></li>';
+      }).join('');
+      steps.push({
+        title: 'Work out what is left over',
+        html: '<p>Anything that did not react is still in the container.</p><ul class="calc">' + leftLines + '</ul>',
+        bars: reactBars()
+      });
+      const prodRows = ps.map(([c, f, s]) => {
+        const v = c * ext;
+        if (s === 'l') return row(f, [], 'liquid, not counted');
+        return row(f, [{ vol: v, kind: 'made' }], V(v) + ' made');
+      });
+      const prodLines = ps.map(([c, f, s]) => '<li>' + subF(f) + '(' + s + ') = ' + c + ' × ' + fn(ext) + ' = ' + fn(c * ext) + (s === 'l' ? ' → <b>liquid, so it takes up no gas volume</b>' : ' → gas, so it counts') + '</li>').join('');
+      steps.push({
+        title: 'Products made (check the state symbols)',
+        html: '<p>Use the same "lots × coefficient" rule.</p><ul class="calc">' + prodLines + '</ul>' + (ps.some(p => p[2] === 'l') ? '<p class="warn">H₂O(l) is a liquid. Leave it out of the gas total.</p>' : '<p class="warn">H₂O(g) is steam at this temperature. It counts as gas.</p>'),
+        bars: [...reactBars(), ...prodRows]
+      });
+      const parts = [];
+      rs.forEach(([c, f]) => { const left = sp.given[f] - usedOf(f); if (left > 1e-9) parts.push([subF(f) + ' left', left]); });
+      ps.forEach(([c, f, s]) => { if (s === 'g') parts.push([subF(f), c * ext]); });
+      answer = parts.reduce((a, p) => a + p[1], 0);
+      steps.push({
+        title: 'Add up only the gases',
+        html: '<p>' + parts.map(p => fn(p[1])).join(' + ') + ' = <b>' + V(answer) + '</b></p><p class="small">Counted: ' + parts.map(p => p[0]).join(', ') + '.</p>',
+        bars: [...reactBars(), ...prodRows]
+      });
+    }
+  } else if (sp.type === 'air') {
+    const fuel = sp.fuel, cf = coef(fuel), co = coef('O2');
+    const vf = sp.given[fuel], pct = sp.pct || 20;
+    const o2 = vf * co / cf; answer = o2 * 100 / pct;
+    const s1 = eqStep();
+    s1.bars = [row(fuel, [{ vol: vf, kind: 'have' }], V(vf) + ' to burn')];
+    steps.push(s1);
+    steps.push({
+      title: 'Find the oxygen needed',
+      html: '<p>' + subF(fuel) + ' : O₂ = ' + cf + ' : ' + co + '</p><ul class="calc"><li>O₂ = ' + fn(vf) + ' × ' + co + ' ÷ ' + cf + '</li><li>' + fn(vf) + ' × ' + co + ' = ' + fn(vf * co) + '</li><li>' + fn(vf * co) + ' ÷ ' + cf + ' = <b>' + V(o2) + '</b> of O₂</li></ul>',
+      bars: [row(fuel, [{ vol: vf, kind: 'used' }], V(vf) + ' burned'), row('O2', [{ vol: o2, kind: 'used' }], V(o2) + ' O₂ needed')]
+    });
+    steps.push({
+      title: 'Turn oxygen into air',
+      html: '<p>Only ' + pct + '% of air is oxygen. So ' + V(o2) + ' of O₂ is ' + pct + '% of the air.</p><ul class="calc"><li>1% of air = ' + fn(o2) + ' ÷ ' + pct + ' = ' + fn(o2 / pct) + '</li><li>100% of air = ' + fn(o2 / pct) + ' × 100 = <b>' + V(answer) + '</b></li></ul>',
+      bars: [row(fuel, [{ vol: vf, kind: 'used' }], V(vf) + ' burned'), row('O2', [{ vol: o2, kind: 'used' }], V(o2) + ' O₂ needed'),
+        row('air', [{ vol: o2, kind: 'have' }, { vol: answer - o2, kind: 'left' }], V(answer) + ' air', 'Air')]
+    });
+    ci.air = 5;
+  } else if (sp.type === 'mixfuel') {
+    const fuel = sp.fuel, cf = coef(fuel), co = coef('O2');
+    const vm = sp.mix, pct = sp.pct;
+    const vf = vm * pct / 100; answer = vf * co / cf;
+    const s1 = eqStep();
+    s1.bars = [row('mix', [{ vol: vf, kind: 'have' }, { vol: vm - vf, kind: 'left' }], V(vm) + ' mixture', 'Mixture')];
+    steps.push(s1);
+    steps.push({
+      title: 'Find the volume of fuel in the mixture',
+      html: '<p>' + pct + '% of ' + V(vm) + ' is ' + subF(fuel) + '. The rest (' + subF(sp.inert) + ') does not burn.</p><ul class="calc"><li>1% = ' + fn(vm) + ' ÷ 100 = ' + fn(vm / 100) + '</li><li>' + pct + '% = ' + fn(vm / 100) + ' × ' + pct + ' = <b>' + V(vf) + '</b> of ' + subF(fuel) + '</li></ul>',
+      bars: [row('mix', [{ vol: vf, kind: 'have' }, { vol: vm - vf, kind: 'left' }], V(vf) + ' ' + sp.fuelName + ' + ' + V(vm - vf) + ' inert', 'Mixture')]
+    });
+    steps.push({
+      title: 'Use the equation ratio',
+      html: '<p>' + subF(fuel) + ' : O₂ = ' + cf + ' : ' + co + '</p><ul class="calc"><li>O₂ = ' + fn(vf) + ' × ' + co + ' ÷ ' + cf + ' = <b>' + V(answer) + '</b></li></ul>',
+      bars: [row('mix', [{ vol: vf, kind: 'used' }, { vol: vm - vf, kind: 'left' }], V(vf) + ' burns', 'Mixture'), row('O2', [{ vol: answer, kind: 'used' }], V(answer) + ' O₂ needed')]
+    });
+    ci.mix = 4;
+  } else if (sp.type === 'yield') {
+    const lf = sp.lim, pf = sp.ask, cl = coef(lf), cp = coef(pf);
+    const vl = sp.given[lf], theo = vl * cp / cl; answer = theo * sp.pct / 100;
+    const s1 = eqStep('<p>' + subF(sp.excess) + ' is in excess, so <b>' + subF(lf) + '</b> limits the amount made.</p>');
+    s1.bars = [row(lf, [{ vol: vl, kind: 'have' }], V(vl) + ' at start')];
+    steps.push(s1);
+    steps.push({
+      title: 'Volume if the yield were 100%',
+      html: '<ul class="calc"><li>' + subF(pf) + ' = ' + fn(vl) + ' × ' + cp + ' ÷ ' + cl + '</li><li>' + fn(vl) + ' × ' + cp + ' = ' + fn(vl * cp) + '</li><li>' + fn(vl * cp) + ' ÷ ' + cl + ' = <b>' + V(theo) + '</b> (theoretical)</li></ul>',
+      bars: [row(lf, [{ vol: vl, kind: 'used' }], V(vl) + ' used'), row(pf, [{ vol: theo, kind: 'left' }], V(theo) + ' possible')]
+    });
+    steps.push({
+      title: 'Apply the percentage yield',
+      html: '<ul class="calc"><li>1% = ' + fn(theo) + ' ÷ 100 = ' + fn(theo / 100) + '</li><li>' + sp.pct + '% = ' + fn(theo / 100) + ' × ' + sp.pct + ' = <b>' + V(answer) + '</b></li></ul>',
+      bars: [row(lf, [{ vol: vl, kind: 'used' }], V(vl) + ' used'), row(pf, [{ vol: answer, kind: 'made' }, { vol: theo - answer, kind: 'left' }], V(answer) + ' actually made')]
+    });
+  }
+
+  const q = {
+    id: sp.id, tab: 1, tier: sp.tier, demo: !!sp.demo,
+    prompt: sp.q, kind: sp.opts ? 'mcq' : 'num', unit: U, dp,
+    answer, steps, scale: maxScale(steps),
+    ram: elementsOf([...rs, ...ps].map(a => a[1])),
+    eq: eqHtml(rs, ps)
+  };
+  if (sp.opts) {
+    q.opts = sp.opts.map(o => fn(o) + ' ' + U);
+    q.correct = sp.opts.findIndex(o => Math.abs(o - answer) < 1e-6);
+  }
+  q.answerText = V(answer);
+  return q;
+}
+
+/* ===== Tab 2 generators: gas reactions -> formulas ===== */
+
+/* gen2: simple combination / decomposition.
+   sp.reacts: [[formula, vol]] (known gases on reactant side)
+   sp.compoundVol (unknown compound volume); sp.mode 'comb' | 'decomp'
+   sp.known: [[formula, vol]] gases of known formula; unknown compound listed by sp.order (element order) */
+function gen2(sp) {
+  const U = UNIT[sp.unit];
+  const V = x => fn(x) + ' ' + U;
+  const known = sp.known, vc = sp.compoundVol, order = sp.order;
+  const all = [...known.map(a => a[1]), vc];
+  const g = all.reduce((a, b) => gcd(a, b));
+  const cK = known.map(a => a[1] / g), cU = vc / g;
+  const unknownLab = 'unknown compound';
+  const xy = order.map((e, i) => e + '<sub>' + 'xyz'[i] + '</sub>').join('');
+  const kSide = known.map((a, i) => (cK[i] > 1 ? cK[i] : '') + subF(a[0])).join(' + ');
+  const uTxt = (cU > 1 ? cU : '') + xy;
+  const eqStr = sp.mode === 'comb' ? kSide + ' → ' + uTxt : uTxt + ' → ' + kSide;
+  const ci = {}; known.forEach((a, i) => { ci[a[0]] = i; }); ci.U = 3;
+  const row = (f, vol, kind, text, label) => ({ key: f, label: label || subF(f), ci: ci[f], segs: [{ vol, kind }], text });
+  const unkRow = (kind) => row('U', vc, kind, V(vc) + ' of the compound', xy);
+  const knownRows = (kind) => known.map(a => row(a[0], a[1], kind, V(a[1])));
+  const word = sp.mode === 'comb' ? 'react to form' : 'decomposes to give';
+  const steps = [];
+  const bothRows = () => sp.mode === 'comb' ? [...knownRows('used'), unkRow('made')] : [unkRow('used'), ...knownRows('made')];
+  steps.push({
+    title: 'List the volumes',
+    html: '<p>Write what the question gives, in order:</p><ul class="calc">' +
+      (sp.mode === 'comb'
+        ? known.map(a => '<li>' + V(a[1]) + ' of ' + subF(a[0]) + '</li>').join('') + '<li>→ ' + V(vc) + ' of the compound ' + xy + '</li>'
+        : '<li>' + V(vc) + ' of the compound ' + xy + '</li>' + known.map(a => '<li>→ ' + V(a[1]) + ' of ' + subF(a[0]) + '</li>').join('')) + '</ul>',
+    bars: bothRows()
+  });
+  const vols = sp.mode === 'comb' ? [...known.map(a => a[1]), vc] : [vc, ...known.map(a => a[1])];
+  steps.push({
+    title: 'Divide by the smallest common factor',
+    html: '<p>Volume ratio = mole ratio. Divide every volume by <b>' + g + '</b> to get small whole numbers.</p><ul class="calc">' +
+      vols.map(v => '<li>' + fn(v) + ' ÷ ' + g + ' = <b>' + fn(v / g) + '</b></li>').join('') + '</ul>',
+    bars: bothRows()
+  });
+  steps.push({
+    title: 'Write the equation from the ratio',
+    html: '<p>The ratio numbers are the coefficients:</p><p class="eq">' + eqStr + '</p>',
+    bars: bothRows()
+  });
+  // atoms
+  const tot = {};
+  known.forEach((a, i) => { const p = parseF(a[0]); Object.keys(p).forEach(e => { tot[e] = (tot[e] || 0) + cK[i] * p[e]; }); });
+  const formula = {};
+  order.forEach(e => { formula[e] = tot[e] / cU; });
+  const sideLbl = sp.mode === 'comb' ? 'Left' : 'Right';
+  steps.push({
+    title: 'Count the atoms of each element',
+    html: '<p>Atoms must balance. Count them on the side with known formulae (' + sideLbl.toLowerCase() + '):</p><ul class="calc">' +
+      order.map(e => {
+        const parts = known.map((a, i) => ({ f: a[0], c: cK[i], n: parseF(a[0])[e] || 0 })).filter(p => p.n);
+        return '<li>' + e + ': ' + parts.map(p => p.c + ' × ' + p.n + ' (' + subF(p.f) + ')').join(' + ') + ' = <b>' + tot[e] + '</b></li>';
+      }).join('') + '</ul>',
+    bars: bothRows()
+  });
+  steps.push({
+    title: 'Share between the compound molecules',
+    html: '<p>These atoms sit in <b>' + cU + '</b> molecule' + (cU > 1 ? 's' : '') + ' of the compound. Divide by ' + cU + ':</p><ul class="calc">' +
+      order.map(e => '<li>' + e + ': ' + tot[e] + ' ÷ ' + cU + ' = <b>' + fn(formula[e]) + '</b></li>').join('') + '</ul>',
+    bars: bothRows()
+  });
+  const fStr = order.map(e => e + (formula[e] > 1 ? formula[e] : '')).join('');
+  steps.push({
+    title: 'Write the formula',
+    html: '<p>The compound is <b class="big">' + subF(fStr) + '</b></p>',
+    bars: bothRows(),
+    atoms: order.map(e => ({ el: e, n: formula[e] }))
+  });
+  const bad = order.some(e => !Number.isInteger(formula[e]));
+  if (bad) throw new Error('Non-integer formula in ' + sp.id);
+  const q = {
+    id: sp.id, tab: 2, tier: 1, demo: !!sp.demo, prompt: sp.q, kind: 'mcq',
+    opts: sp.opts.map(subF), optsPlain: sp.opts, answerText: subF(fStr), answer: fStr,
+    correct: sp.opts.indexOf(fStr), steps, scale: maxScale(steps), unit: U, noViz: true,
+    ram: elementsOf(known.map(a => a[0]).concat(fStr)), eq: eqStr
+  };
+  return q;
+}
+
+/* stacked fractions for y/4 and y/2 (screen readers still read "(y/4)") */
+const frac = (n, d) => '<span class="frac"><span class="sr">(</span><span class="n">' + n + '</span><span class="sr">/</span><span class="d">' + d + '</span><span class="sr">)</span></span>';
+const FR4 = frac('y', 4), FR2 = frac('y', 2);
+
+/* gen3: hydrocarbon combustion -> empirical formula, taught from CxHy + (x + y/4)O2 -> x CO2 + y/2 H2O
+   variant 'a': hc, o2, co2, o2left
+   variant 'b': hc, o2, total (after cooling), residual (after KOH)
+   variant 'c': hc, contraction, co2 (absorbed by KOH)
+   variant 'd': hc, co2, waterG (mass of water vapour, Mr 18.0, molar volume 24.0 dm3) */
+function gen3(sp) {
+  const U = UNIT[sp.unit];
+  const V = x => fn(x) + ' ' + U;
+  const hc = sp.hc, steps = [];
+  const XY = 'C<sub>x</sub>H<sub>y</sub>';
+  const GEN = XY + '(g) + (x + ' + FR4 + ')O<sub>2</sub>(g) → x CO<sub>2</sub>(g) + ' + FR2 + ' H<sub>2</sub>O';
+  let co2, o2used, h2o;
+  const rows = (a) => {
+    const r = [{ key: 'hc', label: 'C<sub>x</sub>H<sub>y</sub>', ci: 0, segs: [{ vol: hc, kind: 'used' }], text: V(hc) }];
+    if (a.o2 !== undefined) r.push({ key: 'o2', label: 'O<sub>2</sub> used', ci: 1, segs: [{ vol: a.o2, kind: 'used' }], text: V(a.o2) + ' used' });
+    if (a.co2 !== undefined) r.push({ key: 'co2', label: 'CO<sub>2</sub>', ci: 2, segs: [{ vol: a.co2, kind: 'made' }], text: V(a.co2) });
+    if (a.h2o !== undefined) r.push({ key: 'h2o', label: 'H<sub>2</sub>O<span class="st">(g)</span>', ci: 3, segs: [{ vol: a.h2o, kind: 'made' }], text: V(a.h2o) + ' as vapour' });
+    return r;
+  };
+  steps.push({
+    title: 'Write the general combustion equation',
+    html: '<p class="eq">' + GEN + '</p><p>Same temperature and pressure, so <b>volume ratio = mole ratio</b>. The gas volumes will give us the coefficients.</p>',
+    bars: rows({})
+  });
+  if (sp.variant === 'a') {
+    co2 = sp.co2; o2used = sp.o2 - sp.o2left;
+    steps.push({
+      title: 'Find the oxygen that reacted',
+      html: '<p>Oxygen used = oxygen at start − oxygen left over.</p><ul class="calc"><li>' + fn(sp.o2) + ' − ' + fn(sp.o2left) + ' = <b>' + V(o2used) + '</b> used</li></ul><p class="small">CO₂ formed = ' + V(co2) + '.</p>',
+      bars: rows({ o2: o2used, co2 })
+    });
+  } else if (sp.variant === 'b') {
+    co2 = sp.total - sp.residual; o2used = sp.o2 - sp.residual;
+    steps.push({
+      title: 'Use the KOH step to find CO₂ and O₂ used',
+      html: '<p>After cooling, the gas is CO₂ + leftover O₂ = ' + V(sp.total) + '. Concentrated KOH absorbs <b>CO₂ only</b>, so ' + V(sp.residual) + ' is leftover O₂.</p><ul class="calc"><li>CO₂ = ' + fn(sp.total) + ' − ' + fn(sp.residual) + ' = <b>' + V(co2) + '</b></li><li>O₂ used = ' + fn(sp.o2) + ' − ' + fn(sp.residual) + ' = <b>' + V(o2used) + '</b></li></ul><p class="small">At 333 K the water is liquid, so it is not part of the gas left.</p>',
+      bars: rows({ o2: o2used, co2 })
+    });
+  } else if (sp.variant === 'c') {
+    co2 = sp.co2; o2used = sp.contraction + co2 - hc;
+    steps.push({
+      title: 'Use the contraction to find the oxygen used',
+      html: '<p>Gas before = hydrocarbon + O₂ used. Gas after cooling = CO₂ only (the water condenses). So contraction = hydrocarbon + O₂ used − CO₂.</p><ul class="calc"><li>O₂ used = contraction + CO₂ − hydrocarbon</li><li>= ' + fn(sp.contraction) + ' + ' + fn(co2) + ' − ' + fn(hc) + ' = <b>' + V(o2used) + '</b></li></ul><p class="small">KOH removes the CO₂, so CO₂ = ' + V(co2) + '.</p>',
+      bars: rows({ o2: o2used, co2 })
+    });
+  } else {
+    co2 = sp.co2;
+    const mr = 2 * AR.H + AR.O, mol = sp.waterG / mr, dm3 = mol * 24.0;
+    h2o = Math.round(dm3 * 1000 * 1000) / 1000;
+    steps.push({
+      title: 'Turn the mass of water vapour into a volume',
+      html: '<p>Use the molar volume: 24.0 dm³ of gas per mole.</p><ul class="calc"><li>Mr of H₂O = 2 × ' + AR.H.toFixed(1) + ' + ' + AR.O.toFixed(1) + ' = <b>' + mr.toFixed(1) + '</b></li><li>moles of H₂O = ' + sp.waterG + ' ÷ ' + mr.toFixed(1) + ' = ' + mol.toPrecision(3) + ' mol</li><li>volume = ' + mol.toPrecision(3) + ' × 24.0 = ' + fn(dm3) + ' dm³</li><li>' + fn(dm3) + ' × 1000 = <b>' + V(h2o) + '</b> as vapour</li></ul>',
+      bars: rows({ co2, h2o })
+    });
+  }
+  const ratio = (a, b, c) => a + ' : ' + b + ' : ' + c;
+  let x, y;
+  if (sp.variant !== 'd') {
+    const ro = o2used / hc; x = co2 / hc; y = 4 * (ro - x);
+    steps.push({
+      title: 'Volume ratio = mole ratio',
+      html: '<p>Volume ratio C<sub>x</sub>H<sub>y</sub> : O₂ used : CO₂</p><p class="eq">' + ratio(fn(hc), fn(o2used), fn(co2)) + ' = ' + ratio(1, fn(ro), fn(x)) + '</p><p class="small">Divide each volume by ' + fn(hc) + '.</p><p>Match it to the coefficients in the equation:</p><p class="eq">' + ratio(1, '(x + ' + FR4 + ')', 'x') + '</p>',
+      bars: rows({ o2: o2used, co2 })
+    });
+    steps.push({
+      title: 'Hence x and y',
+      html: '<ul class="calc"><li>x = <b>' + fn(x) + '</b></li><li>x + ' + FR4 + ' = ' + fn(ro) + '</li><li>' + fn(x) + ' + ' + FR4 + ' = ' + fn(ro) + '</li><li>' + FR4 + ' = ' + fn(ro) + ' − ' + fn(x) + ' = ' + fn(ro - x) + '</li><li>y = ' + fn(ro - x) + ' × 4 = <b>' + fn(y) + '</b></li></ul>',
+      bars: rows({ o2: o2used, co2 })
+    });
+  } else {
+    x = co2 / hc; const yh = h2o / hc; y = 2 * yh;
+    steps.push({
+      title: 'Volume ratio = mole ratio',
+      html: '<p>Volume ratio C<sub>x</sub>H<sub>y</sub> : CO₂ : H₂O</p><p class="eq">' + ratio(fn(hc), fn(co2), fn(h2o)) + ' = ' + ratio(1, fn(x), fn(yh)) + '</p><p class="small">Divide each volume by ' + fn(hc) + '.</p><p>Match it to the coefficients in the equation:</p><p class="eq">' + ratio(1, 'x', '' + FR2 + '') + '</p>',
+      bars: rows({ co2, h2o })
+    });
+    steps.push({
+      title: 'Hence x and y',
+      html: '<ul class="calc"><li>x = <b>' + fn(x) + '</b></li><li>' + FR2 + ' = ' + fn(yh) + '</li><li>y = ' + fn(yh) + ' × 2 = <b>' + fn(y) + '</b></li></ul>',
+      bars: rows({ co2, h2o })
+    });
+  }
+  if (!Number.isInteger(x) || !Number.isInteger(y)) throw new Error('Non-integer in ' + sp.id);
+  const gg = gcd(x, y), eC = x / gg, eH = y / gg;
+  const molF = 'C' + (x > 1 ? x : '') + 'H' + (y > 1 ? y : '');
+  const empF = 'C' + (eC > 1 ? eC : '') + 'H' + (eH > 1 ? eH : '');
+  steps.push({
+    title: 'Write the formula, then the empirical formula',
+    html: '<p>x = ' + fn(x) + ' and y = ' + fn(y) + ', so the hydrocarbon is <b>' + subF(molF) + '</b>.</p>' +
+      (gg > 1 ? '<p>Divide C and H by their highest common factor <b>' + gg + '</b>: ' + fn(x) + ' ÷ ' + gg + ' = ' + eC + ' and ' + fn(y) + ' ÷ ' + gg + ' = ' + eH + '.</p>' : '<p>' + fn(x) + ' : ' + fn(y) + ' cannot be simplified.</p>') +
+      '<p>Empirical formula = <b class="big">' + subF(empF) + '</b></p>',
+    bars: sp.variant === 'd' ? rows({ co2, h2o }) : rows({ o2: o2used, co2 }),
+    atoms: [{ el: 'C', n: eC }, { el: 'H', n: eH }]
+  });
+  return {
+    id: sp.id, tab: 2, tier: 2, demo: !!sp.demo, prompt: sp.q, kind: 'mcq',
+    opts: sp.opts.map(subF), optsPlain: sp.opts, answerText: subF(empF), answer: empF,
+    correct: sp.opts.indexOf(empF), steps, scale: maxScale(steps), unit: U,
+    ram: ['H', 'C', 'O'], eq: '',
+    data: sp.variant === 'd' ? { ram: ['H', 'O'], extra: 'Molar volume = 24.0 dm³ mol⁻¹' } : null
+  };
+}
+
+/* ===== Question bank ===== */
+const E = {
+  so3:  { eq: [[2, 'SO2', 'g'], [1, 'O2', 'g']], pr: [[2, 'SO3', 'g']] },
+  nh3:  { eq: [[1, 'N2', 'g'], [3, 'H2', 'g']], pr: [[2, 'NH3', 'g']] },
+  no2:  { eq: [[2, 'NO', 'g'], [1, 'O2', 'g']], pr: [[2, 'NO2', 'g']] },
+  hcl:  { eq: [[1, 'H2', 'g'], [1, 'Cl2', 'g']], pr: [[2, 'HCl', 'g']] },
+  co2:  { eq: [[2, 'CO', 'g'], [1, 'O2', 'g']], pr: [[2, 'CO2', 'g']] },
+  no:   { eq: [[1, 'N2', 'g'], [1, 'O2', 'g']], pr: [[2, 'NO', 'g']] },
+  c2h6g:{ eq: [[1, 'C2H4', 'g'], [1, 'H2', 'g']], pr: [[1, 'C2H6', 'g']] }
+};
+const burn = (fuel, w) => ({
+  CH4:  { eq: [[1, 'CH4', 'g'], [2, 'O2', 'g']], pr: [[1, 'CO2', 'g'], [2, 'H2O', w]] },
+  C2H6: { eq: [[2, 'C2H6', 'g'], [7, 'O2', 'g']], pr: [[4, 'CO2', 'g'], [6, 'H2O', w]] },
+  C2H4: { eq: [[1, 'C2H4', 'g'], [3, 'O2', 'g']], pr: [[2, 'CO2', 'g'], [2, 'H2O', w]] },
+  C2H2: { eq: [[2, 'C2H2', 'g'], [5, 'O2', 'g']], pr: [[4, 'CO2', 'g'], [2, 'H2O', w]] },
+  C3H8: { eq: [[1, 'C3H8', 'g'], [5, 'O2', 'g']], pr: [[3, 'CO2', 'g'], [4, 'H2O', w]] },
+  C4H8: { eq: [[1, 'C4H8', 'g'], [6, 'O2', 'g']], pr: [[4, 'CO2', 'g'], [4, 'H2O', w]] },
+  C4H10:{ eq: [[2, 'C4H10', 'g'], [13, 'O2', 'g']], pr: [[8, 'CO2', 'g'], [10, 'H2O', w]] },
+  H2:   { eq: [[2, 'H2', 'g'], [1, 'O2', 'g']], pr: [[2, 'H2O', w]] }
+}[fuel]);
+
+const BANK = { t1: { 1: {}, 2: {}, 3: {} }, t2: { 1: {}, 2: {} } };
+
+/* ---------- TAB 1 · TIER 1: two gases, product volume ---------- */
+const t1prod = (id, e, given, ask, unit, dp, q, demo) => gen1({ id, tier: 1, demo, type: 'prod', ...e, given, ask, unit, dp, q });
+BANK.t1[1].demo = t1prod('1-1-d', E.so3, { SO2: 3.0, O2: 2.0 }, 'SO3', 'dm3', 1,
+  '3.0 dm³ of SO₂(g) and 2.0 dm³ of O₂(g) are reacted at a certain temperature and pressure. What volume of SO₃(g) can be produced at this temperature and pressure?', true);
+BANK.t1[1].prac = [
+  t1prod('1-1-1', E.nh3, { N2: 10, H2: 24 }, 'NH3', 'cm3', 0, '10 cm³ of nitrogen and 24 cm³ of hydrogen react to form ammonia, NH₃(g). All volumes are measured at the same temperature and pressure. What volume of ammonia is produced?'),
+  t1prod('1-1-2', E.no2, { NO: 40, O2: 30 }, 'NO2', 'cm3', 0, '40 cm³ of nitrogen monoxide, NO(g), is mixed with 30 cm³ of oxygen. They react to form nitrogen dioxide, NO₂(g). What volume of NO₂ is produced at the same temperature and pressure?'),
+  t1prod('1-1-3', E.hcl, { H2: 25, Cl2: 40 }, 'HCl', 'cm3', 0, '25 cm³ of hydrogen reacts with 40 cm³ of chlorine to form hydrogen chloride, HCl(g). What volume of HCl is produced? (Same temperature and pressure.)'),
+  t1prod('1-1-4', E.co2, { CO: 60, O2: 20 }, 'CO2', 'cm3', 0, '60 cm³ of carbon monoxide is burned in 20 cm³ of oxygen to form carbon dioxide. What volume of CO₂ is produced at the same temperature and pressure?'),
+  t1prod('1-1-5', E.no, { N2: 15, O2: 10 }, 'NO', 'dm3', 0, '15 dm³ of nitrogen and 10 dm³ of oxygen react in a car engine to form nitrogen monoxide, NO(g). What volume of NO is produced? (Same temperature and pressure.)'),
+  t1prod('1-1-6', E.c2h6g, { C2H4: 50, H2: 35 }, 'C2H6', 'cm3', 0, '50 cm³ of ethene, C₂H₄(g), is mixed with 35 cm³ of hydrogen. With a nickel catalyst they form ethane, C₂H₆(g). What volume of ethane is produced? (Same temperature and pressure.)')
+];
+
+/* ---------- TAB 1 · TIER 2: percentages ---------- */
+const airQ = (id, fuel, vol, unit, name, opts, demo, extra) => gen1({
+  id, tier: 2, demo, type: 'air', ...burn(fuel, 'l'), given: { [fuel]: vol }, fuel, pct: 20, unit, opts,
+  q: 'Assuming that air contains 20% of oxygen by volume, how much air is required to burn completely ' + vol + ' ' + UNIT[unit] + ' of ' + name + '? (All volumes are measured at the same temperature and pressure.)'
+});
+BANK.t1[2].demo = airQ('1-2-d', 'C2H6', 100, 'cm3', 'ethane', [250, 1000, 1750, 3500], true);
+BANK.t1[2].prac = [
+  airQ('1-2-1', 'CH4', 50, 'cm3', 'methane', [100, 250, 500, 1000]),
+  airQ('1-2-2', 'C3H8', 40, 'cm3', 'propane', [200, 800, 1000, 2000]),
+  airQ('1-2-3', 'C2H4', 30, 'cm3', 'ethene', [90, 150, 450, 900]),
+  airQ('1-2-4', 'C4H10', 20, 'dm3', 'butane', [130, 260, 650, 1300]),
+  airQ('1-2-5', 'H2', 80, 'cm3', 'hydrogen', [40, 100, 200, 400]),
+  gen1({
+    id: '1-2-6', tier: 2, type: 'mixfuel', ...burn('CH4', 'l'), given: { CH4: 80 }, fuel: 'CH4', fuelName: 'CH₄', inert: 'N2',
+    mix: 200, pct: 40, unit: 'cm3', opts: [80, 160, 320, 400],
+    q: 'A 200 cm³ mixture of gases contains 40% methane by volume. The rest is nitrogen, which does not burn. What volume of oxygen is needed to burn all the methane? (Same temperature and pressure.)'
+  }),
+  gen1({
+    id: '1-2-7', tier: 2, type: 'yield', ...E.nh3, given: { N2: 40 }, lim: 'N2', excess: 'H2', ask: 'NH3', pct: 25, unit: 'cm3', opts: [10, 20, 40, 80],
+    q: '40 cm³ of nitrogen reacts with excess hydrogen to make ammonia. Only 25% of the nitrogen is converted to ammonia (a 25% yield). What volume of ammonia is made? (Same temperature and pressure.)'
+  })
+];
+
+/* ---------- TAB 1 · TIER 3: total gas after combustion ---------- */
+const totQ = (id, fuel, w, fv, ov, unit, opts, name, demo) => gen1({
+  id, tier: 3, demo, type: 'total', ...burn(fuel, w), given: { [fuel]: fv, O2: ov }, unit, opts,
+  q: name
+});
+BANK.t1[3].demo = gen1({
+  id: '1-3-d', tier: 3, demo: true, type: 'total', ...burn('C4H8', 'l'), given: { C4H8: 35, O2: 300 }, unit: 'cm3', opts: [90, 140, 230, 320],
+  q: 'But-1-ene reacts with oxygen according to the equation <span class="eqi">C₄H₈(g) + 6O₂(g) → 4CO₂(g) + 4H₂O(l)</span>. At a certain temperature and pressure, 35.0 cm³ of but-1-ene was mixed with 300 cm³ of oxygen and the reaction was started by a spark. Assuming complete combustion, what is the total volume of gas at the end of the reaction?'
+});
+BANK.t1[3].prac = [
+  totQ('1-3-1', 'CH4', 'l', 20, 100, 'cm3', [60, 80, 120, 160], '20 cm³ of methane is mixed with 100 cm³ of oxygen and sparked. After cooling to room temperature the water is a liquid, H₂O(l). What is the total volume of gas at the end? (Same temperature and pressure.)'),
+  totQ('1-3-2', 'CH4', 'g', 20, 100, 'cm3', [60, 80, 120, 160], 'Repeat the last experiment, but the products are kept at 120 °C so the water stays as steam, H₂O(g). 20 cm³ of methane and 100 cm³ of oxygen are sparked. What is the total volume of gas at the end?'),
+  totQ('1-3-3', 'C2H6', 'l', 10, 50, 'cm3', [15, 35, 45, 65], '10 cm³ of ethane is burned in 50 cm³ of oxygen. The water formed is liquid, H₂O(l). What is the total volume of gas at the end? (Same temperature and pressure.)'),
+  totQ('1-3-4', 'C3H8', 'g', 25, 150, 'cm3', [100, 125, 175, 200], '25 cm³ of propane is burned in 150 cm³ of oxygen. The mixture is kept hot so the water is steam, H₂O(g). What is the total volume of gas at the end? (Same temperature and pressure.)'),
+  totQ('1-3-5', 'C2H4', 'l', 15, 30, 'cm3', [20, 25, 45, 50], '15 cm³ of ethene is burned in only 30 cm³ of oxygen. Be careful: which gas runs out? The water formed is liquid, H₂O(l). What is the total volume of gas at the end?'),
+  totQ('1-3-6', 'H2', 'l', 20, 20, 'cm3', [10, 20, 30, 40], '20 cm³ of hydrogen is sparked with 20 cm³ of oxygen. The water formed is liquid, H₂O(l). What is the total volume of gas at the end? (Same temperature and pressure.)'),
+  totQ('1-3-7', 'C2H2', 'g', 20, 80, 'cm3', [50, 70, 90, 110], '20 cm³ of ethyne, C₂H₂(g), is burned in 80 cm³ of oxygen. The water is kept as steam, H₂O(g). What is the total volume of gas at the end? (Same temperature and pressure.)')
+];
+
+/* ---------- TAB 2 · TIER 1: combine / decompose -> formula ---------- */
+const f1 = (id, mode, known, vc, order, opts, q, demo) => gen2({ id, mode, known, compoundVol: vc, order, opts, q, unit: 'cm3', demo });
+BANK.t2[1].demo = f1('2-1-d', 'comb', [['Cl2', 20], ['O2', 40]], 40, ['Cl', 'O'], ['ClO', 'Cl2O', 'ClO2', 'Cl2O3'],
+  '20 cm³ of chlorine reacts with 40 cm³ of oxygen to form 40 cm³ of a gaseous oxide of chlorine. What is the molecular formula of this oxide? (Assume all gas volumes are measured at r.t.p.)', true);
+BANK.t2[1].prac = [
+  f1('2-1-1', 'decomp', [['N2', 60], ['O2', 30]], 60, ['N', 'O'], ['NO', 'NO2', 'N2O', 'N2O3'],
+    'Under certain conditions, 60 cm³ of a gaseous compound NₓOᵧ decomposes completely to give 60 cm³ of nitrogen gas and 30 cm³ of oxygen gas. What is the formula of NₓOᵧ? (Assume all gas volumes are measured at r.t.p.)'),
+  f1('2-1-2', 'comb', [['H2', 10], ['Cl2', 10]], 20, ['H', 'Cl'], ['H2Cl', 'HCl2', 'HCl', 'H2Cl2'],
+    '10 cm³ of hydrogen reacts with 10 cm³ of chlorine to form 20 cm³ of a single gaseous compound of hydrogen and chlorine. What is its formula? (All volumes at r.t.p.)'),
+  f1('2-1-3', 'comb', [['N2', 30], ['H2', 90]], 60, ['N', 'H'], ['NH', 'NH2', 'NH3', 'N2H4'],
+    '30 cm³ of nitrogen reacts with 90 cm³ of hydrogen to form 60 cm³ of a gaseous compound of nitrogen and hydrogen. What is its formula? (All volumes at r.t.p.)'),
+  f1('2-1-4', 'comb', [['CO', 40], ['O2', 20]], 40, ['C', 'O'], ['C2O3', 'CO', 'CO2', 'C2O'],
+    '40 cm³ of carbon monoxide reacts with 20 cm³ of oxygen to form 40 cm³ of a single gaseous oxide of carbon. What is the formula of this oxide? (All volumes at r.t.p.)'),
+  f1('2-1-5', 'comb', [['SO2', 20], ['O2', 10]], 20, ['S', 'O'], ['SO', 'SO3', 'SO2', 'S2O3'],
+    '20 cm³ of sulfur dioxide reacts with 10 cm³ of oxygen to form 20 cm³ of a gaseous sulfur oxide. What is the formula of this oxide? (All volumes at r.t.p.)'),
+  f1('2-1-6', 'decomp', [['N2', 50], ['H2', 150]], 100, ['N', 'H'], ['NH', 'NH3', 'NH2', 'N2H3'],
+    '100 cm³ of a gaseous compound NₓHᵧ decomposes completely to give 50 cm³ of nitrogen and 150 cm³ of hydrogen. What is the formula of the compound? (All volumes at r.t.p.)'),
+  f1('2-1-7', 'decomp', [['Cl2', 10], ['O2', 25]], 10, ['Cl', 'O'], ['ClO2', 'Cl2O3', 'Cl2O7', 'Cl2O5'],
+    '10 cm³ of a gaseous oxide of chlorine decomposes completely to give 10 cm³ of chlorine and 25 cm³ of oxygen. What is the molecular formula of the oxide? (All volumes at r.t.p.)')
+];
+
+/* ---------- TAB 2 · TIER 2: hydrocarbon combustion ---------- */
+const f2 = (id, sp, opts, q, demo) => gen3({ id, unit: 'cm3', opts, q, demo, ...sp });
+BANK.t2[2].demo = f2('2-2-d', { variant: 'a', hc: 10, o2: 70, co2: 30, o2left: 20 }, ['C3H4', 'C3H8', 'C4H8', 'CH3'],
+  'When 10 cm³ of a pure hydrocarbon is burnt in 70 cm³ of oxygen gas, the final gaseous mixture contains 30 cm³ of carbon dioxide and 20 cm³ of unreacted oxygen gas. What is the empirical formula of the hydrocarbon? (All volumes at the same temperature and pressure.)', true);
+BANK.t2[2].prac = [
+  f2('2-2-1', { variant: 'b', hc: 60, o2: 540, total: 420, residual: 120 }, ['C3H4', 'C4H6', 'C5H8', 'C5H12'],
+    'At 333 K, 60 cm³ of a gaseous hydrocarbon is mixed with 540 cm³ of excess oxygen. The mixture is exploded and cooled slowly to 333 K. The volume of gas remaining is 420 cm³. After shaking with concentrated potassium hydroxide solution, the residual gas volume becomes 120 cm³. What is the empirical formula of the hydrocarbon?'),
+  f2('2-2-2', { variant: 'a', hc: 20, o2: 100, co2: 40, o2left: 40 }, ['CH', 'CH2', 'C2H4', 'CH4'],
+    '20 cm³ of a pure hydrocarbon is burnt in 100 cm³ of oxygen. The final gas mixture contains 40 cm³ of carbon dioxide and 40 cm³ of unreacted oxygen. What is the empirical formula of the hydrocarbon? (Same temperature and pressure.)'),
+  f2('2-2-3', { variant: 'a', hc: 10, o2: 80, co2: 20, o2left: 45 }, ['CH2', 'C2H5', 'CH3', 'C2H6'],
+    '10 cm³ of a gaseous hydrocarbon is burnt in 80 cm³ of oxygen. The final gaseous mixture contains 20 cm³ of carbon dioxide and 45 cm³ of unreacted oxygen. What is the empirical formula of the hydrocarbon? (Same temperature and pressure.)'),
+  f2('2-2-4', { variant: 'b', hc: 30, o2: 250, total: 190, residual: 100 }, ['C3H4', 'C3H6', 'C6H16', 'C3H8'],
+    'At 333 K, 30 cm³ of a gaseous hydrocarbon is exploded with 250 cm³ of excess oxygen. After cooling to 333 K the gas volume is 190 cm³. Shaking with concentrated potassium hydroxide solution leaves 100 cm³. What is the empirical formula of the hydrocarbon?'),
+  f2('2-2-5', { variant: 'b', hc: 20, o2: 200, total: 150, residual: 70 }, ['C4H10', 'C2H4', 'C2H5', 'CH3'],
+    'At 333 K, 20 cm³ of a gaseous hydrocarbon is exploded with 200 cm³ of excess oxygen. After cooling to 333 K the gas volume is 150 cm³. Shaking with concentrated potassium hydroxide solution leaves 70 cm³. What is the empirical formula of the hydrocarbon?'),
+  f2('2-2-6', { variant: 'c', hc: 10, contraction: 25, co2: 60 }, ['C6H6', 'C3H3', 'CH2', 'CH'],
+    '10 cm³ of a gaseous hydrocarbon is exploded with excess oxygen at 333 K. After cooling to 333 K, the gas volume has contracted by 25 cm³. Shaking with concentrated potassium hydroxide solution removes a further 60 cm³. What is the empirical formula of the hydrocarbon?'),
+  f2('2-2-7', { variant: 'd', hc: 20, co2: 60, waterG: 0.03 }, ['C3H2', 'C3H4', 'C3H6', 'C3H8'],
+    'When 20 cm³ of a gaseous hydrocarbon was burnt completely in an excess of oxygen, 60 cm³ of carbon dioxide and 0.03 g of water vapour were formed. What is the empirical formula of the hydrocarbon? (Assume all gas volumes are measured at the same temperature and pressure. The molar volume under these conditions is 24.0 dm³.)'),
+  f2('2-2-8', { variant: 'c', hc: 20, contraction: 60, co2: 80 }, ['C4H8', 'CH4', 'CH2', 'C2H4'],
+    '20 cm³ of a gaseous hydrocarbon is exploded with excess oxygen at 333 K. After cooling to 333 K, the gas volume has contracted by 60 cm³. Shaking with concentrated potassium hydroxide solution removes a further 80 cm³. What is the empirical formula of the hydrocarbon?')
+];
+
+/* ---------- Keep exactly 5 practice questions per tier (same type as the demo) ---------- */
+const KEEP = {
+  t1: { 1: ['1-1-1', '1-1-2', '1-1-3', '1-1-4', '1-1-5'], 2: ['1-2-1', '1-2-2', '1-2-3', '1-2-4', '1-2-5'], 3: ['1-3-1', '1-3-2', '1-3-4', '1-3-5', '1-3-7'] },
+  t2: { 1: ['2-1-1', '2-1-3', '2-1-4', '2-1-5', '2-1-7'], 2: ['2-2-1', '2-2-2', '2-2-5', '2-2-6', '2-2-7'] }
+};
+Object.keys(KEEP).forEach(t => Object.keys(KEEP[t]).forEach(k => {
+  BANK[t][k].prac = KEEP[t][k].map(id => BANK[t][k].prac.find(q => q.id === id));
+}));
+
+/* Vary the position of the correct option (deterministic per question id) */
+(function(){
+  function hash(s){let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h;}
+  function rng(seed){let s=seed||1;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+  const all=[];
+  Object.keys(BANK).forEach(t=>Object.keys(BANK[t]).forEach(k=>{const g=BANK[t][k];all.push(g.demo,...g.prac);}));
+  all.forEach(q=>{
+    if(q.kind!=='mcq')return;
+    const idx=q.opts.map((_,i)=>i);
+    if(q.tab===2){
+      const r=rng(hash(q.id)); for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+    } else if(hash(q.id)%2===1){ idx.reverse(); }   // numbers: ascending or descending
+    q.opts=idx.map(i=>q.opts[i]);
+    if(q.optsPlain)q.optsPlain=idx.map(i=>q.optsPlain[i]);
+    q.correct=idx.indexOf(q.correct);
+  });
+})();
+
+/* ===== UI ===== */
+(function () {
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const KEY = 'gasvol-solved';
+  let solved = {};
+  try { solved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { solved = {}; }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(solved)); } catch (e) { /* storage unavailable */ } };
+
+  const TIERS = {
+    1: {
+      1: { sub: 'Two gases: how much product?', title: 'Two gases react: how much product?',
+        text: 'Both reactants are given, so one of them runs out first. Find that limiting reagent, then use the equation to find the product.',
+        method: ['Write the balanced equation', 'Divide each volume by its coefficient', 'The smallest answer is the limiting reagent', 'Product = lots × coefficient'] },
+      2: { sub: 'Percentages in the question', title: 'Percentages: how much air is needed?',
+        text: 'Air is only about 20% oxygen. Find the oxygen needed from the equation first, then turn it into a volume of air. Do the percentage step one line at a time: find 1% first, then multiply.',
+        method: ['Balance the equation', 'Use the ratio to find the O₂ needed', 'O₂ is 20% of air: find 1%, then × 100'] },
+      3: { sub: 'Total gas after burning', title: 'Total volume of gas after combustion',
+        text: 'Add the leftover reactant to the gaseous products. Read the state symbol of water before you add anything.',
+        method: ['Find the limiting reagent', 'Work out what is left over', 'Work out each product', 'Add the gases only'], water: true }
+    },
+    2: {
+      1: { sub: 'Combine or decompose', title: 'Combine or decompose: find the formula',
+        text: 'Gas volumes give the reacting ratio. The ratio gives the equation, and balancing atoms gives the formula of the unknown gas.',
+        method: ['List the volumes', 'Divide to get a whole-number ratio', 'Write the equation', 'Balance atoms to get the formula'] },
+      2: { sub: 'Hydrocarbon combustion', title: 'Burn a hydrocarbon: find the empirical formula',
+        text: 'Start from C<sub>x</sub>H<sub>y</sub> + (x + ' + FR4 + ')O₂ → x CO₂ + ' + FR2 + ' H₂O. Volume ratio equals mole ratio, so comparing the volume ratio with the coefficients gives x and y.',
+        method: ['Write the general equation', 'Find the volumes (or volume equivalents) you need', 'Volume ratio = mole ratio: match it to the coefficients', 'Solve for x and y', 'Simplify to the empirical formula'] }
+    }
+  };
+  const ATOM = { H: ['#F1F5F7', '#10252E'], C: ['#3C4349', '#FFFFFF'], N: ['#2F5FD0', '#FFFFFF'], O: ['#C62828', '#FFFFFF'], S: ['#E6B800', '#10252E'], Cl: ['#2E8B4A', '#FFFFFF'] };
+  const QS = {}; const ST = {};
+  const LETTERS = 'ABCD';
+
+  /* ---------- question cards ---------- */
+  function dataChips(q) {
+    if (!q.data) return '';
+    return '<div class="data"><span>Data:</span>' + q.data.ram.map(e => '<span>Ar of ' + e + ' = <b>' + AR[e].toFixed(1) + '</b></span>').join('') + (q.data.extra ? '<span><b>' + q.data.extra + '</b></span>' : '') + '</div>';
+  }
+
+  function answerArea(q) {
+    if (q.kind === 'mcq') {
+      return '<fieldset class="opts"><legend class="sr">Choose one answer</legend>' +
+        q.opts.map((o, i) => '<label class="opt"><input type="radio" name="o-' + q.id + '" value="' + i + '"><span class="ltr" aria-hidden="true">' + LETTERS[i] + '</span><span class="otx"><span class="sr">Option ' + LETTERS[i] + ': </span>' + o + '</span><span class="tag"></span></label>').join('') +
+        '</fieldset><div class="row"><button class="btn primary" type="button" data-act="check">Check answer</button></div>';
+    }
+    return '<div class="numrow"><label for="in-' + q.id + '">Your answer in ' + q.unit + '</label>' +
+      '<div class="inwrap"><input id="in-' + q.id + '" type="text" inputmode="decimal" autocomplete="off" spellcheck="false"><span class="u">' + q.unit + '</span></div>' +
+      '<button class="btn primary" type="button" data-act="check">Check</button></div>';
+  }
+  function card(q, label, nextLabel) {
+    QS[q.id] = q; ST[q.id] = { n: 0, timer: null };
+    const demo = q.demo;
+    const legend = '<div class="legend" aria-hidden="true"><span><i class="sw s1"></i>Gas present or made</span><span><i class="sw s2"></i>Reacts (used up)</span><span><i class="sw s3"></i>Left over</span></div>';
+    return '<article class="q' + (demo ? ' demo' : '') + (solved[q.id] ? ' solved' : '') + '" id="q-' + q.id + '" data-id="' + q.id + '">' +
+      '<div class="qhead"><span class="badge">' + label + '</span>' + (solved[q.id] ? '<span class="badge ok">Solved</span>' : '') + '</div>' +
+      '<p class="prompt">' + q.prompt + '</p>' + dataChips(q) +
+      (demo ? '' : answerArea(q) + '<p class="fb" role="status" aria-live="polite"></p>' +
+        '<div class="row"><button class="btn" type="button" data-act="help" aria-expanded="false">Show me the steps</button></div>') +
+      '<div class="work' + (q.noViz ? ' single' : '') + '"' + (demo ? '' : ' hidden') + '>' +
+      (q.noViz ? '' : '<div class="viz" role="group" aria-label="Volume chart for this question">' + legend + '<div class="vrows"><p class="vempty">The chart fills in as you move through the steps.</p></div><p class="vscale">Full bar width = ' + fn(q.scale) + ' ' + (q.unit || '') + '</p></div>') +
+      '<div><ol class="steps" aria-live="polite" aria-relevant="additions"></ol>' +
+      '<div class="ctrls" style="margin-top:.8rem">' +
+      '<button class="btn" type="button" data-act="back">Back</button>' +
+      '<button class="btn primary" type="button" data-act="next">Next step</button>' +
+      (demo ? '<button class="btn" type="button" data-act="play" aria-pressed="false">Play</button>' : '<button class="btn" type="button" data-act="all">Show all steps</button>') +
+      '<button class="btn" type="button" data-act="restart">Restart</button></div></div></div>' +
+      (nextLabel ? '<div class="row qnext"><button class="btn" type="button" data-act="nextq">' + nextLabel + '</button></div>' : '') + '</article>';
+  }
+
+  /* ---------- steps + chart ---------- */
+  function stepEl(q, i) {
+    const s = q.steps[i];
+    const li = document.createElement('li'); li.className = 'step';
+    li.innerHTML = '<span class="sn" aria-hidden="true">' + (i + 1) + '</span><div><h4><span class="sr">Step ' + (i + 1) + ': </span>' + s.title + '</h4><div class="sb">' + s.html + '</div></div>';
+    if (s.atoms) {
+      const m = document.createElement('div'); m.className = 'mol'; m.setAttribute('role', 'img');
+      m.setAttribute('aria-label', 'Model of one molecule: ' + s.atoms.map(a => a.n + ' ' + a.el).join(', '));
+      let k = 0;
+      s.atoms.forEach(a => { for (let j = 0; j < a.n; j++) { const sp = document.createElement('span'); sp.className = 'atom'; sp.style.background = ATOM[a.el][0]; sp.style.color = ATOM[a.el][1]; sp.style.animationDelay = (k * 0.12) + 's'; sp.textContent = a.el; m.appendChild(sp); k++; } });
+      li.querySelector('.sb').appendChild(m);
+    }
+    return li;
+  }
+  function updateViz(el, q, n) {
+    const rowsEl = $('.vrows', el);
+    if (!rowsEl) return;
+    const keys = [], meta = {};
+    for (let i = 0; i < n; i++) (q.steps[i].bars || []).forEach(b => { if (!meta[b.key]) { keys.push(b.key); meta[b.key] = b; } });
+    const cur = n > 0 ? (q.steps[n - 1].bars || []) : [];
+    const empty = $('.vempty', rowsEl);
+    if (empty) empty.hidden = keys.length > 0;
+    $$('.vrow', rowsEl).forEach(r => { if (keys.indexOf(r.dataset.key) < 0) r.remove(); });
+    keys.forEach(k => {
+      const b = cur.find(x => x.key === k); const m = b || meta[k];
+      let r = $('.vrow[data-key="' + k + '"]', rowsEl);
+      if (!r) {
+        r = document.createElement('div'); r.className = 'vrow'; r.dataset.key = k;
+        r.style.setProperty('--gc', 'var(--c' + m.ci + ')');
+        r.innerHTML = '<div class="vlab">' + m.label + '</div><div class="vbar"><div class="track"><span class="seg"></span><span class="seg"></span></div><div class="vtxt"></div></div>';
+        rowsEl.appendChild(r); void r.offsetWidth;
+      }
+      const segs = $$('.seg', r);
+      segs.forEach((sg, i) => {
+        const d = b && b.segs[i];
+        if (d) { sg.className = 'seg ' + d.kind; sg.style.width = (q.scale ? Math.min(100, d.vol / q.scale * 100) : 0) + '%'; }
+        else { sg.style.width = '0%'; }
+      });
+      $('.vtxt', r).textContent = b ? b.text.replace(/ /g, ' ') : 'none';
+    });
+  }
+  function finalEl(q) {
+    const li = document.createElement('li'); li.className = 'final';
+    li.innerHTML = 'Answer: ' + (q.kind === 'mcq' ? '<b>' + LETTERS[q.correct] + '</b> (' + q.opts[q.correct] + ')' : '<b>' + q.answerText + '</b>');
+    return li;
+  }
+  function setSteps(el, n, user) {
+    const q = QS[el.dataset.id], st = ST[q.id];
+    n = Math.max(0, Math.min(q.steps.length, n));
+    const list = $('.steps', el);
+    const f = $('.final', list); if (f) f.remove();
+    let added = null;
+    while ($$('.step', list).length > n) list.lastElementChild.remove();
+    while ($$('.step', list).length < n) { added = stepEl(q, $$('.step', list).length); list.appendChild(added); }
+    $$('.step', list).forEach((s, i) => s.classList.toggle('cur', i === n - 1));
+    if (n === q.steps.length) list.appendChild(finalEl(q));
+    st.n = n;
+    updateViz(el, q, n);
+    $('[data-act="back"]', el).disabled = n === 0;
+    const nx = $('[data-act="next"]', el);
+    nx.disabled = n >= q.steps.length;
+    nx.textContent = n === 0 ? 'Start: step 1' : n >= q.steps.length ? 'All steps shown' : 'Next step (' + (n + 1) + ' of ' + q.steps.length + ')';
+    if (user && added && !reduce) { try { added.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) { /* ignore */ } }
+  }
+  function stopPlay(el) {
+    const st = ST[el.dataset.id]; if (st.timer) { clearInterval(st.timer); st.timer = null; }
+    const p = $('[data-act="play"]', el); if (p) { p.textContent = 'Play'; p.setAttribute('aria-pressed', 'false'); }
+  }
+
+  /* ---------- checking answers ---------- */
+  function markSolved(el, q) {
+    solved[q.id] = 1; save(); el.classList.add('solved');
+    if (!$('.badge.ok', el)) { const b = document.createElement('span'); b.className = 'badge ok'; b.textContent = 'Solved'; $('.qhead', el).appendChild(b); }
+    updateCounts();
+  }
+  function check(el) {
+    const q = QS[el.dataset.id], fb = $('.fb', el);
+    fb.className = 'fb';
+    if (q.kind === 'mcq') {
+      const c = $('input:checked', el);
+      if (!c) { fb.textContent = 'Choose an answer first.'; return; }
+      const i = +c.value, lab = c.closest('.opt');
+      $$('.opt', el).forEach(o => { o.classList.remove('right', 'wrong'); $('.tag', o).textContent = ''; });
+      if (i === q.correct) {
+        lab.classList.add('right'); $('.tag', lab).textContent = '✓ Correct';
+        fb.className = 'fb ok'; fb.textContent = 'Correct. Open the steps to see the method.'; markSolved(el, q);
+      } else {
+        lab.classList.add('wrong'); $('.tag', lab).textContent = '✗ Not this one';
+        fb.className = 'fb no'; fb.textContent = 'Not quite. Pick again, or open the steps for help.';
+      }
+    } else {
+      const inp = $('input[type="text"]', el);
+      const v = parseFloat(String(inp.value).replace(',', '.').trim());
+      if (!isFinite(v)) { fb.className = 'fb no'; fb.textContent = 'Type a number first.'; return; }
+      if (Math.abs(v - q.answer) < 0.006) { fb.className = 'fb ok'; fb.textContent = 'Correct: ' + q.answerText + '.'; markSolved(el, q); }
+      else { fb.className = 'fb no'; fb.textContent = 'Not quite. Check which gas is limiting and your units, or open the steps for help.'; }
+    }
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const el = b.closest('.q'); if (!el) return;
+    const q = QS[el.dataset.id], st = ST[q.id], act = b.dataset.act;
+    if (act === 'check') check(el);
+    else if (act === 'help') {
+      const w = $('.work', el), open = w.hidden;
+      w.hidden = !open; b.setAttribute('aria-expanded', String(open));
+      b.textContent = open ? 'Hide the steps' : 'Show me the steps';
+      if (open && st.n === 0) setSteps(el, 1, false);
+      if (!open) stopPlay(el);
+    }
+    else if (act === 'nextq') {
+      const panel = el.closest('.tierpanel'), ids = $$('.qtab', panel).map(t => t.dataset.qid), i = ids.indexOf(q.id);
+      if (i >= 0 && i < ids.length - 1) selectQ(panel, ids[i + 1], true);
+    }
+    else if (act === 'next') { stopPlay(el); setSteps(el, st.n + 1, true); }
+    else if (act === 'back') { stopPlay(el); setSteps(el, st.n - 1, false); }
+    else if (act === 'all') { setSteps(el, q.steps.length, true); }
+    else if (act === 'restart') { stopPlay(el); setSteps(el, 1, false); }
+    else if (act === 'play') {
+      if (st.timer) { stopPlay(el); return; }
+      if (st.n >= q.steps.length) setSteps(el, 1, false);
+      b.textContent = 'Pause'; b.setAttribute('aria-pressed', 'true');
+      st.timer = setInterval(() => { if (st.n >= q.steps.length) { stopPlay(el); return; } setSteps(el, st.n + 1, false); }, 3600);
+    }
+  });
+  document.addEventListener('change', e => {
+    const o = e.target.closest('.opt'); if (!o) return;
+    const el = o.closest('.q'); $$('.opt', el).forEach(x => { x.classList.remove('right', 'wrong'); $('.tag', x).textContent = ''; });
+    const fb = $('.fb', el); fb.className = 'fb'; fb.textContent = '';
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('.inwrap input')) { e.preventDefault(); check(e.target.closest('.q')); } });
+
+  /* ---------- tier panels ---------- */
+  function tierPanel(tab, k) {
+    const info = TIERS[tab][k], g = BANK['t' + tab][k];
+    const water = info.water ? '<div class="compare" aria-label="State symbols of water">' +
+      '<div class="canvas"><svg width="44" height="54" viewBox="0 0 44 54" aria-hidden="true"><path d="M22 3 C22 3 6 24 6 35 a16 16 0 0 0 32 0 C38 24 22 3 22 3Z" fill="#1B6CB0"/></svg><div><b>H₂O(l)</b><span>Liquid drops. Adds 0 to the gas total.</span></div></div>' +
+      '<div class="canvas"><svg width="44" height="54" viewBox="0 0 44 54" aria-hidden="true"><g fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round"><path d="M10 48 c-6-10 6-14 0-24 c-4-7 2-14 2-18"/><path d="M22 48 c-6-10 6-14 0-24 c-4-7 2-14 2-18"/><path d="M34 48 c-6-10 6-14 0-24 c-4-7 2-14 2-18"/></g></svg><div><b>H₂O(g)</b><span>Steam. It is a gas, so count it.</span></div></div></div>' : '';
+    return '<section class="tierpanel" id="tp-' + tab + '-' + k + '" role="tabpanel" aria-labelledby="tb-' + tab + '-' + k + '"' + (k === 1 ? '' : ' hidden') + '>' +
+      '<div class="card"><h3>' + info.title + '</h3><p class="lead">' + info.text + '</p><ol class="method" aria-label="Method">' + info.method.map(m => '<li>' + m + '</li>').join('') + '</ol>' + water + '</div>' +
+      '<div class="qtabs" role="tablist" aria-label="Demo and practice questions, ' + info.title + '">' +
+      [g.demo].concat(g.prac).map((q, i) => '<button class="qtab" role="tab" id="qt-' + q.id + '" aria-controls="qp-' + q.id + '" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '" data-qid="' + q.id + '"><span aria-hidden="true">' + (i === 0 ? 'Demo' : 'Q' + i) + '</span><span class="sr">' + (i === 0 ? 'Worked demo' : 'Practice question ' + i) + '</span><span class="mk" aria-hidden="true"></span><span class="sr mks"></span></button>').join('') + '</div>' +
+      [g.demo].concat(g.prac).map((q, i) => '<div class="qpanel" id="qp-' + q.id + '" role="tabpanel" aria-labelledby="qt-' + q.id + '"' + (i === 0 ? '' : ' hidden') + '>' +
+        card(q, i === 0 ? 'Worked demo' : 'Practice ' + i + ' of ' + g.prac.length, i === g.prac.length ? '' : (i === 0 ? 'Start practice 1' : 'Next question: practice ' + (i + 1))) + '</div>').join('') + '</section>';
+  }
+  function buildTab(tab) {
+    const host = $('#tiers-' + tab);
+    const ks = Object.keys(TIERS[tab]);
+    host.innerHTML = '<div class="tiers" role="tablist" aria-label="Tier">' + ks.map(k =>
+      '<button class="tier" role="tab" id="tb-' + tab + '-' + k + '" aria-controls="tp-' + tab + '-' + k + '" aria-selected="' + (k === '1') + '" tabindex="' + (k === '1' ? 0 : -1) + '" data-tier="' + k + '"><b>Tier ' + k + '</b><span>' + TIERS[tab][k].sub + '</span><span class="cnt" data-cnt="' + tab + '-' + k + '"></span></button>').join('') + '</div>' +
+      ks.map(k => tierPanel(tab, +k)).join('');
+    $$('.q', host).forEach(el => { setSteps(el, el.classList.contains('demo') ? 1 : 0, false); });
+  }
+  function roving(list, sel, activate) {
+    list.addEventListener('keydown', e => {
+      const tabs = $$(sel, list), i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      let j = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % tabs.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') j = (i - 1 + tabs.length) % tabs.length;
+      else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = tabs.length - 1;
+      if (j >= 0) { e.preventDefault(); tabs[j].focus(); activate(tabs[j]); }
+    });
+  }
+  function selectQ(panel, qid, focus) {
+    $$('.qtab', panel).forEach(t => { const on = t.dataset.qid === qid; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; if (on && focus) t.focus(); });
+    $$('.qpanel', panel).forEach(p => { p.hidden = p.id !== 'qp-' + qid; });
+    $$('.q.demo', panel).forEach(stopPlay);
+    if (focus) { try { $('.qtabs', panel).scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); } catch (e) { /* ignore */ } }
+  }
+  function selectTier(tab, k) {
+    const host = $('#tiers-' + tab);
+    $$('.tier', host).forEach(t => { const on = t.dataset.tier === String(k); t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
+    $$('.tierpanel', host).forEach(p => { p.hidden = p.id !== 'tp-' + tab + '-' + k; });
+    $$('.q', host).forEach(el => { if (el.classList.contains('demo')) stopPlay(el); });
+  }
+  function selectTab(t) {
+    $$('.tab').forEach(b => { const on = b.dataset.tab === String(t); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+    $$('.panel').forEach(p => { p.hidden = p.id !== 'panel-' + t; });
+    $$('.q.demo').forEach(stopPlay);
+  }
+  function updateCounts() {
+    let done = 0, total = 0;
+    ['t1', 't2'].forEach((t, ti) => Object.keys(BANK[t]).forEach(k => {
+      const ps = BANK[t][k].prac, n = ps.filter(q => solved[q.id]).length;
+      done += n; total += ps.length;
+      const c = $('[data-cnt="' + (ti + 1) + '-' + k + '"]'); if (c) c.textContent = n + ' of ' + ps.length + ' solved';
+    }));
+    $$('.qtab').forEach(t => { const on = !!solved[t.dataset.qid]; t.classList.toggle('done', on); $('.mk', t).textContent = on ? '✓' : ''; $('.mks', t).textContent = on ? ' (solved)' : ''; });
+    $('#ovtxt').textContent = done + ' of ' + total + ' practice questions solved';
+    $('#ovbar').style.width = (total ? done / total * 100 : 0) + '%';
+  }
+
+  /* ---------- intro graphics ---------- */
+  function molSvg() {
+    const mol = (cx, cy, type) => {
+      if (type === 'H2') return '<circle cx="' + (cx - 7) + '" cy="' + cy + '" r="7" fill="#1B6CB0"/><circle cx="' + (cx + 7) + '" cy="' + cy + '" r="7" fill="#1B6CB0"/>';
+      if (type === 'O2') return '<circle cx="' + (cx - 9) + '" cy="' + cy + '" r="9" fill="#C2410C"/><circle cx="' + (cx + 9) + '" cy="' + cy + '" r="9" fill="#C2410C"/>';
+      return '<circle cx="' + (cx - 17) + '" cy="' + cy + '" r="8" fill="#C62828"/><circle cx="' + cx + '" cy="' + cy + '" r="9" fill="#3C4349"/><circle cx="' + (cx + 17) + '" cy="' + cy + '" r="8" fill="#C62828"/>';
+    };
+    const boxes = [['H₂', 'H2', 20, 'hydrogen'], ['O₂', 'O2', 200, 'oxygen'], ['CO₂', 'CO2', 380, 'carbon dioxide']];
+    let s = '<svg viewBox="0 0 560 232" width="560" role="img" aria-label="Model: three boxes of equal volume, each drawn with six molecules of hydrogen, oxygen and carbon dioxide. In reality 1 dm³ of gas at r.t.p. holds about 2.5 times 10 to the 22 molecules. Same volume, temperature and pressure means the same number of molecules.">';
+    boxes.forEach(b => {
+      s += '<rect x="' + b[2] + '" y="30" width="160" height="130" rx="6" fill="#F3F8FA" stroke="#10252E" stroke-width="2"/>';
+      s += '<text x="' + (b[2] + 80) + '" y="20" text-anchor="middle" font-size="15" font-weight="700" fill="#10252E">1 dm³ of ' + b[0] + '(g)</text>';
+      for (let i = 0; i < 6; i++) s += mol(b[2] + 40 + (i % 2) * 80, 62 + Math.floor(i / 2) * 38, b[1]);
+      s += '<text x="' + (b[2] + 80) + '" y="180" text-anchor="middle" font-size="13" fill="#10252E">6 drawn as a model</text><text x="' + (b[2] + 80) + '" y="198" text-anchor="middle" font-size="13" font-weight="700" fill="#10252E">really ≈ 2.5 × 10²²</text>';
+    });
+    s += '<text x="280" y="224" text-anchor="middle" font-size="14" font-weight="700" fill="#10252E">Same T, same p, same volume = same number of molecules</text></svg>';
+    return s;
+  }
+  function initLots() {
+    const host = $('#lotsviz'), rng = $('#lots'), out = $('#lotsval');
+    const sp = [['N₂', 1, 0], ['H₂', 3, 1], ['NH₃', 2, 2]];
+    host.innerHTML = sp.map(s => '<div class="vrow" style="--gc:var(--c' + s[2] + ')"><div class="vlab">' + s[0] + '</div><div class="vbar"><div class="track"><span class="seg have"></span></div><div class="vtxt"></div></div></div>').join('');
+    const upd = () => {
+      const n = +rng.value; out.textContent = n + (n === 1 ? ' lot' : ' lots');
+      $$('.vrow', host).forEach((r, i) => {
+        const vol = sp[i][1] * n * 10;
+        $('.seg', r).style.width = (vol / 300 * 100) + '%';
+        $('.vtxt', r).textContent = sp[i][1] + ' × ' + n + ' × 10 = ' + vol + ' cm³';
+      });
+    };
+    rng.addEventListener('input', upd); upd();
+  }
+
+  /* ---------- boot ---------- */
+  $('#avo-svg').innerHTML = molSvg();
+  initLots();
+  buildTab(1); buildTab(2);
+  $$('.tiers').forEach(list => {
+    const tab = list.parentElement.id.slice(-1);
+    list.addEventListener('click', e => { const b = e.target.closest('.tier'); if (b) selectTier(tab, b.dataset.tier); });
+    roving(list, '.tier', b => selectTier(tab, b.dataset.tier));
+  });
+  $$('.tierpanel').forEach(panel => {
+    panel.addEventListener('click', e => { const b = e.target.closest('.qtab'); if (b) selectQ(panel, b.dataset.qid, false); });
+    roving($('.qtabs', panel), '.qtab', b => selectQ(panel, b.dataset.qid, false));
+  });
+  const tabs = $('.tabs');
+  tabs.addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) selectTab(b.dataset.tab); });
+  roving(tabs, '.tab', b => selectTab(b.dataset.tab));
+  $('#resetbtn').addEventListener('click', e => {
+    const b = e.currentTarget;
+    if (b.dataset.sure !== '1') { b.dataset.sure = '1'; b.textContent = 'Press again to clear your progress'; setTimeout(() => { b.dataset.sure = ''; b.textContent = 'Reset progress'; }, 4000); return; }
+    solved = {}; save(); b.dataset.sure = ''; b.textContent = 'Progress cleared';
+    $$('.q.solved').forEach(el => { el.classList.remove('solved'); const ok = $('.badge.ok', el); if (ok) ok.remove(); const fb = $('.fb', el); if (fb) { fb.textContent = ''; fb.className = 'fb'; } });
+    updateCounts();
+  });
+  updateCounts();
+  const m = /^#t([12])(?:-([1-3]))?$/.exec(location.hash || '');
+  if (m) { selectTab(m[1]); if (m[2] && TIERS[m[1]][m[2]]) selectTier(m[1], m[2]); }
+})();
+
+</script>
+
+</body></html>

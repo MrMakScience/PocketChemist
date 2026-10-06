@@ -1,0 +1,998 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='sGfKiLCK+IwT7jsajvuoSA==' src='https://ecf56349-d870-40cb-a671-bb67a2d5b19f.frame.claudeusercontent.com/psv5CRL1-BB2hboR3Ruj8V-HpReIcRCeJkjl5mSHYSXJWgAtAepFAtSasGhAhAy39N0zan1noIFlyWXzowlLLcn15SdWyarL258tOIgUCG05z6UYE2a0t2JrmvqDfvS5R0Ppo4yfd0jjgiAl829xng_D1t421oI4Dk2EK__KTqFbdO20KcjbeqAJ3rMHsf4Oyal4Z3vgGE7JhBg0j6__6g4kQiX6yK-D4ZXmzadjH2aK4fnd1MvyZStetrXjkY0aryywONy7MnWvM5fgbAsYR2xJVLWKzJhp1x5zLDBnHRm11QDz9vpEm81QKWHJuOfRbGaVylHTgeTQSHYgyrzfTUyC4Scg4z3N22aIsZd6-u8X0ufi1Vx7SIswsPcj9u_-SIhKm9e6fpVtKutT4wi73Tb9pnF4kwX0QFYB7-w1_lC_Zno0bQcHOlKgOv0U4ezQC1ZbVC7Y-l9qtE2VuMa08_nDohzEKEac1Yib2Yj4dHQpYl2pARU2jzVPYTRotnEJe9r_7pl6zQG8zcZb0ogVd9LP3_6EnUsMEYHg_R-xhaZZvxjrqejZuL2J10EpGTykJ0jFflxGHJUCQXch1zVjT5u62M_jZ5VgLfyseUIQ2iu1QWY6d6Y5kN1pA3-wSua2osooO5Q4ZgQKzXAB7JQuzFc30p6Hd9Y-h8gN3sZ-Hm0BZXRPc1f_BZX084rEyieV_AZfv940LbjXCJPpseeufA'></script></head><body>
+<title>Solution Reactions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=Bricolage+Grotesque:opsz,wght@12..96,600..800&amp;display=swap">
+<style>
+/* Layout: one column; tabs on top, type switch, question chips, a single question card. */
+:root {
+  --bg: #F1F6F8; --surface: #FFFFFF; --ink: #12283B; --muted: #4A5F72; --line: #C3D2DC;
+  --accent: #0A6E69; --accent-ink: #FFFFFF; --tint: #DDEFED; --pop: #B3125A; --focus: #0B57D0;
+  --chip: #E3EDF2; --ok: #14663F; --okbg: #DDF2E6; --warnbg: #FCE8EF;
+  --display: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
+  --body: 'Atkinson Hyperlegible', Verdana, system-ui, sans-serif;
+  --mono: ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C1822; --surface: #142636; --ink: #E8F0F6; --muted: #AFC1CF; --line: #2D465B;
+    --accent: #5EDCCF; --accent-ink: #052320; --tint: #17403F; --pop: #FF93BC; --focus: #8AB4FF;
+    --chip: #1D3447; --ok: #7BE0A8; --okbg: #153B29; --warnbg: #44202F; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C1822; --surface: #142636; --ink: #E8F0F6; --muted: #AFC1CF; --line: #2D465B;
+  --accent: #5EDCCF; --accent-ink: #052320; --tint: #17403F; --pop: #FF93BC; --focus: #8AB4FF;
+  --chip: #1D3447; --ok: #7BE0A8; --okbg: #153B29; --warnbg: #44202F; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 1.0625rem; line-height: 1.6;
+  padding-inline: 1rem; padding-block: 0 3rem; margin: 0;
+}
+.wrap { max-width: 60rem; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.2; margin: 0; text-wrap: balance; }
+p { margin: 0 0 .6rem; }
+sub, sup { line-height: 0; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-ink); padding: .75rem 1rem; z-index: 10; }
+.skip:focus { left: 1rem; top: 1rem; }
+
+/* header */
+.top { display: flex; align-items: center; gap: 1rem; padding-block: 1.25rem .75rem; flex-wrap: wrap; }
+.top svg { width: 3.25rem; height: 3.25rem; flex: none; }
+.top h1 { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; letter-spacing: -.01em; }
+.top p { margin: 0; color: var(--muted); }
+.top > div { min-width: 0; flex: 1 1 14rem; }
+
+/* tabs */
+.tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: .5rem; margin-block: .5rem 1rem; }
+.tab {
+  display: flex; align-items: center; gap: .6rem; min-height: 3.5rem; padding: .5rem .9rem; text-align: left;
+  background: var(--surface); border: 2px solid var(--line); border-radius: 12px; font-weight: 700;
+}
+.tab .num { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--chip); font-family: var(--display); flex: none; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.tab[aria-selected="true"] .num { background: var(--accent-ink); color: var(--accent); }
+
+/* type switch */
+.types { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.pill { min-height: 2.75rem; padding: .4rem 1rem; border-radius: 999px; border: 2px solid var(--line); background: var(--surface); font-weight: 700; }
+.pill[aria-pressed="true"] { border-color: var(--accent); background: var(--tint); box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* intro */
+.intro { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+.intro > div, .toolkit { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1rem; min-width: 0; }
+.intro h3, .toolkit summary { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--body); font-weight: 700; margin-bottom: .3rem; }
+.intro .watch { border-left: 6px solid var(--pop); }
+.toolkit { margin-bottom: 1rem; }
+.toolkit summary { cursor: pointer; margin: 0; min-height: 2.75rem; display: flex; align-items: center; }
+.toolkit .tk { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding-top: .5rem; }
+.toolkit .tk .viz { width: 9rem; padding: .25rem; flex: none; }
+.toolkit ul { margin: 0; padding-left: 1.1rem; flex: 1 1 14rem; min-width: 0; }
+.toolkit li { margin-bottom: .35rem; }
+
+/* question chips */
+.qnav { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.chip { min-width: 3rem; min-height: 3rem; padding: .3rem .85rem; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); font-weight: 700; position: relative; }
+.chip[aria-current="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.chip.done::after { content: '✓'; margin-left: .35rem; color: var(--ok); font-weight: 800; }
+.chip.done[aria-current="true"]::after { color: var(--accent-ink); }
+
+/* question card */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.1rem; display: grid; gap: 1rem; min-width: 0; }
+.card header { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: baseline; justify-content: space-between; }
+.card h2 { font-size: 1.35rem; }
+.badge { font-size: .85rem; font-weight: 700; padding: .15rem .6rem; border-radius: 999px; background: var(--tint); color: var(--ink); }
+.qtext { font-size: 1.2rem; line-height: 1.55; margin: 0; }
+.ram { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; background: var(--chip); border-radius: 10px; padding: .55rem .75rem; }
+.ram b { margin-right: .25rem; }
+.ram span.el { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: .1rem .6rem; font-weight: 700; white-space: nowrap; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+@media (max-width: 46rem) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.viz { background: #FFFFFF; color: #14283A; border: 2px solid var(--line); border-radius: 12px; padding: .5rem; min-width: 0; }
+.viz svg { display: block; width: 100%; height: auto; max-width: 34rem; margin-inline: auto; }
+.hint { border: 2px solid var(--ink); border-radius: 6px; padding: .6rem .9rem; }
+.hint strong { display: block; margin-bottom: .2rem; }
+.hint ol { margin: 0; padding-left: 1.25rem; }
+.hint .rem { margin-top: .5rem; padding-top: .5rem; border-top: 1px dashed var(--line); }
+
+/* answer */
+.ans { display: grid; gap: .5rem; }
+.ans label { font-weight: 700; }
+.ans .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: stretch; }
+.ans input { font: inherit; min-height: 3rem; width: 9rem; max-width: 100%; padding: .3rem .7rem; border-radius: 10px; border: 2px solid var(--ink); background: var(--surface); color: var(--ink); }
+.ans .unit { align-self: center; font-weight: 700; }
+.btn { min-height: 3rem; padding: .4rem 1.1rem; border-radius: 10px; border: 2px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn[disabled] { opacity: .55; cursor: not-allowed; }
+.fb { min-height: 1.5rem; margin: 0; font-weight: 700; padding: 0; }
+.fb.ok { background: var(--okbg); color: var(--ok); padding: .5rem .75rem; border-radius: 10px; }
+.fb.no { background: var(--warnbg); color: var(--pop); padding: .5rem .75rem; border-radius: 10px; }
+
+/* steps */
+.controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.prog { display: flex; gap: .35rem; align-items: center; margin-left: auto; }
+.prog i { width: .8rem; height: .8rem; border-radius: 50%; border: 2px solid var(--accent); display: inline-block; }
+.prog i.on { background: var(--accent); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .8rem; counter-reset: s; }
+.step { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: .8rem .9rem .8rem .9rem; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .3rem .8rem; }
+.step.new { animation: slide .5s ease-out both; }
+.step .n { grid-row: 1 / span 3; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-family: var(--display); font-weight: 800; }
+.step h3 { font-size: 1.1rem; margin-top: .15rem; }
+.step .body { min-width: 0; }
+.step .fm { font-size: 1.08rem; overflow-wrap: anywhere; }
+.step .eq { font-size: 1.12rem; font-weight: 700; overflow-wrap: anywhere; }
+.res { background: var(--tint); border-radius: 6px; padding: .05rem .4rem; font-weight: 800; white-space: nowrap; }
+.step.new .res { animation: flash 1.4s ease-out .5s both; }
+.keys { display: flex; flex-wrap: wrap; gap: .4rem .75rem; align-items: center; border: 2px dashed var(--accent); border-radius: 10px; padding: .45rem .7rem; margin-top: .3rem; }
+.keys b { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+.keys code { font-family: var(--mono); font-size: 1.02rem; font-weight: 700; overflow-wrap: anywhere; }
+.step .viz { margin-top: .6rem; }
+.pager { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: space-between; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+footer { margin-top: 2rem; color: var(--muted); font-size: .95rem; }
+
+/* svg animation */
+.liq { transform-box: fill-box; transform-origin: 50% 100%; animation: rise 1s ease-out both; }
+.grow { transform-box: fill-box; transform-origin: 0 50%; animation: growx .9s ease-out both; }
+.dot { transform-box: fill-box; transform-origin: center; animation: popin .5s ease-out both; }
+@keyframes rise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes growx { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes popin { from { transform: scale(0); } 70% { transform: scale(1.15); } to { transform: scale(1); } }
+@keyframes slide { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes flash { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 30% { box-shadow: 0 0 0 5px var(--accent); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 34rem) {
+  .step { grid-template-columns: minmax(0, 1fr); padding: .7rem; }
+  .step .n { grid-row: auto; width: 1.9rem; height: 1.9rem; }
+  .card { padding: .8rem; }
+}
+</style>
+<a class="skip" href="#qcard">Skip to question</a>
+<div class="wrap">
+  <header class="top">
+    <svg viewbox="0 0 52 52" aria-hidden="true" focusable="false">
+      <path d="M12,8 L12,38 Q12,46 20,46 L32,46 Q40,46 40,38 L40,8" fill="none" stroke="#0A6E69" stroke-width="4" stroke-linecap="round"/>
+      <path d="M13,26 L39,26 L39,38 Q39,45 32,45 L20,45 Q13,45 13,38 Z" fill="#F7CF6B"/>
+      <circle cx="22" cy="35" r="3" fill="#FFFFFF"/><circle cx="30" cy="31" r="2.2" fill="#FFFFFF"/>
+    </svg>
+    <div>
+      <h1>Solution Reactions</h1>
+      <p>IAL Chemistry: mole calculations with solutions. Every question has step-by-step help.</p>
+    </div>
+  </header>
+  <main>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Topics"></div>
+    <section id="panel" role="tabpanel" tabindex="-1"></section>
+    <div id="live" class="sr" role="status" aria-live="polite"></div>
+  </main>
+  <footer><p>Answers are checked to about 1% on the 3 significant figure value. Relative atomic masses are given with each question that needs them.</p></footer>
+</div>
+<script>
+/* Core helpers, reaction library and builders for types A-D */
+(function (G) {
+  'use strict';
+  var CHEM = G.CHEM = G.CHEM || {};
+
+  var RAM = { H: 1.0, C: 12.0, O: 16.0, Na: 23.0, Mg: 24.3, Al: 27.0, Ca: 40.1 };
+  var UC = 'mol dm⁻³';
+  var ACIDS = ['HCl', 'H2SO4', 'HNO3', 'H3PO4'];
+
+  function chem(s) {
+    return String(s)
+      .replace(/([A-Za-z\)])(\d+)/g, '$1<sub>$2</sub>')
+      .replace(/\^([0-9]*[+-])/g, function (m, c) { return '<sup>' + c.replace('-', '−') + '</sup>'; });
+  }
+  function fmt(x, n) {
+    n = n || 3;
+    var s = (x * (1 + 1e-12)).toPrecision(n);
+    if (/e/.test(s)) s = String(Number(s));
+    return s;
+  }
+  function fmtI(x) {
+    var s = String(Number((x * (1 + 1e-12)).toPrecision(4)));
+    if (/e/.test(s)) s = x.toFixed(8);
+    return s;
+  }
+  function num(s) { return parseFloat(s); }
+  function ramChips(comp) {
+    return Object.keys(comp).map(function (el) { return { el: el, v: RAM[el].toFixed(1) }; });
+  }
+  function mrOf(comp) {
+    var t = 0, parts = [];
+    Object.keys(comp).forEach(function (el) {
+      t += RAM[el] * comp[el];
+      parts.push(comp[el] === 1 ? RAM[el].toFixed(1) : RAM[el].toFixed(1) + ' × ' + comp[el]);
+    });
+    return { mr: t, expr: parts.join(' + ') };
+  }
+  function allRam() {
+    return Object.keys(RAM).map(function (el) { return { el: el, v: RAM[el].toFixed(1) }; });
+  }
+  function side(f) { return ACIDS.indexOf(f) >= 0 ? 'acid' : 'base'; }
+  function solText(V, c) { return V + ' cm³ of ' + c + ' ' + UC; }
+
+  /* ---------- reactions: coefficient by formula ---------- */
+  var RX = {
+    sa_naoh:   { eq: 'H2SO4(aq) + 2NaOH(aq) → Na2SO4(aq) + 2H2O(l)', c: { H2SO4: 1, NaOH: 2, Na2SO4: 1 } },
+    hcl_naoh:  { eq: 'HCl(aq) + NaOH(aq) → NaCl(aq) + H2O(l)', c: { HCl: 1, NaOH: 1, NaCl: 1 } },
+    sa_koh:    { eq: 'H2SO4(aq) + 2KOH(aq) → K2SO4(aq) + 2H2O(l)', c: { H2SO4: 1, KOH: 2, K2SO4: 1 } },
+    hno3_baoh: { eq: '2HNO3(aq) + Ba(OH)2(aq) → Ba(NO3)2(aq) + 2H2O(l)', c: { HNO3: 2, 'Ba(OH)2': 1, 'Ba(NO3)2': 1 } },
+    h3po4_nc:  { eq: '2H3PO4(aq) + 3Na2CO3(aq) → 2Na3PO4(aq) + 3CO2(g) + 3H2O(l)', c: { H3PO4: 2, Na2CO3: 3, Na3PO4: 2 } },
+    hcl_nc:    { eq: '2HCl(aq) + Na2CO3(aq) → 2NaCl(aq) + CO2(g) + H2O(l)', c: { HCl: 2, Na2CO3: 1, NaCl: 2 } },
+    sa_nc:     { eq: 'H2SO4(aq) + Na2CO3(aq) → Na2SO4(aq) + CO2(g) + H2O(l)', c: { H2SO4: 1, Na2CO3: 1, Na2SO4: 1 } },
+    hno3_nc:   { eq: '2HNO3(aq) + Na2CO3(aq) → 2NaNO3(aq) + CO2(g) + H2O(l)', c: { HNO3: 2, Na2CO3: 1 } },
+    hno3_mgoh: { eq: '2HNO3(aq) + Mg(OH)2(s) → Mg(NO3)2(aq) + 2H2O(l)', c: { HNO3: 2, 'Mg(OH)2': 1 } },
+    sa_mgoh:   { eq: 'H2SO4(aq) + Mg(OH)2(s) → MgSO4(aq) + 2H2O(l)', c: { H2SO4: 1, 'Mg(OH)2': 1 } },
+    hcl_caco3: { eq: '2HCl(aq) + CaCO3(s) → CaCl2(aq) + CO2(g) + H2O(l)', c: { HCl: 2, CaCO3: 1 } },
+    hcl_aloh:  { eq: '3HCl(aq) + Al(OH)3(s) → AlCl3(aq) + 3H2O(l)', c: { HCl: 3, 'Al(OH)3': 1 } },
+    hcl_nahco: { eq: 'HCl(aq) + NaHCO3(s) → NaCl(aq) + CO2(g) + H2O(l)', c: { HCl: 1, NaHCO3: 1 } },
+    hcl_naoh_s:{ eq: 'HCl(aq) + NaOH(s) → NaCl(aq) + H2O(l)', c: { HCl: 1, NaOH: 1 } },
+    sa_mgco3:  { eq: 'H2SO4(aq) + MgCO3(s) → MgSO4(aq) + CO2(g) + H2O(l)', c: { H2SO4: 1, MgCO3: 1 } },
+    hcl_mg:    { eq: '2HCl(aq) + Mg(s) → MgCl2(aq) + H2(g)', c: { HCl: 2, Mg: 1 } },
+    al_pb:     { eq: 'Al2(SO4)3(aq) + 3Pb(NO3)2(aq) → 2Al(NO3)3(aq) + 3PbSO4(s)', c: { 'Al2(SO4)3': 1, 'Pb(NO3)2': 3 } },
+    ba_na:     { eq: 'BaCl2(aq) + Na2SO4(aq) → BaSO4(s) + 2NaCl(aq)', c: { BaCl2: 1, Na2SO4: 1 } },
+    ag_mg:     { eq: '2AgNO3(aq) + MgCl2(aq) → 2AgCl(s) + Mg(NO3)2(aq)', c: { AgNO3: 2, MgCl2: 1 } },
+    pb_ki:     { eq: 'Pb(NO3)2(aq) + 2KI(aq) → PbI2(s) + 2KNO3(aq)', c: { 'Pb(NO3)2': 1, KI: 2 } }
+  };
+
+  var HINTS = {
+    A_c: ['Write an equation', 'Find mole of known reactant', 'Find mole of unknown reactant', 'Find the molarity'],
+    A_v: ['Write an equation', 'Find mole of known reactant', 'Find mole of unknown reactant', 'Find the volume'],
+    B: ['Write an equation', 'Find mole of reactant', 'Find the volume of another reactant', 'Find the volume of the mixture and mole of product', 'Find the molarity of product'],
+    C: ['Write an equation', 'Find mole of known reactant', 'Find mole of unknown reactant', 'Find mass of the unknown reactant', 'Find the percentage by mass'],
+    D: ['Let the acid formula be H<sub>x</sub>A', 'Find mole of OH⁻', 'Find mole of acid', 'Find the mole ratio between OH⁻ and acid'],
+    E: ['Write an equation', 'Find mole of each reactant', 'Determine limit & excess', 'Find mole of reactant left', 'Find the molarity'],
+    F: ['Write an equation', 'Find mole of acid and of solid', 'Determine limit & excess', 'Find mole of H⁺ left', 'Find the molarity']
+  };
+
+  function eqStep(rx, extra) {
+    return { t: 'Write the balanced equation', h: '<p class="eq">' + chem(rx.eq) + '</p>' + (extra || ''), k: null, v: null };
+  }
+  function molLine(f, c, V, n) {
+    return '<p>Moles of ' + chem(f) + ' = concentration × volume ÷ 1000</p>' +
+      '<p class="fm">n = ' + c + ' × ' + V + ' ÷ 1000 = <span class="res">' + fmtI(n) + ' mol</span></p>';
+  }
+  function molKeys(c, V) { return c + ' × ' + V + ' ÷ 1000 ='; }
+
+  /* ---------- Type A: unknown concentration or volume ---------- */
+  CHEM.buildA = function (o) {
+    var rx = RX[o.rx], K = o.k, U = o.u, ck = rx.c[K.f], cu = rx.c[U.f];
+    var nk = num(K.c) * num(K.V) / 1000, nu = nk * cu / ck;
+    var findC = U.c === undefined, ans, steps = [];
+    steps.push(eqStep(rx, '<p>Mole ratio from the equation: <b>' + chem(K.f) + ' : ' + chem(U.f) + ' = ' + ck + ' : ' + cu + '</b></p>'));
+    steps.push({ t: 'Moles of the substance you know', h: molLine(K.f, K.c, K.V, nk), k: molKeys(K.c, K.V) });
+    steps.push({
+      t: 'Moles of the unknown (use the mole ratio)',
+      h: '<p>' + ck + ' mol of ' + chem(K.f) + ' reacts with ' + cu + ' mol of ' + chem(U.f) + '.</p>' +
+        '<p class="fm">n(' + chem(U.f) + ') = ' + fmtI(nk) + ' × ' + cu + ' ÷ ' + ck + ' = <span class="res">' + fmtI(nu) + ' mol</span></p>',
+      k: fmtI(nk) + ' × ' + cu + ' ÷ ' + ck + ' =',
+      v: { k: 'ratio', a: { f: K.f, n: ck }, b: { f: U.f, n: cu } }
+    });
+    if (findC) {
+      ans = nu / (num(U.V) / 1000);
+      steps.push({
+        t: 'Find the molarity',
+        h: '<p>Change cm³ to dm³ first: ' + U.V + ' cm³ = ' + fmtI(num(U.V) / 1000) + ' dm³</p>' +
+          '<p class="fm">c = n ÷ V = ' + fmtI(nu) + ' ÷ ' + fmtI(num(U.V) / 1000) + ' = <span class="res">' + fmt(ans) + ' ' + UC + '</span></p>',
+        k: fmtI(nu) + ' ÷ ( ' + U.V + ' ÷ 1000 ) ='
+      });
+    } else {
+      ans = nu / num(U.c) * 1000;
+      steps.push({
+        t: 'Find the volume',
+        h: '<p>V (in dm³) = n ÷ c = ' + fmtI(nu) + ' ÷ ' + U.c + ' = ' + fmtI(nu / num(U.c)) + ' dm³</p>' +
+          '<p class="fm">Change to cm³: × 1000 = <span class="res">' + fmt(ans) + ' cm³</span></p>',
+        k: fmtI(nu) + ' ÷ ' + U.c + ' × 1000 ='
+      });
+    }
+    return {
+      text: o.text, ram: null, hints: findC ? HINTS.A_c : HINTS.A_v, steps: steps,
+      answer: { v: ans, unit: findC ? UC : 'cm³', tol: 0.015, label: findC ? 'Concentration of ' + chem(U.f) : 'Volume of ' + chem(U.f) },
+      viz: { k: 'mix', a: { f: K.f, c: K.c + ' M', V: K.V + ' cm³', s: side(K.f) },
+        b: { f: U.f, c: findC ? '? M' : U.c + ' M', V: findC ? U.V + ' cm³' : '? cm³', s: side(U.f) }, out: 'Reacts completely', unk: findC ? 'c' : 'V' }
+    };
+  };
+
+  /* ---------- Type B: concentration of product ---------- */
+  CHEM.buildB = function (o) {
+    var rx = RX[o.rx], K = o.k, O = o.o, P = o.p;
+    var ck = rx.c[K.f], co = rx.c[O.f], cp = rx.c[P.f];
+    var nk = num(K.c) * num(K.V) / 1000, no = nk * co / ck;
+    var Vo = no / num(O.c) * 1000, Vt = num(K.V) + Vo, np = nk * cp / ck, ans = np / (Vt / 1000);
+    var steps = [];
+    steps.push(eqStep(rx, '<p>Mole ratio: <b>' + chem(K.f) + ' : ' + chem(O.f) + ' : ' + chem(P.f) + ' = ' + ck + ' : ' + co + ' : ' + cp + '</b></p>'));
+    steps.push({ t: 'Moles of the reactant you know', h: molLine(K.f, K.c, K.V, nk), k: molKeys(K.c, K.V) });
+    steps.push({
+      t: 'Volume of the other reactant',
+      h: '<p>Moles of ' + chem(O.f) + ' needed = ' + fmtI(nk) + ' × ' + co + ' ÷ ' + ck + ' = ' + fmtI(no) + ' mol</p>' +
+        '<p class="fm">V = n ÷ c × 1000 = ' + fmtI(no) + ' ÷ ' + O.c + ' × 1000 = <span class="res">' + fmtI(Vo) + ' cm³</span></p>',
+      k: fmtI(no) + ' ÷ ' + O.c + ' × 1000 =',
+      v: { k: 'ratio', a: { f: K.f, n: ck }, b: { f: O.f, n: co } }
+    });
+    steps.push({
+      t: 'Total volume and moles of product',
+      h: '<p>The two solutions mix, so the volumes add up:</p>' +
+        '<p class="fm">V(total) = ' + K.V + ' + ' + fmtI(Vo) + ' = <span class="res">' + fmtI(Vt) + ' cm³</span></p>' +
+        '<p class="fm">n(' + chem(P.f) + ') = ' + fmtI(nk) + ' × ' + cp + ' ÷ ' + ck + ' = <span class="res">' + fmtI(np) + ' mol</span></p>',
+      k: K.V + ' + ' + fmtI(Vo) + ' =',
+      v: { k: 'volsum', a: K.V, b: fmtI(Vo), t: fmtI(Vt) }
+    });
+    steps.push({
+      t: 'Molarity of the product',
+      h: '<p class="fm">c = n ÷ V = ' + fmtI(np) + ' ÷ ( ' + fmtI(Vt) + ' ÷ 1000 ) = <span class="res">' + fmt(ans) + ' ' + UC + '</span></p>',
+      k: fmtI(np) + ' ÷ ( ' + fmtI(Vt) + ' ÷ 1000 ) ='
+    });
+    return {
+      text: o.text, ram: null, hints: HINTS.B, steps: steps,
+      answer: { v: ans, unit: UC, tol: 0.015, label: 'Molarity of ' + chem(P.f) },
+      viz: { k: 'mix', a: { f: K.f, c: K.c + ' M', V: K.V + ' cm³', s: side(K.f) },
+        b: { f: O.f, c: O.c + ' M', V: '? cm³', s: side(O.f) }, out: chem(P.f) + ' solution', unk: 'V' }
+    };
+  };
+
+  /* ---------- Type C: percentage by mass ---------- */
+  CHEM.buildC = function (o) {
+    var rx = RX[o.rx], S = o.s, A = o.a, ca = rx.c[A.f], cs = rx.c[S.f];
+    var na = num(A.c) * num(A.V) / 1000, ns = na * cs / ca;
+    var m = mrOf(S.comp), mass = ns * m.mr, pct = mass / num(o.m) * 100, steps = [];
+    steps.push(eqStep(rx, '<p>Mole ratio: <b>' + chem(A.f) + ' : ' + chem(S.f) + ' = ' + ca + ' : ' + cs + '</b></p>'));
+    steps.push({ t: 'Moles of the acid (you know its c and V)', h: molLine(A.f, A.c, A.V, na), k: molKeys(A.c, A.V) });
+    steps.push({
+      t: 'Moles of the reacting solid (use the mole ratio)',
+      h: '<p class="fm">n(' + chem(S.f) + ') = ' + fmtI(na) + ' × ' + cs + ' ÷ ' + ca + ' = <span class="res">' + fmtI(ns) + ' mol</span></p>',
+      k: fmtI(na) + ' × ' + cs + ' ÷ ' + ca + ' =',
+      v: { k: 'ratio', a: { f: A.f, n: ca }, b: { f: S.f, n: cs } }
+    });
+    steps.push({
+      t: 'Mass of the pure solid',
+      h: '<p>Relative formula mass of ' + chem(S.f) + ':</p><p class="fm">Mr = ' + m.expr + ' = <b>' + fmtI(m.mr) + '</b></p>' +
+        '<p class="fm">mass = n × Mr = ' + fmtI(ns) + ' × ' + fmtI(m.mr) + ' = <span class="res">' + fmtI(mass) + ' g</span></p>',
+      k: fmtI(ns) + ' × ' + fmtI(m.mr) + ' ='
+    });
+    steps.push({
+      t: 'Percentage by mass',
+      h: '<p class="fm">% = pure mass ÷ sample mass × 100</p><p class="fm">% = ' + fmtI(mass) + ' ÷ ' + o.m + ' × 100 = <span class="res">' + fmt(pct) + ' %</span></p>',
+      k: fmtI(mass) + ' ÷ ' + o.m + ' × 100 =',
+      v: { k: 'pct', pct: pct, f: S.f, mass: fmtI(mass), total: o.m }
+    });
+    return {
+      text: o.text, ram: ramChips(S.comp), hints: HINTS.C, steps: steps,
+      answer: { v: pct, unit: '%', tol: 0.01, label: 'Percentage by mass of ' + chem(S.f) },
+      viz: { k: 'mix', a: { f: A.f, c: A.c + ' M', V: A.V + ' cm³', s: side(A.f) },
+        b: { f: S.f, c: o.m + ' g sample', V: '', s: 'solid' }, out: 'Reacts completely', unk: 'solid' }
+    };
+  };
+
+  /* ---------- Type D: basicity ---------- */
+  var WORD = { 1: 'monobasic', 2: 'dibasic', 3: 'tribasic' };
+  CHEM.buildD = function (o) {
+    var B = o.b, nb = num(B.c) * num(B.V) / 1000, noh = nb * B.oh;
+    var na = num(o.ac) * num(o.aV) / 1000, xr = noh / na, x = Math.round(xr), steps = [];
+    steps.push({
+      t: 'Let the acid be H<sub>x</sub>A',
+      h: '<p><b>Basicity (x)</b> = number of H⁺ ions one acid molecule can give away.</p>' +
+        '<p>Each H⁺ reacts with one OH⁻:  <b>H⁺ + OH⁻ → H₂O</b></p><p>So 1 mol of H<sub>x</sub>A needs <b>x mol of OH⁻</b>.</p>',
+      k: null, v: { k: 'basic', x: null }
+    });
+    steps.push({
+      t: 'Moles of OH⁻',
+      h: '<p>Moles of ' + chem(B.f) + ' = ' + B.c + ' × ' + B.V + ' ÷ 1000 = ' + fmtI(nb) + ' mol</p>' +
+        '<p>' + (B.oh === 1 ? chem(B.f) + ' gives 1 OH⁻ per formula unit.' : chem(B.f) + ' gives <b>' + B.oh + ' OH⁻</b> per formula unit.') + '</p>' +
+        '<p class="fm">n(OH⁻) = ' + fmtI(nb) + ' × ' + B.oh + ' = <span class="res">' + fmtI(noh) + ' mol</span></p>',
+      k: B.c + ' × ' + B.V + ' ÷ 1000 × ' + B.oh + ' ='
+    });
+    steps.push({
+      t: 'Moles of acid',
+      h: '<p class="fm">n(H<sub>x</sub>A) = ' + o.ac + ' × ' + o.aV + ' ÷ 1000 = <span class="res">' + fmtI(na) + ' mol</span></p>',
+      k: o.ac + ' × ' + o.aV + ' ÷ 1000 ='
+    });
+    steps.push({
+      t: 'Mole ratio gives the basicity',
+      h: '<p>x = n(OH⁻) ÷ n(acid)</p><p class="fm">x = ' + fmtI(noh) + ' ÷ ' + fmtI(na) + ' = <span class="res">' + x + '</span></p>' +
+        '<p>The acid is <b>' + WORD[x] + '</b> (basicity = ' + x + ').</p>',
+      k: fmtI(noh) + ' ÷ ' + fmtI(na) + ' =', v: { k: 'basic', x: x }
+    });
+    return {
+      text: o.text, ram: null, hints: HINTS.D, steps: steps,
+      answer: { v: x, unit: '', tol: 0.001, label: 'Basicity of the acid', word: WORD[x] },
+      viz: { k: 'mix', a: { f: 'HxA', c: o.ac + ' M', V: o.aV + ' cm³', s: 'acid' },
+        b: { f: B.f, c: B.c + ' M', V: B.V + ' cm³', s: 'base' }, out: 'Neutralised', unk: 'x' }
+    };
+  };
+
+  CHEM.util = { chem: chem, fmt: fmt, fmtI: fmtI, num: num, RAM: RAM, UC: UC, RX: RX, HINTS: HINTS, mrOf: mrOf, ramChips: ramChips, side: side, allRam: allRam, eqStep: eqStep, molLine: molLine, molKeys: molKeys };
+})(typeof globalThis !== 'undefined' ? globalThis : window);
+</script>
+<script>
+/* Builders for types E-F and the full question bank */
+(function (G) {
+  'use strict';
+  var CHEM = G.CHEM, U = CHEM.util;
+  var chem = U.chem, fmt = U.fmt, fmtI = U.fmtI, num = U.num, RX = U.RX, UC = U.UC;
+
+  function barsStep(t, n1, n2, c1, c2, f1, f2, lim) {
+    var s1 = n1 / c1, s2 = n2 / c2;
+    return {
+      t: t,
+      h: '<p>Divide each number of moles by its coefficient. The <b>smaller</b> answer runs out first, so it is the <b>limiting reactant</b>.</p>' +
+        '<p class="fm">' + chem(f1) + ': ' + fmtI(n1) + ' ÷ ' + c1 + ' = <span class="res">' + fmtI(s1) + '</span></p>' +
+        '<p class="fm">' + chem(f2) + ': ' + fmtI(n2) + ' ÷ ' + c2 + ' = <span class="res">' + fmtI(s2) + '</span></p>' +
+        '<p><b>' + chem(lim === 1 ? f1 : f2) + ' is limiting</b>; ' + chem(lim === 1 ? f2 : f1) + ' is in excess.</p>',
+      k: fmtI(n1) + ' ÷ ' + c1 + ' =  and  ' + fmtI(n2) + ' ÷ ' + c2 + ' =',
+      v: { k: 'sets', a: { f: f1, s: s1 }, b: { f: f2, s: s2 }, lim: lim }
+    };
+  }
+
+  /* ---------- Type E: two solutions, find leftover (ion) concentration ---------- */
+  CHEM.buildE = function (o) {
+    var rx = RX[o.rx], R1 = o.r1, R2 = o.r2, c1 = rx.c[R1.f], c2 = rx.c[R2.f];
+    var n1 = num(R1.c) * num(R1.V) / 1000, n2 = num(R2.c) * num(R2.V) / 1000;
+    var s1 = n1 / c1, s2 = n2 / c2, lim = s1 < s2 ? 1 : 2, ex = lim === 1 ? 2 : 1;
+    var RE = ex === 1 ? R1 : R2, ce = ex === 1 ? c1 : c2, ne = ex === 1 ? n1 : n2, sl = Math.min(s1, s2);
+    var used = ce * sl, left = ne - used, T = o.t, Vt = num(R1.V) + num(R2.V);
+    var nTarget = left * T.mult, ans = nTarget / (Vt / 1000), steps = [];
+    steps.push(U.eqStep(rx, '<p>Mole ratio: <b>' + chem(R1.f) + ' : ' + chem(R2.f) + ' = ' + c1 + ' : ' + c2 + '</b></p>' +
+      (o.ppt ? '<p>(s) means solid: the precipitate leaves the solution, so it does not count as dissolved ions.)</p>' : '')));
+    steps.push({
+      t: 'Moles of each reactant',
+      h: '<p class="fm">n(' + chem(R1.f) + ') = ' + R1.c + ' × ' + R1.V + ' ÷ 1000 = <span class="res">' + fmtI(n1) + ' mol</span></p>' +
+        '<p class="fm">n(' + chem(R2.f) + ') = ' + R2.c + ' × ' + R2.V + ' ÷ 1000 = <span class="res">' + fmtI(n2) + ' mol</span></p>',
+      k: R1.c + ' × ' + R1.V + ' ÷ 1000 =  and  ' + R2.c + ' × ' + R2.V + ' ÷ 1000 ='
+    });
+    steps.push(barsStep('Find the limiting and excess reactant', n1, n2, c1, c2, R1.f, R2.f, lim));
+    steps.push({
+      t: 'Moles of the excess reactant left over',
+      h: '<p>The limiting reactant makes ' + fmtI(sl) + ' “sets” of reaction. The excess reactant uses ' + ce + ' mol per set.</p>' +
+        '<p class="fm">used = ' + ce + ' × ' + fmtI(sl) + ' = ' + fmtI(used) + ' mol</p>' +
+        '<p class="fm">left = ' + fmtI(ne) + ' − ' + fmtI(used) + ' = <span class="res">' + fmtI(left) + ' mol</span> of ' + chem(RE.f) + '</p>',
+      k: fmtI(ne) + ' − ' + ce + ' × ' + fmtI(sl) + ' ='
+    });
+    if (T.mult !== 1 || T.ion) {
+      steps.push({
+        t: 'Moles of the ion you are asked about',
+        h: '<p>One ' + chem(RE.f) + ' gives <b>' + T.mult + '</b> × ' + chem(T.ion) + '.</p>' +
+          '<p class="fm">n(' + chem(T.ion) + ') = ' + fmtI(left) + ' × ' + T.mult + ' = <span class="res">' + fmtI(nTarget) + ' mol</span></p>',
+        k: fmtI(left) + ' × ' + T.mult + ' ='
+      });
+    }
+    steps.push({
+      t: 'Total volume, then molarity',
+      h: '<p>Volumes add: ' + R1.V + ' + ' + R2.V + ' = <b>' + fmtI(Vt) + ' cm³</b></p>' +
+        '<p class="fm">c = n ÷ V = ' + fmtI(nTarget) + ' ÷ ( ' + fmtI(Vt) + ' ÷ 1000 ) = <span class="res">' + fmt(ans) + ' ' + UC + '</span></p>',
+      k: fmtI(nTarget) + ' ÷ ( ' + fmtI(Vt) + ' ÷ 1000 ) =',
+      v: { k: 'volsum', a: R1.V, b: R2.V, t: fmtI(Vt) }
+    });
+    return {
+      text: o.text, ram: null, hints: U.HINTS.E, steps: steps, _excessIsTarget: (T.from === ex), _left: left,
+      answer: { v: ans, unit: UC, tol: 0.015, label: 'Molarity of ' + chem(T.ion) },
+      viz: { k: 'mix', a: { f: R1.f, c: R1.c + ' M', V: R1.V + ' cm³', s: U.side(R1.f) },
+        b: { f: R2.f, c: R2.c + ' M', V: R2.V + ' cm³', s: U.side(R2.f) }, out: o.ppt ? 'Precipitate forms' : 'Mixed solution', ppt: !!o.ppt, unk: 'out' }
+    };
+  };
+
+  /* ---------- Type F: solution + solid, find H+ left ---------- */
+  CHEM.buildF = function (o) {
+    var rx = RX[o.rx], A = o.a, S = o.s, ca = rx.c[A.f], cs = rx.c[S.f];
+    var na = num(A.c) * num(A.V) / 1000, nH = na * A.h, m = U.mrOf(S.comp), ns = num(S.m) / m.mr;
+    var sa = na / ca, ss = ns / cs, lim = sa < ss ? 1 : 2, steps = [];
+    var sl = Math.min(sa, ss), used = ca * sl, left = na - used, nHleft = left * A.h, ans = nHleft / (num(A.V) / 1000);
+    steps.push(U.eqStep(rx, '<p>Mole ratio: <b>' + chem(A.f) + ' : ' + chem(S.f) + ' = ' + ca + ' : ' + cs + '</b></p>'));
+    steps.push({
+      t: 'Moles of the acid',
+      h: '<p class="fm">n(' + chem(A.f) + ') = ' + A.c + ' × ' + A.V + ' ÷ 1000 = <span class="res">' + fmtI(na) + ' mol</span></p>' +
+        (A.h > 1 ? '<p>' + chem(A.f) + ' gives ' + A.h + ' H⁺ per formula unit, so n(H⁺) = ' + fmtI(na) + ' × ' + A.h + ' = ' + fmtI(nH) + ' mol (needed later).</p>' : ''),
+      k: A.c + ' × ' + A.V + ' ÷ 1000 ='
+    });
+    steps.push({
+      t: 'Moles of the solid (from its mass)',
+      h: '<p>Mr of ' + chem(S.f) + ' = ' + m.expr + ' = <b>' + fmtI(m.mr) + '</b></p>' +
+        '<p class="fm">n = mass ÷ Mr = ' + S.m + ' ÷ ' + fmtI(m.mr) + ' = <span class="res">' + fmtI(ns) + ' mol</span></p>',
+      k: S.m + ' ÷ ' + fmtI(m.mr) + ' ='
+    });
+    steps.push(barsStep('Find the limiting and excess reactant', na, ns, ca, cs, A.f, S.f, lim));
+    steps.push({
+      t: 'Moles of acid and H⁺ left over',
+      h: '<p class="fm">acid used = ' + ca + ' × ' + fmtI(sl) + ' = ' + fmtI(used) + ' mol</p>' +
+        '<p class="fm">acid left = ' + fmtI(na) + ' − ' + fmtI(used) + ' = ' + fmtI(left) + ' mol</p>' +
+        '<p class="fm">n(H⁺) left = ' + fmtI(left) + ' × ' + A.h + ' = <span class="res">' + fmtI(nHleft) + ' mol</span></p>',
+      k: '( ' + fmtI(na) + ' − ' + ca + ' × ' + fmtI(sl) + ' ) × ' + A.h + ' ='
+    });
+    steps.push({
+      t: 'Molarity of H⁺',
+      h: '<p>The solid adds no volume, so the volume stays at ' + A.V + ' cm³.</p>' +
+        '<p class="fm">c = n ÷ V = ' + fmtI(nHleft) + ' ÷ ( ' + A.V + ' ÷ 1000 ) = <span class="res">' + fmt(ans) + ' ' + UC + '</span></p>',
+      k: fmtI(nHleft) + ' ÷ ( ' + A.V + ' ÷ 1000 ) ='
+    });
+    return {
+      text: o.text, ram: U.ramChips(S.comp), hints: U.HINTS.F, reminder: 'Volume remains unchanged', steps: steps, _left: left, _lim: lim,
+      answer: { v: ans, unit: UC, tol: 0.015, label: 'Molarity of H⁺' },
+      viz: { k: 'mix', a: { f: A.f, c: A.c + ' M', V: A.V + ' cm³', s: 'acid' },
+        b: { f: S.f, c: S.m + ' g', V: '', s: 'solid' }, out: 'Mixture', unk: 'out' }
+    };
+  };
+
+  /* ---------- Question bank ---------- */
+  function S(V, c, name) { return V + ' cm³ of ' + c + ' ' + UC + ' ' + name; }
+  var A = CHEM.buildA, B = CHEM.buildB, C = CHEM.buildC, D = CHEM.buildD, E = CHEM.buildE, F = CHEM.buildF;
+  function pad(arr) { return arr; }
+
+  var typeA = [
+    A({ rx: 'sa_naoh', k: { f: 'H2SO4', V: '50.0', c: '2' }, u: { f: 'NaOH', V: '18.0' },
+      text: '50.0 cm³ of 2 mol dm⁻³ sulphuric acid reacts completely with 18.0 cm³ of sodium hydroxide solution with unknown concentration. Find the concentration of the sodium hydroxide solution.' }),
+    A({ rx: 'h3po4_nc', k: { f: 'Na2CO3', V: '60.0', c: '0.2' }, u: { f: 'H3PO4', c: '0.25' },
+      text: '0.25 mol dm⁻³ phosphoric acid is added to 60.0 cm³ of 0.2 mol dm⁻³ sodium carbonate until the carbonate is completely reacted. Find the volume of the phosphoric acid used.' }),
+    A({ rx: 'hcl_naoh', k: { f: 'HCl', V: '25.0', c: '0.100' }, u: { f: 'NaOH', V: '20.0' },
+      text: '25.0 cm³ of 0.100 mol dm⁻³ hydrochloric acid reacts completely with 20.0 cm³ of sodium hydroxide solution with unknown concentration. Find the concentration of the sodium hydroxide solution.' }),
+    A({ rx: 'sa_koh', k: { f: 'H2SO4', V: '20.0', c: '0.150' }, u: { f: 'KOH', V: '24.0' },
+      text: '20.0 cm³ of 0.150 mol dm⁻³ sulphuric acid reacts completely with 24.0 cm³ of potassium hydroxide solution with unknown concentration. Find the concentration of the potassium hydroxide solution.' }),
+    A({ rx: 'hno3_baoh', k: { f: 'Ba(OH)2', V: '25.0', c: '0.200' }, u: { f: 'HNO3', c: '0.500' },
+      text: 'Nitric acid of concentration 0.500 mol dm⁻³ is added to 25.0 cm³ of 0.200 mol dm⁻³ barium hydroxide solution until the barium hydroxide is completely neutralized. Find the volume of nitric acid used.' }),
+    A({ rx: 'hcl_nc', k: { f: 'Na2CO3', V: '25.0', c: '0.100' }, u: { f: 'HCl', V: '18.5' },
+      text: '25.0 cm³ of 0.100 mol dm⁻³ sodium carbonate solution reacts completely with 18.5 cm³ of hydrochloric acid with unknown concentration. Find the concentration of the hydrochloric acid.' }),
+    A({ rx: 'sa_naoh', k: { f: 'NaOH', V: '30.0', c: '0.400' }, u: { f: 'H2SO4', c: '0.250' },
+      text: '0.250 mol dm⁻³ sulphuric acid is added to 30.0 cm³ of 0.400 mol dm⁻³ sodium hydroxide solution until the sodium hydroxide is completely neutralized. Find the volume of sulphuric acid used.' })
+  ];
+
+  var typeB = [
+    B({ rx: 'sa_koh', k: { f: 'H2SO4', V: '30.0', c: '1.0' }, o: { f: 'KOH', c: '1.5' }, p: { f: 'K2SO4' },
+      text: '1.5 M potassium hydroxide solution is added to 30.0 cm³ of 1.0 M sulphuric acid until the acid is completely neutralized. Find the molarity of potassium sulphate in the resultant solution.' }),
+    B({ rx: 'sa_naoh', k: { f: 'H2SO4', V: '40.0', c: '0.25' }, o: { f: 'NaOH', c: '0.50' }, p: { f: 'Na2SO4' },
+      text: '0.50 M sodium hydroxide solution is added to 40.0 cm³ of 0.25 M sulphuric acid until the acid is completely neutralized. Find the molarity of sodium sulphate in the resultant solution.' }),
+    B({ rx: 'hcl_naoh', k: { f: 'NaOH', V: '25.0', c: '1.0' }, o: { f: 'HCl', c: '2.0' }, p: { f: 'NaCl' },
+      text: '2.0 M hydrochloric acid is added to 25.0 cm³ of 1.0 M sodium hydroxide solution until the alkali is completely neutralized. Find the molarity of sodium chloride in the resultant solution.' }),
+    B({ rx: 'hno3_baoh', k: { f: 'Ba(OH)2', V: '20.0', c: '0.50' }, o: { f: 'HNO3', c: '1.0' }, p: { f: 'Ba(NO3)2' },
+      text: '1.0 M nitric acid is added to 20.0 cm³ of 0.50 M barium hydroxide solution until the alkali is completely neutralized. Find the molarity of barium nitrate in the resultant solution.' }),
+    B({ rx: 'hcl_nc', k: { f: 'HCl', V: '50.0', c: '0.20' }, o: { f: 'Na2CO3', c: '0.40' }, p: { f: 'NaCl' },
+      text: '0.40 M sodium carbonate solution is added to 50.0 cm³ of 0.20 M hydrochloric acid until the acid is completely reacted. Find the molarity of sodium chloride in the resultant solution.' }),
+    B({ rx: 'h3po4_nc', k: { f: 'Na2CO3', V: '30.0', c: '0.60' }, o: { f: 'H3PO4', c: '0.30' }, p: { f: 'Na3PO4' },
+      text: '0.30 M phosphoric acid is added to 30.0 cm³ of 0.60 M sodium carbonate solution until the carbonate is completely reacted. Find the molarity of sodium phosphate in the resultant solution.' }),
+    B({ rx: 'sa_koh', k: { f: 'H2SO4', V: '25.0', c: '0.20' }, o: { f: 'KOH', c: '0.80' }, p: { f: 'K2SO4' },
+      text: '0.80 M potassium hydroxide solution is added to 25.0 cm³ of 0.20 M sulphuric acid until the acid is completely neutralized. Find the molarity of potassium sulphate in the resultant solution.' })
+  ];
+
+  var typeC = [
+    C({ rx: 'hno3_mgoh', a: { f: 'HNO3', V: '30.0', c: '1.2' }, s: { f: 'Mg(OH)2', comp: { Mg: 1, O: 2, H: 2 } }, m: '1.2',
+      text: 'A 1.2 g antacid tablet with magnesium hydroxide as the active ingredient requires 30.0 cm³ of 1.2 M nitric acid for complete neutralization. Calculate the percentage by mass of magnesium hydroxide in the tablet.' }),
+    C({ rx: 'hcl_naoh_s', a: { f: 'HCl', V: '60.0', c: '1.00' }, s: { f: 'NaOH', comp: { Na: 1, O: 1, H: 1 } }, m: '3.00',
+      text: 'A 3.00 g sample of impure sodium hydroxide requires 60.0 cm³ of 1.00 M hydrochloric acid for complete neutralization. The impurities do not react with the acid. Calculate the percentage by mass of sodium hydroxide in the sample.' }),
+    C({ rx: 'hcl_caco3', a: { f: 'HCl', V: '30.0', c: '0.250' }, s: { f: 'CaCO3', comp: { Ca: 1, C: 1, O: 3 } }, m: '0.800',
+      text: 'A 0.800 g antacid tablet has calcium carbonate as the active ingredient. It reacts completely with 30.0 cm³ of 0.250 M hydrochloric acid. Calculate the percentage by mass of calcium carbonate in the tablet.' }),
+    C({ rx: 'sa_nc', a: { f: 'H2SO4', V: '20.0', c: '0.800' }, s: { f: 'Na2CO3', comp: { Na: 2, C: 1, O: 3 } }, m: '2.00',
+      text: '2.00 g of impure sodium carbonate reacts completely with 20.0 cm³ of 0.800 M sulphuric acid. The impurities do not react. Calculate the percentage purity by mass of the sodium carbonate.' }),
+    C({ rx: 'hcl_aloh', a: { f: 'HCl', V: '45.0', c: '0.600' }, s: { f: 'Al(OH)3', comp: { Al: 1, O: 3, H: 3 } }, m: '1.50',
+      text: 'A 1.50 g indigestion tablet has aluminium hydroxide as the active ingredient. It requires 45.0 cm³ of 0.600 M hydrochloric acid for complete neutralization. Calculate the percentage by mass of aluminium hydroxide in the tablet.' }),
+    C({ rx: 'hcl_nahco', a: { f: 'HCl', V: '10.0', c: '1.00' }, s: { f: 'NaHCO3', comp: { Na: 1, H: 1, C: 1, O: 3 } }, m: '1.00',
+      text: 'A 1.00 g sample of baking powder contains sodium hydrogencarbonate. It reacts completely with 10.0 cm³ of 1.00 M hydrochloric acid. Assume the other ingredients do not react. Calculate the percentage by mass of sodium hydrogencarbonate in the sample.' }),
+    C({ rx: 'sa_mgoh', a: { f: 'H2SO4', V: '20.0', c: '0.500' }, s: { f: 'Mg(OH)2', comp: { Mg: 1, O: 2, H: 2 } }, m: '0.900',
+      text: '0.900 g of impure magnesium hydroxide reacts completely with 20.0 cm³ of 0.500 M sulphuric acid. Calculate the percentage by mass of magnesium hydroxide in the sample.' })
+  ];
+
+  function dq(acV, acC, bf, bohc, bV, bC, name) {
+    return D({ ac: acC, aV: acV, b: { f: bf, oh: bohc, c: bC, V: bV },
+      text: acV + ' cm³ of ' + acC + ' M acid with unknown basicity requires ' + bV + ' cm³ of ' + bC + ' M ' + name + ' for complete neutralization. Determine the basicity of the acid.' });
+  }
+  var typeD = [
+    dq('25.0', '0.4', 'Ba(OH)2', 2, '15.0', '1.0', 'barium hydroxide'),
+    dq('20.0', '0.10', 'NaOH', 1, '20.0', '0.20', 'sodium hydroxide'),
+    dq('20.0', '0.25', 'KOH', 1, '10.0', '0.50', 'potassium hydroxide'),
+    dq('30.0', '0.050', 'Ba(OH)2', 2, '45.0', '0.050', 'barium hydroxide'),
+    dq('20.0', '0.15', 'Ca(OH)2', 2, '30.0', '0.10', 'calcium hydroxide'),
+    dq('25.0', '0.30', 'Ba(OH)2', 2, '15.0', '0.25', 'barium hydroxide'),
+    dq('10.0', '0.20', 'NaOH', 1, '15.0', '0.40', 'sodium hydroxide')
+  ];
+
+  var typeE = [
+    E({ rx: 'al_pb', ppt: true, r1: { f: 'Al2(SO4)3', V: '25.0', c: '0.180' }, r2: { f: 'Pb(NO3)2', V: '50.0', c: '0.2' }, t: { ion: 'SO4^2-', mult: 3, from: 1 },
+      text: '25.0 cm³ of 0.180 mol dm⁻³ aluminium sulphate solution reacts with 50.0 cm³ of 0.2 mol dm⁻³ lead nitrate solution. Find the molarity of sulphate ion after the reaction is completed.' }),
+    E({ rx: 'ba_na', ppt: true, r1: { f: 'BaCl2', V: '30.0', c: '0.100' }, r2: { f: 'Na2SO4', V: '20.0', c: '0.200' }, t: { ion: 'SO4^2-', mult: 1, from: 2 },
+      text: '30.0 cm³ of 0.100 mol dm⁻³ barium chloride solution is mixed with 20.0 cm³ of 0.200 mol dm⁻³ sodium sulphate solution. A white precipitate of barium sulphate forms. Find the molarity of sulphate ion after the reaction is completed.' }),
+    E({ rx: 'ag_mg', ppt: true, r1: { f: 'AgNO3', V: '40.0', c: '0.150' }, r2: { f: 'MgCl2', V: '20.0', c: '0.100' }, t: { ion: 'Ag^+', mult: 1, from: 1 },
+      text: '40.0 cm³ of 0.150 mol dm⁻³ silver nitrate solution is mixed with 20.0 cm³ of 0.100 mol dm⁻³ magnesium chloride solution. A white precipitate of silver chloride forms. Find the molarity of silver ion after the reaction is completed.' }),
+    E({ rx: 'sa_naoh', r1: { f: 'H2SO4', V: '25.0', c: '0.50' }, r2: { f: 'NaOH', V: '40.0', c: '0.40' }, t: { ion: 'H^+', mult: 2, from: 1 },
+      text: '25.0 cm³ of 0.50 mol dm⁻³ sulphuric acid is mixed with 40.0 cm³ of 0.40 mol dm⁻³ sodium hydroxide solution. Find the molarity of hydrogen ion in the resultant solution.' }),
+    E({ rx: 'hcl_naoh', r1: { f: 'HCl', V: '20.0', c: '0.30' }, r2: { f: 'NaOH', V: '30.0', c: '0.25' }, t: { ion: 'OH^-', mult: 1, from: 2 },
+      text: '20.0 cm³ of 0.30 mol dm⁻³ hydrochloric acid is mixed with 30.0 cm³ of 0.25 mol dm⁻³ sodium hydroxide solution. Find the molarity of hydroxide ion in the resultant solution.' }),
+    E({ rx: 'pb_ki', ppt: true, r1: { f: 'Pb(NO3)2', V: '50.0', c: '0.100' }, r2: { f: 'KI', V: '25.0', c: '0.250' }, t: { ion: 'Pb^2+', mult: 1, from: 1 },
+      text: '50.0 cm³ of 0.100 mol dm⁻³ lead(II) nitrate solution is mixed with 25.0 cm³ of 0.250 mol dm⁻³ potassium iodide solution. A yellow precipitate of lead(II) iodide forms. Find the molarity of lead(II) ion after the reaction is completed.' }),
+    E({ rx: 'hno3_baoh', r1: { f: 'HNO3', V: '25.0', c: '0.40' }, r2: { f: 'Ba(OH)2', V: '15.0', c: '0.30' }, t: { ion: 'H^+', mult: 1, from: 1 },
+      text: '25.0 cm³ of 0.40 mol dm⁻³ nitric acid is mixed with 15.0 cm³ of 0.30 mol dm⁻³ barium hydroxide solution. Find the molarity of hydrogen ion in the resultant solution.' })
+  ];
+
+  var COMP = { Na2CO3: { Na: 2, C: 1, O: 3 }, CaCO3: { Ca: 1, C: 1, O: 3 }, MgCO3: { Mg: 1, C: 1, O: 3 }, Mg: { Mg: 1 } };
+  function fq(rx, af, aV, aC, ah, sf, m, text) {
+    return F({ rx: rx, a: { f: af, V: aV, c: aC, h: ah }, s: { f: sf, m: m, comp: COMP[sf] }, text: text });
+  }
+  var typeF = [
+    fq('sa_nc', 'H2SO4', '50.0', '1.5', 2, 'Na2CO3', '4',
+      'Determine the concentration of hydrogen ions when 50.0 cm³ of 1.5 M H2SO4(aq) and 4 g of pure Na2CO3 is mixed together.'),
+    fq('hcl_caco3', 'HCl', '40.0', '1.0', 1, 'CaCO3', '1.50',
+      '40.0 cm³ of 1.0 M hydrochloric acid is added to 1.50 g of pure calcium carbonate. Determine the concentration of hydrogen ions after the reaction is completed.'),
+    fq('hno3_nc', 'HNO3', '25.0', '2.0', 1, 'Na2CO3', '2.50',
+      '25.0 cm³ of 2.0 M nitric acid is added to 2.50 g of pure sodium carbonate. Determine the concentration of hydrogen ions after the reaction is completed.'),
+    fq('sa_mgco3', 'H2SO4', '50.0', '0.80', 2, 'MgCO3', '2.00',
+      '50.0 cm³ of 0.80 M sulphuric acid is added to 2.00 g of pure magnesium carbonate. Determine the concentration of hydrogen ions after the reaction is completed.'),
+    fq('hcl_mg', 'HCl', '30.0', '1.2', 1, 'Mg', '0.300',
+      '30.0 cm³ of 1.2 M hydrochloric acid is added to 0.300 g of magnesium ribbon. Determine the concentration of hydrogen ions after the reaction is completed.'),
+    fq('hcl_nc', 'HCl', '20.0', '1.5', 1, 'Na2CO3', '1.20',
+      '20.0 cm³ of 1.5 M hydrochloric acid is added to 1.20 g of pure sodium carbonate. Determine the concentration of hydrogen ions after the reaction is completed.'),
+    fq('sa_nc', 'H2SO4', '35.0', '0.50', 2, 'Na2CO3', '1.50',
+      '35.0 cm³ of 0.50 M sulphuric acid is added to 1.50 g of pure sodium carbonate. Determine the concentration of hydrogen ions after the reaction is completed.')
+  ];
+
+  var intro = {
+    A: { idea: 'The reaction goes to completion with nothing left over. Use the mole ratio from the equation to cross from the substance you know to the one you want.', watch: 'Change cm³ to dm³ (÷ 1000) before using concentration. The ratio comes from the equation, not from guessing 1 : 1.' },
+    B: { idea: 'Find how much of each reactant is needed, then work out how much product is dissolved in the whole mixture.', watch: 'Use the total volume of the mixed solutions, not only the volume of one of them.' },
+    C: { idea: 'Only the pure active ingredient reacts. Find its moles from the acid, change moles to mass with Mr, then compare with the whole sample.', watch: 'Use the Mr of the solid, not the Mr of the acid. Percentage = pure mass ÷ sample mass × 100.' },
+    D: { idea: 'Basicity is the number of H⁺ ions one acid molecule can give. Each H⁺ is neutralised by one OH⁻, so basicity = moles of OH⁻ ÷ moles of acid.', watch: 'Ba(OH)₂ and Ca(OH)₂ give 2 OH⁻ for each formula unit. Count them before you divide.' },
+    E: { idea: 'One reactant runs out first (limiting). The other is left over (excess). Work out how much is left, then divide by the total volume.', watch: 'Divide moles by the coefficient to find the limiting reactant. Ask for an ion? Multiply by how many of that ion one formula unit contains.' },
+    F: { idea: 'Change the mass of the solid into moles, compare it with the acid to find the limiting reactant, then work out how much H⁺ is left.', watch: 'H₂SO₄ gives 2 H⁺ per molecule. The solid takes up no volume, so the volume stays the same.' }
+  };
+
+  CHEM.TABS = [
+    { id: 't1', label: 'Completed reaction', types: [
+      { id: 'A', label: 'Unknown concentration or volume', title: 'Find an unknown concentration or volume', intro: intro.A, qs: typeA },
+      { id: 'B', label: 'Concentration of a product', title: 'Find the concentration of a product', intro: intro.B, qs: typeB } ] },
+    { id: 't2', label: 'Purity and basicity', types: [
+      { id: 'C', label: 'Percentage by mass', title: 'Calculate the percentage by mass of a reactant', intro: intro.C, qs: typeC },
+      { id: 'D', label: 'Basicity of an acid', title: 'Calculate the basicity of an unknown acid', intro: intro.D, qs: typeD } ] },
+    { id: 't3', label: 'Limiting and excess', types: [
+      { id: 'E', label: 'Two solutions', title: 'Concentration of the excess reactant after two solutions react', intro: intro.E, qs: typeE },
+      { id: 'F', label: 'Solution and solid', title: 'Concentration of H⁺ left when a solid is added to an acid', intro: intro.F, qs: typeF } ] }
+  ];
+})(typeof globalThis !== 'undefined' ? globalThis : window);
+</script>
+<script>
+/* SVG diagrams. Each lives on a white panel, so colours here are fixed on purpose. */
+(function (G) {
+  'use strict';
+  var CHEM = G.CHEM, chem = CHEM.util.chem;
+  var uid = 0;
+  var INK = '#14283A', TEAL = '#0A6E69', PINK = '#B3125A';
+  var COL = { acid: ['#F7CF6B', '#8A5A00'], base: ['#8EC3EE', '#1D5C96'], solid: ['#CBD2D9', '#44546A'], out: ['#B5E3CB', '#1F6B49'] };
+
+  function t2svg(h) {
+    return String(h)
+      .replace(/<sub>(.*?)<\/sub>/g, '<tspan baseline-shift="sub" font-size="72%">$1</tspan>')
+      .replace(/<sup>(.*?)<\/sup>/g, '<tspan baseline-shift="super" font-size="72%">$1</tspan>');
+  }
+  function svgF(f) {
+    if (f === 'HxA') return 'H<tspan baseline-shift="sub" font-size="72%">x</tspan>A';
+    return t2svg(chem(f));
+  }
+  function plain(h) { return String(h).replace(/<[^>]+>/g, ''); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  function beaker(cx, kind, level, id) {
+    var c = COL[kind] || COL.out, top = 30, bot = 112, h = bot - top, y = bot - h * level;
+    var o = '<clipPath id="cp' + id + '"><path d="M' + (cx - 30) + ',' + top + ' L' + (cx - 30) + ',' + (bot - 6) + ' Q' + (cx - 30) + ',' + bot + ' ' + (cx - 24) + ',' + bot + ' L' + (cx + 24) + ',' + bot + ' Q' + (cx + 30) + ',' + bot + ' ' + (cx + 30) + ',' + (bot - 6) + ' L' + (cx + 30) + ',' + top + ' Z"/></clipPath>';
+    if (kind !== 'solid') {
+      o += '<g clip-path="url(#cp' + id + ')"><rect class="liq" x="' + (cx - 32) + '" y="' + y + '" width="64" height="' + (bot - y + 2) + '" fill="' + c[0] + '"/></g>';
+    }
+    o += '<path d="M' + (cx - 32) + ',' + (top - 4) + ' L' + (cx - 32) + ',' + (bot - 6) + ' Q' + (cx - 32) + ',' + (bot + 2) + ' ' + (cx - 24) + ',' + (bot + 2) + ' L' + (cx + 24) + ',' + (bot + 2) + ' Q' + (cx + 32) + ',' + (bot + 2) + ' ' + (cx + 32) + ',' + (bot - 6) + ' L' + (cx + 32) + ',' + (top - 4) + '" fill="none" stroke="' + c[1] + '" stroke-width="3" stroke-linecap="round"/>';
+    return o;
+  }
+  function pile(cx, white) {
+    var pts = [[-20, 104], [-8, 104], [6, 104], [18, 104], [-14, 94], [0, 94], [13, 94], [-5, 84], [8, 84]];
+    return pts.map(function (p) {
+      return '<circle class="dot" cx="' + (cx + p[0]) + '" cy="' + p[1] + '" r="6" fill="' + (white ? '#FFFFFF' : '#CBD2D9') + '" stroke="' + (white ? '#44546A' : '#44546A') + '" stroke-width="1.5"/>';
+    }).join('');
+  }
+  function txt(x, y, s, o) {
+    o = o || {};
+    return '<text x="' + x + '" y="' + y + '" text-anchor="' + (o.a || 'middle') + '" font-size="' + (o.s || 13) + '" font-weight="' + (o.w || 400) + '" fill="' + (o.f || INK) + '">' + s + '</text>';
+  }
+  function val(x, y, s, w) {
+    var unk = /\?/.test(s);
+    return txt(x, y, esc(s), { w: unk ? 800 : (w || 400), f: unk ? PINK : INK });
+  }
+  function wrap(svg, vb, label) {
+    return { html: '<svg viewBox="' + vb + '" role="img" aria-label="' + esc(label) + '" xmlns="http://www.w3.org/2000/svg" font-family="Atkinson Hyperlegible, Verdana, sans-serif">' + svg + '</svg>', label: label };
+  }
+
+  /* beakers: known + other = result */
+  function mix(v) {
+    var id = ++uid, s = '';
+    var aKind = v.a.s, bKind = v.b.s;
+    s += beaker(60, aKind, 0.62, id + 'a');
+    s += beaker(180, bKind === 'solid' ? 'solid' : bKind, 0.62, id + 'b');
+    if (bKind === 'solid') s += pile(180);
+    s += beaker(300, 'out', 0.8, id + 'c');
+    if (v.ppt) s += pile(300, true);
+    s += txt(120, 82, '+', { s: 26, w: 700 });
+    s += '<path d="M222,76 L252,76" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/><path d="M246,68 L254,76 L246,84" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+    var cols = [[60, v.a], [180, v.b]];
+    cols.forEach(function (p) {
+      s += txt(p[0], 138, svgF(p[1].f), { w: 700, s: 14 });
+      s += val(p[0], 156, p[1].c);
+      if (p[1].V) s += val(p[0], 173, p[1].V);
+    });
+    var out = plain(v.out), parts = out.split(' '), last = parts.pop(), first = parts.join(' ');
+    var o1 = first ? t2svg(v.out).replace(/ [^ ]+$/, '') : t2svg(v.out);
+    if (first) { s += txt(300, 138, o1, { w: 700, s: 13 }); s += txt(300, 156, esc(last), { w: 700, s: 13 }); }
+    else s += txt(300, 138, esc(out), { w: 700, s: 13 });
+    if (v.unk === 'out') s += txt(300, 173, 'Find the amount left', { s: 12, f: PINK, w: 700 });
+    var lab = 'Diagram: ' + plain(chem(v.a.f)) + ' (' + v.a.c + (v.a.V ? ', ' + v.a.V : '') + ') plus ' + plain(chem(v.b.f)) + ' (' + v.b.c + (v.b.V ? ', ' + v.b.V : '') + ') gives ' + out + '.';
+    return wrap(s, '0 0 360 188', lab);
+  }
+
+  /* mole ratio */
+  function ratio(v) {
+    var s = '', n = v.a.n, m = v.b.n;
+    function row(count, x0, shape, kind) {
+      var r = '', i;
+      for (i = 0; i < count; i++) {
+        var x = x0 + i * 34;
+        r += shape === 'c' ? '<circle class="dot" style="animation-delay:' + (i * 0.12) + 's" cx="' + x + '" cy="44" r="14" fill="' + COL[kind][0] + '" stroke="' + COL[kind][1] + '" stroke-width="2.5"/>'
+          : '<rect class="dot" style="animation-delay:' + (0.25 + i * 0.12) + 's" x="' + (x - 13) + '" y="31" width="26" height="26" rx="6" fill="' + COL[kind][0] + '" stroke="' + COL[kind][1] + '" stroke-width="2.5"/>';
+      }
+      return r;
+    }
+    var ka = CHEM.util.side(v.a.f), kb = CHEM.util.side(v.b.f);
+    if (ka === kb) kb = ka === 'acid' ? 'base' : 'acid';
+    var ax = 28 + (3 - n) * 17, bx = 220 + (3 - m) * 17;
+    s += row(n, ax, 'c', ka) + row(m, bx, 's', kb);
+    s += txt(135, 50, 'reacts with', { s: 12 });
+    s += txt(ax + (n - 1) * 17, 84, n + ' mol ' + svgF(v.a.f), { w: 700, s: 14 });
+    s += txt(bx + (m - 1) * 17, 84, m + ' mol ' + svgF(v.b.f), { w: 700, s: 14 });
+    s += txt(180, 124, 'ratio  ' + n + ' : ' + m, { s: 20, w: 800, f: TEAL });
+    return wrap(s, '0 0 360 140', 'Mole ratio ' + plain(chem(v.a.f)) + ' to ' + plain(chem(v.b.f)) + ' is ' + n + ' to ' + m + '.');
+  }
+
+  /* volumes add */
+  function volsum(v) {
+    var a = parseFloat(v.a), b = parseFloat(v.b), t = a + b, W = 300, wa = Math.max(70, W * a / t), wb = W - wa;
+    var s = '<rect class="grow" x="30" y="28" width="' + wa + '" height="40" fill="' + COL.acid[0] + '" stroke="' + COL.acid[1] + '" stroke-width="2.5"/>' +
+      '<rect class="grow" x="' + (30 + wa) + '" y="28" width="' + wb + '" height="40" fill="' + COL.base[0] + '" stroke="' + COL.base[1] + '" stroke-width="2.5"/>';
+    s += txt(30 + wa / 2, 53, esc(v.a) + ' cm³', { w: 700, s: 13 }) + txt(30 + wa + wb / 2, 53, esc(v.b) + ' cm³', { w: 700, s: 13 });
+    s += '<path d="M30,82 L330,82 M30,76 L30,88 M330,76 L330,88" stroke="' + INK + '" stroke-width="2" fill="none"/>';
+    s += txt(180, 108, 'Total volume = ' + esc(v.t) + ' cm³', { w: 800, s: 15, f: TEAL });
+    return wrap(s, '0 0 360 120', 'Volumes add: ' + v.a + ' plus ' + v.b + ' cm³ gives ' + v.t + ' cm³ in total.');
+  }
+
+  /* limiting vs excess bars */
+  function sets(v) {
+    var id = ++uid, mx = Math.max(v.a.s, v.b.s), W = 210, s = '';
+    s += '<defs><pattern id="h' + id + '" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#F6D3E1"/><rect width="3.5" height="8" fill="' + PINK + '"/></pattern></defs>';
+    [[v.a, 1], [v.b, 2]].forEach(function (p, i) {
+      var y = 30 + i * 62, w = Math.max(6, W * p[0].s / mx), lim = v.lim === p[1];
+      s += txt(24, y - 8, svgF(p[0].f) + '  (moles ÷ coefficient)', { a: 'start', w: 700, s: 13 });
+      s += '<rect class="grow" x="24" y="' + y + '" width="' + w + '" height="28" rx="4" fill="' + (lim ? 'url(#h' + id + ')' : '#B5E3CB') + '" stroke="' + (lim ? PINK : '#1F6B49') + '" stroke-width="2.5"/>';
+      s += txt(24 + w + 8, y + 19, CHEM.util.fmtI(p[0].s), { a: 'start', w: 800, s: 14 });
+      s += txt(336, y + 19, lim ? 'LIMITING' : 'EXCESS', { a: 'end', w: 800, s: 12, f: lim ? PINK : '#1F6B49' });
+    });
+    s += txt(180, 168, 'Shorter bar runs out first = limiting', { s: 13, w: 700 });
+    return wrap(s, '0 0 360 182', 'Bar chart of moles divided by coefficient. ' + plain(chem(v.lim === 1 ? v.a.f : v.b.f)) + ' has the shorter bar, so it is the limiting reactant.');
+  }
+
+  /* percentage by mass */
+  function pct(v) {
+    var id = ++uid, W = 300, w = W * v.pct / 100, s = '';
+    s += '<defs><pattern id="i' + id + '" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#E7EBEF"/><rect width="3" height="8" fill="#8A97A6"/></pattern></defs>';
+    s += '<rect x="30" y="40" width="' + W + '" height="38" fill="url(#i' + id + ')" stroke="#44546A" stroke-width="2.5"/>';
+    s += '<rect class="grow" x="30" y="40" width="' + w + '" height="38" fill="#B5E3CB" stroke="#1F6B49" stroke-width="2.5"/>';
+    s += txt(30, 28, 'Whole sample = ' + esc(v.total) + ' g', { a: 'start', w: 700, s: 13 });
+    s += txt(30 + w / 2, 65, esc(CHEM.util.fmt(v.pct)) + ' %', { w: 800, s: 15, f: '#0F4F36' });
+    s += txt(30, 104, 'Green = pure ' + svgF(v.f) + ' (' + esc(v.mass) + ' g).  Hatched = impurities.', { a: 'start', s: 12.5 });
+    return wrap(s, '0 0 360 118', 'Bar showing ' + CHEM.util.fmt(v.pct) + ' percent of the sample is pure ' + plain(chem(v.f)) + '.');
+  }
+
+  /* basicity */
+  function basic(v) {
+    if (!v.x) {
+      var u = '<circle cx="60" cy="70" r="34" fill="' + COL.acid[0] + '" stroke="' + COL.acid[1] + '" stroke-width="3"/>' + txt(60, 77, 'A', { s: 22, w: 800 });
+      u += '<path d="M92,70 L128,70" stroke="' + COL.acid[1] + '" stroke-width="2.5"/>';
+      u += '<rect class="dot" x="128" y="50" width="62" height="40" rx="20" fill="#FFFFFF" stroke="' + COL.acid[1] + '" stroke-width="2.5"/>' + txt(159, 76, 'x H⁺', { s: 15, w: 800 });
+      u += txt(212, 77, '+', { s: 20, w: 700 });
+      u += '<rect class="dot" style="animation-delay:.2s" x="232" y="48" width="84" height="44" rx="22" fill="' + COL.base[0] + '" stroke="' + COL.base[1] + '" stroke-width="2.5"/>' + txt(274, 76, 'x OH⁻', { s: 15, w: 800 });
+      u += txt(60, 124, 'H<tspan baseline-shift="sub" font-size="72%">x</tspan>A', { w: 800, s: 15 });
+      u += txt(180, 124, 'x = number of H⁺ in one acid molecule', { s: 12.5 });
+      return wrap(u, '0 0 360 140', 'An acid H x A gives x hydrogen ions. Each one reacts with one hydroxide ion, so one mole of acid needs x moles of hydroxide.');
+    }
+    var x = v.x, n = x || 3, s = '', i;
+    var cy = 80, h = 44;
+    s += '<circle cx="60" cy="' + cy + '" r="34" fill="' + COL.acid[0] + '" stroke="' + COL.acid[1] + '" stroke-width="3"/>' + txt(60, cy + 7, 'A', { s: 22, w: 800 });
+    for (i = 0; i < n; i++) {
+      var y = cy + (i - (n - 1) / 2) * h;
+      var dash = x ? '' : ' stroke-dasharray="4 3"';
+      s += '<path d="M92,' + (cy + (i - (n - 1) / 2) * 12) + ' L150,' + y + '" stroke="' + COL.acid[1] + '" stroke-width="2.5" fill="none"' + dash + '/>';
+      s += '<circle class="dot" style="animation-delay:' + (i * 0.15) + 's" cx="164" cy="' + y + '" r="14" fill="#FFFFFF" stroke="' + COL.acid[1] + '" stroke-width="2.5"' + dash + '/>' + txt(164, y + 5, 'H⁺', { s: 12, w: 800 });
+      s += txt(214, y + 5, '+', { s: 18, w: 700 });
+      s += '<circle class="dot" style="animation-delay:' + (0.2 + i * 0.15) + 's" cx="262" cy="' + y + '" r="19" fill="' + COL.base[0] + '" stroke="' + COL.base[1] + '" stroke-width="2.5"' + dash + '/>' + txt(262, y + 5, 'OH⁻', { s: 12, w: 800 });
+    }
+    s += txt(60, 140 + (n > 2 ? 12 : 0), x ? 'H' + '<tspan baseline-shift="sub" font-size="72%">' + x + '</tspan>A' : 'H<tspan baseline-shift="sub" font-size="72%">x</tspan>A', { w: 800, s: 15 });
+    s += txt(300, cy + 5, x ? '= ' + x : '= ?', { s: 20, w: 800, f: x ? TEAL : PINK, a: 'start' });
+    return wrap(s, '0 0 360 ' + (n > 2 ? 170 : 150), x ? 'Each acid molecule gives ' + x + ' H plus ions, each reacting with one OH minus. Basicity is ' + x + '.' : 'An acid H x A gives x hydrogen ions, each reacting with one hydroxide ion.');
+  }
+
+  /* mole triangle for the toolkit */
+  function triangle() {
+    var s = '<path d="M90,16 L168,150 L12,150 Z" fill="#E6F2F1" stroke="' + TEAL + '" stroke-width="3" stroke-linejoin="round"/>' +
+      '<path d="M44,96 L136,96 M90,96 L90,150" stroke="' + TEAL + '" stroke-width="3"/>' +
+      txt(90, 80, 'n', { s: 28, w: 800 }) + txt(52, 134, 'c', { s: 28, w: 800 }) + txt(128, 134, 'V', { s: 28, w: 800 });
+    return wrap(s, '0 0 180 164', 'Formula triangle: n on top, c and V along the bottom. n equals c times V.');
+  }
+
+  CHEM.viz = function (v) {
+    return ({ mix: mix, ratio: ratio, volsum: volsum, sets: sets, pct: pct, basic: basic })[v.k](v);
+  };
+  CHEM.triangle = triangle;
+})(typeof globalThis !== 'undefined' ? globalThis : window);
+</script>
+<script>
+/* UI: tabs, topic switch, question chips, one question card with stepped help */
+(function () {
+  'use strict';
+  var CH = window.CHEM, U = CH.util, chem = U.chem, TABS = CH.TABS;
+  document.documentElement.lang = 'en';
+  var S = { t: 0, y: 0, q: 0 }, shown = {}, solved = {}, tries = {};
+  try { solved = JSON.parse(localStorage.getItem('solution-reactions-done') || '{}') || {}; } catch (e) { solved = {}; }
+  function save() { try { localStorage.setItem('solution-reactions-done', JSON.stringify(solved)); } catch (e) { /* storage unavailable */ } }
+  function $(id) { return document.getElementById(id); }
+  function key(t, y, q) { return t + '-' + y + '-' + q; }
+  function type() { return TABS[S.t].types[S.y]; }
+  function reduce() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function say(msg) { var l = $('live'); l.textContent = ''; setTimeout(function () { l.textContent = msg; }, 30); }
+
+  /* ----- tabs ----- */
+  function renderTabs() {
+    var h = '';
+    TABS.forEach(function (t, i) {
+      h += '<button role="tab" class="tab" id="tab' + i + '" aria-controls="panel" aria-selected="' + (i === S.t) + '" tabindex="' + (i === S.t ? 0 : -1) + '" data-i="' + i + '">' +
+        '<span class="num" aria-hidden="true">' + (i + 1) + '</span><span>' + t.label + '</span></button>';
+    });
+    $('tabs').innerHTML = h;
+  }
+  function selectTab(i, focus) {
+    S.t = i; S.y = 0; S.q = 0; renderTabs(); renderPanel(false);
+    if (focus) $('tab' + i).focus();
+  }
+  $('tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('.tab'); if (b) selectTab(+b.dataset.i, false);
+  });
+  $('tabs').addEventListener('keydown', function (e) {
+    var n = TABS.length, i = S.t, k = e.key;
+    if (k === 'ArrowRight') i = (i + 1) % n; else if (k === 'ArrowLeft') i = (i + n - 1) % n;
+    else if (k === 'Home') i = 0; else if (k === 'End') i = n - 1; else return;
+    e.preventDefault(); selectTab(i, true);
+  });
+
+  /* ----- panel ----- */
+  function toolkit() {
+    return '<details class="toolkit"><summary>Mole toolkit: formulas you need (tap to open)</summary><div class="tk">' +
+      '<ul>' +
+      '<li><b>n = c × V ÷ 1000</b> &nbsp;(c in mol dm⁻³, V in cm³)</li>' +
+      '<li><b>c = n ÷ (V ÷ 1000)</b></li>' +
+      '<li><b>n = mass ÷ Mr</b> &nbsp;(for solids)</li>' +
+      '<li>1 M means 1 mol dm⁻³. &nbsp;1 dm³ = 1000 cm³.</li>' +
+      '<li>Keep the full calculator number and round only at the end (3 significant figures).</li></ul></div></details>';
+  }
+  function renderPanel(focusCard) {
+    var t = TABS[S.t], ty = type(), h = '';
+    h += '<div class="types" role="group" aria-label="Question type">';
+    t.types.forEach(function (x, i) {
+      h += '<button class="pill" data-y="' + i + '" aria-pressed="' + (i === S.y) + '">' + x.label + '</button>';
+    });
+    h += '</div>';
+    h += '<h2 class="sr">' + ty.title + '</h2>';
+    h += '<div class="intro"><div><h3>The idea</h3><p>' + ty.intro.idea + '</p></div><div class="watch"><h3>Watch out</h3><p>' + ty.intro.watch + '</p></div></div>';
+    h += toolkit();
+    h += '<div class="qnav" id="qnav" role="group" aria-label="Questions"></div>';
+    h += '<article class="card" id="qcard" aria-label="Question"></article>';
+    $('panel').setAttribute('aria-labelledby', 'tab' + S.t);
+    $('panel').innerHTML = h;
+    renderChips(); renderCard(focusCard);
+  }
+  function renderChips() {
+    var ty = type(), h = '';
+    ty.qs.forEach(function (q, i) {
+      var d = solved[key(S.t, S.y, i)];
+      h += '<button class="chip' + (d ? ' done' : '') + '" data-q="' + i + '" aria-current="' + (i === S.q) + '"' +
+        ' aria-label="' + (i === 0 ? 'Worked example' : 'Practice ' + i) + (d ? ', answered correctly' : '') + '">' + (i === 0 ? 'Demo' : 'Q' + i) + '</button>';
+    });
+    $('qnav').innerHTML = h;
+  }
+  $('panel').addEventListener('click', function (e) {
+    var p = e.target.closest('.pill'), c = e.target.closest('.chip');
+    if (p) { S.y = +p.dataset.y; S.q = 0; renderPanel(false); }
+    else if (c) { S.q = +c.dataset.q; renderChips(); renderCard(true); }
+  });
+
+  /* ----- question card ----- */
+  function stepHTML(s, i) {
+    var h = '<span class="n" aria-hidden="true">' + (i + 1) + '</span><div class="body"><h3><span class="sr">Step ' + (i + 1) + ': </span>' + s.t + '</h3>' + s.h;
+    if (s.k) h += '<div class="keys"><b>Calculator</b><code>' + s.k + '</code></div>';
+    
+    return h + '</div>';
+  }
+  function renderCard(focus) {
+    var ty = type(), q = ty.qs[S.q], demo = S.q === 0, k = key(S.t, S.y, S.q), total = q.steps.length;
+    if (shown[k] === undefined) shown[k] = demo ? 1 : 0;
+    var h = '<header><h2 id="qh" tabindex="-1">' + (demo ? 'Worked example' : 'Practice ' + S.q + ' of ' + (ty.qs.length - 1)) + '</h2><span class="badge">' + ty.label + '</span></header>';
+    h += '<p class="qtext">' + chem(q.text) + '</p>';
+    if (q.ram) {
+      h += '<div class="ram"><b>Relative atomic masses (RAM):</b>' + q.ram.map(function (r) { return '<span class="el">' + r.el + ' = ' + r.v + '</span>'; }).join('') + '</div>';
+    }
+    var showViz = false;
+    h += showViz ? '<div class="grid2"><div class="viz">' + CH.viz(q.viz).html + '</div>' : '<div>';
+    var hint = '';
+    if (demo) hint = '<div class="hint"><strong>Hint:</strong><ol>' + q.hints.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>' +
+      (q.reminder ? '<div class="rem"><strong>Reminder:</strong> ' + q.reminder + '</div>' : '') + '</div>';
+    else if (q.reminder) hint = '<div class="hint"><strong>Reminder:</strong> ' + q.reminder + '</div>';
+    h += hint + '</div>';
+    var a = q.answer, sf = a.unit === '' ? 'a whole number' : '3 significant figures';
+    h += '<form class="ans" id="aform" novalidate><label for="ain">' + (demo ? 'Try it first. ' : '') + a.label + ' <span style="font-weight:400">(' + sf + ')</span></label>' +
+      '<div class="row"><input id="ain" type="text" inputmode="decimal" autocomplete="off" aria-describedby="fb"><span class="unit">' + a.unit + '</span>' +
+      '<button class="btn" type="submit">Check answer</button></div><p class="fb" id="fb" role="status"></p></form>';
+    h += '<div class="controls" id="ctl"><button class="btn" id="next" type="button"></button><button class="btn ghost" id="all" type="button">Show all steps</button>' +
+      '<button class="btn ghost" id="hide" type="button">Hide steps</button><span class="prog" id="prog" aria-hidden="true"></span></div>';
+    h += '<ol class="steps" id="steps" aria-label="Worked steps"></ol>';
+    var ps = ty.qs.length, nextT = null;
+    if (S.q === ps - 1) {
+      var tt = TABS[S.t];
+      if (S.y + 1 < tt.types.length) nextT = { t: S.t, y: S.y + 1, l: tt.types[S.y + 1].label };
+      else if (S.t + 1 < TABS.length) nextT = { t: S.t + 1, y: 0, l: TABS[S.t + 1].types[0].label };
+    }
+    h += '<div class="pager"><button class="btn ghost" id="prev" type="button"' + (S.q === 0 ? ' disabled' : '') + '>← Previous</button>';
+    if (S.q < ps - 1) h += '<button class="btn ghost" id="nq" type="button">Next question →</button>';
+    else if (nextT) h += '<button class="btn" id="nt" type="button" data-t="' + nextT.t + '" data-y="' + nextT.y + '">Next topic: ' + nextT.l + ' →</button>';
+    h += '</div>';
+    $('qcard').innerHTML = h;
+
+    var list = $('steps');
+    function sync(n, announce) {
+      var have = list.children.length, i;
+      for (i = have; i < n; i++) {
+        var li = document.createElement('li'); li.className = 'step new'; li.innerHTML = stepHTML(q.steps[i], i); list.appendChild(li);
+        if (announce) { try { li.scrollIntoView({ block: 'nearest', behavior: reduce() ? 'auto' : 'smooth' }); } catch (e) { /* ignore */ } }
+      }
+      while (list.children.length > n) list.removeChild(list.lastChild);
+      shown[k] = n;
+      var nb = $('next'); nb.disabled = n >= total;
+      nb.textContent = n >= total ? 'All ' + total + ' steps shown' : (n === 0 ? 'Show first step' : 'Show step ' + (n + 1) + ' of ' + total);
+      $('all').disabled = n >= total; $('hide').disabled = n === 0;
+      var d = ''; for (i = 0; i < total; i++) d += '<i class="' + (i < n ? 'on' : '') + '"></i>';
+      $('prog').innerHTML = d;
+      if (announce && n > 0 && n > have) say('Step ' + n + ' of ' + total + ': ' + q.steps[n - 1].t);
+    }
+    sync(shown[k], false);
+    list.querySelectorAll('.step').forEach(function (el) { el.classList.remove('new'); });
+    $('next').addEventListener('click', function () { sync(Math.min(total, shown[k] + 1), true); });
+    $('all').addEventListener('click', function () { sync(total, true); say('All steps shown.'); });
+    $('hide').addEventListener('click', function () { sync(0, false); say('Steps hidden.'); });
+    $('aform').addEventListener('submit', function (e) { e.preventDefault(); check(q, k); });
+    $('prev').addEventListener('click', function () { S.q--; renderChips(); renderCard(true); });
+    if ($('nq')) $('nq').addEventListener('click', function () { S.q++; renderChips(); renderCard(true); });
+    if ($('nt')) $('nt').addEventListener('click', function (e) {
+      var b = e.currentTarget; S.t = +b.dataset.t; S.y = +b.dataset.y; S.q = 0; renderTabs(); renderPanel(true);
+    });
+    if (focus) $('qh').focus();
+  }
+
+  function check(q, k) {
+    var raw = $('ain').value.replace(/,/g, ''), m = raw.match(/-?\d*\.?\d+(?:e[+-]?\d+)?/i), fb = $('fb');
+    if (!m) { fb.className = 'fb no'; fb.textContent = 'Type your answer as a number first.'; return; }
+    var x = parseFloat(m[0]), a = q.answer, rel = Math.abs(x - a.v) / a.v;
+    if (rel <= a.tol) {
+      fb.className = 'fb ok';
+      fb.textContent = 'Correct! ' + (a.unit === '' ? 'Basicity = ' + a.v + ' (' + a.word + ').' : U.fmt(a.v) + ' ' + a.unit + '.');
+      solved[k] = true; save(); renderChips();
+    } else if (rel <= 0.05 && a.unit !== '') {
+      fb.className = 'fb no'; fb.textContent = 'Very close. Check your rounding (3 significant figures) or the last step.';
+    } else {
+      tries[k] = (tries[k] || 0) + 1;
+      fb.className = 'fb no';
+      fb.textContent = tries[k] >= 2 ? 'Not yet. Press “Show step” and compare each number with your working.' : 'Not yet. Check your working or open the first step for help.';
+    }
+  }
+
+  renderTabs(); renderPanel(false);
+})();
+</script>
+
+</body></html>

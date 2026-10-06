@@ -1,0 +1,411 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='EjzkEsJrfxrpwKC/G8uIBg==' src='https://5397864d-a7a2-457c-84cd-c7fe59986dc2.frame.claudeusercontent.com/3cbEWjRQ_K1rZs0-sioLFuLW0JEN-oGttwaaQluzz-58HwKa7_NLZViqoa0Abec_ss8SQh3ZlGyM5HASnxkuwFI17dUGcinwQ0SYtU3UK8XCXl_lusR92qxYaCCOajXSl92pzGQnW91Rox7BFzwNIdFSZ-i2ekNTqyK_Q-UKfB1b5jqeVDRivgzkKDbqmojx-J3x-GVIBfY0RCh8qC90H9CxgWnmJ2KgbplYMspTqW2d1FxDtVibRQrPLDVH-vup5alajKSqumtnFh9BX6y381WxWc5crQsJKxnsLJF2ETLKQ2Gqdp5107eiVjyCxJo9UhDuauozxqnQRdHvS_uZPUHeShJXMuo5QIcfW2q6qfxxqqtjIV2cX_PSibDJ8GOmqer57ElyWffLfxZewm6GBZHLAkBluB3Nkgq9Sj4qGGSUaVlaUJCPlwc4EaxRX6--NkXMCKtFSPI8dZqfFa2YRfhct6LPjSFRvL9sPIiWTSQAOvAOVa4zDOBNtgnmwUMF2Vf-YZalXja2hLfTgZAL0QC489DefIRbl-1MkkB28k2ETBqSpT6L9GgHWicBeOrrPDowBNp6Hu7EkENOc3_B3V9apFnN-G9bczZfG56TNoZ8naHEdAFH5cHEoOvHtzogSPPVbFlkuKFswrProlF9ZYHlOI49V4GxWaKwF8PqNs0DHiSHjMVO6hRiYhJ_cUca-DXrgXW3mhxxwwP_w_1Qnw'></script></head><body>
+<title>Fractionating Tower Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap">
+<style>
+/* Layout concept: one white "lab bench" stage (tower + live controls) beside a reference column (fractions table, steps, experiments); stacks on phones. */
+:root{
+  --bg:#e8eff0; --surface:#ffffff; --ink:#10202a; --muted:#40525c; --line:#b4c4c8;
+  --accent:#075f7a; --accent-ink:#ffffff; --heat:#a8310f; --focus:#0b57d0; --soft:#eef4f5;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c161b; --surface:#14232a; --ink:#e8f1f3; --muted:#a8bcc4; --line:#32505b;
+  --accent:#6cc9e3; --accent-ink:#03202a; --heat:#ff9f84; --focus:#8ab4ff; --soft:#1b2f38; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c161b; --surface:#14232a; --ink:#e8f1f3; --muted:#a8bcc4; --line:#32505b;
+  --accent:#6cc9e3; --accent-ink:#03202a; --heat:#ff9f84; --focus:#8ab4ff; --soft:#1b2f38; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--f-body);padding-inline:16px;padding-block:20px 40px;-webkit-text-size-adjust:100%}
+.wrap{max-width:1120px;margin-inline:auto;display:grid;gap:20px}
+.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:6px;z-index:5}
+.skip:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+h1,h2{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(1.7rem,5.2vw,2.6rem);font-weight:700}
+h2{font-size:1.25rem;font-weight:600}
+p{margin:0}
+.eyebrow{font:500 .8125rem/1.3 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--heat)}
+header{display:grid;gap:10px;max-width:70ch}
+header p.lede{color:var(--muted);font-size:1.0625rem}
+.layout{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:900px){.layout{grid-template-columns:minmax(0,540px) minmax(0,1fr);align-items:start}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.stage{display:grid;gap:14px}
+.canvas-box{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+canvas{display:block;width:100%;aspect-ratio:480/620;background:#fff}
+.probebox{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;align-items:center;background:var(--surface);border:2px solid var(--accent);border-radius:8px;padding:10px 14px;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.probebox .pl{font:600 .75rem/1.2 var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.probebox .pbig{font:500 1.75rem/1.1 var(--f-data);color:var(--heat);font-variant-numeric:tabular-nums}
+.probebox .pmsg{display:grid;gap:2px;font-size:.9375rem;line-height:1.35}
+.probebox .pmsg i{font-style:normal;font-weight:600}
+.chip{display:inline-block;margin-right:10px;white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.key{list-style:none;margin:0;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px 16px;border:1px solid var(--line);border-radius:8px;background:var(--soft)}
+.key li{display:flex;align-items:center;gap:10px;min-width:0;font-size:.9375rem;line-height:1.3}
+.key svg{flex:none;width:64px;height:22px}
+.key b{display:block}
+.key span span{color:var(--muted);font-size:.8125rem}
+.hint{font-size:.875rem;color:var(--muted)}
+.btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:10px}
+button{font:600 1rem/1.2 var(--f-body);min-height:48px;padding:10px 14px;border-radius:8px;border:2px solid var(--accent);background:var(--surface);color:var(--accent);cursor:pointer;touch-action:manipulation}
+button.primary{background:var(--accent);color:var(--accent-ink)}
+button:hover{filter:brightness(1.08)}
+.ctl{display:grid;gap:4px}
+.ctl label{display:flex;justify-content:space-between;gap:12px;font-weight:600}
+.ctl output{font:500 .9375rem var(--f-data);color:var(--heat);white-space:nowrap}
+input[type=range]{width:100%;height:44px;margin:0;accent-color:var(--accent);touch-action:manipulation}
+.status{background:var(--soft);border-left:4px solid var(--accent);padding:10px 12px;border-radius:4px;min-height:3.4em}
+.side{display:grid;gap:20px;min-width:0}
+.side .card{display:grid;gap:12px}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:420px}
+caption{text-align:left;font-weight:600;padding-bottom:6px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top;font-size:.9375rem}
+th{font-size:.8125rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.num{font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:8px;vertical-align:-2px;border:1.5px solid var(--ink)}
+.small{font-size:.8125rem;color:var(--muted);display:block}
+.state{font-weight:600}
+ol,ul{margin:0;padding-left:1.3em;display:grid;gap:8px}
+details{border:1px solid var(--line);border-radius:8px;padding:0 12px}
+summary{min-height:48px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+details[open] summary{border-bottom:1px solid var(--line);margin-bottom:10px}
+details ul{padding-bottom:12px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<a class="skip" href="#sim">Skip to the simulation</a>
+<div class="wrap">
+<header>
+  <p class="eyebrow">IAL Chemistry · Crude oil</p>
+  <h1>Fractionating Tower Simulator</h1>
+  <p class="lede">Crude oil is a mixture of hydrocarbons. Heat it, let the vapour rise up a column that gets cooler towards the top, and each fraction condenses where the temperature drops below its boiling point.</p>
+</header>
+
+<main class="layout" id="main">
+  <section class="card stage" id="sim" aria-labelledby="simh">
+    <h2 id="simh">Simulation</h2>
+    <div class="probebox">
+      <div><span class="pl">Probe temperature</span><br><span class="pbig" id="probeT">240 °C</span></div>
+      <div class="pmsg" id="probeMsg"></div>
+    </div>
+    <div class="sr" id="srprobe" role="status" aria-live="polite"></div>
+    <div class="canvas-box">
+      <canvas id="cv" role="slider" tabindex="0" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Temperature probe height in the fractionating tower. Click or tap the tower, or press the up and down arrow keys, to move it. The diagram shows an animated diagram of a fractionating tower. A tank of crude oil, an even mixture of different hydrocarbon molecules, is pumped through a tube into a furnace. The feed, heated to 450 degrees Celsius, enters the bottom of the tower. Vapours rise through a column that is hotter at the bottom and cooler at the top, and condense on trays at different heights. Gases leave at the top. Heavy residue stays at the bottom." aria-describedby="cvdesc"></canvas>
+    </div>
+    <p class="hint"><strong>Tap or click the tower</strong> to place the temperature probe. With a keyboard, focus the diagram and press ↑ or ↓.</p>
+    <ul class="key" id="key" aria-label="Key to molecule colours"></ul>
+    <p class="hint" id="cvdesc">Each molecule is drawn as a carbon chain. Longer chains are heavier fractions. Colours match the table. Chain lengths are schematic, not to scale.</p>
+
+    <div class="btns" role="group" aria-label="Playback">
+      <button type="button" class="primary" id="play">Pause</button>
+      <button type="button" id="step">Step 1 s</button>
+      <button type="button" id="reset">Reset</button>
+    </div>
+
+    <div class="ctl">
+      <label for="speed"><span>Simulation speed</span><output id="speedo" for="speed">1.5×</output></label>
+      <input type="range" id="speed" min="0.5" max="3" step="0.5" value="1.5">
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite">Crude oil, an even mixture of all fractions, is pumped to the furnace and heated.</p>
+  </section>
+
+  <div class="side">
+    <section class="card" aria-labelledby="th">
+      <h2 id="th">Fractions and what they do</h2>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Fractions table, scrolls sideways on small screens">
+        <table>
+          <caption>Temperature at the probe height: <span id="probet" class="state">215 °C</span></caption>
+          <thead><tr><th scope="col">Fraction</th><th scope="col">Boiling range</th><th scope="col">At probe</th><th scope="col">Collected</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="hint" id="extra" hidden=""></p>
+      <p class="hint">Click or tap the tower to move the probe. A fraction is vapour where the temperature is above its boiling point, and liquid where it is below.</p>
+    </section>
+
+    <section class="card" aria-labelledby="hh">
+      <h2 id="hh">How the separation works</h2>
+      <ol>
+        <li>Crude oil is an even mixture of hydrocarbons of all chain lengths. It is pumped through a tube into a furnace and heated. The furnace heats it to 450 °C. Molecules that can vaporise enter the tower as vapour. The largest molecules cannot vaporise, so they sink to the bottom as residue.</li>
+        <li>The tower is hottest at the bottom, where the hot feed from the furnace enters. The higher up the column, the further it is from this heat source, and the rising vapour loses heat as it goes, so the temperature decreases. This is the temperature gradient.</li>
+        <li>Vapours rise. Each one condenses on the tray at the height where the temperature falls below its boiling point.</li>
+        <li>The liquid is drawn off from that tray. Shorter chains with lower boiling points condense higher up. Very short chains never condense and leave as gases.</li>
+      </ol>
+    </section>
+
+    <details>
+      <summary>Try these experiments</summary>
+      <ul>
+        <li>Click the tower near the bottom, then near the top. How does the temperature change?</li>
+        <li>Place the probe at each tray. Which fractions are vapour at that height, and which have condensed?</li>
+        <li>Explain why petrol vapour passes the kerosene tray without condensing.</li>
+        <li>Why does the residue stay at the bottom and never rise up the tower?</li>
+      </ul>
+    </details>
+  </div>
+</main>
+</div>
+
+<script>
+document.documentElement.lang='en';
+const $=id=>document.getElementById(id);
+const cv=$('cv'), ctx=cv.getContext('2d');
+const LW=480, LH=620;
+
+/* geometry (logical px) */
+const TUBE_X=45, TUBE_Y0=100, FURN_TOP=440, TUBE_SPD=80, TUBE_W=50;
+const TX0=160, TX1=290, Y_TOP=50, Y_FEED=480, Y_SUMP=560, PIPE_END=425, RES_PIPE=525;
+const T_MAX=450;
+const yOfT=T=>Y_TOP+(T-30)/(T_MAX-30)*(Y_FEED-Y_TOP);
+const tOfY=y=>Math.max(30,Math.min(T_MAX,30+(y-Y_TOP)/(Y_FEED-Y_TOP)*(T_MAX-30)));
+const TRAY_T=[105,210,300];
+const TRAY_Y=TRAY_T.map(yOfT);
+const BEAK=[{top:TRAY_Y[0]+10,h:78},{top:TRAY_Y[1]+10,h:78},{top:TRAY_Y[2]+10,h:78}];
+const RES_BEAK={top:530,h:66};
+const GAS_BOX={top:22,h:60};
+
+const FR=[
+ {id:'gas',name:'Refinery gases',short:'Gases',c:'#1f77b4',n:2,range:'below 40',carbons:'C1–4',bp:20,vapAt:0,w:.10,spd:62},
+ {id:'petrol',name:'Petrol / naphtha',short:'Petrol',c:'#a86a00',n:4,range:'40–170',carbons:'C5–10',bp:120,vapAt:170,w:.25,spd:52,tray:0},
+ {id:'kero',name:'Kerosene',short:'Kerosene',c:'#1b7a43',n:6,range:'170–250',carbons:'C10–14',bp:230,vapAt:250,w:.15,spd:46,tray:1},
+ {id:'diesel',name:'Diesel oil',short:'Diesel',c:'#7b3fa0',n:8,range:'250–350',carbons:'C14–25',bp:330,vapAt:350,w:.20,spd:40,tray:2},
+ {id:'res',name:'Fuel oil, lubricating oil, wax, bitumen',short:'Residue',c:'#4a4a4a',n:11,range:'over 350',carbons:'above C25',bp:Infinity,vapAt:Infinity,w:.30,spd:0}
+];
+
+let P=[], counts=[0,0,0,0,0], sunk=[0,0,0,0,0], Tf=450, probeH=50, speed=1.5, playing=true, acc=0;
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=()=>{let r=Math.random(),a=0;for(let i=0;i<FR.length;i++){a+=FR[i].w;if(r<a)return i}return 4};
+
+let spawnT=0;
+function trySpawn(dt){
+  spawnT+=dt; if(spawnT<0.16||P.length>190)return; spawnT=0;
+  P.push({f:pick(),st:'tube',x:rnd(30,60),y:TUBE_Y0+rnd(4,14),ang:Math.PI/2+rnd(-.7,.7),sp:rnd(.85,1.15),vx:0,vy:0,oy:rnd(-5,5)});
+}
+function step(dt){
+  trySpawn(dt);
+  for(let i=P.length-1;i>=0;i--){
+    const p=P[i], F=FR[p.f]; let rm=false;
+    switch(p.st){
+      case 'tube':
+        p.y+=TUBE_SPD*dt*p.sp; p.ang+=rnd(-1.4,1.4)*dt; p.ang=Math.max(Math.PI/2-.9,Math.min(Math.PI/2+.9,p.ang));
+        { const hw=Math.abs(Math.cos(p.ang))*(F.n-1)*2.7+4.5; p.x+=rnd(-1,1)*24*dt; p.x=Math.max(TUBE_X-TUBE_W/2+hw,Math.min(TUBE_X+TUBE_W/2-hw,p.x)); }
+        if(p.y>=Y_FEED-24){p.st='pipe'} break;
+      case 'pipe':
+        p.x+=TUBE_SPD*dt; p.y+=(Y_FEED+p.oy-p.y)*Math.min(1,4*dt); p.ang+=(0-p.ang)*Math.min(1,5*dt);
+
+        if(p.x>=TX0+8){ if(F.vapAt<=Tf&&F.vapAt<Infinity){p.st='vap';p.vx=rnd(-18,18)} else {p.st='sink';p.ty=rnd(502,550)} }
+        break;
+      case 'vap':{
+        const py=p.y; p.y-=F.spd*dt*rnd(.8,1.2); p.vx+=rnd(-1,1)*160*dt; p.vx=Math.max(-26,Math.min(26,p.vx));
+        p.x+=p.vx*dt; if(p.x<TX0+10){p.x=TX0+10;p.vx=Math.abs(p.vx)} if(p.x>TX1-10){p.x=TX1-10;p.vx=-Math.abs(p.vx)}
+        p.ang+=rnd(-3,3)*dt;
+        for(let k=2;k>=0;k--){
+          if(py>TRAY_Y[k]&&p.y<=TRAY_Y[k]&&TRAY_T[k]<F.bp){p.st='tray';p.y=TRAY_Y[k]-4;p.tx=PIPE_END-10+rnd(-8,8);p.ang=0;break}
+        }
+        if(p.st==='vap'&&p.y<=Y_TOP+4){p.st='gasPipe';p.tx=rnd(372,455)}
+        break;}
+      case 'tray': p.x+=34*dt; if(p.x>=TX1){p.st='out'} break;
+      case 'out': p.x+=60*dt; if(p.x>=p.tx){p.st='drip';p.x=p.tx} break;
+      case 'drip': {
+        p.y+=85*dt; const bt=p.res?RES_BEAK.top:BEAK[F.tray].top;
+        if(p.y>=bt+8){counts[p.res?4:p.f]++;if(p.res&&p.f<4)sunk[p.f]++;rm=true}
+        break;}
+      case 'gasPipe': p.x+=62*dt; p.y+=(Y_TOP+2-p.y)*Math.min(1,4*dt); p.ang=0;
+        if(p.x>=p.tx){p.st='gasBox';p.vx=rnd(-30,30);p.vy=rnd(-14,14);counts[p.f]++} break;
+      case 'gasBox': p.x+=p.vx*dt;p.y+=p.vy*dt;p.ang+=rnd(-2,2)*dt;
+        if(p.x<362||p.x>466)p.vx*=-1; if(p.y<GAS_BOX.top+14||p.y>GAS_BOX.top+GAS_BOX.h-8)p.vy*=-1; p.x=Math.max(360,Math.min(468,p.x));p.y=Math.max(GAS_BOX.top+12,Math.min(GAS_BOX.top+GAS_BOX.h-6,p.y)); break;
+      case 'sink': p.y+=70*dt; p.x+=rnd(-1,1)*20*dt; if(p.y>=p.ty){p.st='sump';p.wait=rnd(2,6);p.vx=rnd(-14,14);p.vy=rnd(-8,8)} break;
+      case 'sump': p.x+=p.vx*dt;p.y+=p.vy*dt;p.ang+=rnd(-2,2)*dt;
+        if(p.x<TX0+14||p.x>TX1-14)p.vx*=-1; if(p.y<498||p.y>Y_SUMP-8)p.vy*=-1;
+        p.wait-=dt; if(p.wait<=0){p.st='resOut';p.tx=PIPE_END-10+rnd(-8,8)} break;
+      case 'resOut': p.y+=(RES_PIPE-p.y)*Math.min(1,3*dt); p.x+=Math.max(32,Math.abs(p.vx)*2)*dt; p.ang*=0.9; if(p.x>=p.tx){p.st='drip';p.res=true;p.x=p.tx} break;
+    }
+    if(rm)P.splice(i,1);
+  }
+  /* cap retained gas particles */
+  let g=P.filter(q=>q.st==='gasBox');
+  if(g.length>26){for(const q of g.slice(0,g.length-26)){P.splice(P.indexOf(q),1)}}
+}
+
+/* drawing */
+const fs=px=>Math.min(Math.max(px,12/(sc||1)),17);
+let sc=1,dpr=1;
+function chain(x,y,ang,n,color){
+  const sp=5.4,r=3.1,L=(n-1)*sp,c=Math.cos(ang),s=Math.sin(ang);
+  ctx.fillStyle=color;ctx.strokeStyle='rgba(0,0,0,.6)';ctx.lineWidth=.6;
+  for(let i=0;i<n;i++){const u=i*sp-L/2,v=(i%2?1.6:-1.6);
+    ctx.beginPath();ctx.arc(x+u*c-v*s,y+u*s+v*c,r,0,6.2832);ctx.fill();ctx.stroke()}
+}
+function pipe(x1,y1,x2,y2,w){
+  w=w||14;
+  ctx.lineCap='butt';ctx.strokeStyle='#33434b';ctx.lineWidth=w+3;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.strokeStyle='#f6f9fa';ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+}
+function txt(t,x,y,px,opt={}){
+  ctx.font=`${opt.w||500} ${fs(px)}px "IBM Plex Sans",system-ui,sans-serif`;
+  ctx.fillStyle=opt.c||'#10202a';ctx.textAlign=opt.a||'left';ctx.textBaseline=opt.b||'alphabetic';ctx.fillText(t,x,y);
+}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+
+function draw(){
+  ctx.setTransform(dpr*sc,0,0,dpr*sc,0,0);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,LW,LH);
+
+  /* tower body with temperature gradient */
+  const g=ctx.createLinearGradient(0,Y_TOP,0,Y_SUMP);
+  g.addColorStop(0,'#d6e8f6');g.addColorStop(.5,'#f6e6cf');g.addColorStop(.8,'#f6c9ae');g.addColorStop(1,'#efae8f');
+  ctx.beginPath();ctx.moveTo(TX0,Y_SUMP);ctx.lineTo(TX0,Y_TOP+30);ctx.quadraticCurveTo(TX0,Y_TOP-6,(TX0+TX1)/2,Y_TOP-6);ctx.quadraticCurveTo(TX1,Y_TOP-6,TX1,Y_TOP+30);ctx.lineTo(TX1,Y_SUMP);ctx.closePath();
+  ctx.fillStyle=g;ctx.fill();
+  /* sump liquid */
+  ctx.fillStyle='rgba(60,60,60,.28)';ctx.fillRect(TX0,496,TX1-TX0,Y_SUMP-496);
+  ctx.strokeStyle='#33434b';ctx.lineWidth=3;ctx.stroke();
+
+  /* trays with bubble caps */
+  for(const y of TRAY_Y){
+    ctx.strokeStyle='#33434b';ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(TX0,y);ctx.lineTo(TX0+14,y);ctx.moveTo(TX0+38,y);ctx.lineTo(TX0+69,y);ctx.moveTo(TX0+93,y);ctx.lineTo(TX1,y);ctx.stroke();
+    ctx.lineWidth=2.5;
+    for(const cx of [TX0+26,TX0+81]){ctx.beginPath();ctx.moveTo(cx-17,y+2);ctx.lineTo(cx-17,y-12);ctx.lineTo(cx+17,y-12);ctx.lineTo(cx+17,y+2);ctx.stroke()}
+  }
+  /* pipes */
+  pipe(TUBE_X,TUBE_Y0,TUBE_X,FURN_TOP+6,TUBE_W);
+  pipe(80,Y_FEED,TX0,Y_FEED,24);
+  for(const y of TRAY_Y)pipe(TX1,y,PIPE_END,y);
+  pipe(TX1-6,Y_TOP+2,352,Y_TOP+2);
+  pipe(TX1,RES_PIPE,PIPE_END,RES_PIPE);
+
+  /* crude oil tank */
+  ctx.fillStyle='#e3edf0';ctx.strokeStyle='#33434b';ctx.lineWidth=3;rr(6,16,78,84,6);ctx.fill();ctx.stroke();
+  txt('Crude oil',45,34,13,{w:600,a:'center'});
+  for(const m of [[24,52,.6,0],[62,54,-.5,1],[38,68,.2,2],[46,82,-.12,3],[45,93,.05,4]])chain(m[0],m[1],m[2],FR[m[3]].n,FR[m[3]].c);
+  /* pump */
+  ctx.strokeStyle='#33434b';ctx.lineWidth=3;rr(12,114,66,30,8);ctx.stroke();
+  ctx.fillStyle='#33434b';ctx.beginPath();ctx.moveTo(34,121);ctx.lineTo(56,129);ctx.lineTo(34,137);ctx.closePath();ctx.fill();
+  ctx.save();ctx.translate(24,300);ctx.rotate(-Math.PI/2);txt('pump pushes the mixture in',0,0,12,{a:'center',w:600,c:'#40525c'});ctx.restore();
+
+  /* furnace */
+  ctx.fillStyle='#f2b79b';ctx.strokeStyle='#33434b';ctx.lineWidth=3;rr(10,FURN_TOP,70,100,6);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#a8310f';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(22,508);ctx.lineTo(68,508);ctx.lineTo(22,520);ctx.lineTo(68,520);ctx.lineTo(22,532);ctx.lineTo(68,532);ctx.stroke();
+  ctx.fillStyle='#e8590c';ctx.strokeStyle='#33434b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(45,580);ctx.quadraticCurveTo(26,562,40,548);ctx.quadraticCurveTo(42,558,48,556);ctx.quadraticCurveTo(52,550,50,544);ctx.quadraticCurveTo(70,562,45,580);ctx.fill();ctx.stroke();
+  txt('Furnace',45,598,13,{w:600,a:'center'});
+  txt('Feed '+Tf+' °C',45,616,13,{w:600,a:'center',c:'#a8310f'});
+
+  /* temperature scale */
+  ctx.strokeStyle='#33434b';ctx.lineWidth=1.5;
+  for(const T of [30,100,200,300,400,450]){const y=yOfT(T);ctx.beginPath();ctx.moveTo(TX0-8,y);ctx.lineTo(TX0,y);ctx.stroke();
+    txt(T+' °C',TX0-11,(T===450?y-17:y+5),12,{a:'right',w:500})}
+  ctx.save();ctx.translate(92,270);ctx.rotate(-Math.PI/2);txt('temperature decreases  →',0,0,13,{a:'center',w:600,c:'#a8310f'});ctx.restore();
+  txt('Fractionating tower',(TX0+TX1)/2,22,13,{a:'center',w:600});
+
+  /* collection vessels */
+  const vessels=[
+    {i:0,top:GAS_BOX.top,h:GAS_BOX.h,label:'Gases'},
+    {i:1,top:BEAK[0].top,h:BEAK[0].h,label:'Petrol'},
+    {i:2,top:BEAK[1].top,h:BEAK[1].h,label:'Kerosene'},
+    {i:3,top:BEAK[2].top,h:BEAK[2].h,label:'Diesel'},
+    {i:4,top:RES_BEAK.top,h:RES_BEAK.h,label:'Residue'}];
+  for(const v of vessels){
+    const col=FR[v.i].c;
+    if(v.i>0&&v.i<4||v.i===4){
+      const fr=Math.min(1,counts[v.i]/90)*.55*v.h;
+      ctx.fillStyle=col;ctx.globalAlpha=.4;ctx.fillRect(353,v.top+v.h-fr,120,fr);ctx.globalAlpha=1;
+    }
+    ctx.strokeStyle='#33434b';ctx.lineWidth=2.5;rr(352,v.top,122,v.h,5);ctx.stroke();
+    txt(v.label,358,v.top+Math.max(14,fs(13)),13,{w:600,c:col==='#a86a00'?'#7a4b00':col});
+    txt(String(counts[v.i]),468,v.top+v.h-6,13,{a:'right',w:600,c:'#10202a'});
+  }
+
+  /* probe line */
+  const py=Y_FEED-probeH/100*(Y_FEED-Y_TOP), pT=Math.round(tOfY(py));
+  ctx.setLineDash([6,4]);ctx.strokeStyle='#0b57d0';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(TX0,py);ctx.lineTo(TX1,py);ctx.stroke();ctx.setLineDash([]);
+  const pw=62,ph=Math.max(22,fs(13)+8);
+  ctx.fillStyle='#0b57d0';rr((TX0+TX1)/2-pw/2,py-ph/2,pw,ph,5);ctx.fill();
+  txt(pT+' °C',(TX0+TX1)/2,py,13,{a:'center',b:'middle',w:600,c:'#fff'});
+  ctx.fillStyle='#0b57d0';for(const d of [-1,1]){ctx.beginPath();ctx.moveTo(TX1-14,py+d*(ph/2+3));ctx.lineTo(TX1-22,py+d*(ph/2+3));ctx.lineTo(TX1-18,py+d*(ph/2+9));ctx.closePath();ctx.fill()}
+
+  /* particles */
+  for(const p of P){const F=FR[p.f];chain(p.x,p.y,(p.st==='tray'||p.st==='out'||p.st==='gasPipe')?0:p.ang,F.n,F.c)}
+}
+
+/* UI */
+const keyEl=$('key');
+FR.forEach(F=>{
+  let c='';for(let i=0;i<F.n;i++){c+=`<circle cx="${6+i*5.4}" cy="${11+(i%2?1.6:-1.6)}" r="3.1" fill="${F.c}" stroke="#000" stroke-opacity=".6" stroke-width=".6"/>`}
+  const li=document.createElement('li');
+  li.innerHTML=`<svg viewBox="0 0 64 22" aria-hidden="true" focusable="false">${c}</svg><span><b>${F.short==='Residue'?'Residue (fuel oil, wax, bitumen)':F.name}</b><span>${F.carbons} carbon atoms</span></span>`;
+  keyEl.appendChild(li);
+});
+const rows=$('rows');
+FR.forEach((F,i)=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<th scope="row" style="text-transform:none;letter-spacing:0;font-size:.9375rem;color:inherit"><span class="sw" style="background:${F.c}"></span>${F.name}<span class="small">${F.carbons} carbon atoms</span></th><td class="num">${F.range} °C</td><td class="state" id="pr${i}"></td><td class="num" id="ct${i}">0</td>`;
+  rows.appendChild(tr);
+});
+function updUI(){
+  const pT=Math.round(tOfY(Y_FEED-probeH/100*(Y_FEED-Y_TOP)));
+  $('probet').textContent=pT+' °C';$('probeT').textContent=pT+' °C';
+  const chip=F=>`<span class="chip"><span class="sw" style="background:${F.c};margin-right:5px"></span>${F.short}</span>`;
+  const vp=FR.slice(0,4).filter(F=>pT>=F.bp), lq=FR.filter(F=>!(F.id!=='res'&&pT>=F.bp));
+  $('probeMsg').innerHTML=`<span><i>Vapour:</i> ${vp.map(chip).join('')||'none'}</span><span><i>Liquid:</i> ${lq.map(chip).join('')}</span>`;
+  cv.setAttribute('aria-valuenow',probeH);cv.setAttribute('aria-valuetext',pT+' degrees Celsius, '+probeH+' percent up the tower');
+  FR.forEach((F,i)=>{$('pr'+i).textContent=(i===4)?'Liquid (stays at bottom)':(pT>=F.bp?'Vapour':'Liquid')});
+  FR.forEach((F,i)=>{$('ct'+i).textContent=counts[i]});
+  const parts=FR.slice(0,4).map((F,i)=>sunk[i]?F.short.toLowerCase()+' '+sunk[i]:'').filter(Boolean);
+  const e=$('extra');e.hidden=!parts.length;if(parts.length)e.textContent='The bottom vessel also holds fractions that could not vaporise at this feed temperature: '+parts.join(', ')+'.';
+}
+function setStatus(t){$('status').textContent=t}
+function probeMsg(){
+  const pT=Math.round(tOfY(Y_FEED-probeH/100*(Y_FEED-Y_TOP)));
+  const vap=FR.slice(0,4).filter(F=>pT>=F.bp).map(F=>F.short.toLowerCase());
+  $('srprobe').textContent=`Probe at ${pT} degrees Celsius. Vapour here: ${vap.join(', ')||'none'}. The other fractions are liquid.`;
+}
+let probeTimer=0;
+function setProbe(h){
+  h=Math.max(0,Math.min(100,Math.round(h)));if(h===probeH)return;probeH=h;updUI();draw();
+  clearTimeout(probeTimer);probeTimer=setTimeout(probeMsg,600);
+}
+function pointToProbe(e){
+  const r=cv.getBoundingClientRect(), x=(e.clientX-r.left)/sc, y=(e.clientY-r.top)/sc;
+  if(x<TX0-30||x>TX1+30)return false;
+  setProbe((Y_FEED-y)/(Y_FEED-Y_TOP)*100);return true;
+}
+cv.style.cursor='pointer';cv.style.touchAction='pan-y';
+cv.addEventListener('pointerdown',e=>{if(pointToProbe(e)&&e.pointerType!=='touch'){cv.setPointerCapture(e.pointerId)}});
+cv.addEventListener('pointermove',e=>{if(e.buttons&1&&e.pointerType!=='touch')pointToProbe(e)});
+cv.addEventListener('keydown',e=>{
+  const k=e.key,d={ArrowUp:1,ArrowRight:1,ArrowDown:-1,ArrowLeft:-1,PageUp:10,PageDown:-10}[k];
+  if(d!==undefined){e.preventDefault();setProbe(probeH+d)}
+  else if(k==='Home'){e.preventDefault();setProbe(0)}else if(k==='End'){e.preventDefault();setProbe(100)}
+});
+$('speed').addEventListener('input',e=>{speed=+e.target.value;$('speedo').textContent=speed+'×'});
+$('play').addEventListener('click',()=>{playing=!playing;$('play').textContent=playing?'Pause':'Play';setStatus(playing?'Running.':'Paused. Use Step 1 s to advance one second at a time.')});
+$('step').addEventListener('click',()=>{for(let i=0;i<20;i++)step(0.05);updUI();draw();setStatus('Advanced one second.')});
+$('reset').addEventListener('click',()=>{P=[];counts=[0,0,0,0,0];sunk=[0,0,0,0,0];acc=0;updUI();draw();setStatus('Reset. Crude oil is being pumped to the furnace again.')});
+
+function resize(){
+  const w=cv.parentElement.clientWidth||320;dpr=window.devicePixelRatio||1;sc=w/LW;
+  cv.width=Math.round(w*dpr);cv.height=Math.round(w*LH/LW*dpr);draw();
+}
+new ResizeObserver(resize).observe(cv.parentElement);
+
+/* start in a working state: simulate 14 s ahead, then run */
+for(let i=0;i<340;i++)step(0.05);
+updUI();resize();
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(reduce){playing=false;$('play').textContent='Play';setStatus('Animation is paused because your device prefers reduced motion. Press Play, or use Step 1 s.')}
+let last=performance.now();
+function loop(t){
+  const dt=Math.min(.1,(t-last)/1000);last=t;
+  if(playing&&!document.hidden){step(dt*speed);updUI();draw()}
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+
+</body></html>

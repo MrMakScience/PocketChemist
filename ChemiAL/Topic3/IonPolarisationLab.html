@@ -1,0 +1,477 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='1h7k/8GC9dAs9Z5jqcI85g==' src='https://2343e11a-6f2a-4ab6-b67d-b6136de48d81.frame.claudeusercontent.com/4exR2LEVh6L_0GgUdGkXYjtJKEHwOPv524PIXPt__FMiuohEuFz76AV8aNfX-wn7arqXFUJv3-x-bq_UNrj0bZADcD8LXQErIdqAYjP9kTuXqoP2MVUmXzZn3POsGE-6DwPkkXVsKc8ohz2wbRUc_zFixZiS25WKa2qUgvW5iMN9KnZhcQrzzYki2-UxOMxMQZgZ6_G74I8YgRMZwoluWNUkivqVHb80IsRSXZkf40DT8TvsJFcY5-tGtbn0e1Bi4DTpb6JqJL-7nVWMsOhbm1cAU6N0zJCdqvxJfrYnjImo3EEoNDpBiV9sv1rjBz2845KHTtfxmu22sN13njXTwoTTmWd9_UB2H7RNhmYElzCYcbp4TsLpV_Fr2DChagBV4gBRHNgUgZ9zS54r-7xIQTPjdB4Yji6j-2ahkqv28U5OJwgtWi3HxWiR2PZ2r66aXGv100LyVxfj_RmvWjIxoGuqo6m7ybL9d4LVEI6s7NnkjzeofyweTY1tZWH9mqH6x_hL6FQp7KhvTJd8mymmTe-GRoTkCPzDdVvLYgChldjqkL4P3D908nZhAdp_MAoAWiZCM3pT0zDrTfK10o0AbsRdJbckNPpN99XosVGEr1aTnWRUyd3dFv0HLX5SOGhlmQG_5L1V8sH78GD1BFTdCXWN4XXacKf7tiq1r92I76zOpO7lIperZLzst1bzIXsDsbJMzTIQmgePXYzoawUXrw'></script></head><body>
+<title>Ionic Polarisation Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&amp;family=IBM+Plex+Mono:wght@500;600&amp;family=Source+Sans+3:wght@400;600;700&amp;display=swap">
+<style>
+/* Layout: one column on phones (diagram, controls, results); on wide screens the diagram and results sit left and the sliders stay in view on the right. */
+:root{
+  --bg:#f2f5f8; --surface:#ffffff; --surface2:#e8eef4; --fg:#14202b; --muted:#43535f; --line:#c3cfd9; --grid:#e6edf3;
+  --edge:#3d4f60; --track:#7a90a5;
+  --cat:#2f6fb0; --on-cat:#ffffff; --an:#f0cc4a; --on-an:#14202b; --ovl:#c2362b; --accent:#1b5ea8; --accent-fg:#ffffff; --focus:#1b5ea8;
+  --z1:#f3dcd8; --z2:#e39a91; --z3:#c2362b;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1620; --surface:#16212c; --surface2:#1e2c3a; --fg:#e8eef3; --muted:#a9b9c6; --line:#2f4051; --grid:#1d2a37;
+    --edge:#c9d6e0; --track:#62788c;
+    --cat:#5b9bd8; --on-cat:#0b1118; --an:#f0cf55; --on-an:#0b1118; --ovl:#ff7a6e;
+     --accent:#7db5ee; --accent-fg:#0b1118; --focus:#a9d0f7;
+    --z1:#3a2629; --z2:#8f403c; --z3:#e0645a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1620; --surface:#16212c; --surface2:#1e2c3a; --fg:#e8eef3; --muted:#a9b9c6; --line:#2f4051; --grid:#1d2a37;
+  --edge:#c9d6e0; --track:#62788c;
+  --cat:#5b9bd8; --on-cat:#0b1118; --an:#f0cf55; --on-an:#0b1118; --ovl:#ff7a6e; --accent:#7db5ee; --accent-fg:#0b1118; --focus:#a9d0f7;
+  --z1:#3a2629; --z2:#8f403c; --z3:#e0645a;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--body);padding-inline:16px;padding-block:20px 64px}
+.wrap{max-width:1120px;margin-inline:auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);line-height:1.12;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.4rem);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(1.55rem,3.6vw,2.05rem);font-weight:700}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:0}
+.eyebrow{font:600 .8125rem/1.3 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.skip{position:absolute;left:16px;top:-80px;background:var(--accent);color:var(--accent-fg);padding:10px 14px;border-radius:4px;font-weight:700;z-index:20}
+.skip:focus{top:8px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.hero{display:grid;gap:16px;max-width:46rem}
+.hero p{max-width:65ch}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px}
+.lab{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);grid-template-areas:"view" "controls" "results"}
+.view{grid-area:view;min-width:0}
+.controls{grid-area:controls;min-width:0}
+.results{grid-area:results;min-width:0}
+@media (min-width:900px){
+  .lab{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-areas:"view controls" "results controls";align-items:start}
+}
+@media (min-width:900px) and (min-height:720px){ .controls{position:sticky;top:16px} }
+@media (max-width:899px) and (min-height:700px){ .view{position:sticky;top:env(safe-area-inset-top,0px);z-index:5} }
+
+.view{padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.view-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.view-head h2{font-size:1.4rem}
+.view-head .sub{color:var(--muted);font-size:.9375rem}
+.stage{background-color:var(--surface);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;border:1px solid var(--line);border-radius:4px}
+.stage svg{display:block;width:100%;height:auto}
+.s-an{fill:var(--an);fill-opacity:.9;stroke:var(--edge);stroke-width:2;stroke-linejoin:round}
+.s-cat{fill:var(--cat);stroke:none}
+.s-dash{fill:none;stroke:var(--edge);stroke-width:2;stroke-dasharray:8 6}
+.s-edge{fill:none;stroke:var(--edge);stroke-width:2}
+.s-sign{font:700 26px var(--mono);text-anchor:middle;dominant-baseline:central;paint-order:stroke;stroke-linejoin:round;stroke-width:5px}
+.s-sign.c{fill:var(--on-cat);stroke:var(--cat)} .s-sign.a{fill:var(--on-an);stroke:var(--an)}
+.s-scale{stroke:var(--muted);stroke-width:2;fill:none}
+.s-scale-t{fill:var(--muted);font:500 18px var(--mono)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:.9375rem;list-style:none;margin:0;padding:0}
+.legend li{display:flex;align-items:center;gap:8px}
+.sw{width:18px;height:18px;border:2px solid var(--edge);display:inline-block}
+.sw.cat{background:var(--cat);border-radius:50%}
+.sw.an{background:var(--an);border-radius:50%}
+.sw.ovl{background:repeating-linear-gradient(45deg,var(--ovl) 0 3px,transparent 3px 6px);border-radius:3px}
+.sw.dash{border-style:dashed;border-radius:50%;background:transparent}
+
+.controls{display:flex;flex-direction:column;gap:18px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;border:0;min-width:0}
+.presets legend,.grp legend{padding:0;font-weight:700;margin-bottom:8px}
+.presets .row{display:flex;flex-wrap:wrap;gap:8px}
+button.preset{min-height:44px;padding:0 14px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);font:600 1rem var(--body);border-radius:6px;cursor:pointer}
+button.preset:hover{border-color:var(--accent)}
+button.preset[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.grp{border:0;border-top:1px solid var(--line);margin:0;padding:14px 0 0;min-width:0}
+.ctl{display:flex;flex-direction:column;margin-bottom:6px}
+.ctl-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.ctl-head label{font-weight:600}
+.ctl-head output{font:600 1.15rem var(--mono);font-variant-numeric:tabular-nums}
+.ctl-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.875rem}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:var(--track)}
+input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:var(--track)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;box-sizing:border-box;width:30px;height:30px;border-radius:50%;background:var(--accent);border:4px solid var(--surface);box-shadow:0 0 0 2px var(--accent);margin-top:-11px}
+input[type=range]::-moz-range-thumb{box-sizing:border-box;width:30px;height:30px;border-radius:50%;background:var(--accent);border:4px solid var(--surface);box-shadow:0 0 0 2px var(--accent)}
+input[type=range]:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+
+.results{display:flex;flex-direction:column;gap:6px}
+.stat{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding-block:10px;border-top:1px solid var(--line)}
+.stat:first-of-type{border-top:0}
+.stat .k{font-weight:600}
+.stat .v{font:600 1.35rem var(--mono);font-variant-numeric:tabular-nums}
+.stat .n{grid-column:1/-1;color:var(--muted);font-size:.9375rem}
+.meter-wrap{display:flex;flex-direction:column;gap:6px;padding-block:10px;border-top:1px solid var(--line)}
+.meter-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.meter-top .v{font:600 1.35rem var(--mono);font-variant-numeric:tabular-nums}
+.bar{position:relative;display:grid;grid-template-columns:30% 20% 50%;height:18px;border:1.5px solid var(--edge);border-radius:4px;overflow:visible}
+.bar .z1{background:var(--z1)} .bar .z2{background:var(--z2)} .bar .z3{background:var(--z3)}
+.pin{position:absolute;top:-7px;width:6px;height:30px;margin-left:-3px;background:var(--fg);border:2px solid var(--surface);border-radius:3px}
+.zl{display:grid;grid-template-columns:30% 20% 50%;font-size:.875rem;color:var(--muted);line-height:1.3}
+.zl span{padding-right:6px;overflow-wrap:anywhere}
+.verdict{background:var(--surface2);border-radius:4px;padding:12px 14px;font-weight:600}
+.spectrum{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.spectrum li{border:2px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px;font-size:.875rem;line-height:1.3;min-width:0}
+.spectrum li[data-on="true"]{border-color:var(--accent);background:var(--surface2)}
+.spectrum svg{width:100%;height:auto;display:block}
+.spectrum .here{font-weight:700;color:var(--accent)}
+.arrow{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.875rem;font-weight:600}
+.arrow::after{content:"";flex:1;height:2px;background:var(--muted);clip-path:polygon(0 0,calc(100% - 8px) 0,calc(100% - 8px) -3px,100% 50%,calc(100% - 8px) 5px,calc(100% - 8px) 2px,0 2px)}
+@media (max-width:520px){ .spectrum{grid-template-columns:1fr} .spectrum li{flex-direction:row;align-items:center} .spectrum svg{width:96px;flex:none} }
+.fine{color:var(--muted);font-size:.875rem;margin-top:4px}
+
+.notes{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr))}
+.notes .card{display:flex;flex-direction:column;gap:12px;min-width:0}
+.notes ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+.formula{border:2px solid var(--edge);border-radius:4px;padding:10px 14px;display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;font-weight:600;align-self:flex-start}
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.2;font-family:var(--mono);font-size:.95rem}
+.frac span:first-child{border-bottom:2px solid var(--fg);padding:0 6px 2px}
+.frac span:last-child{padding-top:2px}
+.callout{border-left:6px solid var(--ovl);background:var(--surface2);padding:14px 18px;border-radius:0 6px 6px 0;font-size:1.125rem;font-weight:600;max-width:60ch}
+
+.sizes{display:flex;flex-direction:column;gap:16px}
+.sizes>p{max-width:65ch}
+figure{margin:0}
+.trio{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}
+.trio figure{display:flex;flex-direction:column;gap:6px;min-width:0}
+.trio .stage{padding:0}
+.trio figcaption{font-size:.9375rem}
+.trio figcaption b{font-family:var(--mono)}
+
+.try{display:flex;flex-direction:column;gap:12px;max-width:52rem}
+details{border:1px solid var(--line);background:var(--surface);border-radius:6px}
+summary{cursor:pointer;padding:14px 16px;min-height:44px;font-weight:600;list-style-position:inside}
+details>div{padding:0 16px 16px;display:flex;flex-direction:column;gap:8px}
+details .ans{border-left:4px solid var(--accent);padding-left:12px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div lang="en">
+<a class="skip" href="#lab">Skip to the lab</a>
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Chemical bonding · Section H</p>
+  <h1>Ionic Polarisation Lab</h1>
+  <p>In an ionic bond, polarisation is the distortion of the electron cloud. A cation attracts some part of the anion's cloud towards itself. Change the charge and radius of each ion below and watch how far the cloud is pulled.</p>
+</header>
+
+<main id="lab" tabindex="-1">
+  <h2 style="margin-bottom:20px">Pull the cloud</h2>
+  <div class="lab">
+
+    <section class="card view" aria-labelledby="view-title">
+      <div class="view-head">
+        <h3 id="view-title">Mg²⁺ + Cl⁻</h3>
+        <span class="sub">Drawn to scale, ion spacing stays fixed</span>
+      </div>
+      <div class="stage"><svg id="stage" viewbox="0 0 640 310" role="img" aria-label="Diagram of a cation and an anion"></svg></div>
+      <ul class="legend" aria-label="Diagram key">
+        <li><span class="sw cat" aria-hidden="true"></span>Cation</li>
+        <li><span class="sw an" aria-hidden="true"></span>Anion electron cloud</li>
+        <li><span class="sw ovl" aria-hidden="true"></span>Cloud pulled towards cation</li>
+        <li><span class="sw dash" aria-hidden="true"></span>Original size of anion</li>
+      </ul>
+    </section>
+
+    <section class="card controls" aria-labelledby="ctl-title">
+      <h3 id="ctl-title">Choose the ions</h3>
+      <fieldset class="presets">
+        <legend>Start from a real compound</legend>
+        <div class="row" id="presets"></div>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend>Cation</legend>
+        <div class="ctl">
+          <div class="ctl-head"><label for="qc">Charge</label><output id="qc-out" for="qc" aria-live="off"></output></div>
+          <input type="range" id="qc" min="1" max="3" step="1" value="2">
+          <div class="ctl-ends"><span>1+</span><span>3+</span></div>
+        </div>
+        <div class="ctl">
+          <div class="ctl-head"><label for="rc">Radius</label><output id="rc-out" for="rc" aria-live="off"></output></div>
+          <input type="range" id="rc" min="50" max="150" step="1" value="72">
+          <div class="ctl-ends"><span>50 pm, small</span><span>150 pm, large</span></div>
+        </div>
+      </fieldset>
+
+      <fieldset class="grp">
+        <legend>Anion</legend>
+        <div class="ctl">
+          <div class="ctl-head"><label for="qa">Charge</label><output id="qa-out" for="qa" aria-live="off"></output></div>
+          <input type="range" id="qa" min="1" max="3" step="1" value="1">
+          <div class="ctl-ends"><span>1−</span><span>3−</span></div>
+        </div>
+        <div class="ctl">
+          <div class="ctl-head"><label for="ra">Radius</label><output id="ra-out" for="ra" aria-live="off"></output></div>
+          <input type="range" id="ra" min="120" max="220" step="1" value="181">
+          <div class="ctl-ends"><span>120 pm, small</span><span>220 pm, large</span></div>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="card results" aria-labelledby="res-title">
+      <h3 id="res-title" style="margin-bottom:4px">How polarised is it?</h3>
+      <div class="meter-wrap">
+        <div class="meter-top"><span class="k" id="meter-label" style="font-weight:600">Polarization degree</span><span class="v" id="v-idx"></span></div>
+        <div id="meter" role="meter" aria-labelledby="meter-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="bar"><span class="z1"></span><span class="z2"></span><span class="z3"></span><span class="pin" id="pin"></span></div>
+        </div>
+        <div class="zl" aria-hidden="true"><span>Mainly ionic</span><span>Partial covalent</span><span>Substantial covalent</span></div>
+      </div>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+
+      <ol class="spectrum" id="spectrum" aria-label="Bonding spectrum, from purely ionic to substantial covalent">
+        <li data-i="0"><svg viewbox="0 0 120 60" role="img" aria-label="Two separate round ions"></svg><span>Purely ionic pair</span><span class="here" hidden="">You are here</span></li>
+        <li data-i="1"><svg viewbox="0 0 120 60" role="img" aria-label="Anion cloud slightly stretched towards the cation"></svg><span>Ionic bond with partial covalent character</span><span class="here" hidden="">You are here</span></li>
+        <li data-i="2"><svg viewbox="0 0 120 60" role="img" aria-label="Anion cloud strongly stretched into the cation"></svg><span>Substantial covalent bonding</span><span class="here" hidden="">You are here</span></li>
+      </ol>
+      <div class="arrow" aria-hidden="true">Increasing polarisation</div>
+      <p class="fine">The anion keeps the same total amount of electron cloud: whatever the neck takes comes out of the body, so the body shrinks inside the dashed circle. Radii are typical ionic radii in picometres (pm); check them against your data booklet. The 0 to 100 polarization degree is a teaching scale built from charge density and anion size. Use it to compare trends, not to classify a compound: real bonding also depends on factors such as electronegativity and lattice energy.</p>
+    </section>
+  </div>
+</main>
+
+<section aria-labelledby="notes-title">
+  <h2 id="notes-title" style="margin-bottom:20px">Two factors to remember</h2>
+  <p style="max-width:65ch;margin-bottom:20px">The polarising power of a cation and the polarisability of an anion depend on the radius of the ion and the charge of the ions.</p>
+  <div class="notes">
+    <article class="card">
+      <h3>Polarising power of cations</h3>
+      <ul>
+        <li>A highly charged cation has a stronger electrostatic attraction with an anion, which distorts the anion's electron cloud.</li>
+        <li>A cation with a smaller radius generally concentrates its charge in a small area, so the electron cloud is distorted more.</li>
+        <li>The polarising power increases with an increase in charge density and a decrease in radius.</li>
+      </ul>
+      <div class="formula">Charge density ∼ <span class="frac"><span>charge</span><span>r²</span></span></div>
+    </article>
+    <article class="card">
+      <h3>Polarisability of anions</h3>
+      <ul>
+        <li>The more negatively charged an anion is, the greater its electron cloud.</li>
+        <li>The larger the electron cloud, the more easily it is distorted.</li>
+        <li>A larger radius means the outer electrons are held more loosely, so they are more easily distorted.</li>
+        <li>The anion's polarisability increases as the radius increases and the charge becomes more negative.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section class="sizes" aria-labelledby="sizes-title">
+  <h2 id="sizes-title">Same anion, stronger cation</h2>
+  <p>Na⁺, Mg²⁺ and Al³⁺ each have 10 electrons, so the extra nuclear charge pulls the outer electrons in and the radius falls. Each is paired here with the same O²⁻ ion.</p>
+  <div class="trio" id="trio"></div>
+  <p class="callout">Polarisation can give covalent character to ionic bonding. The larger the distortion, the more covalent character.</p>
+</section>
+
+<section class="try" aria-labelledby="try-title">
+  <h2 id="try-title">Try it and predict</h2>
+  <details>
+    <summary>1. Start at Mg²⁺ + Cl⁻ and raise the cation charge to 3+. What changes?</summary>
+    <div><p>Keep the radius at 72 pm and move the cation charge slider from 2+ to 3+. Predict first, then check the diagram and the polarization degree.</p>
+    <p class="ans">The charge density rises by half (3 ÷ 2), so polarising power rises. The neck grows longer and the body of the cloud shrinks a little more.</p></div>
+  </details>
+  <details>
+    <summary>2. Hold the cation at 2+ and shrink its radius from 100 pm to 60 pm.</summary>
+    <div><p>Watch the charge density readout as you slide.</p>
+    <p class="ans">Charge density rises by (100 ÷ 60)², about 2.8 times. The same charge sits in a smaller area, so the distortion is greater.</p></div>
+  </details>
+  <details>
+    <summary>3. Click Al³⁺ + F⁻, then Al³⁺ + Cl⁻, then Al³⁺ + I⁻. What is the trend?</summary>
+    <div><p>The cation stays the same. Only the anion changes.</p>
+    <p class="ans">Covalent character increases down the group. F⁻ is small, so its electrons are held tightly and AlF₃ stays largely ionic. Cl⁻ and I⁻ are larger, their outer electrons are held more loosely, and the same Al³⁺ ion distorts them much more.</p></div>
+  </details>
+</section>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var NA_CD = 1/(102*102), CL_POL = 181;
+  var SUPC = ['','⁺','²⁺','³⁺'], SUPA = ['','⁻','²⁻','³⁻'];
+  var KNOWN_CAT = [[1,76,'Li⁺'],[1,102,'Na⁺'],[1,138,'K⁺'],[2,72,'Mg²⁺'],[2,100,'Ca²⁺'],[3,54,'Al³⁺']];
+  var KNOWN_AN  = [[1,133,'F⁻'],[1,181,'Cl⁻'],[1,196,'Br⁻'],[1,220,'I⁻'],[2,140,'O²⁻'],[2,184,'S²⁻']];
+  var PRESETS = [['Na⁺ + Cl⁻',1,102,1,181],['Mg²⁺ + Cl⁻',2,72,1,181],['Mg²⁺ + O²⁻',2,72,2,140],['Al³⁺ + F⁻',3,54,1,133],['Al³⁺ + Cl⁻',3,54,1,181],['Al³⁺ + I⁻',3,54,1,220]];
+
+  function model(qc,rc,qa,ra){
+    var cd = (qc/(rc*rc))/NA_CD, pol = Math.pow(ra/CL_POL,2)*Math.pow(qa,0.3), comb = cd*pol, score = Math.pow(comb,2.5)/(Math.pow(comb,2.5)+Math.pow(9,2.5));
+    return {cd:cd, pol:pol, score:score, d:0.5*score, idx:Math.round(score*100)};
+  }
+  function fmt(x){ return x < 1 ? x.toFixed(2) : x.toFixed(1); }
+  function lookup(list,q,r){ for(var i=0;i<list.length;i++){ if(list[i][0]===q && list[i][1]===r) return list[i][2]; } return null; }
+
+  function smax(a,b,k){ var h=Math.max(k-Math.abs(a-b),0)/k; return Math.max(a,b)+h*h*k*0.25; }
+
+  /* Ion spacing is fixed. The dashed circle is the anion's original size.
+     Electrons are conserved: body + neck (including the part that overlaps the cation) always has the
+     same area as the original sphere, so the body shrinks as the neck grows.
+     The share of cloud pulled out is set by the polarisation score, so the neck is widened or
+     thinned until the body has shrunk by the amount that score calls for. */
+  function clamp01(x){ return Math.max(0,Math.min(1,x)); }
+  function ease(x){ return x*x*(3-2*x); }
+  function pairSVG(o){
+    var Rc=o.rc*o.s, Ra=o.ra*o.s, cy=o.h/2;
+    var G=Math.max(4,0.1*(Rc+Ra)), D=Rc+G+Ra, rim0=Math.max(5,0.2*Rc);
+    var sc=o.score, a=ease(clamp01((sc-0.02)/0.28)), b1=ease(clamp01((sc-0.30)/0.12)), b2=ease(clamp01((sc-0.42)/0.20));
+    var T=Ra+G*a+0.5*Rc*b1, hasNeck=a>0.01, N=160, G2=G*a;
+    var xc=(o.w-(Rc+D+Ra))/2+Rc, xa=xc+D;
+    var shrT=0.2*ease(clamp01(sc/0.85));
+
+    function build(shr,wf){
+      var rn=(1-b2)*0.8*Rc*wf+b2*(Rc+rim0*wf);
+      rn=Math.min(rn,0.95*Ra);
+      var Dn=Math.max(1,(T-rn)*(1-b2)+D*b2-shr*Ra);
+      var Rb=Ra*(1-shr), xb=xa-shr*Ra;
+      var kk=Math.max(0.5,Math.min(rn,0.6*Math.max(1,Dn+rn-Ra),Rb-rn-1)), phic=Math.atan2(rn,Dn);
+      var xs=[], ys=[], i, t, c, sn, phi, rcp, R;
+      for(i=0;i<N;i++){
+        t=i/N*Math.PI*2; R=Rb;
+        if(hasNeck){
+          c=-Math.cos(t); sn=Math.abs(Math.sin(t)); phi=Math.atan2(sn,c); rcp=0;
+          if(c>0) rcp=(phi<=phic)?Dn*c+Math.sqrt(Math.max(0,rn*rn-Dn*Dn*sn*sn)):rn/sn;
+          R=smax(Rb,rcp,kk);
+        }
+        xs.push(xb+R*Math.cos(t)); ys.push(cy+R*Math.sin(t));
+      }
+      return {xs:xs,ys:ys,xb:xb,Rb:Rb};
+    }
+    function area(P){ var xs=P.xs, ys=P.ys, A=0, j=xs.length-1, i; for(i=0;i<xs.length;i++){ A+=(xs[j]+xs[i])*(ys[j]-ys[i]); j=i; } return Math.abs(A/2); }
+    var target=Math.PI*Ra*Ra;
+    /* body shrink needed so that body + neck has the original area, for a given neck width factor */
+    function solveShr(wf){
+      var lo=0, hi=0.35, mid, k;
+      if(area(build(0,wf))<=target) return 0;
+      if(area(build(hi,wf))>target) return hi;
+      for(k=0;k<14;k++){ mid=(lo+hi)/2; if(area(build(mid,wf))>target) lo=mid; else hi=mid; }
+      return (lo+hi)/2;
+    }
+    var wf=1, shr=0, P;
+    if(hasNeck){
+      var wlo=0.05, whi=14, k;
+      if(solveShr(wlo)>=shrT) wf=wlo;
+      else if(solveShr(whi)<=shrT) wf=whi;
+      else { for(k=0;k<12;k++){ wf=(wlo+whi)/2; if(solveShr(wf)<shrT) wlo=wf; else whi=wf; } wf=(wlo+whi)/2; }
+      shr=solveShr(wf);
+    }
+    P=build(shr,wf);
+    var L=T-Ra+b2*(D+Rc+rim0*wf-T), xb=P.xb, p='', i;
+    for(i=0;i<N;i++) p+=(i?'L':'M')+P.xs[i].toFixed(1)+' '+P.ys[i].toFixed(1);
+    p+='Z';
+
+    var cx=xc.toFixed(1), rr=Rc.toFixed(1), ax=xa.toFixed(1), ar=Ra.toFixed(1);
+    var circ='M'+(xa-Ra).toFixed(1)+' '+cy+'a'+ar+' '+ar+' 0 1 0 '+(2*Ra).toFixed(1)+' 0a'+ar+' '+ar+' 0 1 0 '+(-2*Ra).toFixed(1)+' 0Z';
+    var g='<defs><clipPath id="'+o.id+'-o"><path clip-rule="evenodd" d="M0 0H'+o.w+'V'+o.h+'H0Z'+circ+'"/></clipPath>'+
+      '<pattern id="'+o.id+'-h" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3.5" height="7" style="fill:var(--ovl)"/></pattern></defs>';
+    g+='<path class="s-an" d="'+p+'"/>';
+    if(sc>0.02){
+      g+='<path d="'+p+'" clip-path="url(#'+o.id+'-o)" fill="url(#'+o.id+'-h)"/>';
+      g+='<circle class="s-dash" cx="'+ax+'" cy="'+cy+'" r="'+ar+'"/>';
+    }
+    g+='<circle class="s-cat" cx="'+cx+'" cy="'+cy+'" r="'+rr+'"/>';
+    g+='<circle class="s-edge" cx="'+cx+'" cy="'+cy+'" r="'+rr+'"/>';
+    if(o.signs){
+      g+='<text class="s-sign c" x="'+cx+'" y="'+cy+'">'+(o.qc>1?o.qc:'')+'+</text>';
+      g+='<text class="s-sign a" x="'+xb.toFixed(1)+'" y="'+cy+'">'+(o.qa>1?o.qa:'')+'−</text>';
+    }
+    if(o.scale){
+      var Ls=100*o.s, y=o.h-22;
+      g+='<path class="s-scale" d="M24 '+y+'h'+Ls.toFixed(1)+'M24 '+(y-6)+'v12M'+(24+Ls).toFixed(1)+' '+(y-6)+'v12"/>';
+      g+='<text class="s-scale-t" x="24" y="'+(y-14)+'">100 pm</text>';
+    }
+    return {html:g, L:L, reach:G2>=G*0.98||b2>0, wrap:b2>0.5, shrink:shr, areaRatio:area(P)/target, wf:wf};
+  }
+
+  var $=function(id){return document.getElementById(id);};
+  var stage=$('stage'), qcI=$('qc'), rcI=$('rc'), qaI=$('qa'), raI=$('ra');
+  var lastBand=-1;
+
+  /* preset buttons */
+  var presetBox=$('presets'), presetBtns=[];
+  PRESETS.forEach(function(P){
+    var b=document.createElement('button');
+    b.type='button'; b.className='preset'; b.textContent=P[0]; b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(){
+      qcI.value=P[1]; rcI.value=P[2]; qaI.value=P[3]; raI.value=P[4]; update();
+    });
+    presetBox.appendChild(b); presetBtns.push(b);
+  });
+
+  /* spectrum icons */
+  [0,0.38,0.75].forEach(function(d,i){
+    var svg=document.querySelector('#spectrum li[data-i="'+i+'"] svg');
+    svg.innerHTML=pairSVG({rc:102,ra:181,s:0.12,score:d,w:120,h:60,id:'sp'+i}).html;
+  });
+
+  /* same anion, three cations */
+  var trio=$('trio');
+  [[1,102,'Na⁺'],[2,72,'Mg²⁺'],[3,54,'Al³⁺']].forEach(function(c,i){
+    var m=model(c[0],c[1],2,140);
+    var fig=document.createElement('figure');
+    var stg=document.createElement('div'); stg.className='stage';
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 260 170'); svg.setAttribute('role','img');
+    svg.setAttribute('aria-label',c[2]+' next to O²⁻. Polarization degree '+m.idx+' out of 100.');
+    svg.innerHTML=pairSVG({rc:c[1],ra:140,s:0.5,score:m.score,w:260,h:170,id:'tr'+i,signs:true,qc:c[0],qa:2}).html;
+    stg.appendChild(svg);
+    var cap=document.createElement('figcaption');
+    cap.innerHTML='<b>'+c[2]+' + O²⁻</b><br>Cation radius '+c[1]+' pm<br>Polarization degree '+m.idx;
+    fig.appendChild(stg); fig.appendChild(cap); trio.appendChild(fig);
+  });
+
+  function update(){
+    var qc=+qcI.value, rc=+rcI.value, qa=+qaI.value, ra=+raI.value;
+    var m=model(qc,rc,qa,ra);
+
+    $('qc-out').textContent=qc+'+'; $('rc-out').textContent=rc+' pm';
+    $('qa-out').textContent=qa+'−'; $('ra-out').textContent=ra+' pm';
+    qcI.setAttribute('aria-valuetext','charge '+qc+' plus');
+    qaI.setAttribute('aria-valuetext','charge '+qa+' minus');
+    rcI.setAttribute('aria-valuetext',rc+' picometres');
+    raI.setAttribute('aria-valuetext',ra+' picometres');
+
+    var cn=lookup(KNOWN_CAT,qc,rc)||'Custom cation', an=lookup(KNOWN_AN,qa,ra)||'Custom anion';
+    $('view-title').textContent=cn+' + '+an;
+
+    var pr=pairSVG({rc:rc,ra:ra,s:0.68,score:m.score,w:640,h:310,id:'main',signs:true,qc:qc,qa:qa,scale:true});
+    stage.innerHTML=pr.html;
+    stage.setAttribute('aria-label','Cation '+qc+' plus, radius '+rc+' picometres, next to anion '+qa+' minus, radius '+ra+' picometres, at a fixed distance. '+
+      (pr.wrap?'The anion electron cloud shrinks as part of it is drawn out into a neck that wraps around the cation.':(pr.reach?'The anion electron cloud shrinks as part of it is drawn out into a neck that reaches the cation.':(pr.L>0.3?'The anion electron cloud shrinks slightly as part of it is drawn out towards the cation.':'The anion electron cloud is spherical.'))));
+
+    $('v-idx').textContent=m.idx+' / 100';
+
+    var band=m.idx<30?0:(m.idx<50?1:2);
+    var names=['Mainly ionic','Ionic with partial covalent character','Substantial covalent character'];
+    var msgs=['Mainly ionic. The anion cloud stays almost spherical.',
+              'Ionic bond with partial covalent character. The cation pulls part of the anion cloud towards itself.',
+              'Substantial covalent character. The anion cloud is strongly distorted and overlaps the cation.'];
+    var meter=$('meter');
+    meter.setAttribute('aria-valuenow',m.idx);
+    meter.setAttribute('aria-valuetext',m.idx+' out of 100, '+names[band].toLowerCase());
+    $('pin').style.left=Math.max(1,Math.min(99,m.idx))+'%';
+    if(band!==lastBand){ $('verdict').textContent=msgs[band]; lastBand=band; }
+
+    var items=document.querySelectorAll('#spectrum li');
+    for(var i=0;i<items.length;i++){
+      var on=(i===band);
+      items[i].setAttribute('data-on',on?'true':'false');
+      items[i].querySelector('.here').hidden=!on;
+    }
+    for(var j=0;j<PRESETS.length;j++){
+      var P=PRESETS[j];
+      presetBtns[j].setAttribute('aria-pressed',(P[1]===qc&&P[2]===rc&&P[3]===qa&&P[4]===ra)?'true':'false');
+    }
+  }
+  [qcI,rcI,qaI,raI].forEach(function(el){ el.addEventListener('input',update); });
+  update();
+})();
+</script>
+
+</body></html>

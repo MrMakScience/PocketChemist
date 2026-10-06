@@ -1,0 +1,492 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='xVoyvkOIE+PCaRRzfWrbaQ==' src='https://daeacec3-424e-41d9-a83f-f33a02f16abd.frame.claudeusercontent.com/WIaW2RTWLq7isksnSBVos_kser4CP0Lg6kcRHOtqA6P0vp_RIe5ewiFx6IiPHtsDNMjuY6nNeUKkNMfu2tA0uKsGGA2XDlJgQTOBt3jlrOYPPFFQ_un1CpmobycfrPCdx3nVNoxEHp3yXlZsDigNFMDtPVyOCckPXzLcmKi1pYX3IjwBxt7s3g16vrUor6xfeUb7ed98y1VXha4w1d3w991eF5D8RKg1v5gZudZRswhnwOOlfEQyIJTFCGGp9RfI0p4E9gB4nCYGsYJmZR39T81EuBvhA-sUjIpfxsuivv5MSZ2M3P3keuDi7qto3FZQP3pYG9_kFgB8_t-cBZvzO527ZuYxggss-X9eMOFI389jLHR_EIqn07xzp8MCxvC0FVIi3NQP3bHYqoVACFe3BzyJutIrRFqF1sboQuWF-ufx2HbSSBewcTKvzMYnoYv2xo2AdoAomd5aQxvV9LIQp1fJBaOA8tuVM1uuTbBiTOf570xe13vCmJdg-KjcrN8UBXQQhKRfI26ZYHBsTLUsyUV-WbK8DQ4x60NOhM4XOPqJUeVIq7FIou-U88_GHnS6Mng0Bmp6otjCLIP83Ne4hIuqfCo5N_xctMxOk12r3ugLluyleFEMDeH_1ydI03GfrsJrGI4hbORgfkrE4a-emgc69B2-umTrUtnX0lFcNb_fXRbeAED9BVNZLY_nY6zxZUTchcwYveNCvKQIMWDXhw'></script></head><body>
+<title>Ionic Bonding Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
+<style>
+/* Layout: figure and results on the left, controls on the right on wide screens; one column in the order figure, controls, results on phones. */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #14202e;
+  --muted: #465567;
+  --border: #6b7a8b;
+  --border-soft: #cfd6df;
+  --accent: #254a8f;
+  --accent-ink: #ffffff;
+  --tint: #e6edf8;
+  --cation: #1a4fa8;
+  --anion: #a33c06;
+  --track: #7f8d9c;
+  --focus: #b45309;
+  --up-bg: #e2f2e6; --up-ink: #14532d;
+  --down-bg: #fbe9e1; --down-ink: #7c2d12;
+  --same-bg: #e8ebef; --same-ink: #2b3745;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141b; --surface: #17202a; --ink: #e9eef4; --muted: #aab7c5;
+    --border: #8393a5; --border-soft: #2e3b49; --accent: #8fb4ff; --accent-ink: #0e141b;
+    --tint: #22314a; --cation: #8bb6ff; --anion: #ffa56b; --track: #66788a; --focus: #fbbf24;
+    --up-bg: #153a24; --up-ink: #b7efc9; --down-bg: #4a2314; --down-ink: #ffd2bb;
+    --same-bg: #2a3541; --same-ink: #dce4ec;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141b; --surface: #17202a; --ink: #e9eef4; --muted: #aab7c5;
+  --border: #8393a5; --border-soft: #2e3b49; --accent: #8fb4ff; --accent-ink: #0e141b;
+  --tint: #22314a; --cation: #8bb6ff; --anion: #ffa56b; --track: #66788a; --focus: #fbbf24;
+  --up-bg: #153a24; --up-ink: #b7efc9; --down-bg: #4a2314; --down-ink: #ffd2bb;
+  --same-bg: #2a3541; --same-ink: #dce4ec;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.55;
+  padding-inline: 16px; padding-block: 20px 40px;
+}
+.wrap { max-width: 1120px; margin-inline: auto; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: clamp(1.7rem, 5.5vw, 2.5rem); line-height: 1.12; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 1.2rem; line-height: 1.3; font-weight: 700; text-wrap: balance; }
+.eyebrow { font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.lead { max-width: 65ch; color: var(--ink); font-size: 1.0625rem; }
+header { display: flex; flex-direction: column; gap: 8px; }
+
+.layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "fig" "ctl" "res" "chal"; align-items: start; }
+@media (min-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-areas: "fig ctl" "res ctl" "chal chal"; }
+}
+.card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; padding: 16px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+#fig { grid-area: fig; } #ctl { grid-area: ctl; } #res { grid-area: res; } #chal { grid-area: chal; }
+
+/* Figure: always a white canvas so the diagram reads the same in both themes */
+figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.canvas { background: #ffffff; border: 1px solid var(--border-soft); border-radius: 8px; padding: 6px; }
+.canvas svg { display: block; width: 100%; height: auto; }
+figcaption { color: var(--muted); font-size: 0.9375rem; }
+.readouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0; }
+.readouts div { border: 1px solid var(--border-soft); border-radius: 8px; padding: 8px 10px; min-width: 0; }
+.readouts dt { font-size: 0.8125rem; color: var(--muted); }
+.readouts dd { margin: 0; font-family: var(--font-data); font-weight: 600; font-size: 1.0625rem; overflow-wrap: anywhere; }
+.readouts .c dd { color: var(--cation); } .readouts .a dd { color: var(--anion); }
+
+button { font: inherit; color: inherit; cursor: pointer; }
+.btn { min-height: 44px; padding: 8px 16px; border-radius: 8px; border: 2px solid var(--border); background: var(--surface); font-weight: 700; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:hover { background: var(--tint); } .btn.primary:hover { filter: brightness(1.1); background: var(--accent); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Presets */
+.presets { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.presets legend { padding: 0; margin-bottom: 8px; font-weight: 700; }
+.preset { min-height: 52px; min-width: 44px; padding: 6px 12px; border: 2px solid var(--border-soft); border-radius: 8px; background: var(--surface); display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.preset:hover { background: var(--tint); }
+.preset[aria-pressed="true"] { border-color: var(--accent); background: var(--tint); }
+.preset[aria-pressed="true"] .p-ions::before { content: "\2713\00a0"; }
+.p-ions { font-weight: 700; } .p-name { font-size: 0.8125rem; color: var(--muted); }
+
+/* Slider groups */
+.ion { border: 2px solid var(--border-soft); border-radius: 10px; padding: 12px 14px 14px; margin: 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.ion legend { padding: 0 6px; font-weight: 700; font-size: 1.0625rem; }
+.ion.cat { --c: var(--cation); } .ion.ani { --c: var(--anion); }
+.ion legend { color: var(--c); }
+.field { display: flex; flex-direction: column; gap: 2px; }
+.field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.field-head label { font-weight: 400; }
+.field-head output { font-family: var(--font-data); font-weight: 600; font-size: 1.125rem; color: var(--c); white-space: nowrap; }
+.slider-row { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 8px; }
+.step { width: 44px; height: 44px; border-radius: 8px; border: 2px solid var(--border); background: var(--surface); font-size: 1.4rem; font-weight: 700; line-height: 1; padding: 0; }
+.step:hover { background: var(--tint); }
+.range-ends { grid-column: 2; display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--muted); font-family: var(--font-data); margin-top: -8px; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; }
+input[type="range"]::-webkit-slider-runnable-track { height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--c) var(--pct, 50%), var(--track) var(--pct, 50%)); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; margin-top: -11px; border-radius: 50%; background: var(--c); border: 4px solid var(--surface); box-shadow: 0 0 0 2px var(--c); }
+input[type="range"]::-moz-range-track { height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--c) var(--pct, 50%), var(--track) var(--pct, 50%)); }
+input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--c); border: 4px solid var(--surface); box-shadow: 0 0 0 2px var(--c); }
+
+/* Results */
+.meter-wrap { display: flex; flex-direction: column; gap: 6px; }
+.big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+.big .num { font-family: var(--font-data); font-weight: 600; font-size: 2.25rem; line-height: 1; }
+.big .mp { font-size: 0.9375rem; border-left: 3px solid var(--border-soft); padding-left: 12px; }
+.big .mp b { font-family: var(--font-data); font-weight: 600; font-size: 1.125rem; }
+.big .unit { color: var(--muted); font-size: 0.9375rem; }
+.meter { position: relative; height: 22px; border-radius: 6px; background: var(--same-bg); border: 1px solid var(--border); overflow: visible; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 5px 0 0 5px; min-width: 3px; }
+.meter .tick { position: absolute; top: -6px; bottom: -6px; width: 4px; margin-left: -2px; background: var(--ink); border-radius: 2px; box-shadow: 0 0 0 2px var(--surface); }
+.meter-scale { display: flex; justify-content: space-between; font-size: 0.8125rem; color: var(--muted); font-family: var(--font-data); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9375rem; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; vertical-align: middle; margin-right: 6px; }
+.legend .l-cur::before { width: 18px; height: 10px; background: var(--accent); border-radius: 2px; }
+.legend .l-ref::before { width: 4px; height: 16px; background: var(--ink); border-radius: 2px; }
+.reasons { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.reasons li { border-top: 1px solid var(--border-soft); padding-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+.reasons h3 { font-size: 0.9375rem; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.badge { display: inline-block; font-size: 0.8125rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.badge.up { background: var(--up-bg); color: var(--up-ink); }
+.badge.down { background: var(--down-bg); color: var(--down-ink); }
+.badge.same { background: var(--same-bg); color: var(--same-ink); }
+.reasons p { max-width: 62ch; }
+.calc { font-family: var(--font-data); font-size: 0.9375rem; overflow-wrap: anywhere; color: var(--muted); }
+.symbols { border: 1px solid var(--border-soft); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.symbols h3 { font-size: 1rem; }
+.symbols p { max-width: 62ch; }
+.symbols dl { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; }
+.symbols dt { font-family: var(--font-data); font-weight: 600; }
+.symbols dd { margin: 0; }
+.refline { color: var(--muted); font-size: 0.9375rem; }
+.note { color: var(--muted); font-size: 0.9375rem; max-width: 70ch; }
+.formula { font-family: var(--font-data); font-weight: 500; }
+
+.tasks { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 10px; max-width: 75ch; }
+.tasks strong { font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">IAL Chemistry · Bonding</p>
+    <h1>Ionic Bonding Lab</h1>
+    <p class="lead">The strength of ionic bonding is measured by the energy needed to separate one mole of solid into its ions, pulled apart to infinity in the gas phase. Change the charge and the ionic radius of each ion and see how that energy responds.</p>
+  </header>
+
+  <div class="layout">
+    <section id="fig" class="card" aria-labelledby="figh">
+      <h2 id="figh">The ion pair, drawn to scale</h2>
+      <figure>
+        <div class="canvas">
+          <svg id="stage" viewbox="0 0 700 272" role="img" aria-labelledby="stage-desc" focusable="false">
+            <title id="stage-desc">Ion pair diagram</title>
+            <defs>
+              <marker id="head" viewbox="0 0 16 16" refx="16" refy="8" markerwidth="16" markerheight="16" markerunits="userSpaceOnUse" orient="auto"><path d="M0,0 L16,8 L0,16 Z" fill="#14202e"/></marker>
+              <marker id="headSoft" viewbox="0 0 16 16" refx="16" refy="8" markerwidth="12" markerheight="12" markerunits="userSpaceOnUse" orient="auto"><path d="M0,0 L16,8 L0,16 Z" fill="#465567"/></marker>
+            </defs>
+            <g id="dim">
+              <line id="dimL1" x1="0" x2="0" y1="125" y2="258" stroke="#465567" stroke-width="1.5" stroke-dasharray="3 4"/>
+              <line id="dimL2" x1="0" x2="0" y1="125" y2="258" stroke="#465567" stroke-width="1.5" stroke-dasharray="3 4"/>
+              <line id="dimBar" x1="0" x2="0" y1="258" y2="258" stroke="#14202e" stroke-width="2.5"/>
+            </g>
+            <g id="catG"><circle id="catC" r="50" fill="#cfe0fb" stroke="#1a4fa8" stroke-width="3"/><circle r="4" fill="#14202e"/><text id="catT" x="0" y="-12" text-anchor="middle" font-size="26" font-weight="700" fill="#123a80" font-family="Atkinson Hyperlegible, system-ui, sans-serif">+</text></g>
+            <g id="aniG"><circle id="aniC" r="50" fill="#fbd9c2" stroke="#a33c06" stroke-width="3"/><circle r="4" fill="#14202e"/><text id="aniT" x="0" y="-12" text-anchor="middle" font-size="26" font-weight="700" fill="#7c2d04" font-family="Atkinson Hyperlegible, system-ui, sans-serif">−</text></g>
+            <line id="f1" stroke="#14202e" stroke-linecap="butt" marker-end="url(#head)"/>
+            <line id="f2" stroke="#14202e" stroke-linecap="butt" marker-end="url(#head)"/>
+            <line id="o1" stroke="#465567" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#headSoft)"/>
+            <line id="o2" stroke="#465567" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#headSoft)"/>
+            <text id="inf1" x="16" y="134" text-anchor="middle" font-size="28" font-weight="700" fill="#14202e" font-family="Atkinson Hyperlegible, system-ui, sans-serif">∞</text>
+            <text id="inf2" x="684" y="134" text-anchor="middle" font-size="28" font-weight="700" fill="#14202e" font-family="Atkinson Hyperlegible, system-ui, sans-serif">∞</text>
+          </svg>
+        </div>
+        <figcaption id="figcap" aria-live="off"></figcaption>
+      </figure>
+      <dl class="readouts">
+        <div class="c"><dt>Cation radius, r⁺</dt><dd id="rdC"></dd></div>
+        <div class="a"><dt>Anion radius, r⁻</dt><dd id="rdA"></dd></div>
+        <div><dt>Distance between nuclei, d</dt><dd id="rdD"></dd></div>
+      </dl>
+      <div class="btn-row">
+        <button type="button" id="sepBtn" class="btn primary" aria-pressed="false">Separate ions to infinity</button>
+      </div>
+    </section>
+
+    <section id="ctl" class="card" aria-labelledby="ctlh">
+      <h2 id="ctlh">Set up the ions</h2>
+      <fieldset class="presets" id="presets">
+        <legend>Start from a real pair of ions</legend>
+      </fieldset>
+
+      <fieldset class="ion cat">
+        <legend>Cation (positive ion): q⁺ and r⁺</legend>
+        <div class="field">
+          <div class="field-head"><label for="qc">Charge, q⁺</label><output id="oqc" for="qc"></output></div>
+          <div class="slider-row">
+            <button type="button" class="step" data-t="qc" data-d="-1" aria-label="Decrease cation charge by 1">−</button>
+            <input type="range" id="qc" min="1" max="3" step="1" value="1">
+            <button type="button" class="step" data-t="qc" data-d="1" aria-label="Increase cation charge by 1">+</button>
+            <div class="range-ends" aria-hidden="true"><span>1+</span><span>3+</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label for="rc">Ionic radius, r⁺</label><output id="orc" for="rc"></output></div>
+          <div class="slider-row">
+            <button type="button" class="step" data-t="rc" data-d="-5" aria-label="Decrease cation radius by 5 picometres">−</button>
+            <input type="range" id="rc" min="50" max="200" step="1" value="102">
+            <button type="button" class="step" data-t="rc" data-d="5" aria-label="Increase cation radius by 5 picometres">+</button>
+            <div class="range-ends" aria-hidden="true"><span>50 pm</span><span>200 pm</span></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="ion ani">
+        <legend>Anion (negative ion): q⁻ and r⁻</legend>
+        <div class="field">
+          <div class="field-head"><label for="qa">Charge, q⁻</label><output id="oqa" for="qa"></output></div>
+          <div class="slider-row">
+            <button type="button" class="step" data-t="qa" data-d="-1" aria-label="Decrease anion charge by 1">−</button>
+            <input type="range" id="qa" min="1" max="3" step="1" value="1">
+            <button type="button" class="step" data-t="qa" data-d="1" aria-label="Increase anion charge by 1">+</button>
+            <div class="range-ends" aria-hidden="true"><span>1−</span><span>3−</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label for="ra">Ionic radius, r⁻</label><output id="ora" for="ra"></output></div>
+          <div class="slider-row">
+            <button type="button" class="step" data-t="ra" data-d="-5" aria-label="Decrease anion radius by 5 picometres">−</button>
+            <input type="range" id="ra" min="100" max="240" step="1" value="181">
+            <button type="button" class="step" data-t="ra" data-d="5" aria-label="Increase anion radius by 5 picometres">+</button>
+            <div class="range-ends" aria-hidden="true"><span>100 pm</span><span>240 pm</span></div>
+          </div>
+        </div>
+      </fieldset>
+      <p class="note">1 pm (picometre) = 10<sup>−12</sup> m. Radii are typical values for the ions in the preset pairs.</p>
+    </section>
+
+    <section id="res" class="card" aria-labelledby="resh">
+      <h2 id="resh">How strong is the ionic bonding?</h2>
+      <div class="meter-wrap">
+        <p class="calc" id="calc"></p>
+        <div class="big"><span class="num" id="sNum">0</span><span class="unit">relative strength, arbitrary units</span><span class="mp" id="mp"></span></div>
+        <div class="meter" id="meter" role="meter" aria-label="Relative strength of ionic bonding" aria-valuemin="0" aria-valuemax="60" aria-valuenow="0">
+          <div class="fill" id="mFill"></div>
+          <div class="tick" id="mTick"></div>
+        </div>
+        <div class="meter-scale" aria-hidden="true"><span>0</span><span>60</span></div>
+        <div class="legend"><span class="l-cur">Current setting</span><span class="l-ref">Reference</span></div>
+        <p class="refline" id="refLine"></p>
+        <div class="btn-row">
+          <button type="button" class="btn" id="setRef">Use current setting as reference</button>
+          <button type="button" class="btn" id="reset">Reset to Na⁺ Cl⁻</button>
+        </div>
+      </div>
+      <ul class="reasons">
+        <li><h3>Charge <span class="badge" id="bC"></span></h3><p id="tC"></p></li>
+        <li><h3>Ionic radius <span class="badge" id="bR"></span></h3><p id="tR"></p></li>
+        <li><h3>Overall <span class="badge" id="bO"></span></h3><p id="tO" aria-live="polite" aria-atomic="true"></p></li>
+      </ul>
+      <div class="symbols">
+        <h3>What the symbols mean</h3>
+        <p>The small + or − beside a letter only tells you which ion is meant: + is the cation, − is the anion. It is a label, not a power.</p>
+        <dl>
+          <dt>q⁺</dt><dd>Charge of the cation (the positive ion), as a plain number. Mg²⁺ has q⁺ = 2.</dd>
+          <dt>q⁻</dt><dd>Charge of the anion (the negative ion), as a plain number with the minus sign ignored. O²⁻ has q⁻ = 2.</dd>
+          <dt>r⁺</dt><dd>Ionic radius of the cation.</dd>
+          <dt>r⁻</dt><dd>Ionic radius of the anion.</dd>
+          <dt>d</dt><dd>Distance between the two nuclei. In the solid the ions touch, so d = r⁺ + r⁻.</dd>
+        </dl>
+      </div>
+      <p class="note">Model used: strength is proportional to <span class="formula">(q⁺ × q⁻) ÷ d</span>. Values are relative, so they have no unit. Melting points are approximate experimental values, shown to compare with the trend. Melting point also depends on lattice structure, so use it as supporting evidence only.</p>
+    </section>
+
+    <section id="chal" class="card" aria-labelledby="chalh">
+      <h2 id="chalh">Predict, then test</h2>
+      <ol class="tasks">
+        <li><strong>Charge only.</strong> Start from Na⁺ Cl⁻. Predict what happens when both charges go from 1 to 2 with the radii unchanged, then move the sliders. By what factor does the strength change?</li>
+        <li><strong>Radius only.</strong> Keep both charges at 1. Compare Li⁺ F⁻ with Cs⁺ I⁻. Which pair has the shorter distance between nuclei, and which has the stronger bonding?</li>
+        <li><strong>Two effects together.</strong> Press “Use current setting as reference” on Na⁺ Cl⁻, then choose Mg²⁺ O²⁻. Explain how both the charge and the radius contribute to the difference.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var SCALE = 0.5, MID = 350, CY = 125, MAXSEP = 70, SMAX = 60;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var PRESETS = [
+    { id: 'LiF', mp: 845, ions: 'Li⁺ F⁻', name: 'lithium fluoride', qc: 1, qa: 1, rc: 76, ra: 133 },
+    { id: 'NaCl', mp: 801, ions: 'Na⁺ Cl⁻', name: 'sodium chloride', qc: 1, qa: 1, rc: 102, ra: 181 },
+    { id: 'CsI', mp: 621, ions: 'Cs⁺ I⁻', name: 'caesium iodide', qc: 1, qa: 1, rc: 167, ra: 220 },
+    { id: 'MgO', mp: 2852, ions: 'Mg²⁺ O²⁻', name: 'magnesium oxide', qc: 2, qa: 2, rc: 72, ra: 140 },
+    { id: 'CaO', mp: 2613, ions: 'Ca²⁺ O²⁻', name: 'calcium oxide', qc: 2, qa: 2, rc: 100, ra: 140 }
+  ];
+
+  var state = { qc: 1, qa: 1, rc: 102, ra: 181, sep: false, t: 0 };
+  var ref = { qc: 1, qa: 1, rc: 102, ra: 181, label: 'Na⁺ Cl⁻ (sodium chloride)' };
+
+  function findPreset(s) {
+    return PRESETS.filter(function (x) { return x.qc === s.qc && x.qa === s.qa && x.rc === s.rc && x.ra === s.ra; })[0] || null;
+  }
+  function strength(s) { return (s.qc * s.qa) / ((s.rc + s.ra) / 1000); }
+  function cmp(a, b) { var r = a / b; return r > 1.0005 ? 1 : (r < 0.9995 ? -1 : 0); }
+  function setBadge(el, dir) {
+    el.className = 'badge ' + (dir > 0 ? 'up' : dir < 0 ? 'down' : 'same');
+    el.textContent = dir > 0 ? '▲ Stronger' : dir < 0 ? '▼ Weaker' : '= No change';
+  }
+
+  /* Presets */
+  var pbox = $('presets');
+  PRESETS.forEach(function (p) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'preset'; b.dataset.id = p.id; b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = '<span class="p-ions">' + p.ions + '</span><span class="p-name">' + p.name + '</span>';
+    b.addEventListener('click', function () {
+      state.qc = p.qc; state.qa = p.qa; state.rc = p.rc; state.ra = p.ra; render();
+    });
+    pbox.appendChild(b);
+  });
+
+  /* Sliders and step buttons */
+  ['qc', 'qa', 'rc', 'ra'].forEach(function (k) {
+    $(k).addEventListener('input', function () { state[k] = parseInt($(k).value, 10); render(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.step'), function (b) {
+    b.addEventListener('click', function () {
+      var k = b.dataset.t, inp = $(k);
+      var v = Math.min(parseInt(inp.max, 10), Math.max(parseInt(inp.min, 10), state[k] + parseInt(b.dataset.d, 10)));
+      state[k] = v; render();
+    });
+  });
+
+  /* Reference and reset */
+  $('setRef').addEventListener('click', function () {
+    ref = { qc: state.qc, qa: state.qa, rc: state.rc, ra: state.ra,
+      label: 'your saved setting (' + state.qc + '+, ' + state.qa + '−, ' + state.rc + ' pm, ' + state.ra + ' pm)' };
+    render();
+  });
+  $('reset').addEventListener('click', function () {
+    state.qc = 1; state.qa = 1; state.rc = 102; state.ra = 181;
+    ref = { qc: 1, qa: 1, rc: 102, ra: 181, label: 'Na⁺ Cl⁻ (sodium chloride)' };
+    setSep(false); render();
+  });
+
+  /* Separation animation */
+  var raf = null;
+  function setSep(flag) {
+    state.sep = flag;
+    var btn = $('sepBtn');
+    btn.setAttribute('aria-pressed', flag ? 'true' : 'false');
+    btn.textContent = flag ? 'Bring ions back together' : 'Separate ions to infinity';
+    if (raf) cancelAnimationFrame(raf);
+    var target = flag ? 1 : 0;
+    if (reduce) { state.t = target; draw(); updateCaption(); return; }
+    var start = state.t, t0 = null, dur = 700 * Math.abs(target - start);
+    if (dur === 0) { updateCaption(); return; }
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      state.t = start + (target - start) * e;
+      draw();
+      if (p < 1) raf = requestAnimationFrame(step); else { raf = null; state.t = target; draw(); }
+    }
+    raf = requestAnimationFrame(step);
+    updateCaption();
+  }
+  $('sepBtn').addEventListener('click', function () { setSep(!state.sep); });
+
+  function updateCaption() {
+    $('figcap').textContent = state.sep
+      ? 'Gas phase: the ions are pulled apart to infinity. The energy needed to do this for one mole of solid is the strength of ionic bonding.'
+      : 'In the solid the oppositely charged ions touch, so the distance between nuclei is d = r⁺ + r⁻. Arrow thickness shows how strong the attraction is.';
+  }
+
+  function set(el, name, v) { el.setAttribute(name, v); }
+
+  function draw() {
+    var t = state.t, off = MAXSEP * t;
+    var xc = MID - state.rc * SCALE - off, xa = MID + state.ra * SCALE + off;
+    set($('catG'), 'transform', 'translate(' + xc + ',' + CY + ')');
+    set($('aniG'), 'transform', 'translate(' + xa + ',' + CY + ')');
+    set($('catC'), 'r', state.rc * SCALE);
+    set($('aniC'), 'r', state.ra * SCALE);
+    $('catT').textContent = state.qc + '+';
+    $('aniT').textContent = state.qa + '−';
+
+    var dimOp = Math.max(0, 1 - t * 3);
+    set($('dim'), 'opacity', dimOp);
+    ['dimL1', 'dimL2'].forEach(function (id, i) { var x = i ? xa : xc; set($(id), 'x1', x); set($(id), 'x2', x); });
+    set($('dimBar'), 'x1', xc); set($('dimBar'), 'x2', xa);
+
+    var S = strength(state), w = 2 + 6 * Math.min(1, S / SMAX), L = xa - xc;
+    set($('f1'), 'x1', xc + 12); set($('f1'), 'x2', xc + 0.42 * L); set($('f1'), 'y1', CY); set($('f1'), 'y2', CY);
+    set($('f2'), 'x1', xa - 12); set($('f2'), 'x2', xa - 0.42 * L); set($('f2'), 'y1', CY); set($('f2'), 'y2', CY);
+    set($('f1'), 'stroke-width', w); set($('f2'), 'stroke-width', w);
+
+    set($('o1'), 'x1', xc - state.rc * SCALE - 8); set($('o1'), 'x2', 38); set($('o1'), 'y1', CY); set($('o1'), 'y2', CY);
+    set($('o2'), 'x1', xa + state.ra * SCALE + 8); set($('o2'), 'x2', 662); set($('o2'), 'y1', CY); set($('o2'), 'y2', CY);
+    ['o1', 'o2', 'inf1', 'inf2'].forEach(function (id) { set($(id), 'opacity', t > 0.05 ? t : 0); });
+  }
+
+  function render() {
+    var s = state, d = s.rc + s.ra, S = strength(s), Sr = strength(ref), dr = ref.rc + ref.ra;
+    /* sliders */
+    ['qc', 'qa', 'rc', 'ra'].forEach(function (k) {
+      var inp = $(k); inp.value = s[k];
+      var pct = (s[k] - inp.min) / (inp.max - inp.min) * 100;
+      inp.style.setProperty('--pct', pct + '%');
+    });
+    $('oqc').textContent = s.qc + '+'; $('oqa').textContent = s.qa + '−';
+    $('orc').textContent = s.rc + ' pm'; $('ora').textContent = s.ra + ' pm';
+    $('qc').setAttribute('aria-valuetext', 'charge ' + s.qc + ' plus');
+    $('qa').setAttribute('aria-valuetext', 'charge ' + s.qa + ' minus');
+    $('rc').setAttribute('aria-valuetext', s.rc + ' picometres');
+    $('ra').setAttribute('aria-valuetext', s.ra + ' picometres');
+
+    /* readouts */
+    $('rdC').textContent = s.rc + ' pm';
+    $('rdA').textContent = s.ra + ' pm';
+    $('rdD').textContent = s.rc + ' + ' + s.ra + ' = ' + d + ' pm';
+    $('stage-desc').textContent = 'A cation with charge ' + s.qc + ' plus and radius ' + s.rc + ' picometres next to an anion with charge ' + s.qa + ' minus and radius ' + s.ra + ' picometres. Distance between nuclei is ' + d + ' picometres.';
+
+    /* presets pressed */
+    Array.prototype.forEach.call(pbox.children, function (b) {
+      if (!b.dataset || !b.dataset.id) return;
+      var p = PRESETS.filter(function (x) { return x.id === b.dataset.id; })[0];
+      b.setAttribute('aria-pressed', (p.qc === s.qc && p.qa === s.qa && p.rc === s.rc && p.ra === s.ra) ? 'true' : 'false');
+    });
+
+    /* meter */
+    $('sNum').textContent = S.toFixed(1);
+    $('calc').textContent = '(q⁺ × q⁻) ÷ d = (' + s.qc + ' × ' + s.qa + ') ÷ ' + (d / 1000).toFixed(3) + ' nm = ' + S.toFixed(1);
+    $('mFill').style.width = Math.min(100, S / SMAX * 100) + '%';
+    $('mTick').style.left = Math.min(100, Sr / SMAX * 100) + '%';
+    var m = $('meter');
+    m.setAttribute('aria-valuenow', S.toFixed(1));
+    m.setAttribute('aria-valuetext', S.toFixed(1) + ' out of 60; reference is ' + Sr.toFixed(1));
+    var cur = findPreset(s), rp = findPreset(ref);
+    $('mp').innerHTML = cur
+      ? 'Melting point of ' + cur.name + ': <b>' + cur.mp + ' °C</b> (' + (cur.mp + 273) + ' K)'
+      : 'Melting point: shown when the setting matches one of the real ion pairs.';
+    $('refLine').textContent = 'Reference: ' + ref.label + ', strength ' + Sr.toFixed(1) + (rp ? ', melting point ' + rp.mp + ' °C.' : '.');
+
+    /* reasoning */
+    var p = s.qc * s.qa, pr = ref.qc * ref.qa;
+    var dirC = cmp(p, pr), dirR = cmp(dr, d), dirO = cmp(S, Sr);
+    setBadge($('bC'), dirC); setBadge($('bR'), dirR); setBadge($('bO'), dirO);
+
+    $('tC').textContent = dirC > 0
+      ? 'The charge product is ' + p + ' (reference ' + pr + '). Ions with a higher charge have a higher attraction to the oppositely charged ions → stronger forces of attraction → stronger ionic bonding.'
+      : dirC < 0
+      ? 'The charge product is ' + p + ' (reference ' + pr + '). Ions with a lower charge have a lower attraction to the oppositely charged ions → weaker forces of attraction → weaker ionic bonding.'
+      : 'The charge product is ' + p + ', the same as the reference, so charge makes no difference here.';
+
+    $('tR').textContent = dirR < 0
+      ? 'The radii add up to d = ' + d + ' pm (reference ' + dr + ' pm). Larger ions with a greater ionic radius have a weaker attraction to the oppositely charged ions, because the attractive forces act over a longer distance → weaker forces of attraction → weaker ionic bonding.'
+      : dirR > 0
+      ? 'The radii add up to d = ' + d + ' pm (reference ' + dr + ' pm). Smaller ions with a smaller ionic radius have a stronger attraction to the oppositely charged ions, because the attractive forces act over a shorter distance → stronger forces of attraction → stronger ionic bonding.'
+      : 'The radii add up to d = ' + d + ' pm, the same as the reference, so ionic radius makes no difference here.';
+
+    var ratio = S / Sr, word = dirO > 0 ? 'stronger than' : dirO < 0 ? 'weaker than' : 'the same as';
+    var txt = 'Relative strength ' + S.toFixed(1) + ', which is ' + ratio.toFixed(2) + ' × the reference, so the ionic bonding is ' + word + ' the reference.';
+    if (dirC * dirR < 0) txt = txt.replace(/\.$/, '') + '. The charge and radius effects act in opposite directions, so the result depends on which change is bigger.';
+    $('tO').textContent = txt;
+
+    draw();
+    updateCaption();
+  }
+
+  render();
+})();
+</script>
+
+</body></html>

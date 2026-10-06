@@ -1,0 +1,872 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='sW7qs7D+0UO8C+KQxepA2Q==' src='https://96dca8d1-13bf-42ef-923a-94b29dd4d329.frame.claudeusercontent.com/hgpmjcBrth9EBgeNEbIVadhaUEvOqiUI7JlXnp4SEULFxQg8lnt2r2b_gMUOc34HupLGldvjgPGRSX4LckRcSpl3_f01f6YWjvHKn-p51Nif8ePT7vR8dgvCoKeAZ3tVlTDbrxx_CHrNS2kP1mscsI3Wv0jNPtKusoOAyyeQACP5JQNWvkdrfWZtjC8HjaRLIjG4oCUp71aIXxS7HHc7ygjIy4l7a8NOWC7aEeglGhBewK-g8W01kbmWVHSTcMRzw7dGITKGIMiFqNB7RhL9qevbvJB2BtIHw8oNJrH3VlwFwnFBYIiOSzwzzr2ttTXA5_8EEbD5d3KQObRAs06F4TADeOr5LbaAxrDzMQutjL-LHL_vTm_W6GNy3-2UlH2YILZ9zZ4M3W1S5Sc5owY1x9sJ0WyNknnNz6Cu_nJy74U8bvTnj2T9j3NgJ7TyXN81Adt6CUWYAEJb1uF_lNVeo3O_fpNgSlTnYlUrTGkTIZCnjJ8iEKiQxNFG__wjPiMqj5qFOUSdCYU9gpoJMbLxRUho3wRvRKvKEdBXFpelK7T30LfDTfdO1cMs8Ckcnrt05Xhx2sw13RpL-EjLYeZav8d_Pz3fMV05E67H1Qq31UCWguWzqDeCL2K_y-SBwaUzT-D4IE2eRdNoRsZjU7Bsd5vJ9TZiVcgaLJ4mMuAhp7Irjv1dgfBcdM7Ug_FJeEa5_oF04fRM8yl-hbK1_6Zo2A'></script></head><body>
+<title>Isomerism Explorer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=Public+Sans:wght@400;600;700&amp;display=swap">
+<style>
+/* Layout: one centred column; three keyboard-operable tabs; molecule drawings always sit on white panels so they read the same in light and dark themes. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#13212e; --muted:#44546a; --line:#c9d2dd;
+  --accent:#0a5bb5; --accent-ink:#ffffff; --accent-soft:#e3eefb;
+  --good:#0b6b3a; --good-soft:#e1f3e8; --bad:#a3231f; --bad-soft:#fbe7e5; --warn-soft:#fdf0d8;
+  --focus:#c25100;
+  --fig-bg:#ffffff; --fig-ink:#13212e; --fig-accent:#0a5bb5; --fig-muted:#56667a;
+  --f-display:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1621; --surface:#16212f; --fg:#e8eef5; --muted:#b0bece; --line:#33445a;
+    --accent:#7db8ff; --accent-ink:#0b1a2b; --accent-soft:#1b2d46;
+    --good:#78d9a3; --good-soft:#12301f; --bad:#ffa39c; --bad-soft:#3a1816; --warn-soft:#352a10;
+    --focus:#ffb066; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1621; --surface:#16212f; --fg:#e8eef5; --muted:#b0bece; --line:#33445a;
+  --accent:#7db8ff; --accent-ink:#0b1a2b; --accent-soft:#1b2d46;
+  --good:#78d9a3; --good-soft:#12301f; --bad:#ffa39c; --bad-soft:#3a1816; --warn-soft:#352a10;
+  --focus:#ffb066; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:1.0625rem/1.6 var(--f-body);margin:0}
+.wrap{max-width:64rem;margin-inline:auto;padding-inline:max(16px,4vw);padding-block:20px 56px}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,6vw,3rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.55rem,4.5vw,2.1rem);margin-bottom:12px}
+h3{font-size:1.3rem;margin-bottom:8px}
+h4{font-size:1.05rem;margin:18px 0 10px}
+p{margin:0 0 12px;max-width:68ch}
+sub{font-size:.75em;line-height:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:8px;z-index:10}
+.skip:focus{left:16px}
+.eyebrow{font:600 .8rem var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.lede{font-size:1.15rem;color:var(--muted);margin-top:10px}
+.mono{font-family:var(--f-mono);font-size:.95em}
+
+/* tabs */
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-block:22px}
+.tab{min-height:56px;padding:8px 10px;border:2px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;font:600 .98rem/1.25 var(--f-body);cursor:pointer;text-align:center}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.tab:hover{border-color:var(--accent)}
+@media (max-width:26rem){.tab{font-size:.9rem;padding:6px}}
+[role="tabpanel"]{display:flex;flex-direction:column;gap:20px}
+[role="tabpanel"]:focus-visible{outline-offset:6px}
+
+/* blocks */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3.5vw,26px);min-width:0}
+.lead{font-size:1.12rem}
+.point{background:var(--accent-soft);border-radius:10px;padding:12px 14px;margin:16px 0 0}
+.point strong{font-family:var(--f-display)}
+.note{color:var(--muted);font-size:.95rem}
+ol.steps,ul.checks{margin:0 0 12px;padding-left:1.3rem;max-width:68ch}
+ol.steps li,ul.checks li{margin-bottom:6px}
+
+/* figures */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13.5rem),1fr));gap:14px}
+.fig{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.figbox{background:var(--fig-bg);border:1px solid var(--line);border-radius:10px;padding:10px;display:grid;place-items:center;min-height:9rem;overflow-x:auto}
+.view3d{width:100%;aspect-ratio:4/3;max-width:100%}
+.figbox svg{max-width:100%;height:auto;display:block}
+figcaption{display:flex;flex-direction:column;gap:2px;font-size:.95rem}
+figcaption .n{font-weight:700}
+figcaption .cls{color:var(--muted)}
+svg line{stroke:var(--fig-ink);stroke-width:2.2;stroke-linecap:round}
+svg text{fill:var(--fig-ink);font:600 15px var(--f-body);text-anchor:middle;dominant-baseline:central;paint-order:stroke;stroke:var(--fig-bg);stroke-width:5px;stroke-linejoin:round}
+svg text.small{font-size:12.5px;font-weight:400;fill:var(--fig-muted);stroke:none}
+svg circle.nc{fill:none;stroke:var(--fig-ink);stroke-width:2.2}
+svg .lobe-a{fill:var(--fig-accent);fill-opacity:.4;stroke:var(--fig-accent);stroke-width:2}
+svg .lobe-b{fill:var(--fig-bg);stroke:var(--fig-accent);stroke-width:2}
+svg .ghost{fill:none;stroke:var(--fig-muted);stroke-width:1.6;stroke-dasharray:4 4}
+
+/* family tree */
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.tree ul{margin:8px 0 0 14px;padding-left:16px;border-left:3px solid var(--line)}
+.tree li{margin-bottom:8px}
+.tree .box{display:inline-block;padding:8px 12px;border:2px solid var(--line);border-radius:10px;background:var(--surface)}
+.treewrap{position:relative;padding-right:7.5rem}
+.brace{position:absolute;width:18px;color:var(--muted);display:none}
+.prevlabel{position:absolute;width:6rem;font-size:.9rem;line-height:1.3;color:var(--muted);font-style:italic;display:none}
+.treewrap.on .brace,.treewrap.on .prevlabel{display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:30rem){.treewrap{padding-right:5.5rem}.prevlabel{width:4.6rem;font-size:.82rem}}
+.tree .past{background:transparent;border-style:dashed;color:var(--muted)}
+.tree .past .sub{color:var(--muted)}
+.tree .here{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.tree .sub{display:block;font-size:.92rem;color:var(--muted);font-weight:400}
+
+/* demos */
+.demos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:20px}
+.demo{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl label{font-weight:600}
+input[type="range"]{width:100%;height:44px;accent-color:var(--accent);margin:0}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{min-height:44px;padding:8px 14px;border-radius:10px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);font:600 1rem var(--f-body);cursor:pointer}
+.btn.sec{background:var(--surface);color:var(--accent)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.read{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:.98rem;min-height:3.4rem}
+.bar{height:16px;border-radius:8px;background:var(--line);overflow:hidden}
+.bar>div{height:100%;background:var(--accent);width:100%}
+.bartxt{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:.95rem}
+
+/* table */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:30rem;font-size:.98rem}
+caption{text-align:left;padding:10px 12px;font-weight:700}
+th,td{text-align:left;padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+thead th{background:var(--accent-soft)}
+tbody th{font-weight:600}
+
+/* quiz */
+.qtop{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.score{font-weight:700}
+ol.qs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+fieldset{border:1px solid var(--line);border-radius:14px;margin:0;padding:clamp(14px,3vw,22px);background:var(--surface);min-width:0}
+legend{padding:0 8px;font-family:var(--f-display);font-weight:700;font-size:1.15rem}
+.qtext{margin-bottom:12px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8rem),1fr));gap:10px;margin-bottom:12px}
+.opt{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 12px;border:2px solid var(--line);border-radius:10px;cursor:pointer;background:var(--bg);font-weight:600}
+.opt input{width:22px;height:22px;accent-color:var(--accent);flex:none;margin:0}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.opt .badge{margin-left:auto;font-size:.78rem;font-weight:700;letter-spacing:.02em}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fb{margin-top:12px;border-radius:10px;padding:0}
+.fb .inner{padding:12px 14px;border-radius:10px;border:2px solid var(--line)}
+.fb .inner.good{background:var(--good-soft);border-color:var(--good)}
+.fb .inner.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fb .inner.info{background:var(--warn-soft)}
+.fb strong.v{font-family:var(--f-display)}
+.fb ul{margin:8px 0;padding-left:1.2rem}
+.fb li{margin-bottom:2px}
+.hint{margin-top:12px;background:var(--accent-soft);border-radius:10px;padding:12px 14px}
+.hint .steps{margin-bottom:8px}
+.qfigs{grid-template-columns:repeat(auto-fill,minmax(min(100%,9.5rem),1fr));gap:10px;margin-top:6px}
+.qfigs .figbox{min-height:6rem;padding:6px}
+.qfigs figcaption{font-size:.85rem}
+ol.grp{margin:8px 0;padding-left:1.3rem}
+ol.grp>li{margin-bottom:8px}
+ol.grp ul{margin:4px 0 0;padding-left:1.2rem;columns:1}
+.sum{font-weight:700;margin:6px 0 10px}
+
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Organic chemistry</p>
+  <h1>Isomerism Explorer</h1>
+  <p class="lede">Molecules with the same molecular formula can still be different substances. Work through the two topics, then test yourself in the quiz.</p>
+</header>
+
+<div class="tabs" role="tablist" aria-label="Topics">
+  <button class="tab" role="tab" id="t-structural" aria-controls="p-structural" aria-selected="true">Structural isomerism</button>
+  <button class="tab" role="tab" id="t-cistrans" aria-controls="p-cistrans" aria-selected="false" tabindex="-1">Cis-trans isomerism</button>
+  <button class="tab" role="tab" id="t-quiz" aria-controls="p-quiz" aria-selected="false" tabindex="-1">Quiz</button>
+</div>
+
+<main id="main">
+
+<!-- ============ STRUCTURAL ============ -->
+<section role="tabpanel" id="p-structural" aria-labelledby="t-structural" tabindex="0">
+  <div>
+    <h2>Structural isomerism</h2>
+    <p class="lead">Structural isomers have the <strong>same molecular formula</strong> but <strong>different structural formulas</strong>. Their atoms are joined together in a different order.</p>
+    <p class="note">The drawings are skeletal formulas. Every corner and every line end is a carbon atom, and hydrogen atoms bonded to carbon are not drawn. The condensed formula is written under each one.</p>
+  </div>
+
+  <div class="card" id="chain">
+    <h3>Chain isomerism</h3>
+    <p>The carbon skeleton is different: one has a straight chain and the others have branches. The functional group (here there is none, since these are alkanes) is the same.</p>
+    <h4>Example: C<sub>5</sub>H<sub>12</sub></h4>
+    <div class="figs" data-set="chain"></div>
+    <p class="point"><strong>Link to properties.</strong> More branching makes a more compact molecule with less surface contact, so the London forces are weaker and the boiling point is lower. Pentane boils at 36 °C, 2-methylbutane at 28 °C and 2,2-dimethylpropane at 10 °C.</p>
+  </div>
+
+  <div class="card" id="position">
+    <h3>Position isomerism</h3>
+    <p>The carbon skeleton and the functional group stay the same. The functional group, or the C=C bond, is attached at a different position on the chain.</p>
+    <h4>Example: C<sub>3</sub>H<sub>7</sub>Br</h4>
+    <div class="figs" data-set="pos1"></div>
+    <h4>Example: C<sub>4</sub>H<sub>8</sub></h4>
+    <div class="figs" data-set="pos2"></div>
+    <p class="note">But-2-ene also shows cis-trans isomerism. That is covered in the next topic.</p>
+    <p class="point"><strong>Link to properties.</strong> 1-bromopropane boils at 71 °C and 2-bromopropane at 59 °C.</p>
+  </div>
+
+  <div class="card" id="fgroup">
+    <h3>Functional group isomerism</h3>
+    <p>The atoms are arranged to form different functional groups, here a C=C double bond or a ring. The two molecules then react differently.</p>
+    <h4>Example: C<sub>3</sub>H<sub>6</sub></h4>
+    <div class="figs" data-set="fg1"></div>
+    <p class="point"><strong>Link to structure.</strong> Propene has a C=C double bond, so it is an alkene. Cyclopropane has a ring of single bonds, so it is a cycloalkane.</p>
+    <h4>Example: C<sub>4</sub>H<sub>8</sub></h4>
+    <div class="figs" data-set="fg2"></div>
+    <p class="point"><strong>Link to reactions.</strong> But-1-ene decolourises bromine water at room temperature. Cyclobutane does not.</p>
+  </div>
+
+  <div class="card">
+    <h3>How to name the type</h3>
+    <ol class="steps">
+      <li>Check that the molecular formulas are the same. If they differ, the molecules are not structural isomers.</li>
+      <li>Compare the carbon skeletons. A different skeleton (straight or branched) means chain isomerism.</li>
+      <li>If the skeleton and the functional group are the same but the group sits at a different place, it is position isomerism.</li>
+      <li>If the functional groups are different, it is functional group isomerism.</li>
+    </ol>
+  </div>
+  <div class="card" id="method">
+    <h3>Finding every structural isomer: a step-by-step method</h3>
+    <p>Guessing leads to missed and repeated answers. Sort the possibilities by parent chain first, then move the functional group along each chain.</p>
+    <ol class="steps">
+      <li><strong>Parent chain.</strong> Start with the longest chain possible, then shorten it by one carbon at a time. Each carbon you remove becomes a branch.</li>
+      <li><strong>Branches.</strong> For each parent chain, place the branches on different carbons. A branch on an end carbon only makes the chain longer, and two positions that match when you flip the chain over are the same.</li>
+      <li><strong>Functional group.</strong> In each skeleton, put the C=C bond (or the halogen atom, or the –OH group) on every different position. Flipping the chain over gives repeats here too.</li>
+      <li><strong>Count.</strong> Add up the results from every parent chain. If rings are allowed, repeat the method for rings, starting with the biggest ring.</li>
+    </ol>
+    <h4>Worked example: alkenes with the formula C<sub>5</sub>H<sub>10</sub> (no ring)</h4>
+    <div class="tw" role="region" aria-label="Worked example table" tabindex="0">
+      <table>
+        <caption>Sorting by parent chain</caption>
+        <thead><tr><th scope="col">Parent chain</th><th scope="col">Branches</th><th scope="col">Where the C=C can go</th><th scope="col">Isomers found</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">5 carbons</th><td>none</td><td>C1=C2 or C2=C3. C3=C4 is C2=C3 flipped over, and C4=C5 is C1=C2 flipped over.</td><td>pent-1-ene, pent-2-ene: <strong>2</strong></td></tr>
+          <tr><th scope="row">4 carbons</th><td>one methyl on C2. On C1 it would make a 5-carbon chain, and C3 is the same as C2 flipped over.</td><td>C1=C2, C2=C3 or C3=C4</td><td>2-methylbut-1-ene, 2-methylbut-2-ene, 3-methylbut-1-ene: <strong>3</strong></td></tr>
+          <tr><th scope="row">3 carbons</th><td>two methyls, both on C2</td><td>Nowhere. The middle carbon already has four single bonds.</td><td>none: <strong>0</strong></td></tr>
+        </tbody>
+        <tfoot><tr><th scope="row" colspan="3">Total structural isomers</th><td><strong>2 + 3 + 0 = 5</strong></td></tr></tfoot>
+      </table>
+    </div>
+    <h4>The structures, by parent chain</h4>
+    <h4>5-carbon parent chain: 2</h4>
+    <div class="figs qfigs" data-draw="pent-1-ene;pent-2-ene"></div>
+    <h4>4-carbon parent chain with one methyl branch: 3</h4>
+    <div class="figs qfigs" data-draw="2-methylbut-1-ene;2-methylbut-2-ene;3-methylbut-1-ene"></div>
+    <h4>3-carbon parent chain with two methyl branches: 0</h4>
+    <div class="figs qfigs" data-draw="2,2-dimethylpropane|This skeleton has no place for a C=C"></div>
+    <p class="point"><strong>Then think about cis-trans.</strong> Pent-2-ene has two different groups on each carbon of its C=C bond, so it has a cis form and a trans form. That makes 6 isomers in total. Cis-trans is explained in the next tab.</p>
+    <p class="note">Use the same method for haloalkanes and alcohols: sort by parent chain, then move the halogen atom or the –OH group along each chain. The quiz has a "Show the steps" button on every question.</p>
+  </div>
+</section>
+
+<!-- ============ CIS-TRANS ============ -->
+<section role="tabpanel" id="p-cistrans" aria-labelledby="t-cistrans" tabindex="0" hidden="">
+  <div>
+    <h2>Cis-trans (geometrical) isomerism</h2>
+    <p class="lead">Cis-trans isomerism belongs to the family of <strong>stereoisomerism</strong>.</p>
+    <div class="treewrap" id="treewrap">
+    <ul class="tree" aria-label="Where cis-trans isomerism fits">
+      <li><span class="box past" id="bx1">Isomerism<span class="sub">same molecular formula, different molecules</span><span class="sr"> (mentioned previously)</span></span>
+        <ul>
+          <li><span class="box past" id="bx2">Structural isomerism<span class="sub">different order of bonding (previous tab)</span><span class="sr"> (mentioned previously)</span></span></li>
+          <li><span class="box">Stereoisomerism<span class="sub">same structural formula, atoms arranged differently in space</span></span>
+            <ul>
+              <li><span class="box here">Cis-trans (geometrical) isomerism<span class="sub">this tab</span></span></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <svg class="brace" id="brace" aria-hidden="true" focusable="false" viewbox="0 0 20 100" preserveaspectratio="none"><path d="M2 2 C10 2 10 8 10 20 L10 40 C10 47 12 50 18 50 C12 50 10 53 10 60 L10 80 C10 92 10 98 2 98" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+    <span class="prevlabel" id="prevlabel" aria-hidden="true">mentioned previously</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What is it?</h3>
+    <p>Stereoisomers have the same atoms joined in the same order, so their structural formulas are identical. They differ in how the atoms sit in space. Around a C=C bond this gives two forms:</p>
+    <ul class="checks">
+      <li><strong>cis</strong>: two similar groups are on the <strong>same side</strong> of the C=C bond.</li>
+      <li><strong>trans</strong>: the two similar groups are on <strong>opposite sides</strong> of the C=C bond.</li>
+    </ul>
+    <p>Two conditions must both be true:</p>
+    <ul class="checks">
+      <li>The molecule has a C=C double bond, which cannot rotate.</li>
+      <li>Each carbon of the C=C carries <strong>two different groups</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Example: C<sub>2</sub>H<sub>2</sub>Cl<sub>2</sub> has three molecules</h3>
+    <div class="figs" data-alk="1"></div>
+    <p class="point"><strong>Properties differ.</strong> In the cis form the two C–Cl dipoles add up, so the molecule is polar (boiling point 60 °C). In the trans form they cancel, and the boiling point is lower (48 °C).</p>
+    <p class="note">The left carbon of 1,1-dichloroethene has two identical Cl atoms, so swapping its groups gives the same molecule. It fails the second condition and has no cis-trans form. It is a structural isomer of the other two.</p>
+  </div>
+
+  <div class="card">
+    <h3>Why a double bond cannot twist</h3>
+    <p>A C=C bond has two parts. The σ bond is end-on overlap along the line between the carbons. The π bond is sideways overlap of two p orbitals, one lobe above and one below the plane of the molecule. To twist one end, the p orbitals have to turn away from each other, and the π bond breaks.</p>
+    <div class="demos">
+      <div class="demo">
+        <h4>C<sub>2</sub>H<sub>2</sub>Cl<sub>2</sub>: C=C double bond</h4>
+        <div class="figbox"><div class="view3d" id="viewB"></div></div>
+        <p class="note">Drag the model to turn it, or select it and use the arrow keys, or use the view buttons. The flat blue square is the plane of the molecule. The two shades of blue are the two lobes of each p orbital, above and below that plane. Carbon is dark grey, hydrogen is light grey and chlorine is green, and every atom is also labelled.</p>
+        <div class="row">
+          <button class="btn sec" type="button" data-view="side" data-target="B">Side view</button>
+          <button class="btn sec" type="button" data-view="top" data-target="B">Top view</button>
+          <button class="btn sec" type="button" data-view="end" data-target="B">Along the bond</button>
+        </div>
+        <div class="ctl">
+          <label for="twistB">Twist the far carbon by <output id="twistBval">0°</output></label>
+          <input type="range" id="twistB" min="0" max="90" step="1" value="0">
+        </div>
+        <div class="row">
+          <button class="btn sec" type="button" data-b="0">0°</button>
+          <button class="btn sec" type="button" data-b="45">45°</button>
+          <button class="btn sec" type="button" data-b="90">90°</button>
+        </div>
+        <div>
+          <div class="bartxt"><span>p orbital overlap: <strong id="ovl">100%</strong></span><span>Energy needed: <strong id="eng">0</strong> kJ mol<sup>-1</sup> (approx.)</span></div>
+          <div class="bar" aria-hidden="true"><div id="ovbar"></div></div>
+        </div>
+        <div class="read" id="readB" role="status">The π bond is intact.</div>
+      </div>
+
+      <div class="demo">
+        <h4>C<sub>2</sub>H<sub>4</sub>Cl<sub>2</sub>: single bond (1,2-dichloroethane)</h4>
+        <div class="figbox"><div class="view3d" id="viewA"></div></div>
+        <p class="note">Drag the model to turn it, or select it and use the arrow keys, or use the view buttons. Each carbon holds one Cl atom and two H atoms. Turn the far carbon with the slider and watch the Cl atoms swing past each other.</p>
+        <div class="row">
+          <button class="btn sec" type="button" data-view="side" data-target="A">Side view</button>
+          <button class="btn sec" type="button" data-view="top" data-target="A">Top view</button>
+          <button class="btn sec" type="button" data-view="end" data-target="A">Along the bond</button>
+        </div>
+        <div class="ctl">
+          <label for="twistA">Rotate the far carbon by <output id="twistAval">180°</output></label>
+          <input type="range" id="twistA" min="0" max="360" step="5" value="180">
+        </div>
+        <div class="row">
+          <button class="btn sec" type="button" data-a="0">Cl atoms on the same side</button>
+          <button class="btn sec" type="button" data-a="180">Cl atoms on opposite sides</button>
+        </div>
+        <div class="read" id="readA" role="status">The two Cl atoms point in opposite directions.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Why C<sub>2</sub>H<sub>4</sub>Cl<sub>2</sub> (1,2-dichloroethane) has no cis-trans form</h3>
+    <p>The two carbons are joined by a single σ bond only. End-on overlap looks the same from every angle, so one CH<sub>2</sub>Cl group spins freely against the other without any bond breaking. A drawing with the Cl atoms on the same side and a drawing with them on opposite sides are two snapshots of one molecule. There is only one 1,2-dichloroethane. Its structural isomer, 1,1-dichloroethane, is a different substance.</p>
+    <div class="tw" role="region" aria-label="Comparison table" tabindex="0">
+      <table>
+        <caption>Double bond compared with single bond</caption>
+        <thead><tr><th scope="col"></th><th scope="col">C<sub>2</sub>H<sub>2</sub>Cl<sub>2</sub> (C=C)</th><th scope="col">C<sub>2</sub>H<sub>4</sub>Cl<sub>2</sub> (C–C)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Bonds between the carbons</th><td>σ bond and π bond</td><td>σ bond only</td></tr>
+          <tr><th scope="row">Rotation at room temperature</th><td>Blocked</td><td>Free</td></tr>
+          <tr><th scope="row">Energy needed to rotate</th><td>About 250 kJ mol<sup>-1</sup>, enough to break the π bond</td><td>Roughly 10 to 20 kJ mol<sup>-1</sup>, supplied by ordinary collisions</td></tr>
+          <tr><th scope="row">Result</th><td>Cis and trans are separate substances that do not interconvert</td><td>One substance only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section role="tabpanel" id="p-quiz" aria-labelledby="t-quiz" tabindex="0" hidden="">
+  <div>
+    <h2>Quiz</h2>
+    <p class="lead">Each set picks different molecules at random. Pick an answer, then press Check.</p>
+    <ul class="checks">
+      <li>When a question asks for <strong>structural isomers</strong>, count each different structural formula once.</li>
+      <li>The answers are drawn as skeletal formulas. Every corner and every line end is a carbon atom, and hydrogen atoms on carbon are not shown.</li>
+      <li>Each question says whether a <strong>ring</strong> is allowed. Where it says the molecule may contain a ring, count the ring structures too.</li>
+      <li>When a question asks for all the <strong>isomers</strong> of an alkene, count every different molecule, and count cis and trans forms separately.</li>
+    </ul>
+  </div>
+  <div class="qtop">
+    <p class="score" id="score" role="status" aria-live="polite">Score: 0 of 0 answered correctly</p>
+    <button class="btn" type="button" id="newset">New question set</button>
+  </div>
+  <ol class="qs" id="qs"></ol>
+</section>
+
+</main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+document.documentElement.lang='en';
+var PI=Math.PI;
+function fx(s){return s.replace(/(\d+)/g,'<sub>$1</sub>');}
+function r1(n){return Math.round(n*10)/10;}
+
+/* ---------- skeletal formula drawer ---------- */
+function skeletal(m){
+  var L=38,dx=L*Math.cos(PI/6),dy=L*Math.sin(PI/6);
+  var P=m.chain.map(function(lab,i){return {x:i*dx,y:(i%2)?-dy:0,lab:lab,peak:(i%2)===1};});
+  var segs=[],ext=P.slice(),dbl=m.dbl||[];
+  for(var i=0;i<P.length-1;i++){segs.push({a:P[i],b:P[i+1],d:dbl.indexOf(i)>-1});}
+  (m.subs||[]).forEach(function(s){
+    var p=P[s.i],dir=s.dir||(p.peak?'u':'d');
+    var q={x:p.x,y:p.y+(dir==='u'?-L:L),lab:s.label||''};
+    ext.push(q);segs.push({a:p,b:q,d:!!s.dbl});
+  });
+  function cut(p){return p.lab?(p.lab.length>1?15:11):0;}
+  var out='';
+  segs.forEach(function(s){
+    var vx=s.b.x-s.a.x,vy=s.b.y-s.a.y,len=Math.hypot(vx,vy),ux=vx/len,uy=vy/len;
+    var ca=cut(s.a),cb=cut(s.b);
+    var x1=s.a.x+ux*ca,y1=s.a.y+uy*ca,x2=s.b.x-ux*cb,y2=s.b.y-uy*cb;
+    (s.d?[-2.8,2.8]:[0]).forEach(function(o){
+      var nx=-uy*o,ny=ux*o;
+      out+='<line x1="'+r1(x1+nx)+'" y1="'+r1(y1+ny)+'" x2="'+r1(x2+nx)+'" y2="'+r1(y2+ny)+'"/>';
+    });
+  });
+  var minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  ext.forEach(function(p){
+    minx=Math.min(minx,p.x);maxx=Math.max(maxx,p.x);miny=Math.min(miny,p.y);maxy=Math.max(maxy,p.y);
+    if(p.lab){out+='<text x="'+r1(p.x)+'" y="'+r1(p.y)+'">'+p.lab+'</text>';}
+  });
+  var pad=26,w=maxx-minx+2*pad,h=maxy-miny+2*pad;
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+r1(minx-pad)+' '+r1(miny-pad)+' '+r1(w)+' '+r1(h)+'" width="'+Math.round(w*1.5)+'" role="img" aria-label="Skeletal formula of '+m.name+'" focusable="false">'+out+'</svg>';
+}
+
+function poly(m){
+  var n=m.ring,L=38,R=L/(2*Math.sin(PI/n)),pts=[],o='',i,h=R+26;
+  for(i=0;i<n;i++){var a=-PI/2+i*2*PI/n+(n===4?PI/4:0);pts.push([R*Math.cos(a),R*Math.sin(a)]);}
+  for(i=0;i<n;i++){var p=pts[i],q=pts[(i+1)%n];o+='<line x1="'+r1(p[0])+'" y1="'+r1(p[1])+'" x2="'+r1(q[0])+'" y2="'+r1(q[1])+'"/>';}
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+r1(-h)+' '+r1(-h)+' '+r1(2*h)+' '+r1(2*h)+'" width="'+Math.round(2*h*1.5)+'" role="img" aria-label="Skeletal formula of '+m.name+'" focusable="false">'+o+'</svg>';
+}
+var MOL={
+ 'pentane':{name:'pentane',cls:'alkane',cond:'CH3CH2CH2CH2CH3',chain:['','','','','']},
+ '2-methylbutane':{name:'2-methylbutane',cls:'alkane',cond:'CH3CH(CH3)CH2CH3',chain:['','','',''],subs:[{i:1}]},
+ '2,2-dimethylpropane':{name:'2,2-dimethylpropane',cls:'alkane',cond:'C(CH3)4',chain:['','',''],subs:[{i:1,dir:'u'},{i:1,dir:'d'}]},
+ '1-bromopropane':{name:'1-bromopropane',cls:'bromoalkane',cond:'CH3CH2CH2Br',chain:['','','','Br']},
+ '2-bromopropane':{name:'2-bromopropane',cls:'bromoalkane',cond:'CH3CHBrCH3',chain:['','',''],subs:[{i:1,label:'Br'}]},
+ 'but-1-ene':{name:'but-1-ene',cls:'alkene',cond:'CH2=CHCH2CH3',chain:['','','',''],dbl:[0]},
+ 'but-2-ene':{name:'but-2-ene',cls:'alkene',cond:'CH3CH=CHCH3',chain:['','','',''],dbl:[1]},
+ 'propene':{name:'propene',cls:'alkene',cond:'CH2=CHCH3',chain:['','',''],dbl:[0]},
+ 'cyclopropane':{name:'cyclopropane',cls:'cycloalkane',cond:'(CH2)3',ring:3},
+ 'cyclobutane':{name:'cyclobutane',cls:'cycloalkane',cond:'(CH2)4',ring:4},
+ 'ethanol':{name:'ethanol',cls:'alcohol',cond:'CH3CH2OH',chain:['','','OH']},
+ 'methoxymethane':{name:'methoxymethane',cls:'ether',cond:'CH3OCH3',chain:['','O','']},
+ 'propanal':{name:'propanal',cls:'aldehyde',cond:'CH3CH2CHO',chain:['','','','O'],dbl:[2]},
+ 'propanone':{name:'propanone',cls:'ketone',cond:'CH3COCH3',chain:['','',''],subs:[{i:1,label:'O',dbl:true}]},
+ 'propanoic acid':{name:'propanoic acid',cls:'carboxylic acid',cond:'CH3CH2COOH',chain:['','','','OH'],subs:[{i:2,label:'O',dbl:true,dir:'d'}]},
+ 'methyl ethanoate':{name:'methyl ethanoate',cls:'ester',cond:'CH3COOCH3',chain:['','','O',''],subs:[{i:1,label:'O',dbl:true}]}
+};
+var SETS={
+ chain:['pentane','2-methylbutane','2,2-dimethylpropane'],
+ pos1:['1-bromopropane','2-bromopropane'],
+ pos2:['but-1-ene','but-2-ene'],
+ fg1:['propene','cyclopropane'],
+ fg2:['but-1-ene','cyclobutane']
+};
+function figure(svg,name,cls,cond){
+  return '<figure class="fig"><div class="figbox">'+svg+'</div><figcaption><span class="n">'+name+'</span><span class="cls">'+cls+'</span><span class="mono">'+cond+'</span></figcaption></figure>';
+}
+document.querySelectorAll('[data-set]').forEach(function(el){
+  el.innerHTML=SETS[el.getAttribute('data-set')].map(function(k){
+    var m=MOL[k];return figure(m.ring?poly(m):skeletal(m),m.name,m.cls,fx(m.cond));
+  }).join('');
+});
+
+/* ---------- displayed formula of a C=C ---------- */
+function alkene(ul,dl,ur,dr,alt){
+  var c1={x:72,y:80},c2={x:128,y:80},s=40,hx=s*0.5,hy=s*0.866,o='';
+  [-3,3].forEach(function(d){o+='<line x1="82" y1="'+(80+d)+'" x2="118" y2="'+(80+d)+'"/>';});
+  [[c1,-hx,-hy,ul],[c1,-hx,hy,dl],[c2,hx,-hy,ur],[c2,hx,hy,dr]].forEach(function(a){
+    var c=a[0],ex=c.x+a[1],ey=c.y+a[2],ux=a[1]/s,uy=a[2]/s;
+    o+='<line x1="'+r1(c.x+ux*10)+'" y1="'+r1(c.y+uy*10)+'" x2="'+r1(ex-ux*11)+'" y2="'+r1(ey-uy*11)+'"/><text x="'+r1(ex)+'" y="'+r1(ey)+'">'+a[3]+'</text>';
+  });
+  o+='<text x="72" y="80">C</text><text x="128" y="80">C</text>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="240" role="img" aria-label="'+alt+'" focusable="false">'+o+'</svg>';
+}
+var alk=document.querySelector('[data-alk]');
+if(alk){
+  alk.innerHTML=
+   figure(alkene('Cl','H','Cl','H','Displayed formula of cis-1,2-dichloroethene: both Cl atoms above the C=C bond'),'cis-1,2-dichloroethene','cis form','ClCH=CHCl, Cl atoms on the same side')+
+   figure(alkene('Cl','H','H','Cl','Displayed formula of trans-1,2-dichloroethene: one Cl above and one Cl below the C=C bond'),'trans-1,2-dichloroethene','trans form','ClCH=CHCl, Cl atoms on opposite sides')+
+   figure(alkene('Cl','Cl','H','H','Displayed formula of 1,1-dichloroethene: both Cl atoms on the left carbon'),'1,1-dichloroethene','no cis-trans form','CCl2=CH2');
+}
+
+/* ---------- 3D viewer ---------- */
+var T=window.THREE;
+var NOGL='<p class="note" style="padding:14px;margin:0">The 3D model needs WebGL, which this browser is not providing. The slider and the text below still work.</p>';
+function makeLabel(txt,size){
+  var c=document.createElement('canvas');c.width=c.height=128;
+  var g=c.getContext('2d');
+  g.font='700 70px "Public Sans",Arial,sans-serif';g.textAlign='center';g.textBaseline='middle';
+  g.lineJoin='round';g.lineWidth=16;g.strokeStyle='#ffffff';g.strokeText(txt,64,68);
+  g.fillStyle='#13212e';g.fillText(txt,64,68);
+  var s=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false}));
+  s.scale.set(size,size,1);s.renderOrder=5;return s;
+}
+function Viewer(host,aria,cfg){
+  if(!T){host.innerHTML=NOGL;return null;}
+  var rd;
+  try{rd=new T.WebGLRenderer({antialias:true});}catch(e){host.innerHTML=NOGL;return null;}
+  rd.setClearColor(0xffffff,1);
+  var scene=new T.Scene(),cam=new T.PerspectiveCamera(35,1,0.1,60),reg=[],need=false;
+  scene.add(new T.AmbientLight(0xffffff,0.8));
+  var dl=new T.DirectionalLight(0xffffff,0.7);dl.position.set(3,5,4);scene.add(dl);
+  var cv=rd.domElement;host.appendChild(cv);
+  cv.tabIndex=0;cv.setAttribute('role','img');cv.setAttribute('aria-label',aria);
+  cv.style.cssText='width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab;border-radius:8px';
+  var az=cfg.az,el=cfg.el,R=cfg.dist,vt=new T.Vector3(),vd=new T.Vector3();
+  function clamp(x){return Math.max(-1.45,Math.min(1.45,x));}
+  function place(){cam.position.set(R*Math.cos(el)*Math.sin(az),R*Math.sin(el),R*Math.cos(el)*Math.cos(az));cam.lookAt(0,0,0);}
+  function render(){
+    need=false;scene.updateMatrixWorld(true);
+    reg.forEach(function(a){
+      a.m.getWorldPosition(vt);vd.copy(cam.position).sub(vt).normalize();
+      a.s.position.copy(vt).addScaledVector(vd,a.r+0.04);
+    });
+    rd.render(scene,cam);
+  }
+  function redraw(){if(!need){need=true;requestAnimationFrame(render);}}
+  function size(){
+    var w=host.clientWidth,h=host.clientHeight;if(!w||!h){return;}
+    rd.setPixelRatio(Math.min(window.devicePixelRatio||1,2));rd.setSize(w,h,false);
+    cam.aspect=w/h;cam.updateProjectionMatrix();redraw();
+  }
+  if(window.ResizeObserver){new ResizeObserver(size).observe(host);}else{window.addEventListener('resize',size);}
+  var drag=null;
+  cv.addEventListener('pointerdown',function(e){drag={x:e.clientX,y:e.clientY};try{cv.setPointerCapture(e.pointerId);}catch(_){}cv.style.cursor='grabbing';});
+  cv.addEventListener('pointermove',function(e){
+    if(!drag){return;}
+    var dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;
+    az-=dx*0.01;if(e.pointerType==='mouse'){el=clamp(el+dy*0.01);}
+    place();redraw();
+  });
+  ['pointerup','pointercancel'].forEach(function(ev){cv.addEventListener(ev,function(){drag=null;cv.style.cursor='grab';});});
+  cv.addEventListener('keydown',function(e){
+    var k=e.key,used=true;
+    if(k==='ArrowLeft'){az-=0.15;}else if(k==='ArrowRight'){az+=0.15;}
+    else if(k==='ArrowUp'){el=clamp(el+0.12);}else if(k==='ArrowDown'){el=clamp(el-0.12);}
+    else{used=false;}
+    if(used){e.preventDefault();place();redraw();}
+  });
+  place();
+  return {
+    scene:scene,redraw:redraw,
+    view:function(a,e2){az=a;el=e2;place();redraw();},
+    atom:function(parent,pos,r,color,txt,lsize){
+      var m=new T.Mesh(new T.SphereGeometry(r,32,24),new T.MeshStandardMaterial({color:color,roughness:0.45}));
+      m.position.copy(pos);parent.add(m);
+      var s=makeLabel(txt,lsize);scene.add(s);reg.push({m:m,s:s,r:r});return m;
+    },
+    bond:function(parent,a,b,rad){
+      var d=new T.Vector3().subVectors(b,a),len=d.length();
+      var c=new T.Mesh(new T.CylinderGeometry(rad,rad,len,16),new T.MeshStandardMaterial({color:0x8a94a0,roughness:0.5}));
+      c.position.copy(a).add(b).multiplyScalar(0.5);
+      c.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),d.normalize());
+      parent.add(c);return c;
+    }
+  };
+}
+var COL={C:0x2b2f36,Cl:0x2fa84f,H:0xdfe6ee};
+function V3(x,y,z){return new T.Vector3(x,y,z);}
+
+/* C2H2Cl2 (cis) with p orbitals; the right-hand carbon group turns about the C=C axis */
+function buildB(v){
+  var L=new T.Group(),Rg=new T.Group(),d=0.67,hx=0.575,hz=0.996;
+  v.scene.add(L);v.scene.add(Rg);
+  var plane=new T.Mesh(new T.PlaneGeometry(4.8,3.4),new T.MeshBasicMaterial({color:0x4a8fe0,transparent:true,opacity:0.12,side:T.DoubleSide,depthWrite:false}));
+  plane.rotation.x=-PI/2;v.scene.add(plane);
+  v.bond(L,V3(-d,0,0),V3(d,0,0),0.07);
+  [[L,-1],[Rg,1]].forEach(function(p){
+    var g=p[0],sx=p[1],c=V3(sx*d,0,0),a=V3(sx*(d+hx),0,hz),b=V3(sx*(d+hx),0,-hz);
+    v.atom(g,c,0.3,COL.C,'C',0.62);
+    v.atom(g,a,0.42,COL.Cl,'Cl',0.8);v.bond(g,c,a,0.07);
+    v.atom(g,b,0.22,COL.H,'H',0.55);v.bond(g,c,b,0.07);
+    [[0.9,0x3b82d6,0.6],[-0.9,0xbcd6f5,0.8]].forEach(function(l){
+      var m=new T.Mesh(new T.SphereGeometry(1,28,20),new T.MeshStandardMaterial({color:l[1],transparent:true,opacity:l[2],depthWrite:false,roughness:0.6}));
+      m.scale.set(0.72,0.85,0.72);m.position.set(sx*d,l[0],0);g.add(m);
+    });
+  });
+  return Rg;
+}
+
+/* C2H4Cl2: two tetrahedral carbons joined by one sigma bond */
+function buildA(v){
+  var L=new T.Group(),Rg=new T.Group(),d=0.77;
+  v.scene.add(L);v.scene.add(Rg);
+  v.bond(L,V3(-d,0,0),V3(d,0,0),0.08);
+  [[L,-1],[Rg,1]].forEach(function(p){
+    var g=p[0],sx=p[1],c=V3(sx*d,0,0);
+    v.atom(g,c,0.3,COL.C,'C',0.62);
+    [0,120,240].forEach(function(deg,i){
+      var f=deg*PI/180,dir=V3(sx*0.334,0.943*Math.cos(f),0.943*Math.sin(f)),len=i===0?1.4:1.0;
+      var pos=c.clone().addScaledVector(dir,len);
+      if(i===0){v.atom(g,pos,0.42,COL.Cl,'Cl',0.8);}else{v.atom(g,pos,0.22,COL.H,'H',0.55);}
+      v.bond(g,c,pos,0.07);
+    });
+  });
+  return Rg;
+}
+var hostB=document.getElementById('viewB'),hostA=document.getElementById('viewA'),vB=null,vA=null,gB=null,gA=null;
+if(hostB){vB=Viewer(hostB,'3D model of cis-1,2-dichloroethene. Drag or use the arrow keys to turn it. The blue lobes are the p orbitals above and below the flat plane of the molecule.',{az:0.5,el:0.35,dist:9});if(vB){gB=buildB(vB);}}
+if(hostA){vA=Viewer(hostA,'3D model of 1,2-dichloroethane. Drag or use the arrow keys to turn it. The two carbons are joined by a single bond.',{az:0.5,el:0.3,dist:9});if(vA){gA=buildA(vA);}}
+var VIEWS={side:[0,0.2],top:[0,1.4],end:[PI/2,0]};
+document.querySelectorAll('[data-view]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var v=b.getAttribute('data-target')==='B'?vB:vA,p=VIEWS[b.getAttribute('data-view')];
+    if(v&&p){v.view(p[0],p[1]);}
+  });
+});
+
+/* ---------- demo B readout ---------- */
+var twB=document.getElementById('twistB');
+function updB(){
+  var th=+twB.value,c=Math.round(Math.cos(th*PI/180)*100),e=Math.round(260*Math.pow(Math.sin(th*PI/180),2));
+  document.getElementById('twistBval').textContent=th+'°';
+  document.getElementById('ovl').textContent=c+'%';
+  document.getElementById('eng').textContent=e;
+  document.getElementById('ovbar').style.width=Math.max(c,0)+'%';
+  var msg;
+  if(c>=90){msg='The π bond is intact. The p orbitals overlap fully, and the Cl atoms stay where they are: cis stays cis.';}
+  else if(c>20){msg='The π bond is weakening. Overlap is falling and about '+e+' kJ mol⁻¹ has to be supplied. Collisions at room temperature provide only a few kJ mol⁻¹, so this twist does not happen.';}
+  else{msg='The π bond is broken. The p orbitals now point in different directions and no longer overlap. About 260 kJ mol⁻¹ is needed, so a C=C bond does not rotate and cis cannot turn into trans.';}
+  document.getElementById('readB').textContent=msg;
+  twB.setAttribute('aria-valuetext',th+' degrees, overlap '+c+' percent');
+  if(gB){gB.rotation.x=th*PI/180;vB.redraw();}
+}
+if(twB){
+  twB.addEventListener('input',updB);
+  document.querySelectorAll('[data-b]').forEach(function(b){b.addEventListener('click',function(){twB.value=b.getAttribute('data-b');updB();});});
+  updB();
+}
+
+/* ---------- demo A readout ---------- */
+var twA=document.getElementById('twistA');
+function updA(){
+  var th=+twA.value,d=th>180?360-th:th,msg;
+  document.getElementById('twistAval').textContent=th+'°';
+  if(d<=15){msg='The two Cl atoms are on the same side, like a “cis” drawing. No bond has broken to get here.';}
+  else if(d>=165){msg='The two Cl atoms are on opposite sides, like a “trans” drawing. No bond has broken to get here.';}
+  else{msg='The Cl atoms are '+d+'° apart, between the “cis” and “trans” drawings. The molecule passes through every position freely.';}
+  document.getElementById('readA').textContent=msg;
+  twA.setAttribute('aria-valuetext',th+' degrees');
+  if(gA){gA.rotation.x=th*PI/180;vA.redraw();}
+}
+if(twA){
+  twA.addEventListener('input',updA);
+  document.querySelectorAll('[data-a]').forEach(function(b){b.addEventListener('click',function(){twA.value=b.getAttribute('data-a');updA();});});
+  updA();
+}
+
+/* ---------- brace beside the tree ---------- */
+(function(){
+  var w=document.getElementById('treewrap'),a=document.getElementById('bx1'),b=document.getElementById('bx2'),br=document.getElementById('brace'),lb=document.getElementById('prevlabel');
+  if(!w||!a||!b){return;}
+  function place(){
+    var wr=w.getBoundingClientRect(),ar=a.getBoundingClientRect(),brr=b.getBoundingClientRect();
+    if(!wr.width||!ar.height){return;}
+    var top=ar.top-wr.top,bot=brr.bottom-wr.top,x=Math.max(ar.right,brr.right)-wr.left+10;
+    br.style.top=top+'px';br.style.height=(bot-top)+'px';br.style.left=x+'px';
+    lb.style.left=(x+26)+'px';lb.style.top=(top+(bot-top)/2-lb.offsetHeight/2)+'px';
+    w.classList.add('on');
+    lb.style.top=(top+(bot-top)/2-lb.offsetHeight/2)+'px';
+  }
+  if(window.ResizeObserver){new ResizeObserver(place).observe(w);}else{window.addEventListener('resize',place);}
+  place();
+})();
+
+/* ---------- tabs ---------- */
+var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
+var panels=tabs.map(function(t){return document.getElementById(t.getAttribute('aria-controls'));});
+var ids=['structural','cis-trans','quiz'];
+function sel(i,focus){
+  tabs.forEach(function(t,j){
+    t.setAttribute('aria-selected',j===i?'true':'false');
+    t.tabIndex=j===i?0:-1;
+    panels[j].hidden=j!==i;
+  });
+  if(focus){tabs[i].focus();}
+  try{history.replaceState(null,'','#'+ids[i]);}catch(e){}
+}
+tabs.forEach(function(t,i){
+  t.addEventListener('click',function(){sel(i,false);});
+  t.addEventListener('keydown',function(e){
+    var n=null;
+    if(e.key==='ArrowRight'){n=(i+1)%tabs.length;}
+    else if(e.key==='ArrowLeft'){n=(i+tabs.length-1)%tabs.length;}
+    else if(e.key==='Home'){n=0;}
+    else if(e.key==='End'){n=tabs.length-1;}
+    if(n!==null){e.preventDefault();sel(n,true);}
+  });
+});
+(function(){var h=(location.hash||'').slice(1),k=ids.indexOf(h);if(k>0){sel(k,false);}})();
+
+/* ---------- quiz ---------- */
+var SB=[{"f":"C5H12","c":"an alkane (single bonds only, no ring)","g":[["5-carbon parent chain",["pentane"]],["4-carbon parent chain with one methyl branch",["2-methylbutane"]],["3-carbon parent chain with two methyl branches",["2,2-dimethylpropane"]]],"nf":1},
+{"f":"C6H14","c":"an alkane (single bonds only, no ring)","g":[["6-carbon parent chain",["hexane"]],["5-carbon parent chain with one methyl branch",["2-methylpentane","3-methylpentane"]],["4-carbon parent chain with two methyl branches",["2,2-dimethylbutane","2,3-dimethylbutane"]]],"nf":1},
+{"f":"C4H9Br","c":"a bromoalkane (single bonds only, no ring)","g":[["4-carbon parent chain",["1-bromobutane","2-bromobutane"]],["3-carbon parent chain with one methyl branch",["1-bromo-2-methylpropane","2-bromo-2-methylpropane"]]]},
+{"f":"C5H11Cl","c":"a chloroalkane (single bonds only, no ring)","g":[["5-carbon parent chain",["1-chloropentane","2-chloropentane","3-chloropentane"]],["4-carbon parent chain with one methyl branch",["1-chloro-2-methylbutane","1-chloro-3-methylbutane","2-chloro-2-methylbutane","2-chloro-3-methylbutane"]],["3-carbon parent chain with two methyl branches",["1-chloro-2,2-dimethylpropane"]]]},
+{"f":"C4H10O","c":"an alcohol with one –OH group (single bonds only, no ring)","g":[["4-carbon parent chain",["butan-1-ol","butan-2-ol"]],["3-carbon parent chain with one methyl branch",["2-methylpropan-1-ol","2-methylpropan-2-ol"]]]},
+{"f":"C3H8O","c":"an alcohol with one –OH group (single bonds only, no ring)","g":[["3-carbon parent chain",["propan-1-ol","propan-2-ol"]]]},
+{"f":"C3H6Cl2","c":"a dichloroalkane (single bonds only, no ring)","g":[["3-carbon parent chain",["1,1-dichloropropane","1,2-dichloropropane","1,3-dichloropropane","2,2-dichloropropane"]]]},
+{"f":"C4H8Cl2","c":"a dichloroalkane (single bonds only, no ring)","g":[["4-carbon parent chain",["1,1-dichlorobutane","1,2-dichlorobutane","1,3-dichlorobutane","1,4-dichlorobutane","2,2-dichlorobutane","2,3-dichlorobutane"]],["3-carbon parent chain with one methyl branch",["1,1-dichloro-2-methylpropane","1,2-dichloro-2-methylpropane","1,3-dichloro-2-methylpropane"]]]},
+{"f":"C3H6","c":"a hydrocarbon that may contain one C=C bond or one ring","g":[["3-carbon parent chain",["propene"]],["Ring structures",["cyclopropane"]]],"r":1},
+{"f":"C4H8","c":"a hydrocarbon that may contain one C=C bond or one ring","g":[["4-carbon parent chain",["but-1-ene","but-2-ene"]],["3-carbon parent chain with one methyl branch",["2-methylpropene"]],["Ring structures",["cyclobutane","methylcyclopropane"]]],"r":1},
+{"f":"C5H10","c":"a hydrocarbon that may contain one C=C bond or one ring","g":[["5-carbon parent chain",["pent-1-ene","pent-2-ene"]],["4-carbon parent chain with one methyl branch",["2-methylbut-1-ene","2-methylbut-2-ene","3-methylbut-1-ene"]],["3-carbon parent chain with two methyl branches",[],"The central carbon already has four single bonds, so it cannot join a C=C bond."],["Ring structures",["cyclopentane","methylcyclobutane","ethylcyclopropane","1,1-dimethylcyclopropane","1,2-dimethylcyclopropane"]]],"r":1},
+{"f":"C7H16","c":"an alkane (single bonds only, no ring)","g":[["7-carbon parent chain",["heptane"]],["6-carbon parent chain with one methyl branch",["2-methylhexane","3-methylhexane"]],["5-carbon parent chain with two methyl branches",["2,2-dimethylpentane","2,3-dimethylpentane","2,4-dimethylpentane","3,3-dimethylpentane"]],["5-carbon parent chain with one ethyl branch",["3-ethylpentane"]],["4-carbon parent chain with three methyl branches",["2,2,3-trimethylbutane"]]],"nf":1},
+{"f":"C5H11Br","c":"a bromoalkane (single bonds only, no ring)","g":[["5-carbon parent chain",["1-bromopentane","2-bromopentane","3-bromopentane"]],["4-carbon parent chain with one methyl branch",["1-bromo-2-methylbutane","1-bromo-3-methylbutane","2-bromo-2-methylbutane","2-bromo-3-methylbutane"]],["3-carbon parent chain with two methyl branches",["1-bromo-2,2-dimethylpropane"]]]},
+{"f":"C5H12O","c":"an alcohol with one –OH group (single bonds only, no ring)","g":[["5-carbon parent chain",["pentan-1-ol","pentan-2-ol","pentan-3-ol"]],["4-carbon parent chain with one methyl branch",["2-methylbutan-1-ol","3-methylbutan-1-ol","2-methylbutan-2-ol","3-methylbutan-2-ol"]],["3-carbon parent chain with two methyl branches",["2,2-dimethylpropan-1-ol"]]]},
+{"f":"C3H7Cl","c":"a chloroalkane (single bonds only, no ring)","g":[["3-carbon parent chain",["1-chloropropane","2-chloropropane"]]]},
+{"f":"C5H10","c":"an alkene with one C=C bond and no ring","g":[["5-carbon parent chain",["pent-1-ene","pent-2-ene"]],["4-carbon parent chain with one methyl branch",["2-methylbut-1-ene","2-methylbut-2-ene","3-methylbut-1-ene"]],["3-carbon parent chain with two methyl branches",[],"The central carbon already has four single bonds, so it cannot join a C=C bond."]]},
+{"f":"C3H5Cl3","c":"a trichloroalkane (single bonds only, no ring)","g":[["3-carbon parent chain",["1,1,1-trichloropropane","1,1,2-trichloropropane","1,1,3-trichloropropane","1,2,2-trichloropropane","1,2,3-trichloropropane"]]]},
+{"f":"C2H4Cl2","c":"a dichloroalkane (single bonds only, no ring)","g":[["2-carbon parent chain",["1,1-dichloroethane","1,2-dichloroethane"]]]},
+{"f":"C3H6BrCl","c":"a bromochloroalkane (single bonds only, no ring)","g":[["3-carbon parent chain",["1-bromo-1-chloropropane","1-bromo-2-chloropropane","2-bromo-1-chloropropane","1-bromo-3-chloropropane","2-bromo-2-chloropropane"]]]},
+{"f":"C3H5Br","c":"a bromoalkene with one C=C bond and no ring","g":[["3-carbon parent chain",["3-bromoprop-1-ene","2-bromoprop-1-ene","1-bromoprop-1-ene"]]]},
+{"f":"C4H7Cl","c":"a chloroalkene with one C=C bond and no ring","g":[["4-carbon parent chain, C=C between C1 and C2",["1-chlorobut-1-ene","2-chlorobut-1-ene","3-chlorobut-1-ene","4-chlorobut-1-ene"]],["4-carbon parent chain, C=C between C2 and C3",["1-chlorobut-2-ene","2-chlorobut-2-ene"]],["3-carbon parent chain with one methyl branch",["1-chloro-2-methylprop-1-ene","3-chloro-2-methylprop-1-ene"]]]}];
+var TB=[{"f":"C4H8","c":"an alkene with one C=C bond and no ring","g":[["4-carbon parent chain",["but-1-ene","cis-but-2-ene","trans-but-2-ene"]],["3-carbon parent chain with one methyl branch",["2-methylpropene"]]]},
+{"f":"C5H10","c":"an alkene with one C=C bond and no ring","g":[["5-carbon parent chain",["pent-1-ene","cis-pent-2-ene","trans-pent-2-ene"]],["4-carbon parent chain with one methyl branch",["2-methylbut-1-ene","2-methylbut-2-ene","3-methylbut-1-ene"]],["3-carbon parent chain with two methyl branches",[],"The central carbon already has four single bonds, so it cannot join a C=C bond."]]},
+{"f":"C2H2Cl2","c":"contains one C=C bond","g":[["2-carbon parent chain",["1,1-dichloroethene","cis-1,2-dichloroethene","trans-1,2-dichloroethene"]]]},
+{"f":"C3H5Cl","c":"a chloroalkene with one C=C bond and no ring","g":[["3-carbon parent chain",["3-chloroprop-1-ene","2-chloroprop-1-ene","cis-1-chloroprop-1-ene","trans-1-chloroprop-1-ene"]]]},
+{"f":"C4H8","c":"a hydrocarbon that may contain one C=C bond or one ring","g":[["4-carbon parent chain",["but-1-ene","cis-but-2-ene","trans-but-2-ene"]],["3-carbon parent chain with one methyl branch",["2-methylpropene"]],["Ring structures",["cyclobutane","methylcyclopropane"]]],"r":1},
+{"f":"C3H5Cl","c":"a chlorinated hydrocarbon that may contain one C=C bond or one ring","g":[["3-carbon parent chain",["3-chloroprop-1-ene","2-chloroprop-1-ene","cis-1-chloroprop-1-ene","trans-1-chloroprop-1-ene"]],["Ring structures",["chlorocyclopropane"]]],"r":1},
+{"f":"C2H2Br2","c":"contains one C=C bond","g":[["2-carbon parent chain",["1,1-dibromoethene","cis-1,2-dibromoethene","trans-1,2-dibromoethene"]]]},
+{"f":"C2H2BrCl","c":"contains one C=C bond","g":[["2-carbon parent chain",["1-bromo-1-chloroethene","cis-1-bromo-2-chloroethene","trans-1-bromo-2-chloroethene"]]]},
+{"f":"C3H5Br","c":"a bromoalkene with one C=C bond and no ring","g":[["3-carbon parent chain",["3-bromoprop-1-ene","2-bromoprop-1-ene","cis-1-bromoprop-1-ene","trans-1-bromoprop-1-ene"]]]}];
+/* ---------- structure drawings for the answers ---------- */
+var DSPEC={"pentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[]},"note":""},"2-methylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"2,2-dimethylpropane":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":1,"dir":"d","label":""}]},"note":""},"hexane":{"spec":{"t":"c","chain":["","","","","",""],"dbl":[],"subs":[]},"note":""},"2-methylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"3-methylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"2,2-dimethylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":1,"dir":"d","label":""}]},"note":""},"2,3-dimethylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":2,"dir":"d","label":""}]},"note":""},"1-bromobutane":{"spec":{"t":"c","chain":["Br","","","",""],"dbl":[],"subs":[]},"note":""},"2-bromobutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"}]},"note":""},"1-bromo-2-methylpropane":{"spec":{"t":"c","chain":["Br","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"2-bromo-2-methylpropane":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"},{"i":1,"dir":"d","label":""}]},"note":""},"1-chloropentane":{"spec":{"t":"c","chain":["Cl","","","","",""],"dbl":[],"subs":[]},"note":""},"2-chloropentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"3-chloropentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1-chloro-2-methylbutane":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"1-chloro-3-methylbutane":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[],"subs":[{"i":3,"dir":"u","label":""}]},"note":""},"2-chloro-2-methylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":1,"dir":"d","label":""}]},"note":""},"2-chloro-3-methylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":2,"dir":"d","label":""}]},"note":""},"1-chloro-2,2-dimethylpropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""},{"i":2,"dir":"u","label":""}]},"note":""},"butan-1-ol":{"spec":{"t":"c","chain":["OH","","","",""],"dbl":[],"subs":[]},"note":""},"butan-2-ol":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"}]},"note":""},"2-methylpropan-1-ol":{"spec":{"t":"c","chain":["OH","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"2-methylpropan-2-ol":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"},{"i":1,"dir":"d","label":""}]},"note":""},"propan-1-ol":{"spec":{"t":"c","chain":["OH","","",""],"dbl":[],"subs":[]},"note":""},"propan-2-ol":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"}]},"note":""},"1,1-dichloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1,2-dichloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1,3-dichloropropane":{"spec":{"t":"c","chain":["Cl","","","","Cl"],"dbl":[],"subs":[]},"note":""},"2,2-dichloropropane":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":1,"dir":"d","label":"Cl"}]},"note":""},"1,1-dichlorobutane":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1,2-dichlorobutane":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1,3-dichlorobutane":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[],"subs":[{"i":3,"dir":"u","label":"Cl"}]},"note":""},"1,4-dichlorobutane":{"spec":{"t":"c","chain":["Cl","","","","","Cl"],"dbl":[],"subs":[]},"note":""},"2,2-dichlorobutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":1,"dir":"d","label":"Cl"}]},"note":""},"2,3-dichlorobutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1,1-dichloro-2-methylpropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":2,"dir":"d","label":""}]},"note":""},"1,2-dichloro-2-methylpropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"},{"i":2,"dir":"u","label":""}]},"note":""},"1,3-dichloro-2-methylpropane":{"spec":{"t":"c","chain":["Cl","","","","Cl"],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"propene":{"spec":{"t":"c","chain":["","",""],"dbl":[0],"subs":[]},"note":""},"cyclopropane":{"spec":{"t":"r","n":3,"subs":[]},"note":""},"but-1-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[0],"subs":[]},"note":""},"but-2-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[1],"subs":[]},"note":"also has cis and trans forms"},"2-methylpropene":{"spec":{"t":"c","chain":["","",""],"dbl":[0],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"cyclobutane":{"spec":{"t":"r","n":4,"subs":[]},"note":""},"methylcyclopropane":{"spec":{"t":"r","n":3,"subs":[{"v":0,"label":""}]},"note":""},"pent-1-ene":{"spec":{"t":"c","chain":["","","","",""],"dbl":[0],"subs":[]},"note":""},"pent-2-ene":{"spec":{"t":"c","chain":["","","","",""],"dbl":[1],"subs":[]},"note":"also has cis and trans forms"},"2-methylbut-1-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[0],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"2-methylbut-2-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[1],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"3-methylbut-1-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[0],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"cyclopentane":{"spec":{"t":"r","n":5,"subs":[]},"note":""},"methylcyclobutane":{"spec":{"t":"r","n":4,"subs":[{"v":0,"label":""}]},"note":""},"ethylcyclopropane":{"spec":{"t":"r","n":3,"subs":[{"v":0,"label":"","ext":1}]},"note":""},"1,1-dimethylcyclopropane":{"spec":{"t":"r","n":3,"subs":[{"v":0,"label":""},{"v":0,"label":""}]},"note":""},"1,2-dimethylcyclopropane":{"spec":{"t":"r","n":3,"subs":[{"v":0,"label":""},{"v":1,"label":""}]},"note":""},"heptane":{"spec":{"t":"c","chain":["","","","","","",""],"dbl":[],"subs":[]},"note":""},"2-methylhexane":{"spec":{"t":"c","chain":["","","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"3-methylhexane":{"spec":{"t":"c","chain":["","","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"2,2-dimethylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":1,"dir":"d","label":""}]},"note":""},"2,3-dimethylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":2,"dir":"d","label":""}]},"note":""},"2,4-dimethylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":3,"dir":"u","label":""}]},"note":""},"3,3-dimethylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""},{"i":2,"dir":"u","label":""}]},"note":""},"3-ethylpentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"","ext":1}]},"note":""},"2,2,3-trimethylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":""},{"i":1,"dir":"d","label":""},{"i":2,"dir":"d","label":""}]},"note":""},"1-bromopentane":{"spec":{"t":"c","chain":["Br","","","","",""],"dbl":[],"subs":[]},"note":""},"2-bromopentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"}]},"note":""},"3-bromopentane":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Br"}]},"note":""},"1-bromo-2-methylbutane":{"spec":{"t":"c","chain":["Br","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"1-bromo-3-methylbutane":{"spec":{"t":"c","chain":["Br","","","",""],"dbl":[],"subs":[{"i":3,"dir":"u","label":""}]},"note":""},"2-bromo-2-methylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"},{"i":1,"dir":"d","label":""}]},"note":""},"2-bromo-3-methylbutane":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"},{"i":2,"dir":"d","label":""}]},"note":""},"1-bromo-2,2-dimethylpropane":{"spec":{"t":"c","chain":["Br","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""},{"i":2,"dir":"u","label":""}]},"note":""},"pentan-1-ol":{"spec":{"t":"c","chain":["OH","","","","",""],"dbl":[],"subs":[]},"note":""},"pentan-2-ol":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"}]},"note":""},"pentan-3-ol":{"spec":{"t":"c","chain":["","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"OH"}]},"note":""},"2-methylbutan-1-ol":{"spec":{"t":"c","chain":["OH","","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"3-methylbutan-1-ol":{"spec":{"t":"c","chain":["OH","","","",""],"dbl":[],"subs":[{"i":3,"dir":"u","label":""}]},"note":""},"2-methylbutan-2-ol":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"},{"i":1,"dir":"d","label":""}]},"note":""},"3-methylbutan-2-ol":{"spec":{"t":"c","chain":["","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"OH"},{"i":2,"dir":"d","label":""}]},"note":""},"2,2-dimethylpropan-1-ol":{"spec":{"t":"c","chain":["OH","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":""},{"i":2,"dir":"u","label":""}]},"note":""},"1-chloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[]},"note":""},"2-chloropropane":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1,1,1-trichloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":1,"dir":"d","label":"Cl"}]},"note":""},"1,1,2-trichloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"},{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1,1,3-trichloropropane":{"spec":{"t":"c","chain":["Cl","","","","Cl"],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1,2,2-trichloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"},{"i":2,"dir":"u","label":"Cl"}]},"note":""},"1,2,3-trichloropropane":{"spec":{"t":"c","chain":["Cl","","","","Cl"],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"1,1-dichloroethane":{"spec":{"t":"c","chain":["Cl","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1,2-dichloroethane":{"spec":{"t":"c","chain":["Cl","","","Cl"],"dbl":[],"subs":[]},"note":""},"1-bromo-1-chloropropane":{"spec":{"t":"c","chain":["Br","","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"1-bromo-2-chloropropane":{"spec":{"t":"c","chain":["Br","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"2-bromo-1-chloropropane":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[],"subs":[{"i":2,"dir":"d","label":"Br"}]},"note":""},"1-bromo-3-chloropropane":{"spec":{"t":"c","chain":["Br","","","","Cl"],"dbl":[],"subs":[]},"note":""},"2-bromo-2-chloropropane":{"spec":{"t":"c","chain":["","",""],"dbl":[],"subs":[{"i":1,"dir":"u","label":"Br"},{"i":1,"dir":"d","label":"Cl"}]},"note":""},"3-bromoprop-1-ene":{"spec":{"t":"c","chain":["","","","Br"],"dbl":[0],"subs":[]},"note":""},"2-bromoprop-1-ene":{"spec":{"t":"c","chain":["","",""],"dbl":[0],"subs":[{"i":1,"dir":"u","label":"Br"}]},"note":""},"1-bromoprop-1-ene":{"spec":{"t":"c","chain":["Br","","",""],"dbl":[1],"subs":[]},"note":"also has cis and trans forms"},"1-chlorobut-1-ene":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[1],"subs":[]},"note":"also has cis and trans forms"},"2-chlorobut-1-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[0],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"3-chlorobut-1-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[0],"subs":[{"i":2,"dir":"d","label":"Cl"}]},"note":""},"4-chlorobut-1-ene":{"spec":{"t":"c","chain":["","","","","Cl"],"dbl":[0],"subs":[]},"note":""},"1-chlorobut-2-ene":{"spec":{"t":"c","chain":["Cl","","","",""],"dbl":[2],"subs":[]},"note":"also has cis and trans forms"},"2-chlorobut-2-ene":{"spec":{"t":"c","chain":["","","",""],"dbl":[1],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":"also has cis and trans forms"},"1-chloro-2-methylprop-1-ene":{"spec":{"t":"c","chain":["Cl","","",""],"dbl":[1],"subs":[{"i":2,"dir":"d","label":""}]},"note":""},"3-chloro-2-methylprop-1-ene":{"spec":{"t":"c","chain":["","","","Cl"],"dbl":[0],"subs":[{"i":1,"dir":"u","label":""}]},"note":""},"cis-but-2-ene":{"spec":{"t":"a","ul":{"label":""},"dl":null,"ur":{"label":""},"dr":null},"note":""},"trans-but-2-ene":{"spec":{"t":"a","ul":{"label":""},"dl":null,"ur":null,"dr":{"label":""}},"note":""},"cis-pent-2-ene":{"spec":{"t":"a","ul":{"label":""},"dl":null,"ur":{"label":"","ext":1},"dr":null},"note":""},"trans-pent-2-ene":{"spec":{"t":"a","ul":{"label":""},"dl":null,"ur":null,"dr":{"label":"","ext":1}},"note":""},"1,1-dichloroethene":{"spec":{"t":"a","ul":{"label":"Cl"},"dl":{"label":"Cl"},"ur":null,"dr":null},"note":""},"cis-1,2-dichloroethene":{"spec":{"t":"a","ul":{"label":"Cl"},"dl":null,"ur":{"label":"Cl"},"dr":null},"note":""},"trans-1,2-dichloroethene":{"spec":{"t":"a","ul":{"label":"Cl"},"dl":null,"ur":null,"dr":{"label":"Cl"}},"note":""},"3-chloroprop-1-ene":{"spec":{"t":"c","chain":["","","","Cl"],"dbl":[0],"subs":[]},"note":""},"2-chloroprop-1-ene":{"spec":{"t":"c","chain":["","",""],"dbl":[0],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"cis-1-chloroprop-1-ene":{"spec":{"t":"a","ul":{"label":"Cl"},"dl":null,"ur":{"label":""},"dr":null},"note":""},"trans-1-chloroprop-1-ene":{"spec":{"t":"a","ul":{"label":"Cl"},"dl":null,"ur":null,"dr":{"label":""}},"note":""},"chlorocyclopropane":{"spec":{"t":"r","n":3,"subs":[{"v":0,"label":"Cl"}]},"note":""},"1,1-dibromoethene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":{"label":"Br"},"ur":null,"dr":null},"note":""},"cis-1,2-dibromoethene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":{"label":"Br"},"dr":null},"note":""},"trans-1,2-dibromoethene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":null,"dr":{"label":"Br"}},"note":""},"1-bromo-1-chloroethene":{"spec":{"t":"c","chain":["Br","",""],"dbl":[1],"subs":[{"i":1,"dir":"u","label":"Cl"}]},"note":""},"cis-1-bromo-2-chloroethene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":{"label":"Cl"},"dr":null},"note":""},"trans-1-bromo-2-chloroethene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":null,"dr":{"label":"Cl"}},"note":""},"cis-1-bromoprop-1-ene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":{"label":""},"dr":null},"note":""},"trans-1-bromoprop-1-ene":{"spec":{"t":"a","ul":{"label":"Br"},"dl":null,"ur":null,"dr":{"label":""}},"note":""}};
+/* skeletal-formula drawing from small layout specs (shared by the page and the build checks) */
+function layoutSpec(s){
+  var L=38,dx=L*Math.cos(Math.PI/6),dy=L*Math.sin(Math.PI/6),P=[],B=[],i;
+  function pt(x,y,lab){P.push({x:x,y:y,lab:lab||''});return P.length-1;}
+  function bond(a,b,d){B.push([a,b,!!d]);}
+  if(s.t==='c'){
+    s.chain.forEach(function(lab,k){pt(k*dx,(k%2)?-dy:0,lab);});
+    for(i=0;i<s.chain.length-1;i++){bond(i,i+1,s.dbl.indexOf(i)>-1);}
+    s.subs.forEach(function(u){
+      var p=P[u.i],sg=u.dir==='u'?-1:1,q=pt(p.x,p.y+sg*L,u.label);
+      bond(u.i,q,false);
+      if(u.ext){bond(q,pt(P[q].x+dx,P[q].y+sg*dy,''),false);}
+    });
+  }else if(s.t==='a'){
+    var A=pt(0,0),Bn=pt(L,0);bond(A,Bn,true);
+    [['ul',A,-1,-1],['dl',A,-1,1],['ur',Bn,1,-1],['dr',Bn,1,1]].forEach(function(g){
+      var d=s[g[0]];if(!d){return;}
+      var base=P[g[1]],q=pt(base.x+g[2]*0.5*L,base.y+g[3]*0.866*L,d.label);
+      bond(g[1],q,false);
+      if(d.ext){bond(q,pt(P[q].x+g[2]*L,P[q].y,''),false);}
+    });
+  }else if(s.t==='r'){
+    var n=s.n,R=L/(2*Math.sin(Math.PI/n)),a0=(n===4)?-Math.PI/4:-Math.PI/2,V=[];
+    for(i=0;i<n;i++){V.push(pt(R*Math.cos(a0+i*2*Math.PI/n),R*Math.sin(a0+i*2*Math.PI/n)));}
+    for(i=0;i<n;i++){bond(V[i],V[(i+1)%n],false);}
+    var per={};s.subs.forEach(function(u){(per[u.v]=per[u.v]||[]).push(u);});
+    Object.keys(per).forEach(function(v){
+      var list=per[v],th=a0+(+v)*2*Math.PI/n,offs=list.length===1?[0]:[-0.7,0.7];
+      list.forEach(function(u,k){
+        var an=th+offs[k],q=pt(P[V[+v]].x+L*Math.cos(an),P[V[+v]].y+L*Math.sin(an),u.label);
+        bond(V[+v],q,false);
+        if(u.ext){bond(q,pt(P[q].x+L*Math.cos(an+Math.PI/3),P[q].y+L*Math.sin(an+Math.PI/3),''),false);}
+      });
+    });
+  }
+  return {P:P,B:B};
+}
+function drawSpec(s){
+  var lay=layoutSpec(s),P=lay.P,B=lay.B,out='',minx=1e9,maxx=-1e9,miny=1e9,maxy=-1e9;
+  function cut(p){return p.lab?(p.lab.length>1?15:11):0;}
+  function f(n){return Math.round(n*10)/10;}
+  B.forEach(function(b){
+    var a=P[b[0]],c=P[b[1]],vx=c.x-a.x,vy=c.y-a.y,len=Math.hypot(vx,vy),ux=vx/len,uy=vy/len;
+    var x1=a.x+ux*cut(a),y1=a.y+uy*cut(a),x2=c.x-ux*cut(c),y2=c.y-uy*cut(c);
+    (b[2]?[-2.8,2.8]:[0]).forEach(function(o){
+      var nx=-uy*o,ny=ux*o;
+      out+='<line x1="'+f(x1+nx)+'" y1="'+f(y1+ny)+'" x2="'+f(x2+nx)+'" y2="'+f(y2+ny)+'"/>';
+    });
+  });
+  P.forEach(function(p){
+    var w=p.lab?(p.lab.length>1?12:7):0;
+    minx=Math.min(minx,p.x-w);maxx=Math.max(maxx,p.x+w);miny=Math.min(miny,p.y);maxy=Math.max(maxy,p.y);
+    if(p.lab){out+='<text x="'+f(p.x)+'" y="'+f(p.y)+'">'+p.lab+'</text>';}
+  });
+  var pad=24,w2=maxx-minx+2*pad,h2=maxy-miny+2*pad;
+  return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="'+f(minx-pad)+' '+f(miny-pad)+' '+f(w2)+' '+f(h2)+'" width="'+Math.round(w2*1.3)+'" aria-hidden="true" focusable="false">'+out+'</svg>';
+}
+function figHtml(name,label){
+  var d=DSPEC[name];
+  if(!d){return '<figure class="fig"><figcaption><span class="n">'+(label||name)+'</span></figcaption></figure>';}
+  return '<figure class="fig"><div class="figbox">'+drawSpec(d.spec)+'</div><figcaption><span class="n">'+(label||name)+'</span>'+(d.note?'<span class="cls">'+d.note+'</span>':'')+'</figcaption></figure>';
+}
+document.querySelectorAll('[data-draw]').forEach(function(el){
+  el.innerHTML=el.getAttribute('data-draw').split(';').map(function(t){var p=t.split('|');return figHtml(p[0],p[1]);}).join('');
+});
+function prep(b){b.forEach(function(q){q.l=[];q.g.forEach(function(x){q.l=q.l.concat(x[1]);});q.a=q.l.length;});}
+prep(SB);prep(TB);
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function optionsFor(a){
+  var pool=shuffle([a-2,a-1,a+1,a+2,a+3].filter(function(x){return x>=1;})).slice(0,3);
+  return pool.concat([a]).sort(function(x,y){return x-y;});
+}
+var qs=document.getElementById('qs'),scoreEl=document.getElementById('score'),cur=[],done=0,right=0;
+function stepsHtml(q,t){
+  var s=['<strong>Parent chain.</strong> Start with the longest chain possible, then shorten it by one carbon at a time. Each carbon you remove becomes a branch.',
+   '<strong>Branches.</strong> For each parent chain, place the branches on different carbons. A branch on an end carbon only makes the chain longer, and positions that match when you flip the chain over are the same.'];
+  if(!q.nf){s.push('<strong>Functional group.</strong> In each skeleton, put the functional group (the halogen atom, the –OH group or the C=C bond) on every different position. Flipping the chain over gives repeats.');}
+  if(q.r){s.push('<strong>Rings.</strong> This question allows rings. Repeat the method for rings, starting with the biggest ring and making it one carbon smaller each time. The spare carbons become branches.');}
+  if(t==='t'){s.push('<strong>Cis-trans.</strong> Check each C=C bond. If both carbons have two different groups, count a cis form and a trans form.');}
+  return '<ol class="steps">'+s.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol><p><strong>Your parent-chain categories for this molecule:</strong></p><ul class="steps">'+q.g.map(function(x){return '<li>'+x[0]+'</li>';}).join('')+'</ul>';
+}
+function groupsHtml(q){
+  return '<ol class="grp">'+q.g.map(function(x){
+    var body=x[1].length?'<div class="figs qfigs">'+x[1].map(function(n){return figHtml(n);}).join('')+'</div>':'<span class="note">'+(x[2]||'None possible.')+'</span>';
+    return '<li><strong>'+x[0]+': '+x[1].length+'</strong>'+body+'</li>';
+  }).join('')+'</ol><p class="sum">Total: '+q.g.map(function(x){return x[1].length;}).join(' + ')+' = '+q.a+'</p><p class="note">In the drawings, every corner and every line end is a carbon atom. Hydrogen atoms on carbon are not shown.</p>';
+}
+function build(){
+  var seen={};
+  function take(arr,n,t){var out=[];shuffle(arr).forEach(function(q){if(out.length<n&&!seen[q.f]){seen[q.f]=1;out.push({q:q,t:t});}});return out;}
+  var tb=take(TB,2,'t'),sb=take(SB,4,'s'),picks=sb.concat(tb);
+  cur=picks;done=0;right=0;
+  qs.innerHTML=picks.map(function(p,i){
+    var q=p.q,ask=p.t==='s'
+      ?'How many <strong>structural isomers</strong> has the molecular formula <span class="mono">'+fx(q.f)+'</span>?'
+      :'How many <strong>isomers</strong> are there with the molecular formula <span class="mono">'+fx(q.f)+'</span>? Count structural forms and cis-trans forms.';
+    var opts=optionsFor(q.a).map(function(n){
+      return '<label class="opt"><input type="radio" name="q'+i+'" value="'+n+'"><span>'+n+'</span></label>';
+    }).join('');
+    return '<li><fieldset id="f'+i+'"><legend>Question '+(i+1)+' of '+picks.length+'</legend>'+
+      '<p class="qtext">'+ask+'<br><span class="note">The molecule is '+q.c+'.</span></p>'+
+      '<div class="opts">'+opts+'</div>'+
+      '<div class="row"><button type="button" class="btn" data-check="'+i+'">Check answer</button>'+
+      '<button type="button" class="btn sec" data-hint="'+i+'" aria-expanded="false" aria-controls="h'+i+'">Show the steps</button></div>'+
+      '<div class="hint" id="h'+i+'" hidden>'+stepsHtml(q,p.t)+'</div>'+
+      '<div class="fb" id="fb'+i+'" aria-live="polite"></div></fieldset></li>';
+  }).join('');
+  upScore('New question set loaded.');
+}
+function upScore(extra){
+  scoreEl.textContent=(done===cur.length&&cur.length>0)
+    ?'Finished: you scored '+right+' out of '+cur.length+'. Press New question set to try different molecules.'
+    :'Score: '+right+' of '+done+' answered correctly'+(extra?'. '+extra:'');
+}
+qs.addEventListener('click',function(e){
+  var h=e.target.closest('[data-hint]');
+  if(h){
+    var hp=document.getElementById('h'+h.getAttribute('data-hint')),open=hp.hidden;
+    hp.hidden=!open;h.setAttribute('aria-expanded',open?'true':'false');h.textContent=open?'Hide the steps':'Show the steps';
+    return;
+  }
+  var b=e.target.closest('[data-check]');if(!b){return;}
+  var i=+b.getAttribute('data-check'),p=cur[i],q=p.q,fs=document.getElementById('f'+i),fb=document.getElementById('fb'+i);
+  var chosen=fs.querySelector('input:checked');
+  if(!chosen){fb.innerHTML='<div class="inner info">Choose an answer first, then press Check answer.</div>';return;}
+  var v=+chosen.value,ok=v===q.a;
+  [].forEach.call(fs.querySelectorAll('.opt'),function(l){
+    var n=+l.querySelector('input').value;
+    l.querySelector('input').disabled=true;
+    if(n===q.a){l.classList.add('right');l.insertAdjacentHTML('beforeend','<span class="badge">Correct answer</span>');}
+    else if(n===v){l.classList.add('wrong');l.insertAdjacentHTML('beforeend','<span class="badge">Your answer</span>');}
+  });
+  b.disabled=true;
+  fb.innerHTML='<div class="inner '+(ok?'good':'bad')+'"><strong class="v">'+(ok?'✓ Correct.':'✗ Not quite.')+'</strong> There are '+q.a+(p.t==='s'?' structural isomers':' isomers')+' of '+fx(q.f)+'. Sorted by parent chain:'+groupsHtml(q)+'</div>';
+  done++;if(ok){right++;}
+  upScore('');
+});
+document.getElementById('newset').addEventListener('click',build);
+build();
+})();
+</script>
+
+</body></html>

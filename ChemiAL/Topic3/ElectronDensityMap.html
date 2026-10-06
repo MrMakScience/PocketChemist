@@ -1,0 +1,863 @@
+<!doctype html><html><head><meta charset="utf8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script type='text/javascript' nonce='UZhG8DC7Aqy+qiqewcj3eg==' src='https://394d71cd-cdc7-43fa-a401-e7da9617168c.frame.claudeusercontent.com/dNBtHoCNA1RaPzaHIxf3e_1JKxOkCmCmsc8jUX-BUnLnlkHJdwXZOYv5MstQxb3JdHSFy0OMeVyTHYArFUbQpL39RhN5VmI_SUzmhASuSLQX7xkCcVJcPPzcjKzWNYI1-ZBzwBqLFd52d5PsbTi4jANJAOC8ELMsnoI4iTIe0hJiZjb4eNWn-dfWM5xMvIKx4NT2tui-LqLO6X6Jy-rf6oeunMv-4KT6AcgAR05fR6NoTv_t9ZCVpoLafaHPkMyBLxeBUK5EZkghqnZXcA7CsgBK0WkeKgGdB7SvJX0QgTWjHH16Vre_wHn6_Kq_4a1hxjFU1GK5KQpMVdVySJsBXmn70AK_0_Xgb4qyq1pNfbEE9e5toNIJm2ug1yydETHEDZfViZmN0WFjP36vhgTjFnECEeRgF53ZKL9AXzhwEoSahxR2iqz43uso6X5dlh_c-okKMAQ7Wi9HdybipEBvDyAGW-Ir9gxhCWpbgFq6HEcJwcZJdKBIBjSNYMUXWR-1JuihaOYPYKYnIpuZcSKCzYp2zPF2Lylz05HhB2Gx3J67OR9VhAVLNh1A8YaXm6a0iHNttRZ2jYNg2Bi4p4D44CQw54jqnj6B99ITvFag2ZhYBqbu9c3YmMKN7Ld815UqWqeZ559fF6FbFSxHpwYOl51J1soYw_ZPeA61qWjD0I_LSHkc1Y615oDGLNG5NAMkFEKYlQQkkODrUOlpQC8VmQ'></script></head><body>
+<title>Electron Density Maps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+/* Layout: case picker on top, then a wide density map beside a column of particle cards;
+   everything stacks to one column below 56rem. The map panel is always white so it can be
+   projected or copied onto a worksheet in either theme. */
+:root {
+  --bg: #eef3f6;
+  --surface: #ffffff;
+  --surface-2: #f4f8fa;
+  --ink: #12202b;
+  --muted: #3f4f5b;
+  --line: #bccad4;
+  --accent: #1d5ea8;
+  --accent-ink: #ffffff;
+  --sel: #e1edf9;
+  --focus: #b3430a;
+  --good: #1c6b3a;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d151b; --surface: #16232d; --surface-2: #1b2c38; --ink: #e8eff4; --muted: #b3c2cd;
+    --line: #3a5060; --accent: #86bdf3; --accent-ink: #07131d; --sel: #1f3a52; --focus: #ffb066;
+    --good: #7fd49a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d151b; --surface: #16232d; --surface-2: #1b2c38; --ink: #e8eff4; --muted: #b3c2cd;
+  --line: #3a5060; --accent: #86bdf3; --accent-ink: #07131d; --sel: #1f3a52; --focus: #ffb066;
+  --good: #7fd49a; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.55;
+}
+.page {
+  max-width: 76rem; margin-inline: auto;
+  padding-inline: max(1rem, 3vw); padding-block: 1.25rem 3rem;
+  display: flex; flex-direction: column; gap: 1.5rem;
+}
+/* flex children may shrink below their content width, so wide tables scroll inside their own box */
+.page > *, .stack > * { min-width: 0; }
+.stack { display: flex; flex-direction: column; gap: 1.5rem; width: 100%; min-width: 0; }
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.6rem, 4.5vw, 2.4rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+.skip {
+  position: absolute; left: 1rem; top: -4rem; z-index: 10;
+  background: var(--accent); color: var(--accent-ink); padding: .75rem 1rem; border-radius: 6px;
+}
+.skip:focus { top: .75rem; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* header */
+.top { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.mark { flex: none; width: 4.5rem; height: auto; color: var(--accent); }
+.top-text { display: flex; flex-direction: column; gap: .5rem; min-width: 0; flex: 1 1 18rem; }
+.lede { color: var(--muted); font-size: 1.05rem; }
+
+/* case picker */
+.picker { border: 0; padding: 0; margin: 0; min-width: 0; }
+.picker legend { font-weight: 700; padding: 0; margin-bottom: .6rem; }
+.cases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; }
+.case { position: relative; display: block; cursor: pointer; }
+.case input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; width: 100%; height: 100%; }
+.case-face {
+  display: flex; flex-direction: column; gap: .15rem; min-height: 4.5rem; height: 100%;
+  padding: .8rem 2.6rem .8rem .9rem; background: var(--surface);
+  border: 2px solid var(--line); border-radius: 10px; position: relative;
+}
+.case-face::after {
+  content: ""; position: absolute; right: .85rem; top: .85rem; width: 1.15rem; height: 1.15rem;
+  border-radius: 50%; border: 2px solid var(--muted); background: transparent;
+}
+.case input:checked + .case-face { border-color: var(--accent); background: var(--sel); }
+.case input:checked + .case-face::after { border-color: var(--accent); background: radial-gradient(circle, var(--accent) 0 45%, transparent 50%); }
+.case input:focus-visible + .case-face { outline: 3px solid var(--focus); outline-offset: 2px; }
+.case-name { font-weight: 700; }
+.case-ex { color: var(--muted); font-family: var(--font-data); font-size: .92rem; }
+
+/* stage */
+.stage { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+.col { display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.sub { color: var(--muted); font-size: .95rem; }
+
+.paper { background: #ffffff; border: 1px solid #8fa0ac; border-radius: 8px; padding: .25rem; overflow: hidden; }
+.paper canvas { display: block; width: 100%; touch-action: pan-y; cursor: crosshair; }
+.status {
+  font-weight: 700; padding: .65rem .8rem; border-radius: 8px; background: var(--surface-2);
+  border: 1px solid var(--line); max-width: none;
+}
+
+.legend { display: flex; flex-wrap: wrap; gap: .4rem .5rem; margin: 0; padding: 0; list-style: none; align-items: center; }
+.legend li { display: inline-flex; align-items: center; gap: .4rem; font-family: var(--font-data); font-size: .9rem; padding: .15rem .55rem; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); }
+.legend svg { width: 1.6rem; height: .7rem; flex: none; }
+.legend-title { font-size: .95rem; color: var(--muted); }
+
+.controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.25rem; }
+.ctl { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.ctl label, .ctl .lbl { font-weight: 700; }
+.ctl output { font-family: var(--font-data); color: var(--ink); }
+.ctl-row { display: flex; justify-content: space-between; gap: .75rem; align-items: baseline; flex-wrap: wrap; }
+input[type="range"] { width: 100%; height: 2.75rem; margin: 0; accent-color: var(--accent); }
+.check { display: flex; align-items: center; gap: .65rem; min-height: 2.75rem; font-weight: 700; cursor: pointer; }
+.check input { width: 1.5rem; height: 1.5rem; accent-color: var(--accent); flex: none; margin: 0; }
+.btn-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+button {
+  font: inherit; font-weight: 700; min-height: 2.75rem; padding: .5rem 1rem; border-radius: 8px;
+  border: 2px solid var(--accent); background: var(--surface); color: var(--accent); cursor: pointer;
+}
+button:hover { background: var(--sel); }
+.seg { border: 0; padding: 0; margin: 0; min-width: 0; }
+.seg legend { font-weight: 700; padding: 0; margin-bottom: .4rem; }
+.seg-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.seg-opt { position: relative; display: block; }
+.seg-opt input { position: absolute; inset: 0; opacity: 0; margin: 0; width: 100%; height: 100%; cursor: pointer; }
+.seg-opt span { display: flex; align-items: center; min-height: 2.75rem; padding: .4rem 1rem; border: 2px solid var(--line); border-radius: 999px; background: var(--surface); font-weight: 700; }
+.seg-opt input:checked + span { border-color: var(--accent); background: var(--sel); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.seg-opt input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 2px; }
+.dotbar { display: flex; flex-direction: column; gap: .5rem; }
+button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.probe-wrap { display: flex; flex-direction: column; gap: .5rem; padding: .8rem; border: 2px solid var(--focus); border-radius: 10px; background: var(--surface); }
+.probe-head { display: flex; flex-wrap: wrap; gap: .5rem .75rem; justify-content: space-between; align-items: center; }
+.probe-title { display: inline-flex; align-items: center; gap: .45rem; font-weight: 700; color: var(--focus); }
+.probe-title svg { width: 1.2rem; height: 1.2rem; flex: none; }
+.probe-wrap .probe { font-size: 1.05rem; color: var(--ink); background: var(--surface-2); }
+.probe {
+  font-family: var(--font-data); font-size: .95rem; padding: .65rem .8rem; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid var(--line); display: block; min-height: 3.6rem;
+}
+
+/* particle cards */
+.particle { gap: .6rem; }
+.pt-head { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
+.pt-side { color: var(--muted); font-size: .9rem; }
+.big { font-family: var(--font-data); font-size: 2.4rem; font-weight: 500; line-height: 1; display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.big small { font-family: var(--font-body); font-size: 1rem; color: var(--muted); font-weight: 400; }
+dl.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .3rem 1rem; margin: 0; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; font-family: var(--font-data); overflow-wrap: anywhere; }
+.total { background: var(--surface-2); }
+.notice ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: .5rem; }
+.notice li { max-width: 62ch; }
+
+details { border-top: 1px solid var(--line); padding-top: .7rem; }
+summary { cursor: pointer; font-weight: 700; min-height: 2.75rem; display: flex; align-items: center; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; min-width: 40rem; font-size: .95rem; }
+th, td { text-align: left; padding: .6rem .75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { background: var(--surface-2); font-size: .9rem; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--font-data); }
+tr.is-active th, tr.is-active td { background: var(--sel); }
+.tag { font-size: .8rem; font-weight: 700; color: var(--accent); margin-left: .35rem; }
+
+footer { color: var(--muted); font-size: .95rem; display: flex; flex-direction: column; gap: .5rem; }
+
+@media (max-width: 64rem) { .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 56rem) {
+  .stage { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 34rem) {
+  .controls { grid-template-columns: minmax(0, 1fr); }
+  .big { font-size: 2rem; }
+  .case-face { padding-right: 2.3rem; }
+}
+@media (forced-colors: active) {
+  .case input:checked + .case-face { outline: 3px solid Highlight; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .case-face { transition: border-color .15s, background-color .15s; }
+}
+</style>
+
+<a class="skip" href="#map-heading">Skip to the density map</a>
+
+<div class="page">
+  <header class="top">
+    <svg class="mark" viewbox="0 0 72 44" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="25" cy="22" r="5"/><circle cx="25" cy="22" r="11" opacity=".75"/><circle cx="25" cy="22" r="18" opacity=".5"/>
+      <circle cx="49" cy="22" r="4"/><circle cx="49" cy="22" r="9" opacity=".75"/><circle cx="49" cy="22" r="14" opacity=".5"/>
+    </svg>
+    <div class="top-text">
+      <h1>Electron density maps</h1>
+      <p class="lede">Each contour line joins points with the same electron density, like height lines on a hill map. Pick a bond type and see where its electrons sit, and how many are around each nucleus.</p>
+    </div>
+  </header>
+
+  <main id="main" class="stack">
+    <fieldset class="picker">
+      <legend>1. Choose a bond type</legend>
+      <div class="cases" id="cases"></div>
+    </fieldset>
+
+    <div class="stage">
+      <section class="card" aria-labelledby="map-heading">
+        <div>
+          <h2 id="map-heading">2. Density map</h2>
+          <p class="sub" id="map-sub"></p>
+        </div>
+        <fieldset class="seg" id="view-seg">
+          <legend>Map view</legend>
+          <div class="seg-row">
+            <label class="seg-opt"><input type="radio" name="view" value="lines" checked=""><span>Contour lines</span></label>
+            <label class="seg-opt"><input type="radio" name="view" value="dots"><span>Electrons as dots</span></label>
+            <label class="seg-opt"><input type="radio" name="view" value="both"><span>Both</span></label>
+          </div>
+        </fieldset>
+        <div class="paper"><canvas id="map" tabindex="0" role="application" aria-roledescription="interactive density map" aria-label="Contour map of electron density. Use the arrow keys to move the probe." aria-describedby="map-desc probe"></canvas></div>
+        <div class="dotbar" id="dotbar" hidden="">
+          <div class="btn-row">
+            <button type="button" id="pause" aria-pressed="false">Pause motion</button>
+            <button type="button" id="snap">New snapshot</button>
+            <label class="check"><input type="checkbox" id="trails" checked=""> Show trails</label>
+          </div>
+          <p class="sub" id="dot-key"></p>
+        </div>
+        <div class="probe-wrap">
+          <div class="probe-head">
+            <span class="probe-title"><svg viewbox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 1v18M1 10h18" stroke="currentColor" stroke-width="1.5"/></svg>Probe reading</span>
+            <div class="btn-row" role="group" aria-label="Move the probe">
+              <button type="button" id="goA"></button>
+              <button type="button" id="goMid">Midpoint</button>
+              <button type="button" id="goB"></button>
+            </div>
+          </div>
+          <output class="probe" id="probe" aria-live="polite"></output>
+          <p class="sub">Tap or click the map to move the probe (the orange cross). With a keyboard, focus the map and use the arrow keys.</p>
+        </div>
+        <p class="status" id="status" role="status"></p>
+        <div id="legend-block">
+          <p class="legend-title" id="legend-title">Contour levels, in electrons per square ångström (e⁻/Å²). Darker, warmer lines mean denser electrons.</p>
+          <ul class="legend" id="legend" aria-labelledby="legend-title"></ul>
+        </div>
+
+        <div class="controls" id="controls">
+          <div class="ctl">
+            <div class="ctl-row"><label for="lowest">Lowest contour drawn</label><output id="lowest-out" for="lowest"></output></div>
+            <input type="range" id="lowest" min="0" max="8" step="1" value="5">
+            <span class="sub">Lower it to include fainter electron density.</span>
+          </div>
+          <div class="ctl">
+            <span class="lbl" id="shade-lbl">Display</span>
+            <label class="check"><input type="checkbox" id="shade" checked=""> Shade between contours</label>
+          </div>
+        </div>
+        <details>
+          <summary>Text description of this map</summary>
+          <p id="map-desc"></p>
+        </details>
+      </section>
+
+      <div class="col">
+        <section class="card particle" aria-labelledby="pa-h" id="card-a"></section>
+        <section class="card particle total" aria-labelledby="ps-h" id="card-s"></section>
+        <section class="card particle" aria-labelledby="pb-h" id="card-b"></section>
+      </div>
+    </div>
+
+    <section class="card notice" aria-labelledby="notice-h">
+      <h2 id="notice-h">3. What to notice</h2>
+      <ul id="notice"></ul>
+    </section>
+
+    <section class="card" aria-labelledby="prof-h">
+      <div>
+        <h2 id="prof-h">Density along the bond</h2>
+        <p class="sub">The same map read along the straight line through both nuclei. Each peak is a nucleus. The dip between the peaks is the lowest density the two clouds share.</p>
+      </div>
+      <div class="paper"><canvas id="prof" role="img" aria-label="Line chart of electron density along the bond axis, log scale" aria-describedby="prof-desc"></canvas></div>
+      <p class="sub" id="prof-desc"></p>
+    </section>
+
+    <section class="card" aria-labelledby="cmp-h">
+      <h2 id="cmp-h">Compare all four</h2>
+      <div class="scroll" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways on narrow screens">
+        <table id="cmp"></table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>About the model.</strong> This is a teaching model, not a quantum calculation. Each cloud is built from smooth blobs holding a fixed number of electrons (for example 10 inner plus 8 outer electrons on Cl⁻). The map is a flat slice through both nuclei, so density is in electrons per square ångström; real maps are three-dimensional (e⁻/Å³) and come from calculation or X-ray data.</p>
+    <p>Bond lengths: NaCl 2.82 Å (crystal), LiI 2.39 Å, HCl 1.27 Å, Cl₂ 1.99 Å. Electron counts around each nucleus are averages, because the electrons keep moving.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  document.documentElement.lang = 'en';
+
+  /* ---------- model ---------- */
+  var X0 = -3, X1 = 3, Y0 = -2, Y1 = 2, NX = 300, NY = 200;
+  var LEVELS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10, 20];
+  var PALETTE = ['#2b78b3', '#3a6cb5', '#4b60b5', '#6055b0', '#784aa8', '#923f9b', '#a93789', '#bb3a70', '#c64a52', '#c4602e', '#a8460a'];
+  var MINUS = '−';
+
+  var CASES = [
+    {
+      id: 'ionic', name: 'Pure ionic', example: 'NaCl', d: 2.82,
+      sub: 'Sodium chloride: Na and Cl are drawn as Na⁺ and Cl⁻.',
+      A: { sym: 'Na⁺', word: 'sodium ion', Z: 11, shellsAvg: [2, 8], side: 'left' },
+      B: { sym: 'Cl⁻', word: 'chloride ion', Z: 17, shellsAvg: [2, 8, 8], side: 'right' },
+      comps: [
+        { n: 10, at: 'A', sL: 0.28, sR: 0.28, sy: 0.28 },
+        { n: 10, at: 'B', sL: 0.20, sR: 0.20, sy: 0.20 },
+        { n: 8, at: 'B', sL: 0.62, sR: 0.62, sy: 0.62 }
+      ]
+    },
+    {
+      id: 'partial', name: 'Partially ionic', example: 'LiI', d: 2.39,
+      sub: 'Lithium iodide: tiny Li\u207A pulls hard on the large I\u207B cloud and stretches it toward itself.',
+      A: { sym: 'Li', word: 'lithium', Z: 3, shellsAvg: null, side: 'left', note: 'The iodide cloud is polarised. Li\u207A pulls on it, so some electrons from iodine come close to Li.' },
+      B: { sym: 'I', word: 'iodine', Z: 53, shellsAvg: null, side: 'right', note: 'Its electron cloud is polarised toward Li\u207A, so some of its electrons are pulled away from iodine.' },
+      comps: [
+        { n: 2, at: 'A', sL: 0.22, sR: 0.22, sy: 0.22 },
+        { n: 46, at: 'B', sL: 0.16, sR: 0.16, sy: 0.16 },
+        { n: 6, at: 'B', sL: 0.80, sR: 0.80, sy: 0.80 },
+        { n: 1, at: 'B', dx: -0.45, sL: 0.80, sR: 0.35, sy: 0.30 },
+        { n: 1, t: 0.80, sL: 0.28, sR: 0.28, sy: 0.30 }
+      ]
+    },
+    {
+      id: 'polar', name: 'Polar covalent', example: 'HCl', d: 1.27,
+      sub: 'Hydrogen chloride: the electrons are drawn closer to Cl.',
+      A: { sym: 'H', word: 'hydrogen', Z: 1, shellsAvg: null, side: 'left', note: 'Its electron is pulled away toward Cl.' },
+      B: { sym: 'Cl', word: 'chlorine', Z: 17, shellsAvg: null, side: 'right', note: 'Cl has a higher electronegativity, so it pulls some of the electron density from H toward itself.' },
+      comps: [
+        { n: 10, at: 'B', sL: 0.20, sR: 0.20, sy: 0.20 },
+        { n: 6, at: 'B', sL: 0.50, sR: 0.60, sy: 0.62 },
+        { n: 2, t: 0.68, sL: 0.85, sR: 0.32, sy: 0.55 }
+      ]
+    },
+    {
+      id: 'covalent', name: 'Pure covalent', example: 'Cl₂', d: 1.99,
+      sub: 'Chlorine gas: two identical atoms hold the electrons equally.',
+      A: { sym: 'Cl', word: 'chlorine atom', Z: 17, shellsAvg: [2, 8, 7], side: 'left' },
+      B: { sym: 'Cl', word: 'chlorine atom', Z: 17, shellsAvg: [2, 8, 7], side: 'right' },
+      comps: [
+        { n: 10, at: 'A', sL: 0.20, sR: 0.20, sy: 0.20 },
+        { n: 10, at: 'B', sL: 0.20, sR: 0.20, sy: 0.20 },
+        { n: 6, at: 'A', sL: 0.60, sR: 0.50, sy: 0.62 },
+        { n: 6, at: 'B', sL: 0.50, sR: 0.60, sy: 0.62 },
+        { n: 2, t: 0.5, sL: 0.42, sR: 0.42, sy: 0.46 }
+      ]
+    }
+  ];
+
+  function centre(c, k) {
+    if (c.at === 'A') return -k.d / 2;
+    if (c.at === 'B') return k.d / 2 + (c.dx || 0);
+    return -k.d / 2 + c.t * k.d;
+  }
+  function rho(k, x, y) {
+    var s = 0;
+    for (var i = 0; i < k.comps.length; i++) {
+      var c = k.comps[i], dx = x - centre(c, k), sx = dx < 0 ? c.sL : c.sR;
+      s += (c.n / (Math.PI * (c.sL + c.sR) * c.sy)) * Math.exp(-(dx * dx) / (2 * sx * sx) - (y * y) / (2 * c.sy * c.sy));
+    }
+    return s;
+  }
+
+  function prepare(k) {
+    var g = new Float32Array(NX * NY), i, j;
+    for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) {
+      g[j * NX + i] = rho(k, X0 + ((i + 0.5) / NX) * (X1 - X0), Y1 - ((j + 0.5) / NY) * (Y1 - Y0));
+    }
+    k.grid = g;
+    var ownA = 0, ownB = 0, shared = 0, shareA = 0, shareB = 0, t = null;
+    k.comps.forEach(function (c) {
+      if (c.at === 'A') ownA += c.n;
+      else if (c.at === 'B') ownB += c.n;
+      else { shared += c.n; shareA += c.n * (1 - c.t); shareB += c.n * c.t; t = c.t; }
+    });
+    k.ownA = ownA; k.ownB = ownB; k.shared = shared; k.shareA = shareA; k.shareB = shareB; k.t = t;
+    k.totA = ownA + shareA; k.totB = ownB + shareB;
+    k.chA = k.A.Z - k.totA; k.chB = k.B.Z - k.totB;
+    var min = Infinity, x;
+    for (x = -k.d / 2 + 0.12; x <= k.d / 2 - 0.12; x += 0.005) { var v = rho(k, x, 0); if (v < min) min = v; }
+    k.bondMin = min;
+    k.mid = rho(k, 0, 0);
+    k.peakA = rho(k, -k.d / 2, 0); k.peakB = rho(k, k.d / 2, 0);
+    k.segCache = {};
+    k.regCache = {};
+  }
+  CASES.forEach(prepare);
+
+  function regions(k, level) {
+    if (k.regCache[level] !== undefined) return k.regCache[level];
+    var g = k.grid, seen = new Uint8Array(NX * NY), count = 0, s;
+    for (s = 0; s < g.length; s++) {
+      if (seen[s] || g[s] < level) continue;
+      var size = 0, st = [s];
+      seen[s] = 1;
+      while (st.length) {
+        var p = st.pop(); size++;
+        var i = p % NX, j = (p - i) / NX, nb = [i > 0 ? p - 1 : -1, i < NX - 1 ? p + 1 : -1, j > 0 ? p - NX : -1, j < NY - 1 ? p + NX : -1];
+        for (var n = 0; n < 4; n++) { var q = nb[n]; if (q >= 0 && !seen[q] && g[q] >= level) { seen[q] = 1; st.push(q); } }
+      }
+      if (size >= 6) count++;
+    }
+    k.regCache[level] = count;
+    return count;
+  }
+
+  function segments(k, li) {
+    if (k.segCache[li]) return k.segCache[li];
+    var g = k.grid, level = LEVELS[li], out = [];
+    for (var j = 0; j < NY - 1; j++) for (var i = 0; i < NX - 1; i++) {
+      var a = g[j * NX + i], b = g[j * NX + i + 1], c = g[(j + 1) * NX + i + 1], d = g[(j + 1) * NX + i];
+      var m = (a >= level ? 1 : 0) | (b >= level ? 2 : 0) | (c >= level ? 4 : 0) | (d >= level ? 8 : 0);
+      if (m === 0 || m === 15) continue;
+      var T = [i + (level - a) / (b - a), j], R = [i + 1, j + (level - b) / (c - b)],
+          B = [i + (level - d) / (c - d), j + 1], L = [i, j + (level - a) / (d - a)];
+      var pairs;
+      switch (m) {
+        case 1: case 14: pairs = [[L, T]]; break;
+        case 2: case 13: pairs = [[T, R]]; break;
+        case 3: case 12: pairs = [[L, R]]; break;
+        case 4: case 11: pairs = [[R, B]]; break;
+        case 6: case 9: pairs = [[T, B]]; break;
+        case 7: case 8: pairs = [[L, B]]; break;
+        case 5: pairs = ((a + b + c + d) / 4 >= level) ? [[T, R], [L, B]] : [[L, T], [R, B]]; break;
+        case 10: pairs = ((a + b + c + d) / 4 >= level) ? [[L, T], [R, B]] : [[T, R], [L, B]]; break;
+        default: pairs = [];
+      }
+      for (var p = 0; p < pairs.length; p++) out.push(pairs[p][0][0], pairs[p][0][1], pairs[p][1][0], pairs[p][1][1]);
+    }
+    k.segCache[li] = out;
+    return out;
+  }
+
+  /* ---------- state & elements ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { ci: 0, low: 5, shade: true, px: 0, py: 0, view: 'lines', trails: true,
+    paused: !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) };
+  var casesEl = $('cases'), mapCv = $('map'), profCv = $('prof');
+  var geo = null;
+
+  function fmtE(x) { return Math.abs(x - Math.round(x)) < 0.005 ? String(Math.round(x)) : x.toFixed(2); }
+  function fmtCh(x) {
+    if (Math.abs(x) < 0.005) return '0';
+    var r = Math.abs(x - Math.round(x)) < 0.005 ? String(Math.abs(Math.round(x))) : Math.abs(x).toFixed(2);
+    return (x > 0 ? '+' : MINUS) + r;
+  }
+  function fmtD(v) { return v < 10 ? v.toFixed(2) : v.toFixed(1); }
+  function fmtL(v) { return String(v); }
+  function cur() { return CASES[state.ci]; }
+
+  /* ---------- case picker ---------- */
+  CASES.forEach(function (k, i) {
+    var lab = document.createElement('label');
+    lab.className = 'case';
+    lab.innerHTML = '<input type="radio" name="case" value="' + i + '"' + (i === 0 ? ' checked' : '') + '>' +
+      '<span class="case-face"><span class="case-name">' + k.name + '</span><span class="case-ex">' + k.example + '</span></span>';
+    casesEl.appendChild(lab);
+  });
+  casesEl.addEventListener('change', function (e) {
+    if (e.target && e.target.name === 'case') { state.ci = +e.target.value; renderAll(); }
+  });
+
+  /* ---------- drawing ---------- */
+  function setup(cv, cssH) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 3), w = cv.parentNode.clientWidth - 8;
+    if (w < 120) w = 120;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(cssH(w) * dpr);
+    cv.style.height = cssH(w) + 'px';
+    var ctx = cv.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx: ctx, w: w, h: cssH(w), dpr: dpr };
+  }
+  var FONT = '"Atkinson Hyperlegible", system-ui, sans-serif';
+  var M = { l: 46, r: 12, t: 12, b: 42 };
+
+  function mix(hex, amt) {
+    var r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return [Math.round(255 + (r - 255) * amt), Math.round(255 + (g - 255) * amt), Math.round(255 + (b - 255) * amt)];
+  }
+  var TINT = PALETTE.map(function (c, i) { return mix(c, 0.14 + 0.035 * i); });
+  var shadeCv = document.createElement('canvas'); shadeCv.width = NX; shadeCv.height = NY;
+
+  var baseCv = document.createElement('canvas');
+  function drawMap() {
+    var k = cur(), s = setup(mapCv, function (w) { return (w - M.l - M.r) * (Y1 - Y0) / (X1 - X0) + M.t + M.b; });
+    baseCv.width = mapCv.width; baseCv.height = mapCv.height;
+    var ctx = baseCv.getContext('2d'), pw = s.w - M.l - M.r, ph = (pw * (Y1 - Y0)) / (X1 - X0);
+    ctx.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
+    geo = { pw: pw, ph: ph, s: s };
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, s.w, s.h);
+
+    if (state.shade && state.view !== 'dots') {
+      var sc = shadeCv.getContext('2d'), img = sc.createImageData(NX, NY), d = img.data, g = k.grid;
+      for (var p = 0; p < g.length; p++) {
+        var v = g[p], band = -1;
+        for (var li = LEVELS.length - 1; li >= state.low; li--) { if (v >= LEVELS[li]) { band = li; break; } }
+        var o = p * 4;
+        if (band < 0) { d[o] = 255; d[o + 1] = 255; d[o + 2] = 255; }
+        else { var t = TINT[band]; d[o] = t[0]; d[o + 1] = t[1]; d[o + 2] = t[2]; }
+        d[o + 3] = 255;
+      }
+      sc.putImageData(img, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(shadeCv, M.l, M.t, pw, ph);
+    }
+
+    var X = function (x) { return M.l + ((x - X0) / (X1 - X0)) * pw; };
+    var Y = function (y) { return M.t + ((Y1 - y) / (Y1 - Y0)) * ph; };
+
+    // grid and ticks
+    ctx.lineWidth = 1; ctx.strokeStyle = '#d9e0e5'; ctx.fillStyle = '#34424d';
+    ctx.font = '12px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    var x, y;
+    ctx.beginPath();
+    for (x = -3; x <= 3; x++) { ctx.moveTo(X(x), M.t); ctx.lineTo(X(x), M.t + ph); }
+    for (y = -2; y <= 2; y++) { ctx.moveTo(M.l, Y(y)); ctx.lineTo(M.l + pw, Y(y)); }
+    ctx.stroke();
+    for (x = -3; x <= 3; x++) ctx.fillText(String(x).replace('-', MINUS), X(x), M.t + ph + 5);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (y = -2; y <= 2; y++) ctx.fillText(String(y).replace('-', MINUS), M.l - 6, Y(y));
+    ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    ctx.fillText('Distance along the bond, x (Å)', M.l + pw / 2, s.h - 2);
+    ctx.save(); ctx.translate(11, M.t + ph / 2); ctx.rotate(-Math.PI / 2); ctx.textBaseline = 'top';
+    ctx.fillText('Across the bond, y (Å)', 0, 0); ctx.restore();
+    ctx.strokeStyle = '#6b7b87'; ctx.lineWidth = 1.2; ctx.strokeRect(M.l, M.t, pw, ph);
+
+    // contours
+    ctx.save(); ctx.beginPath(); ctx.rect(M.l, M.t, pw, ph); ctx.clip();
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    for (var l = state.low; l < LEVELS.length && state.view !== 'dots'; l++) {
+      var sg = segments(k, l);
+      if (!sg.length) continue;
+      ctx.beginPath();
+      for (var q = 0; q < sg.length; q += 4) {
+        ctx.moveTo(M.l + ((sg[q] + 0.5) / NX) * pw, M.t + ((sg[q + 1] + 0.5) / NY) * ph);
+        ctx.lineTo(M.l + ((sg[q + 2] + 0.5) / NX) * pw, M.t + ((sg[q + 3] + 0.5) / NY) * ph);
+      }
+      ctx.strokeStyle = PALETTE[l]; ctx.lineWidth = Math.min(1.5 + 0.12 * l, 2.6);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // nuclei
+    [[-k.d / 2, k.A.sym], [k.d / 2, k.B.sym]].forEach(function (n) {
+      var cx = X(n[0]), cy = Y(0);
+      ctx.beginPath(); ctx.moveTo(cx, cy - 8); ctx.lineTo(cx + 8, cy); ctx.lineTo(cx, cy + 8); ctx.lineTo(cx - 8, cy); ctx.closePath(); ctx.fillStyle = '#0d1a24'; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#ffffff'; ctx.stroke();
+      ctx.font = 'bold 14px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+      ctx.lineWidth = 4; ctx.strokeStyle = '#ffffff'; ctx.strokeText(n[1], cx, cy - 9);
+      ctx.fillStyle = '#0d1a24'; ctx.fillText(n[1], cx, cy - 9);
+    });
+
+    geo.X = X; geo.Y = Y;
+    composite();
+  }
+
+  /* ---------- moving electrons ---------- */
+  function randn() { var u = 1 - Math.random(), v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(6.2832 * v); }
+  /* Each electron moves like a classical particle in a bowl-shaped well (a spring force toward the
+     centre of its cloud) with a little friction and random kicks. A spring with those kicks makes
+     the long-run position spread exactly equal to the cloud's width, so the dots crowd in the same
+     places the density math says they should, while every electron follows a smooth path. */
+  var VT = 1.4, GAM = 0.35, TRAIL = 18;
+  function place(c, d) {
+    var zx = randn();
+    d.x = zx * (zx < 0 ? c.sL : c.sR); d.y = randn() * c.sy;
+    d.vx = randn() * VT; d.vy = randn() * VT; d.trail = [];
+  }
+  function dotsFor(k) {
+    if (k.dots) return k.dots;
+    var list = [];
+    k.comps.forEach(function (c, i) { for (var j = 0; j < c.n; j++) { var d = { c: i }; place(c, d); list.push(d); } });
+    k.dots = list;
+    return list;
+  }
+  function stepDots(dt) {
+    var k = cur(), n = 4, h = dt / n, e = Math.exp(-GAM * h), kick = Math.sqrt(1 - e * e) * VT;
+    dotsFor(k).forEach(function (d) {
+      var c = k.comps[d.c], sx, wx, wy = VT / c.sy;
+      for (var i = 0; i < n; i++) {
+        sx = d.x < 0 ? c.sL : c.sR; wx = VT / sx;
+        d.vx += -wx * wx * d.x * h; d.vy += -wy * wy * d.y * h;
+        d.vx = d.vx * e + kick * randn(); d.vy = d.vy * e + kick * randn();
+        d.x += d.vx * h; d.y += d.vy * h;
+      }
+      d.trail.push(centre(c, k) + d.x, d.y);
+      if (d.trail.length > TRAIL * 2) d.trail.splice(0, 2);
+    });
+  }
+  function snapshot() { var k = cur(); dotsFor(k).forEach(function (d) { place(k.comps[d.c], d); }); }
+  function composite() {
+    if (!geo || !geo.X) return;
+    var s = geo.s, k = cur(), mc = mapCv.getContext('2d');
+    mc.setTransform(1, 0, 0, 1, 0, 0); mc.drawImage(baseCv, 0, 0);
+    mc.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
+    if (state.view !== 'lines') {
+      mc.save(); mc.beginPath(); mc.rect(M.l, M.t, geo.pw, geo.ph); mc.clip();
+      var dl = dotsFor(k), t, i;
+      if (state.trails) {
+        mc.lineCap = 'round'; mc.lineWidth = 2; mc.strokeStyle = '#0d1a24';
+        dl.forEach(function (d) {
+          t = d.trail;
+          for (i = 2; i < t.length; i += 2) {
+            mc.globalAlpha = 0.45 * (i / t.length);
+            mc.beginPath(); mc.moveTo(geo.X(t[i - 2]), geo.Y(t[i - 1])); mc.lineTo(geo.X(t[i]), geo.Y(t[i + 1])); mc.stroke();
+          }
+        });
+        mc.globalAlpha = 1;
+      }
+      dl.forEach(function (d) {
+        var c = k.comps[d.c];
+        var px = geo.X(centre(c, k) + d.x), py = geo.Y(d.y);
+        mc.beginPath();
+        mc.arc(px, py, 3.8, 0, 6.2832); mc.fillStyle = '#0d1a24'; mc.fill();
+        mc.lineWidth = 1.2; mc.strokeStyle = '#ffffff'; mc.stroke();
+      });
+      mc.restore();
+    }
+    var pxp = geo.X(state.px), pyp = geo.Y(state.py);
+    mc.lineWidth = 2.5; mc.strokeStyle = '#ffffff'; mc.beginPath(); mc.arc(pxp, pyp, 7, 0, 6.2832); mc.stroke();
+    mc.lineWidth = 1.5; mc.strokeStyle = '#b3430a'; mc.beginPath(); mc.arc(pxp, pyp, 7, 0, 6.2832); mc.stroke();
+    mc.beginPath(); mc.moveTo(pxp - 12, pyp); mc.lineTo(pxp + 12, pyp); mc.moveTo(pxp, pyp - 12); mc.lineTo(pxp, pyp + 12); mc.stroke();
+  }
+  var anim = { raf: 0, last: 0 };
+  function tick(ts) {
+    anim.raf = requestAnimationFrame(tick);
+    var dt = (ts - anim.last) / 1000;
+    if (dt < 0.033) return;
+    anim.last = ts;
+    stepDots(Math.min(dt, 0.08)); composite();
+  }
+  function syncAnim() {
+    var want = state.view !== 'lines' && !state.paused && !document.hidden;
+    if (want && !anim.raf) { anim.last = performance.now(); anim.raf = requestAnimationFrame(tick); }
+    else if (!want && anim.raf) { cancelAnimationFrame(anim.raf); anim.raf = 0; }
+  }
+
+  function drawProfile() {
+    var k = cur(), s = setup(profCv, function (w) { return Math.max(190, Math.min(260, w * 0.38)); });
+    var ctx = s.ctx, pl = 52, pr = 12, pt = 12, pb = 42, pw = s.w - pl - pr, ph = s.h - pt - pb;
+    var LMIN = -2, LMAX = 3;
+    var X = function (x) { return pl + ((x - X0) / (X1 - X0)) * pw; };
+    var Yl = function (v) { var lv = Math.log10(Math.max(v, 1e-6)); lv = Math.max(LMIN, Math.min(LMAX, lv)); return pt + ((LMAX - lv) / (LMAX - LMIN)) * ph; };
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, s.w, s.h);
+    ctx.font = '12px ' + FONT; ctx.fillStyle = '#34424d'; ctx.strokeStyle = '#d9e0e5'; ctx.lineWidth = 1;
+    var i;
+    ctx.beginPath();
+    for (i = -3; i <= 3; i++) { ctx.moveTo(X(i), pt); ctx.lineTo(X(i), pt + ph); }
+    for (i = LMIN; i <= LMAX; i++) { ctx.moveTo(pl, Yl(Math.pow(10, i))); ctx.lineTo(pl + pw, Yl(Math.pow(10, i))); }
+    ctx.stroke();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    for (i = -3; i <= 3; i++) ctx.fillText(String(i).replace('-', MINUS), X(i), pt + ph + 5);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ['0.01', '0.1', '1', '10', '100', '1000'].forEach(function (t, n) { ctx.fillText(t, pl - 6, Yl(Math.pow(10, LMIN + n))); });
+    ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    ctx.fillText('Distance along the bond, x (Å)', pl + pw / 2, s.h - 2);
+    ctx.save(); ctx.translate(11, pt + ph / 2); ctx.rotate(-Math.PI / 2); ctx.textBaseline = 'top';
+    ctx.fillText('Density (e⁻/Å², log scale)', 0, 0); ctx.restore();
+    ctx.strokeStyle = '#6b7b87'; ctx.lineWidth = 1.2; ctx.strokeRect(pl, pt, pw, ph);
+
+    // lowest contour
+    var lv = LEVELS[state.low];
+    ctx.save(); ctx.setLineDash([6, 4]); ctx.lineWidth = 1.8; ctx.strokeStyle = PALETTE[state.low];
+    ctx.beginPath(); ctx.moveTo(pl, Yl(lv)); ctx.lineTo(pl + pw, Yl(lv)); ctx.stroke(); ctx.restore();
+    ctx.fillStyle = '#34424d'; ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.fillText('lowest contour ' + fmtL(lv), pl + pw - 4, Yl(lv) - 3);
+
+    // nuclei markers
+    ctx.save(); ctx.setLineDash([2, 4]); ctx.lineWidth = 1.5; ctx.strokeStyle = '#0d1a24';
+    [-k.d / 2, k.d / 2].forEach(function (nx) { ctx.beginPath(); ctx.moveTo(X(nx), pt); ctx.lineTo(X(nx), pt + ph); ctx.stroke(); });
+    ctx.restore();
+    ctx.font = 'bold 13px ' + FONT; ctx.textBaseline = 'top'; ctx.fillStyle = '#0d1a24';
+    ctx.textAlign = 'right'; ctx.fillText(k.A.sym, X(-k.d / 2) - 4, pt + 3);
+    ctx.textAlign = 'left'; ctx.fillText(k.B.sym, X(k.d / 2) + 4, pt + 3);
+
+    // curve
+    ctx.beginPath(); ctx.lineWidth = 2.4; ctx.strokeStyle = '#1d5ea8'; ctx.lineJoin = 'round';
+    for (i = 0; i <= 480; i++) {
+      var x = X0 + (i / 480) * (X1 - X0), yy = Yl(rho(k, x, 0));
+      if (i === 0) ctx.moveTo(X(x), yy); else ctx.lineTo(X(x), yy);
+    }
+    ctx.stroke();
+
+    // probe
+    if (Math.abs(state.py) < 0.03) {
+      ctx.fillStyle = '#b3430a'; ctx.beginPath(); ctx.arc(X(state.px), Yl(rho(k, state.px, 0)), 5, 0, 6.2832); ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#fff'; ctx.stroke();
+    }
+  }
+
+  /* ---------- text ---------- */
+  function particleCard(el, hid, k, p, tot) {
+    var frac = Math.abs(tot - Math.round(tot)) > 0.005;
+    el.innerHTML =
+      '<div class="pt-head"><h3 id="' + hid + '">' + p.sym + ' <span class="sub">' + p.word + '</span></h3><span class="pt-side">' + p.side + ' nucleus</span></div>' +
+      '<p class="big">' + fmtE(tot) + '<small>electrons around this nucleus' + (frac ? ' (average)' : '') + '</small></p>' +
+      '<dl class="facts"><dt>Protons</dt><dd>' + p.Z + '</dd>' +
+      (p.shellsAvg && !frac ? '<dt>Electron shells</dt><dd>' + p.shellsAvg.join(', ') + '</dd>' : '') + '</dl>' +
+      (p.note ? '<p>' + p.note + '</p>' : '') +
+      (frac ? '<p class="sub">The electrons keep moving, so the number around a nucleus is an average and does not have to be a whole number.</p>' : '');
+    el.setAttribute('aria-labelledby', hid);
+  }
+
+  var NOTICE = {
+    ionic: function (k) { return [
+      'Each ion has its own round cloud, so the contours are close to circles around each nucleus.',
+      'Between the ions the density falls to about ' + fmtD(k.bondMin) + ' e⁻/Å², which is tiny next to the peaks near the nuclei. The two clouds do not touch.',
+      'Electrons are counted per ion: ' + fmtE(k.totA) + ' on Na⁺ and ' + fmtE(k.totB) + ' on Cl⁻. Na gave one electron away completely.'
+    ]; },
+    partial: function (k) { return [
+      'The I\u207B cloud is pulled out into a teardrop pointing at Li\u207A. Small, highly polarising Li\u207A distorts the large, loosely held iodide cloud next to it (polarisation).',
+      'The clouds are still separate at the default level, but the lowest density between them is ' + fmtD(k.bondMin) + ' e⁻/Å², far above the pure ionic case.',
+      'Some iodine electron density now sits near Li: on average ' + fmtE(k.totA) + ' electrons are around Li instead of 2, so the electron transfer is not complete.'
+    ]; },
+    polar: function (k) { return [
+      'One merged cloud: every drawn contour surrounds both nuclei together (apart from the tight rings around the Cl core).',
+      'The cloud is lopsided. More electron density sits near Cl: on average ' + fmtE(k.totB) + ' electrons are around Cl and only ' + fmtE(k.totA) + ' around H.',
+      'Compared with separate atoms (Cl has 17 electrons, H has 1), Cl ends up with a little more than 17 and H with a little less than 1.'
+    ]; },
+    covalent: function (k) { return [
+      'One merged cloud that is a mirror image left to right. Neither atom pulls harder.',
+      'Density at the midpoint is ' + fmtD(k.mid) + ' e⁻/Å²: electrons pile up between the two nuclei. Compare this with the ionic case.',
+      'Each Cl has ' + fmtE(k.totA) + ' electrons around it, the same as a separate Cl atom.'
+    ]; }
+  };
+
+  function levelPhrase(v) {
+    var idx = -1;
+    for (var i = state.low; i < LEVELS.length; i++) if (v >= LEVELS[i]) idx = i;
+    if (idx < 0) return 'below the lowest drawn contour (' + fmtL(LEVELS[state.low]) + ')';
+    if (idx === LEVELS.length - 1) return 'above the highest contour (' + fmtL(LEVELS[idx]) + ')';
+    return 'between the ' + fmtL(LEVELS[idx]) + ' and ' + fmtL(LEVELS[idx + 1]) + ' contours';
+  }
+  function updateProbe() {
+    var k = cur(), v = rho(k, state.px, state.py);
+    $('probe').textContent = 'Density here: ' + fmtD(v) + ' e⁻/Å², ' + levelPhrase(v) + '.';
+  }
+
+  function renderText() {
+    var k = cur(), low = LEVELS[state.low], n = regions(k, low);
+    $('map-sub').textContent = k.name + ': ' + k.sub;
+    $('lowest-out').textContent = fmtL(low) + ' e⁻/Å²';
+    $('lowest').setAttribute('aria-valuetext', fmtL(low) + ' electrons per square angstrom');
+    var contourSentence = n === 1
+      ? 'At ' + fmtL(low) + ' e\u207B/\u00C5\u00B2 the density forms 1 connected region around both nuclei: the clouds are merged.'
+      : 'At ' + fmtL(low) + ' e\u207B/\u00C5\u00B2 the density forms ' + n + ' separate regions: each particle keeps its own cloud.';
+    var nEl = Math.round(k.ownA + k.ownB + k.shared);
+    var dotSentence = 'Each dot is one electron, ' + nEl + ' in total. Dots crowd together where the density is high and thin out where it is low.';
+    $('status').textContent = state.view === 'lines' ? contourSentence : state.view === 'dots' ? dotSentence : contourSentence + ' ' + dotSentence;
+    $('dot-key').textContent = 'Diamonds are the nuclei and every dot is one electron. The electrons keep moving along smooth paths; pause to count them.';
+
+    // legend
+    $('legend').innerHTML = LEVELS.slice(state.low).map(function (v, i) {
+      var li = state.low + i;
+      return '<li><svg viewBox="0 0 26 10" aria-hidden="true"><line x1="1" y1="5" x2="25" y2="5" stroke="' + PALETTE[li] + '" stroke-width="' + Math.min(1.5 + 0.12 * li, 2.6).toFixed(2) + '" stroke-linecap="round"/></svg>' + fmtL(v) + '</li>';
+    }).join('');
+
+    // buttons
+    $('goA').textContent = 'At ' + k.A.sym;
+    $('goB').textContent = 'At ' + k.B.sym;
+
+    // particle cards
+    particleCard($('card-a'), 'pa-h', k, k.A, k.totA);
+    particleCard($('card-b'), 'pb-h', k, k.B, k.totB);
+    $('card-s').innerHTML = '<h3 id="ps-h">All electrons in the picture</h3><p class="big">' + nEl + '<small>electrons in total</small></p>' +
+      '<p>This matches the number of protons in the two nuclei (' + k.A.Z + ' + ' + k.B.Z + ').</p>';
+    $('notice').innerHTML = NOTICE[k.id](k).map(function (t) { return '<li>' + t + '</li>'; }).join('');
+
+    // descriptions
+    $('map-desc').textContent = (state.view === 'dots' ? 'Moving-electron view of the ' : 'Contour map of the ') + k.name.toLowerCase() + ' case, ' + k.example + '. ' + k.A.sym + ' is at x = ' + MINUS + (k.d / 2).toFixed(2) + ' Å and ' + k.B.sym + ' at x = +' + (k.d / 2).toFixed(2) + ' Å. ' +
+      'Peak density is about ' + fmtD(k.peakA) + ' at ' + k.A.sym + ' and ' + fmtD(k.peakB) + ' at ' + k.B.sym + ' e⁻/Å². The lowest density on the line between the nuclei is ' + fmtD(k.bondMin) + '. ' +
+      $('status').textContent + ' ' + k.A.sym + ' holds ' + fmtE(k.totA) + ' electrons and ' + k.B.sym + ' holds ' + fmtE(k.totB) + '.';
+    $('prof-desc').textContent = 'Along the bond, density peaks at about ' + fmtD(k.peakA) + ' at ' + k.A.sym + ' and ' + fmtD(k.peakB) + ' at ' + k.B.sym + ', and dips to ' + fmtD(k.bondMin) + ' e⁻/Å² between them. At the midpoint it is ' + fmtD(k.mid) + '. The dashed horizontal line is the lowest contour.';
+    updateProbe();
+  }
+
+  function renderTable() {
+    var h = '<caption class="vh">Electron counts and density for the four bond types</caption><thead><tr><th scope="col">Bond type</th><th scope="col">Electrons on left / right particle</th><th scope="col">Lowest density between nuclei (e⁻/Å²)</th><th scope="col">Regions at lowest contour</th></tr></thead><tbody>';
+    var low = LEVELS[state.low];
+    CASES.forEach(function (k, i) {
+      var n = regions(k, low);
+      h += '<tr' + (i === state.ci ? ' class="is-active"' : '') + '><th scope="row">' + k.name + ' <span class="sub">(' + k.example + ')</span>' + (i === state.ci ? '<span class="tag">selected</span>' : '') + '</th>' +
+        '<td class="num">' + fmtE(k.totA) + ' / ' + fmtE(k.totB) + '</td>' +
+        '<td class="num">' + fmtD(k.bondMin) + '</td>' +
+        '<td>' + n + (n === 1 ? ' (merged)' : ' (separate)') + '</td></tr>';
+    });
+    $('cmp').innerHTML = h + '</tbody>';
+  }
+
+  function renderAll() { renderText(); renderTable(); drawMap(); drawProfile(); }
+
+  function applyView() {
+    var dots = state.view === 'dots', lines = state.view === 'lines';
+    $('legend-block').hidden = dots; $('controls').hidden = dots; $('dotbar').hidden = lines;
+    $('pause').setAttribute('aria-pressed', state.paused ? 'true' : 'false');
+    $('map').setAttribute('aria-label', (dots ? 'Moving electrons in the bond' : 'Contour map of electron density') + '. Use the arrow keys to move the probe.');
+    renderText(); drawMap(); syncAnim();
+  }
+  document.querySelectorAll('input[name="view"]').forEach(function (r) {
+    r.addEventListener('change', function (e) { state.view = e.target.value; applyView(); });
+  });
+  $('pause').addEventListener('click', function () { state.paused = !state.paused; $('pause').setAttribute('aria-pressed', state.paused ? 'true' : 'false'); syncAnim(); });
+  $('trails').addEventListener('change', function (e) { state.trails = e.target.checked; composite(); });
+  $('snap').addEventListener('click', function () { snapshot(); composite(); });
+  document.addEventListener('visibilitychange', syncAnim);
+
+  /* ---------- controls ---------- */
+  $('lowest').addEventListener('input', function (e) { state.low = +e.target.value; renderAll(); });
+  $('shade').addEventListener('change', function (e) { state.shade = e.target.checked; drawMap(); });
+  function setProbe(x, y, fromPointer) {
+    state.px = Math.max(X0, Math.min(X1, Math.round(x * 20) / 20));
+    state.py = Math.max(Y0, Math.min(Y1, Math.round(y * 20) / 20));
+    $('probe').setAttribute('aria-live', fromPointer ? 'off' : 'polite');
+    updateProbe(); composite(); drawProfile();
+  }
+  $('goA').addEventListener('click', function () { setProbe(-cur().d / 2, 0, false); });
+  $('goB').addEventListener('click', function () { setProbe(cur().d / 2, 0, false); });
+  $('goMid').addEventListener('click', function () { setProbe(0, 0, false); });
+
+  function fromEvent(e) {
+    var r = mapCv.getBoundingClientRect();
+    var x = X0 + ((e.clientX - r.left - M.l) / geo.pw) * (X1 - X0);
+    var y = Y1 - ((e.clientY - r.top - M.t) / geo.ph) * (Y1 - Y0);
+    setProbe(x, y, true);
+  }
+  mapCv.addEventListener('pointerdown', function (e) { if (geo) fromEvent(e); });
+  mapCv.addEventListener('pointermove', function (e) { if (geo && (e.pointerType === 'mouse' || e.buttons)) fromEvent(e); });
+
+  mapCv.addEventListener('keydown', function (e) {
+    var step = e.shiftKey ? 0.5 : 0.1, dx = 0, dy = 0;
+    if (e.key === 'ArrowLeft') dx = -step; else if (e.key === 'ArrowRight') dx = step;
+    else if (e.key === 'ArrowUp') dy = step; else if (e.key === 'ArrowDown') dy = -step; else return;
+    e.preventDefault();
+    setProbe(state.px + dx, state.py + dy, false);
+  });
+  mapCv.addEventListener('focus', function () { mapCv.style.outline = '3px solid #b3430a'; mapCv.style.outlineOffset = '-3px'; });
+  mapCv.addEventListener('blur', function () { mapCv.style.outline = ''; });
+
+  var raf = 0;
+  function redraw() { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; drawMap(); drawProfile(); }); }
+  if (window.ResizeObserver) new ResizeObserver(redraw).observe(mapCv.parentNode); else window.addEventListener('resize', redraw);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+
+  renderAll(); applyView();
+})();
+</script>
+
+</body></html>
